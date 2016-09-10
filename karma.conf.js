@@ -1,3 +1,5 @@
+const webpackConfig = require('./webpack/webpack.server.config.js')
+
 module.exports = function (config) {
   config.set({
     basePath: '',
@@ -11,26 +13,25 @@ module.exports = function (config) {
       'test/**/*.ts': ['webpack']
     },
     webpack: {
-      resolve: {
-        extensions: ['.ts', '.js', '']
-      },
-      module: {
-        loaders: [
-          {
-            test: /\.tsx?$/,
-            exclude: /node_modules/,
-            loader: 'ts-loader'
-          }
-        ]
-      }
+      resolve: webpackConfig.resolve,
+      module: webpackConfig.module
     },
     reporters: ['progress'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: ['PhantomJS'],
     singleRun: false,
-    concurrency: Infinity
+    concurrency: Infinity,
+    phantomjsLauncher: {
+      exitOnResourceError: true
+    },
+    options: {
+      windowName: 'Core - Tests',
+      settings: {
+        webSecurityEnabled: false
+      }
+    }
   })
 }
