@@ -16,12 +16,22 @@ module.exports = function (config) {
       resolve: webpackConfig.resolve,
       module: webpackConfig.module
     },
-    reporters: ['progress'],
-    port: 9876,
+    reporters: ['progress', 'html'],
+    htmlReporter: {
+      outputDir: 'reports',
+      templatePath: null,
+      focusOnFailures: true,
+      namedFiles: true,
+      pageTitle: null,
+      urlFriendlyName: false,
+      preserveDescribeNesting: false,
+      foldAll: false
+    },
+    port: 8090,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['PhantomJS'],
+    browsers: ['PhantomJS', 'Chrome', 'Firefox'],
     singleRun: false,
     concurrency: Infinity,
     phantomjsLauncher: {
