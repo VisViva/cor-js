@@ -1,7 +1,8 @@
+import { expect } from 'chai';
 import { Scene } from '../../src/core/scene';
 
 describe('Scene tests', () => {
     it('Tests work', () => {
-        expect(true).toBe(true);
+        expect(true).to.equal(true);
     });
 });

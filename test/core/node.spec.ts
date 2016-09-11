@@ -1,7 +1,8 @@
+import { expect } from 'chai';
 import { Node } from '../../src/core/node';
 
 describe('Node tests', () => {
     it('Tests work', () => {
-        expect(true).toBe(true);
+        expect(true).to.equal(true);
     });
 });

@@ -1,5 +1,7 @@
+import { expect } from 'chai';
+
 describe('Core tests', () => {
     it('Tests work', () => {
-        expect(true).toBe(true);
+        expect(true).to.equal(true);
     });
 });

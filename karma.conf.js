@@ -3,7 +3,7 @@ const webpackConfig = require('./webpack/webpack.server.config.js')
 module.exports = function (config) {
   config.set({
     basePath: '',
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine', 'chai'],
     files: [
       'test/**/*.ts'
     ],
