@@ -1,6 +1,5 @@
 {
   "name": "ts-starter",
-  "dependencies": {},
   "globalDependencies": {
     "chai": "registry:dt/chai#3.4.0+20160601211834",
     "jasmine": "registry:dt/jasmine#2.2.0+20160621224255"
