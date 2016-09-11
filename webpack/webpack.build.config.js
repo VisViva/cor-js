@@ -16,9 +16,6 @@ common.plugins = [
     ],
     onBuildEnd: [
       'echo "Finishing build"',
-      'tsc --out dist/temp_core.js --declaration ./src/core.ts' +
-      '&& rm dist/temp_core.js' +
-      '&& mv dist/temp_core.d.ts dist/core.d.ts',
       'gulp'
     ]
   }),
