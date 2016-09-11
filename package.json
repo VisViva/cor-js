@@ -4,7 +4,7 @@
   "description": "Core of the canvas rendering engine",
   "scripts": {
     "postinstall": "typings install",
-    "start": "rimraf dist && webpack-dev-server --config './webpack/webpack.server.config.js' --hot --inline",
+    "start": "webpack-dev-server --config './webpack/webpack.server.config.js' --hot --inline",
     "build": "rimraf dist && webpack --config './webpack/webpack.build.config.js'",
     "test": "karma start"
   },
