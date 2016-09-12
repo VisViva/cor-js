@@ -5,7 +5,8 @@
   "scripts": {
     "postinstall": "typings install",
     "start": "webpack-dev-server --config './webpack/webpack.server.config.js' --hot --inline",
-    "test:watch": "rimraf reports && karma start './karma/karma.watch.config.js'",
+    "test:watch:phantomjs": "rimraf reports && karma start './karma/karma.watch.phantomjs.config.js'",
+    "test:watch:all": "rimraf reports && karma start './karma/karma.watch.all.config.js'",
     "test:once": "rimraf reports && karma start './karma/karma.once.config.js'",
     "build": "rimraf dist && npm run test:once && webpack --config './webpack/webpack.build.config.js'"
   },

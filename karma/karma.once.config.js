@@ -1,6 +1,7 @@
 const common = require('./karma.common.config.js')
 
 common.reporters = ['progress', 'html'];
+common.browsers = ['PhantomJS', 'Chrome', 'Firefox'];
 
 common.htmlReporter = {
   outputDir: 'reports',

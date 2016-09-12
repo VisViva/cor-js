@@ -17,7 +17,6 @@ module.exports = {
   },
   port: 8090,
   colors: true,
-  browsers: ['PhantomJS', 'Chrome', 'Firefox'],
   concurrency: Infinity,
   phantomjsLauncher: {
     exitOnResourceError: true
