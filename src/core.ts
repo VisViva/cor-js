@@ -13,3 +13,9 @@ export * from './primitives/arc';
 export * from './primitives/sector';
 export * from './primitives/text';
 export * from './primitives/curved.text';
+
+// Playground code
+
+import { Node } from './core/node';
+
+let node = new Node();
