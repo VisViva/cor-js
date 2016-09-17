@@ -15,6 +15,7 @@ export class Node {
         this._scale = new Vector(1, 1);
         this._matrix = mat3.create();
         this._children = new Array<Node>();
+        this._parent = null;
     }
 
     /**
@@ -25,6 +26,7 @@ export class Node {
     private _rotation: Rotation;
     private _scale: Vector;
     private _matrix: any;
+    private _parent: Node;
     private _children: Array<Node>;
 
     /**
@@ -103,9 +105,27 @@ export class Node {
     public append(...nodes: Array<Node>): Node;
     public append(...nodes: Array<Node>): any {
         for (let i: number = 0; i < nodes.length; ++i) {
+            nodes[i].parent(this);
             this._children.push(nodes[i]);
         }
         return this;
+    }
+
+    /**
+    * Get or set the current nodes parent
+    *
+    * @param parent?: Node - Node to become a parent
+    */
+
+    public parent(): Node;
+    public parent(parent: Node): Node;
+    public parent(parent?: Node): any {
+        if (parent) {
+            this._parent = parent;
+            return this;
+        } else {
+            return this._parent;
+        };
     }
 
     /**

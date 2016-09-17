@@ -20,6 +20,8 @@ describe('Node tests', () => {
         });
 
         it('Constructs correctly', () => {
+            expect(node.parent()).to.equal(null);
+            expect(node.children().array().length).to.equal(0);
             expect(node.at().x).to.equal(0);
             expect(node.at().y).to.equal(0);
             expect(node.rotate().angle).to.equal(0);
@@ -84,6 +86,13 @@ describe('Node tests', () => {
             expect(nodeA.children().first()).to.equal(nodeB);
             expect(nodeA.children().last()).to.equal(nodeC);
             expect(nodeA.children().array().length).to.equal(2);
+        });
+
+        it('Sets parent node correctly', () => {
+            expect(nodeA.append(nodeB)).to.equal(nodeA);
+            expect(nodeB.append(nodeC)).to.equal(nodeB);
+            expect(nodeB.parent()).to.equal(nodeA);
+            expect(nodeC.parent()).to.equal(nodeB);
         });
     });
 });
