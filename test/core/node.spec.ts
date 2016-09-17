@@ -1,7 +1,7 @@
 import { expect, should } from 'chai';
 
 import { Node } from '../../src/core/node';
-import { Position } from '../../src/structs/position';
+import { Vector } from '../../src/structs/vector';
 import { Rotation } from '../../src/structs/rotation';
 import { Angle } from '../../src/enums/angle';
 
@@ -24,14 +24,17 @@ describe('Node tests', () => {
             expect(node.at().y).to.equal(0);
             expect(node.rotate().angle).to.equal(0);
             expect(node.rotate().type).to.equal(Angle.DEGREE);
-            expect(node.scale()).to.equal(1);
+            expect(node.scale().x).to.equal(1);
+            expect(node.scale().y).to.equal(1);
+            expect(node.matrix().join('')).to.equal('100010001');
         });
 
         it('Sets position', () => {
-            var position: Position = new Position(5, 10);
+            var position: Vector = new Vector(5, 10);
             expect(node.at(position)).to.equal(node);
             expect(node.at().x).to.equal(5);
             expect(node.at().y).to.equal(10);
+            expect(node.matrix().join('')).to.equal('1000105101');
         });
 
         it('Sets rotation', () => {
@@ -39,11 +42,15 @@ describe('Node tests', () => {
             expect(node.rotate(rotation)).to.equal(node);
             expect(node.rotate().angle).to.equal(45);
             expect(node.rotate().type).to.equal(Angle.RADIAN);
+            expect(node.matrix().join('')).to.equal('0.54030227661132810.84147095680236820-0.84147095680236820.54030227661132810001');
         });
 
         it('Sets scale', () => {
-            expect(node.scale(1.5)).to.equal(node);
-            expect(node.scale()).to.equal(1.5);
+            var scale: Vector = new Vector(1.5, 2);
+            expect(node.scale(scale)).to.equal(node);
+            expect(node.scale().x).to.equal(1.5);
+            expect(node.scale().y).to.equal(2);
+            expect(node.matrix().join('')).to.equal('1.500020001');
         });
     });
 
@@ -54,11 +61,11 @@ describe('Node tests', () => {
 
         beforeEach(function() {
             nodeA = new Node();
-            nodeA.at(new Position(10, 20));
+            nodeA.at(new Vector(10, 20));
             nodeB = new Node();
-            nodeB.at(new Position(30, 40));
+            nodeB.at(new Vector(30, 40));
             nodeC = new Node();
-            nodeC.at(new Position(50, 60));
+            nodeC.at(new Vector(50, 60));
         });
 
         it('Appends children one by one', () => {
@@ -76,7 +83,7 @@ describe('Node tests', () => {
             expect(nodeA.append(nodeB, nodeC)).to.equal(nodeA);
             expect(nodeA.children().first()).to.equal(nodeB);
             expect(nodeA.children().last()).to.equal(nodeC);
-            expect(nodeA.children().array().length).to.equal(2);            
+            expect(nodeA.children().array().length).to.equal(2);
         });
     });
 });

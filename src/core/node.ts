@@ -1,15 +1,18 @@
 declare var require: any;
 let mat3: any = require('gl-matrix/src/gl-matrix/mat3.js');
+let vec2: any = require('gl-matrix/src/gl-matrix/vec2.js');
 
 import { Selection } from '../core/selection';
-import { Position } from '../structs/position';
+import { Vector } from '../structs/vector';
 import { Rotation } from '../structs/rotation';
+import { degToRad } from '../utils/math';
+import { Angle } from '../enums/angle';
 
 export class Node {
     constructor() {
-        this._position = new Position();
+        this._position = new Vector();
         this._rotation = new Rotation();
-        this._scale = 1;
+        this._scale = new Vector(1, 1);
         this._matrix = mat3.create();
         this._children = new Array<Node>();
     }
@@ -18,9 +21,9 @@ export class Node {
     * Private members
     */
 
-    private _position: Position;
+    private _position: Vector;
     private _rotation: Rotation;
-    private _scale: number;
+    private _scale: Vector;
     private _matrix: any;
     private _children: Array<Node>;
 
@@ -30,10 +33,11 @@ export class Node {
     * @param position?: Position - New position value
     */
 
-    public at(): Position;
-    public at(position: Position): Node;
-    public at(position?: Position): any {
+    public at(): Vector;
+    public at(position: Vector): Node;
+    public at(position?: Vector): any {
         if (position) {
+            mat3.translate(this._matrix, this._matrix, vec2.fromValues(position.x, position.y));
             this._position = position;
             return this;
         } else {
@@ -51,6 +55,7 @@ export class Node {
     public rotate(rotation: Rotation): Node;
     public rotate(rotation?: Rotation): any {
         if (rotation) {
+            mat3.rotate(this._matrix, this._matrix, ((rotation.type === Angle.DEGREE) && degToRad(rotation.angle)) || rotation.type);
             this._rotation = rotation;
             return this;
         } else {
@@ -64,15 +69,29 @@ export class Node {
     * @param scale?: number - New scale value
     */
 
-    public scale(): number;
-    public scale(scale: number): Node;
-    public scale(scale?: number): any {
+    public scale(): Vector;
+    public scale(scale: Vector): Node;
+    public scale(scale?: Vector): any {
         if (scale) {
+            mat3.scale(this._matrix, this._matrix, vec2.fromValues(scale.x, scale.y));
             this._scale = scale;
             return this;
         } else {
             return this._scale;
         };
+    };
+
+    /**
+    * Get the transformation matrix of the node
+    */
+
+    public matrix(): Array<number>;
+    public matrix(): any {
+        let matrix: Array<number> = new Array<number>();
+        for (let i: number = 0; i < this._matrix.length; ++i) {
+            matrix.push(this._matrix[i]);
+        }
+        return matrix;
     };
 
     /**
