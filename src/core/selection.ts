@@ -1,9 +1,6 @@
 export class Selection<T> {
     constructor(...elements: Array<T>) {
-        this._elements = new Array<T>();
-        for (let i: number = 0; i < elements.length; ++i) {
-            this._elements.push(elements[i]);
-        }
+        this._elements = elements;
     }
 
     private _elements: Array<T>;
@@ -19,19 +16,13 @@ export class Selection<T> {
     }
 
     public range(from: number, to: number): Selection<T> {
-        let elements: Array<T> = new Array<T>();
-        for (let i: number = ((from >= 0 && from) || 0); i <= ((this._elements.length - 1 >= to && to) || (this._elements.length - 1)); ++i) {
-            elements.push(this._elements[i]);
-        }
-        return new Selection<T>(...elements);
+        const _from = from >= 0 && from || 0;
+        const _to = (this._elements.length - 1 >= to && to || this._elements.length - 1) + 1;
+        return new Selection<T>(...(this._elements.slice(_from, _to)));
     }
 
     public array(): Array<T>{
-      let elements: Array<T> = new Array<T>();
-      for (let i: number = 0; i < this._elements.length ; ++i) {
-          elements.push(this._elements[i]);
-      }
-      return elements;
+      return this._elements.splice(0);
     }
 
     public modify(modifier: (element: T) => T): Selection<T> {

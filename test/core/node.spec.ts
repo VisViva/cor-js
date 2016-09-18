@@ -29,6 +29,7 @@ describe('Node tests', () => {
             expect(node.scale().x).to.equal(1);
             expect(node.scale().y).to.equal(1);
             expect(node.matrix().join('')).to.equal('100010001');
+            expect(node.active()).to.equal(true);
         });
 
         it('Sets position', () => {
@@ -53,6 +54,12 @@ describe('Node tests', () => {
             expect(node.scale().x).to.equal(1.5);
             expect(node.scale().y).to.equal(2);
             expect(node.matrix().join('')).to.equal('1.500020001');
+        });
+
+        it('Sets activeness status', () => {
+            expect(node.active()).to.equal(true);
+            expect(node.active(false)).to.equal(node);
+            expect(node.active()).to.equal(false);
         });
     });
 

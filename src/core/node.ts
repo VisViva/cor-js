@@ -16,24 +16,26 @@ export class Node {
         this._matrix = mat3.create();
         this._children = new Array<Node>();
         this._parent = null;
+        this._active = true;
     }
 
     /**
-    * Private members
-    */
+     * Private members
+     */
 
-    private _position: Vector;
-    private _rotation: Rotation;
-    private _scale: Vector;
-    private _matrix: any;
-    private _parent: Node;
-    private _children: Array<Node>;
+    private _position: Vector; // Current nodes position
+    private _rotation: Rotation; // Current nodes rotation
+    private _scale: Vector; // Current nodes scale
+    private _matrix: any; // Current nodes transformation matrix
+    private _parent: Node; // Parent node of the current node
+    private _children: Array<Node>; // Child nodes of the current node
+    private _active: boolean; // Describes, whether the node should be iterated over during rendering
 
     /**
-    * Get or set position of the node
-    *
-    * @param position?: Position - New position value
-    */
+     * Get or set position of the node
+     *
+     * @param position?: Position - New position value
+     */
 
     public at(): Vector;
     public at(position: Vector): Node;
@@ -48,10 +50,10 @@ export class Node {
     };
 
     /**
-    * Get or set rotation of the node
-    *
-    * @param rotation?: Rotation - New rotation value
-    */
+     * Get or set rotation of the node
+     *
+     * @param rotation?: Rotation - New rotation value
+     */
 
     public rotate(): Rotation;
     public rotate(rotation: Rotation): Node;
@@ -66,10 +68,10 @@ export class Node {
     };
 
     /**
-    * Get or set scale of the node
-    *
-    * @param scale?: number - New scale value
-    */
+     * Get or set scale of the node
+     *
+     * @param scale?: number - New scale value
+     */
 
     public scale(): Vector;
     public scale(scale: Vector): Node;
@@ -84,8 +86,8 @@ export class Node {
     };
 
     /**
-    * Get the transformation matrix of the node
-    */
+     * Get the transformation matrix of the node
+     */
 
     public matrix(): Array<number>;
     public matrix(): any {
@@ -97,10 +99,10 @@ export class Node {
     };
 
     /**
-    * Append one or more nodes as children of the current node
-    *
-    * @param ...nodes: Array<Node> - Nodes to append
-    */
+     * Append one or more nodes as children of the current node
+     *
+     * @param ...nodes: Array<Node> - Nodes to append
+     */
 
     public append(...nodes: Array<Node>): Node;
     public append(...nodes: Array<Node>): any {
@@ -112,10 +114,10 @@ export class Node {
     }
 
     /**
-    * Get or set the current nodes parent
-    *
-    * @param parent?: Node - Node to become a parent
-    */
+     * Get or set the current nodes parent
+     *
+     * @param parent?: Node - Node to become a parent
+     */
 
     public parent(): Node;
     public parent(parent: Node): Node;
@@ -129,8 +131,8 @@ export class Node {
     }
 
     /**
-    * List child nodes of the current node
-    */
+     * List child nodes of the current node
+     */
 
     public children(): Selection<Node> {
         let children: Array<Node> = new Array<Node>();
@@ -138,5 +140,22 @@ export class Node {
             children.push(this._children[i]);
         }
         return new Selection<Node>(...children);
+    }
+
+    /**
+     * Get or set the current nodes activeness status
+     *
+     * @param active: boolean - Current nodes activeness status
+     */
+
+    public active(): boolean;
+    public active(active: boolean): Node;
+    public active(active?: boolean): any {
+        if (typeof active !== 'undefined') {
+            this._active = active;
+            return this;
+        } else {
+            return this._active;
+        };
     }
 }
