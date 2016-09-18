@@ -3,10 +3,11 @@ let mat3: any = require('gl-matrix/src/gl-matrix/mat3.js');
 let vec2: any = require('gl-matrix/src/gl-matrix/vec2.js');
 
 import { Selection } from '../core/selection';
+import { BBox } from '../core/bbox';
 import { Vector } from '../structs/vector';
 import { Rotation } from '../structs/rotation';
-import { degToRad } from '../utils/math';
 import { Angle } from '../enums/angle';
+import { degToRad } from '../utils/math';
 
 export class Node {
     constructor() {
@@ -30,6 +31,7 @@ export class Node {
     private _parent: Node; // Parent node of the current node
     private _children: Array<Node>; // Child nodes of the current node
     private _active: boolean; // Describes, whether the node should be iterated over during rendering
+    private _bbox: BBox; // Current nodes concatenated bounding box
 
     /**
      * Get or set position of the node
@@ -91,7 +93,7 @@ export class Node {
 
     public matrix(): Array<number>;
     public matrix(): any {
-        let matrix: Array<number> = new Array<number>();
+        const matrix: Array<number> = new Array<number>();
         for (let i: number = 0; i < this._matrix.length; ++i) {
             matrix.push(this._matrix[i]);
         }
@@ -135,7 +137,7 @@ export class Node {
      */
 
     public children(): Selection<Node> {
-        let children: Array<Node> = new Array<Node>();
+        const children: Array<Node> = new Array<Node>();
         for (let i: number = 0; i < this._children.length; ++i) {
             children.push(this._children[i]);
         }
@@ -157,5 +159,18 @@ export class Node {
         } else {
             return this._active;
         };
+    }
+
+    /**
+     * Gets the bounding box of the current node which merges all of the
+     * bounding boxes of its children.
+     */
+
+    public getBBox(): BBox {
+        const bbox: BBox = new BBox();
+        for (let i = 0; i < this._children.length; ++i) {
+          bbox.merge(this._children[i].getBBox());
+        }
+        return bbox;
     }
 }

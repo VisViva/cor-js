@@ -101,5 +101,12 @@ describe('Node tests', () => {
             expect(nodeB.parent()).to.equal(nodeA);
             expect(nodeC.parent()).to.equal(nodeB);
         });
+
+        it('Calculates its bound box correctly', () => {
+            expect(nodeA.getBBox().x()).to.equal(0);
+            expect(nodeA.getBBox().y()).to.equal(0);
+            expect(nodeA.getBBox().width()).to.equal(0);
+            expect(nodeA.getBBox().height()).to.equal(0);
+        });
     });
 });
