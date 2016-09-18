@@ -24,33 +24,57 @@ describe('Selection tests', () => {
             expect(selectionB.last()).to.equal('c');
         });
 
+        it('Adds new elements', () => {
+            expect(selectionA.add(10)).to.equal(selectionA);
+            const rangeA1Array: Array<number> = selectionA.array();
+            expect(rangeA1Array.length).to.equal(6);
+            expect(rangeA1Array.join('')).to.equal('1234510');
+            expect(selectionB.add('d')).to.equal(selectionB);
+            const rangeB1Array: Array<string> = selectionB.array();
+            expect(rangeB1Array.length).to.equal(4);
+            expect(rangeB1Array.join('')).to.equal('abcd');
+        });
+
         it('Exposes working range and array methods', () => {
-            let rangeA1Array: Array<number> = selectionA.range(-5, 3).array();
+            const rangeA1Array: Array<number> = selectionA.range(-5, 3).array();
             expect(rangeA1Array.length).to.equal(4);
             expect(rangeA1Array.join('')).to.equal('1234');
-            let rangeA2Array: Array<number> = selectionA.range(3, 10).array();
+            const rangeA2Array: Array<number> = selectionA.range(3, 10).array();
             expect(rangeA2Array.length).to.equal(2);
             expect(rangeA2Array.join('')).to.equal('45');
-            let rangeA3Array: Array<number> = selectionA.range(5, 1).array();
+            const rangeA3Array: Array<number> = selectionA.range(5, 1).array();
             expect(rangeA3Array.length).to.equal(0);
-            let rangeB1Array: Array<string> = selectionB.range(1, 4).array();
+            const rangeB1Array: Array<string> = selectionB.range(1, 4).array();
             expect(rangeB1Array.length).to.equal(2);
             expect(rangeB1Array.join('')).to.equal('bc');
-            let rangeB2Array: Array<string> = selectionB.range(1, -4).array();
+            const rangeB2Array: Array<string> = selectionB.range(1, -4).array();
             expect(rangeB2Array.length).to.equal(0);
         });
 
         it('Exposes proper modification interface', () => {
-            let rangeA1Array: Array<number> = selectionA.modify((element) => {
+            const rangeA1Array: Array<number> = selectionA.modify((element) => {
                 return element += 10;
             }).array();
             expect(rangeA1Array.length).to.equal(5);
             expect(rangeA1Array.join('')).to.equal('1112131415');
-            let rangeB1Array: Array<string> = selectionB.modify((element) => {
+            const rangeB1Array: Array<string> = selectionB.modify((element) => {
                 return element += 10;
             }).array();
             expect(rangeB1Array.length).to.equal(3);
             expect(rangeB1Array.join('')).to.equal('a10b10c10');
+        });
+
+        it('Exposes proper reduction interface', () => {
+            const rangeA1Array: Array<number> = selectionA.reduce((element) => {
+                return element % 2 === 0;
+            }).array();
+            expect(rangeA1Array.length).to.equal(2);
+            expect(rangeA1Array.join('')).to.equal('24');
+            const rangeB1Array: Array<string> = selectionB.reduce((element) => {
+                return element === 'a';
+            }).array();
+            expect(rangeB1Array.length).to.equal(1);
+            expect(rangeB1Array.join('')).to.equal('a');
         });
     });
 });

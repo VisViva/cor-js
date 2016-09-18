@@ -18,12 +18,14 @@ export class Node {
         this._children = new Array<Node>();
         this._parent = null;
         this._active = true;
+        this._id = null;
     }
 
     /**
      * Private members
      */
 
+    private _id: string; // Current node's id
     private _position: Vector; // Current nodes position
     private _rotation: Rotation; // Current nodes rotation
     private _scale: Vector; // Current nodes scale
@@ -31,10 +33,26 @@ export class Node {
     private _parent: Node; // Parent node of the current node
     private _children: Array<Node>; // Child nodes of the current node
     private _active: boolean; // Describes, whether the node should be iterated over during rendering
-    private _bbox: BBox; // Current nodes concatenated bounding box
 
     /**
-     * Get or set position of the node
+     * Get or set the id of the node
+     *
+     * @param position?: Position - New position value
+     */
+
+    public id(): string;
+    public id(id: string): Node;
+    public id(id?: string): any {
+        if (id) {
+            this._id = id;
+            return this;
+        } else {
+            return this._id;
+        };
+    };
+
+    /**
+     * Get or set the position of the node
      *
      * @param position?: Position - New position value
      */
@@ -52,7 +70,7 @@ export class Node {
     };
 
     /**
-     * Get or set rotation of the node
+     * Get or set the rotation of the node
      *
      * @param rotation?: Rotation - New rotation value
      */
@@ -70,7 +88,7 @@ export class Node {
     };
 
     /**
-     * Get or set scale of the node
+     * Get or set the scale of the node
      *
      * @param scale?: number - New scale value
      */
@@ -172,5 +190,39 @@ export class Node {
           bbox.merge(this._children[i].getBBox());
         }
         return bbox;
+    }
+
+    /**
+     * Iterate over children and test them against selector
+     *
+     * @param criteria: string - Token starting with a '#' character will initiate a search by id
+     */
+
+    public select(selector: string): Selection<Node> {
+        const selection: Selection<Node> = new Selection<Node>();
+        const token: string = selector.substr(1);
+        if (selector.length > 1) {
+          switch (selector[0]) {
+            case '#': {
+              if (this.id() === token) {
+                return selection.add(this);
+              } else {
+                if (this._children.length > 0) {
+                  for (let i = 0; i < this._children.length; ++i) {
+                    return this._children[i].select(selector);
+                  }
+                } else {
+                  return selection;
+                }
+              }
+              break;
+            }
+            default: {
+              return selection;
+            }
+          }
+        } else {
+          return selection;
+        }
     }
 }

@@ -30,6 +30,12 @@ describe('Node tests', () => {
             expect(node.scale().y).to.equal(1);
             expect(node.matrix().join('')).to.equal('100010001');
             expect(node.active()).to.equal(true);
+            expect(node.id()).to.equal(null);
+        });
+
+        it('Sets id', () => {
+            expect(node.id('test')).to.equal(node);
+            expect(node.id()).to.equal('test');
         });
 
         it('Sets position', () => {
@@ -107,6 +113,33 @@ describe('Node tests', () => {
             expect(nodeA.getBBox().y()).to.equal(0);
             expect(nodeA.getBBox().width()).to.equal(0);
             expect(nodeA.getBBox().height()).to.equal(0);
+        });
+    });
+
+    describe('Selectors', () => {
+        let nodeA: Node;
+        let nodeB: Node;
+        let nodeC: Node;
+
+        beforeEach(function() {
+            nodeA = new Node();
+            nodeB = new Node();
+            nodeC = new Node();
+        });
+
+        it('Selects by id', () => {
+            nodeA.id('nodea').append(nodeB.id('nodeb').append(nodeC.id('nodec')));
+            expect(nodeA.select('').array().length).to.be.equal(0);
+            expect(nodeA.select('#').array().length).to.be.equal(0);
+            expect(nodeA.select('nodea').array().length).to.be.equal(0);
+            expect(nodeA.select('#nodea').array().length).to.be.equal(1);
+            expect(nodeA.select('#nodea').first().id()).to.be.equal('nodea');
+            expect(nodeA.select('nodeb').array().length).to.be.equal(0);
+            expect(nodeA.select('#nodeb').array().length).to.be.equal(1);
+            expect(nodeA.select('#nodeb').first().id()).to.be.equal('nodeb');
+            expect(nodeA.select('nodec').array().length).to.be.equal(0);
+            expect(nodeA.select('#nodec').array().length).to.be.equal(1);
+            expect(nodeA.select('#nodec').first().id()).to.be.equal('nodec');
         });
     });
 });
