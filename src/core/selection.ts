@@ -1,9 +1,10 @@
 export class Selection<T> {
+
+    private _elements: Array<T>;
+
     constructor(...elements: Array<T>) {
         this._elements = elements;
     }
-
-    private _elements: Array<T>;
 
     public first(): T;
     public first(): any {
@@ -38,7 +39,7 @@ export class Selection<T> {
     }
 
     public reduce(modifier: (element: T) => boolean): Selection<T> {
-        const elements: Array<T> = new Array<T>();
+        const elements: Array<T> = [];
         for (let i = 0; i < this._elements.length; ++i) {
             if (modifier(this._elements[i])) {
               elements.push(this._elements[i]);

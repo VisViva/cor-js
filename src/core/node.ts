@@ -10,17 +10,6 @@ import { Angle } from '../enums/angle';
 import { degToRad } from '../utils/math';
 
 export class Node {
-    constructor() {
-        this._position = new Vector();
-        this._rotation = new Rotation();
-        this._scale = new Vector(1, 1);
-        this._matrix = mat3.create();
-        this._children = new Array<Node>();
-        this._parent = null;
-        this._active = true;
-        this._id = null;
-    }
-
     /**
      * Private members
      */
@@ -34,11 +23,16 @@ export class Node {
     private _children: Array<Node>; // Child nodes of the current node
     private _active: boolean; // Describes, whether the node should be iterated over during rendering
 
-    /**
-     * Get or set the id of the node
-     *
-     * @param position?: Position - New position value
-     */
+    constructor() {
+        this._position = new Vector();
+        this._rotation = new Rotation();
+        this._scale = new Vector(1, 1);
+        this._matrix = mat3.create();
+        this._children = new Array<Node>();
+        this._parent = null;
+        this._active = true;
+        this._id = null;
+    }
 
     public id(): string;
     public id(id: string): Node;
@@ -48,7 +42,7 @@ export class Node {
             return this;
         } else {
             return this._id;
-        };
+        }
     };
 
     /**

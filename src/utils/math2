@@ -1,0 +1,16 @@
+/**
+ * @author rlapin
+ */
+export class MathUtils{
+    /**
+     * Converts angle in degrees to radian
+     * @param angle in degrees, should be more than 0
+     * @returns {number} angle in radians
+     */
+    public static degToRad(angle: number):number{
+        if(angle > 360){
+            angle %= 360;
+        }
+        return Math.PI*2 / 360 * angle;
+    }
+}
