@@ -1,5 +1,6 @@
 
-import {MathUtils} from "../utils/math2";
+
+import {degToRad} from "../utils/math";
 /**
  * @author rlapin
  */
@@ -110,13 +111,13 @@ export class Arc{
      * @returns length of the arc
      */
     public length():number{
-        return MathUtils.degToRad(this.angle())*this._r;
+        return degToRad(this.angle())*this._r;
     }
     /**
      * Return arc angle in degrees
      */
     public angle() {
-        let angle;
+        let angle:number;
         if(this._ccw){
             angle = this._startAngle - this._endAngle;
         }else{

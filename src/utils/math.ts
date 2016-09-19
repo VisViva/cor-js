@@ -1,4 +1,4 @@
-export const PI = 3.14159265359;
+export const PI = Math.PI;
 
 /**
  * Convert degrees to radians
@@ -7,6 +7,7 @@ export const PI = 3.14159265359;
  */
 
 export function degToRad(degrees: number): number {
+  degrees%=360;
   return degrees * (PI / 180);
 }
 
@@ -17,5 +18,9 @@ export function degToRad(degrees: number): number {
  */
 
 export function radToDeg(radians: number): number {
-  return radians * (180 / PI);
+    let negative = radians<0;
+    if(negative){
+        return -(Math.floor((radians * (180 / PI))) % 360);
+    }
+    return Math.ceil((radians * (180 / PI))) % 360;
 }
