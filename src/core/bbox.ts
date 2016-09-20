@@ -49,7 +49,7 @@ export class BBox {
    * @param bbox: BBox - Bounding box to be concatenated
    */
 
-  public merge(bbox: BBox): BBox {
+  public merge(bbox: BBox): BBox { //TODO add spread operator and optimize
 
     /**
      *  (0,+)----------------------->(+,+)

@@ -182,6 +182,7 @@ export class Node {
         const bbox: BBox = new BBox();
         for (let i = 0; i < this._children.length; ++i) {
           bbox.merge(this._children[i].getBBox());
+            //TODO replace with BBoxUtils.merge method
         }
         return bbox;
     }
@@ -197,7 +198,7 @@ export class Node {
         const token: string = selector.substr(1);
         if (selector.length > 1) {
           switch (selector[0]) {
-            case '#': {
+            case '#': { //TODO extract to strategy-base class
               if (this.id() === token) {
                 return selection.add(this);
               } else {
