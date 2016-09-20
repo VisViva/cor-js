@@ -20,7 +20,7 @@ export function degToRad(degrees: number): number {
 export function radToDeg(radians: number): number {
     let negative = radians<0;
     if(negative){
-        return -(Math.floor((radians * (180 / PI))) % 360);
+        return (Math.floor((radians * (180 / PI))) % 360);
     }
     return Math.ceil((radians * (180 / PI))) % 360;
 }
