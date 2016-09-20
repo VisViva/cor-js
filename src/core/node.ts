@@ -51,9 +51,9 @@ export class Node {
      * @param position?: Position - New position value
      */
 
-    public at(): Vector;
-    public at(position: Vector): Node;
-    public at(position?: Vector): any {
+    public translate(): Vector;
+    public translate(position: Vector): Node;
+    public translate(position?: Vector): any {
         if (position) {
             mat3.translate(this._matrix, this._matrix, vec2.fromValues(position.x, position.y));
             this._position = position;

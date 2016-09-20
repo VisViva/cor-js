@@ -22,8 +22,8 @@ describe('Node tests', () => {
         it('Constructs correctly', () => {
             expect(node.parent()).to.equal(null);
             expect(node.children().array().length).to.equal(0);
-            expect(node.at().x).to.equal(0);
-            expect(node.at().y).to.equal(0);
+            expect(node.translate().x).to.equal(0);
+            expect(node.translate().y).to.equal(0);
             expect(node.rotate().angle).to.equal(0);
             expect(node.rotate().type).to.equal(Angle.DEGREE);
             expect(node.scale().x).to.equal(1);
@@ -40,9 +40,9 @@ describe('Node tests', () => {
 
         it('Sets position', () => {
             var position: Vector = new Vector(5, 10);
-            expect(node.at(position)).to.equal(node);
-            expect(node.at().x).to.equal(5);
-            expect(node.at().y).to.equal(10);
+            expect(node.translate(position)).to.equal(node);
+            expect(node.translate().x).to.equal(5);
+            expect(node.translate().y).to.equal(10);
             expect(node.matrix().join('')).to.equal('1000105101');
         });
 
@@ -76,11 +76,11 @@ describe('Node tests', () => {
 
         beforeEach(function() {
             nodeA = new Node();
-            nodeA.at(new Vector(10, 20));
+            nodeA.translate(new Vector(10, 20));
             nodeB = new Node();
-            nodeB.at(new Vector(30, 40));
+            nodeB.translate(new Vector(30, 40));
             nodeC = new Node();
-            nodeC.at(new Vector(50, 60));
+            nodeC.translate(new Vector(50, 60));
         });
 
         it('Appends children one by one', () => {

@@ -1,9 +1,11 @@
 
 import {Node} from "../core/node";
+import {Vector} from "../structs/vector";
 /**
  * @author rlapin
  */
 export class Primitive extends Node{
+    protected _position: Vector;
     private z: number;
     /**
      * define z-index of primitive and return primitive
@@ -23,6 +25,25 @@ export class Primitive extends Node{
             return this;
         }
     }
+
+    /**
+     * Get or set the position of the node
+     *
+     * @param position?: Position - New position value
+     */
+
+    public at(): Vector;
+    public at(position: Vector): Node;
+    public at(position?: Vector): any {
+        if (position) {
+            this._position = position;
+            return this;
+        } else {
+            return this._position;
+        };
+    };
+
+
     /**
      * Render primitive
      */
