@@ -13,22 +13,21 @@ export class Node {
     /**
      * Private members
      */
-
     private _id: string; // Current node's id
-    private _position: Vector; // Current nodes position
-    private _rotation: Rotation; // Current nodes rotation
-    private _scale: Vector; // Current nodes scale
-    private _matrix: any; // Current nodes transformation matrix
-    private _parent: Node; // Parent node of the current node
-    private _children: Array<Node>; // Child nodes of the current node
-    private _active: boolean; // Describes, whether the node should be iterated over during rendering
+    protected _position: Vector; // Current nodes position
+    protected _rotation: Rotation; // Current nodes rotation
+    protected _scale: Vector; // Current nodes scale
+    protected _matrix: any; // Current nodes transformation matrix
+    protected _parent: Node; // Parent node of the current node
+    protected _children: Array<Node>; // Child nodes of the current node
+    protected _active: boolean; // Describes, whether the node should be iterated over during rendering
 
     constructor() {
         this._position = new Vector();
         this._rotation = new Rotation();
         this._scale = new Vector(1, 1);
         this._matrix = mat3.create();
-        this._children = new Array<Node>();
+        this._children = [];
         this._parent = null;
         this._active = true;
         this._id = null;
@@ -60,7 +59,7 @@ export class Node {
             return this;
         } else {
             return this._position;
-        };
+        }
     };
 
     /**
@@ -78,7 +77,7 @@ export class Node {
             return this;
         } else {
             return this._rotation;
-        };
+        }
     };
 
     /**
@@ -96,7 +95,7 @@ export class Node {
             return this;
         } else {
             return this._scale;
-        };
+        }
     };
 
     /**
@@ -105,7 +104,7 @@ export class Node {
 
     public matrix(): Array<number>;
     public matrix(): any {
-        const matrix: Array<number> = new Array<number>();
+        const matrix: Array<number> = [];
         for (let i: number = 0; i < this._matrix.length; ++i) {
             matrix.push(this._matrix[i]);
         }
@@ -141,7 +140,7 @@ export class Node {
             return this;
         } else {
             return this._parent;
-        };
+        }
     }
 
     /**
@@ -149,7 +148,7 @@ export class Node {
      */
 
     public children(): Selection<Node> {
-        const children: Array<Node> = new Array<Node>();
+        const children: Array<Node> = [];
         for (let i: number = 0; i < this._children.length; ++i) {
             children.push(this._children[i]);
         }
@@ -170,7 +169,7 @@ export class Node {
             return this;
         } else {
             return this._active;
-        };
+        }
     }
 
     /**
@@ -203,6 +202,7 @@ export class Node {
                 return selection.add(this);
               } else {
                 if (this._children.length > 0) {
+                    //TODO this doesn't loop
                   for (let i = 0; i < this._children.length; ++i) {
                     return this._children[i].select(selector);
                   }

@@ -1,32 +1,9 @@
 import {Primitive} from "./Primitive";
 export class Rect extends Primitive {
-    private x:number;
-    private y:number;
     private _width:number;
     private _height:number;
     public static create() {
         return new Rect();
-    }
-    //TODO Decide what to do with tsdoc as we have different signatures
-    /**
-     * Place rect into the point
-     * @param x - relative x
-     * @param y - relative y
-     * @returns Rect - return rect with new position
-     */
-    public at(x:number,y:number):Rect;
-    /**
-     * @returns {x:number,y:number} current position
-     */
-    public at():{x:number,y:number};
-    public at(x?:number, y?:number):(Rect | {x:number;y:number}) {
-        if (arguments.length === 0) {
-            return {x:this.x,y:this.y}
-        } else {
-            this.x = x;
-            this.y = y;
-            return this;
-        }
     }
     /**
      * Define width of the rect and return self

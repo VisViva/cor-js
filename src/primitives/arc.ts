@@ -11,30 +11,11 @@ export class Arc{
     private _startAngle:number;
     private _endAngle:number;
     private _ccw:boolean;
+
     public static create() {
         return new Arc();
     }
-    //TODO Decide what to do with tsdoc as we have different signatures
-    /**
-     * Place arc into the point
-     * @param cx - relative center x
-     * @param cy - relative center y
-     * @returns Arc - return arc with new position
-     */
-    public at(cx:number,cy:number):Arc;
-    /**
-     * @returns {x:number,y:number} current position
-     */
-    public at():{x:number,y:number};
-    public at(x?:number, y?:number):(Arc | {x:number;y:number}) {
-        if (arguments.length === 0) {
-            return {x:this._cx,y:this._cy}
-        } else {
-            this._cx = x;
-            this._cy = y;
-            return this;
-        }
-    }
+
     /**
      * Define radius of the arc and return self
      * @param radius - new radius in units
