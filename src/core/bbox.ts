@@ -1,15 +1,15 @@
 export class BBox {
+  private _x: number;
+  private _y: number;
+  private _width: number;
+  private _height: number;
+
   constructor(x: number = 0, y: number = 0, width: number = 0, height: number = 0){
     this._x = x;
     this._y = y;
     this._width = width;
     this._height = height;
   }
-
-  private _x: number;
-  private _y: number;
-  private _width: number;
-  private _height: number;
 
   /**
    * Get the current bounding boxes position on the x axis
@@ -49,7 +49,7 @@ export class BBox {
    * @param bbox: BBox - Bounding box to be concatenated
    */
 
-  public merge(bbox: BBox): BBox { //TODO add spread operator and optimize
+  public merge(bbox: BBox): BBox { // TODO add spread operator and optimize
 
     /**
      *  (0,+)----------------------->(+,+)

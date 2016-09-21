@@ -1,4 +1,5 @@
 import { expect, should } from 'chai';
+
 import { BBox } from '../../src/core/bbox';
 
 describe('Selection tests', () => {

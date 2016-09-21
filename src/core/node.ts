@@ -10,10 +10,8 @@ import { Angle } from '../enums/angle';
 import { degToRad } from '../utils/math';
 
 export class Node {
-    /**
-     * Private members
-     */
-    private _id: string; // Current node's id
+
+    protected _id: string; // Current node's id
     protected _position: Vector; // Current nodes position
     protected _rotation: Rotation; // Current nodes rotation
     protected _scale: Vector; // Current nodes scale

@@ -7,8 +7,8 @@ export const PI = Math.PI;
  */
 
 export function degToRad(degrees: number): number {
-  degrees%=360;
-  return degrees * (PI / 180);
+    degrees %= 360;
+    return degrees * (PI / 180);
 }
 
 /**
@@ -18,8 +18,8 @@ export function degToRad(degrees: number): number {
  */
 
 export function radToDeg(radians: number): number {
-    let negative = radians<0;
-    if(negative){
+    let negative = radians < 0;
+    if (negative) {
         return (Math.floor((radians * (180 / PI))) % 360);
     }
     return Math.ceil((radians * (180 / PI))) % 360;

@@ -1,7 +1,7 @@
-import {Predicate} from "../utils/functional/predicate";
-import {Modifier} from "../utils/functional/modifier";
-export class Selection<T> {
+import { IPredicate } from "../interfaces/predicate";
+import { IModifier } from "../interfaces/modifier";
 
+export class Selection<T> {
     private _elements: Array<T>;
 
     constructor(...elements: Array<T>) {
@@ -29,18 +29,18 @@ export class Selection<T> {
         return new Selection<T>(...this._elements.slice(_from, _to));
     }
 
-    public array(): Array<T>{
-      return this._elements.splice(0);
+    public array(): Array<T> {
+        return this._elements.splice(0);
     }
 
-    public modify(modifier: Modifier<T>): Selection<T> {
+    public modify(modifier: IModifier<T>): Selection<T> {
         for (let i = 0; i < this._elements.length; ++i) {
             this._elements[i] = modifier(this._elements[i]);
         }
         return this;
     }
 
-    public reduce(condition: Predicate<T>) {
+    public reduce(condition: IPredicate<T>) {
         this._elements = this._elements.filter(condition);
         return this;
     }

@@ -1,6 +1,5 @@
 import { expect, should } from 'chai';
 import { Selection } from '../../src/core/selection';
-import {Predicate} from "../../src/utils/functional/predicate";
 
 describe('Selection tests', () => {
     describe('Common behavior', () => {
@@ -59,7 +58,7 @@ describe('Selection tests', () => {
             expect(rangeA1Array.length).to.equal(5);
             expect(rangeA1Array.join('')).to.equal('1112131415');
             const rangeB1Array: Array<string> = selectionB.modify((element) => {
-                return (element+10)
+                return (element + 10)
             }).array();
             expect(rangeB1Array.length).to.equal(3);
             expect(rangeB1Array.join('')).to.equal('a10b10c10');
@@ -67,15 +66,16 @@ describe('Selection tests', () => {
 
 
         it('Exposes proper reduction interface', () => {
-            const rangeA1Array: Array<Number> = selectionA.reduce((element:number) => {
-                return element % 2 ===0;
+            const rangeA1Array: Array<Number> = selectionA.reduce((element: number) => {
+                return element % 2 === 0;
             }).array();
-            const predicate:Predicate<number> = (element:number) => {return element % 2 == 0};
-            const rangeA2Array: Array<Number> = new Selection<number>(1, 2, 3, 4, 5).reduce(predicate).array();
+            const rangeA2Array: Array<Number> = new Selection<number>(1, 2, 3, 4, 5).reduce((element: number) => {
+                return element % 2 == 0
+            }).array();
             expect(rangeA2Array.length).to.equal(rangeA1Array.length);
             expect(rangeA1Array.length).to.equal(2);
             expect(rangeA1Array.join('')).to.equal('24');
-            const rangeB1Array: Array<string> = selectionB.reduce((element:string) => {
+            const rangeB1Array: Array<string> = selectionB.reduce((element: string) => {
                 return element === 'a';
             }).array();
             expect(rangeB1Array.length).to.equal(1);

@@ -1,21 +1,30 @@
 // Core
 
-export * from './core/scene';
+export * from './core/bbox';
 export * from './core/node';
+export * from './core/primitive';
+export * from './core/scene';
 export * from './core/selection';
 
 // Primitives
 
+export * from './primitives/arc';
+export * from './primitives/circle';
+export * from './primitives/curved.text';
 export * from './primitives/path';
 export * from './primitives/rect';
-export * from './primitives/circle';
-export * from './primitives/arc';
 export * from './primitives/sector';
 export * from './primitives/text';
-export * from './primitives/curved.text';
 
-// Playground code
+// Structs
 
-import { Node } from './core/node';
+export * from './structs/rotation';
+export * from './structs/vector';
 
-let node = new Node();
+// Enums
+
+export * from './enums/angle';
+
+// Utils
+
+export * from './utils/math';
