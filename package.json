@@ -4,6 +4,11 @@
   "description": "Core of the canvas rendering engine",
   "scripts": {
     "postinstall": "typings install",
+    "win:start": "webpack-dev-server --config \"webpack/webpack.server.config.js\" --hot --inline",
+    "win:test:watch:phantomjs": "rimraf reports && karma start \"karma/karma.watch.phantomjs.config.js\"",
+    "win:test:watch:all": "rimraf reports && karma start \"karma/karma.watch.all.config.js\"",
+    "win:test:once": "rimraf reports && karma start \"karma/karma.once.config.js\"",
+    "win:build": "rimraf dist && npm run test:once && webpack --config \"webpack/webpack.build.config.js\"",
     "start": "webpack-dev-server --config './webpack/webpack.server.config.js' --hot --inline",
     "test:watch:phantomjs": "rimraf reports && karma start './karma/karma.watch.phantomjs.config.js'",
     "test:watch:all": "rimraf reports && karma start './karma/karma.watch.all.config.js'",
