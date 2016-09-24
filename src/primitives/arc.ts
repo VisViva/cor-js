@@ -117,17 +117,8 @@ export class Arc extends Primitive {
         let angleDegrees: number;
         const startDegrees: number = this._start.type === Angle.DEGREE && this._start.angle || radToDeg(this._start.angle);
         const endDegrees: number = this._end.type === Angle.DEGREE && this._end.angle || radToDeg(this._end.angle);
-        if (this._ccw) {
-            angleDegrees = startDegrees - endDegrees;
-        } else {
-            angleDegrees = endDegrees - startDegrees;
-        }
-        if (angleDegrees < 0) {
-            angleDegrees = (360 - Math.abs(angleDegrees % 360));
-        }
-        while (angleDegrees > 360) {
-            angleDegrees -= 360;
-        }
+        angleDegrees = this._ccw && (startDegrees - endDegrees) || endDegrees - startDegrees;
+        angleDegrees = (angleDegrees < 0) && 360 - Math.abs(angleDegrees % 360) || Math.abs(angleDegrees % 360);
         return new Rotation(angleDegrees);
     }
 
