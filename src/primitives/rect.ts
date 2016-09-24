@@ -61,6 +61,7 @@ export class Rect extends Primitive {
      */
 
     public getOwnBBox(): BBox {
-        return new BBox();
+        const bbox: BBox = new BBox(this._position.x, this._position.y, this._width, this._height);
+        return bbox;
     }
 }

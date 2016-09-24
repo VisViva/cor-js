@@ -21,6 +21,7 @@ export class Node {
     protected _active: boolean; // Describes, whether the node should be iterated over during rendering
 
     constructor() {
+        this._id = null;
         this._position = new Vector();
         this._rotation = new Rotation();
         this._scale = new Vector(1, 1);
@@ -28,7 +29,6 @@ export class Node {
         this._children = [];
         this._parent = null;
         this._active = true;
-        this._id = null;
     }
 
     public id(): string;
