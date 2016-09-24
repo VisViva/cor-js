@@ -31,6 +31,16 @@ describe('Selection tests', () => {
         let bboxA: BBox;
         let bboxB: BBox;
 
+        it('Concatenates another bounding box properly, while both of them are of zero width and height', () => {
+            bboxA = new BBox();
+            bboxB = new BBox();
+            expect(bboxA.merge(bboxB)).to.equal(bboxA);
+            expect(bboxA.x()).to.equal(0);
+            expect(bboxA.y()).to.equal(0);
+            expect(bboxA.width()).to.equal(0);
+            expect(bboxA.height()).to.equal(0);
+        });
+
         it('Concatenates another bounding box properly, while being the only one with positive dimensions', () => {
             bboxA = new BBox(50, -50, 50, 50);
             bboxB = new BBox();

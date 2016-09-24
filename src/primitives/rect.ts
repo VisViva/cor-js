@@ -1,4 +1,5 @@
 import { Primitive } from "../core/primitive";
+import { BBox } from '../core/bbox';
 
 export class Rect extends Primitive {
     private _width: number;
@@ -53,5 +54,13 @@ export class Rect extends Primitive {
             this._height = height;
             return this;
         }
+    }
+
+    /**
+     * Gets the bounding box of the current node only
+     */
+
+    public getOwnBBox(): BBox {
+        return new BBox();
     }
 }

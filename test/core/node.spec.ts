@@ -4,6 +4,7 @@ import { Node } from '../../src/core/node';
 import { Vector } from '../../src/structs/vector';
 import { Rotation } from '../../src/structs/rotation';
 import { Angle } from '../../src/enums/angle';
+import { BBox } from '../../src/core/bbox';
 
 describe('Node tests', () => {
     describe('Common behavior', () => {
@@ -39,7 +40,7 @@ describe('Node tests', () => {
         });
 
         it('Sets position', () => {
-            var position: Vector = new Vector(5, 10);
+            const position: Vector = new Vector(5, 10);
             expect(node.translate(position)).to.equal(node);
             expect(node.translate().x).to.equal(5);
             expect(node.translate().y).to.equal(10);
@@ -47,7 +48,7 @@ describe('Node tests', () => {
         });
 
         it('Sets rotation', () => {
-            var rotation: Rotation = new Rotation(45, Angle.RADIAN);
+            const rotation: Rotation = new Rotation(45, Angle.RADIAN);
             expect(node.rotate(rotation)).to.equal(node);
             expect(node.rotate().angle).to.equal(45);
             expect(node.rotate().type).to.equal(Angle.RADIAN);
@@ -55,7 +56,7 @@ describe('Node tests', () => {
         });
 
         it('Sets scale', () => {
-            var scale: Vector = new Vector(1.5, 2);
+            const scale: Vector = new Vector(1.5, 2);
             expect(node.scale(scale)).to.equal(node);
             expect(node.scale().x).to.equal(1.5);
             expect(node.scale().y).to.equal(2);
@@ -140,6 +141,34 @@ describe('Node tests', () => {
             expect(nodeA.select('nodec').array().length).to.be.equal(0);
             expect(nodeA.select('#nodec').array().length).to.be.equal(1);
             expect(nodeA.select('#nodec').first().id()).to.be.equal('nodec');
+        });
+    });
+
+    describe('Calculation of bounding boxes', () => {
+        let nodeA: Node;
+        let nodeB: Node;
+        let nodeC: Node;
+
+        beforeEach(function() {
+            nodeA = new Node();
+            nodeB = new Node();
+            nodeC = new Node();
+        });
+
+        it('Gets its own bounding box correctly', () => {
+            expect(nodeA.getOwnBBox().x()).to.be.equal(0);
+            expect(nodeA.getOwnBBox().y()).to.be.equal(0);
+            expect(nodeA.getOwnBBox().width()).to.be.equal(0);
+            expect(nodeA.getOwnBBox().height()).to.be.equal(0);
+        });
+
+        it('Gets all of its child nodes bounding boxes correctly', () => {
+            expect(nodeA.append(nodeB)).to.equal(nodeA);
+            expect(nodeB.append(nodeC)).to.equal(nodeB);
+            expect(nodeA.getBBox().x()).to.be.equal(0);
+            expect(nodeA.getBBox().y()).to.be.equal(0);
+            expect(nodeA.getBBox().width()).to.be.equal(0);
+            expect(nodeA.getBBox().height()).to.be.equal(0);
         });
     });
 });

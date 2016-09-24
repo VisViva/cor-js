@@ -161,7 +161,7 @@ export class Node {
 
     public active(): boolean;
     public active(active: boolean): Node;
-    public active(active?: boolean): any {
+    public active(active?: boolean): (boolean | Node) {
         if (typeof active !== 'undefined') {
             this._active = active;
             return this;
@@ -171,17 +171,23 @@ export class Node {
     }
 
     /**
-     * Gets the bounding box of the current node which merges all of the
-     * bounding boxes of its children.
+     * Gets the bounding box of the current node only
+     */
+
+    public getOwnBBox(): BBox {
+        return new BBox();
+    }
+
+    /**
+     * Starts recursive merge of all the child bboxes
      */
 
     public getBBox(): BBox {
-        const bbox: BBox = new BBox();
+        const bboxes: Array<BBox> = new Array<BBox>();
         for (let i = 0; i < this._children.length; ++i) {
-          bbox.merge(this._children[i].getBBox());
-            //TODO replace with BBoxUtils.merge method
+            bboxes.push(this._children[i].getBBox());
         }
-        return bbox;
+        return this.getOwnBBox().merge(...bboxes);
     }
 
     /**

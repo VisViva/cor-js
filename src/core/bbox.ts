@@ -80,10 +80,12 @@ export class BBox {
       }
     }
 
-    this._x = Math.min(...ax);
-    this._y = Math.max(...ay);
-    this._width = Math.max(...bx) - Math.min(...ax);
-    this._height = Math.max(...ay) - Math.min(...cy);
+    if (ax.length > 0) {
+      this._x = Math.min(...ax);
+      this._y = Math.max(...ay);
+      this._width = Math.max(...bx) - Math.min(...ax);
+      this._height = Math.max(...ay) - Math.min(...cy);
+    }    
 
     return this;
   }
