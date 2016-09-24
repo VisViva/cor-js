@@ -70,7 +70,7 @@ export class Node {
     public rotate(rotation: Rotation): Node;
     public rotate(rotation?: Rotation): any {
         if (rotation) {
-            mat3.rotate(this._matrix, this._matrix, ((rotation.type === Angle.DEGREE) && degToRad(rotation.angle)) || rotation.type);
+            mat3.rotate(this._matrix, this._matrix, ((rotation.type === Angle.DEGREE) && degToRad(rotation.angle)) || rotation.angle);
             this._rotation = rotation;
             return this;
         } else {

@@ -52,7 +52,7 @@ describe('Node tests', () => {
             expect(node.rotate(rotation)).to.equal(node);
             expect(node.rotate().angle).to.equal(45);
             expect(node.rotate().type).to.equal(Angle.RADIAN);
-            expect(node.matrix().join('')).to.equal('0.54030227661132810.84147095680236820-0.84147095680236820.54030227661132810001');
+            expect(node.matrix().join('')).to.equal('0.52532196044921880.85090351104736330-0.85090351104736330.52532196044921880001');
         });
 
         it('Sets scale', () => {

@@ -1,3 +1,5 @@
+import { Vector } from '../structs/vector';
+
 export class BBox {
   private _x: number;
   private _y: number;
@@ -85,8 +87,30 @@ export class BBox {
       this._y = Math.max(...ay);
       this._width = Math.max(...bx) - Math.min(...ax);
       this._height = Math.max(...ay) - Math.min(...cy);
-    }    
+    }
 
     return this;
+  }
+
+  static from(points: Array<Vector>): BBox {
+    let x: number = 0;
+    let y: number = 0;
+    let width: number = 0;
+    let height: number = 0;
+
+    if (points.length > 0) {
+      const xValues: Array<number> = new Array<number>();
+      const yValues: Array<number> = new Array<number>();
+      for (let i = 0; i < points.length; ++i) {
+        xValues.push(points[i].x);
+        yValues.push(points[i].y);
+      }
+      x = Math.min(...xValues);
+      y = Math.max(...yValues);
+      width = Math.abs(Math.max(...xValues) - x);
+      height = Math.abs(Math.min(...yValues) - y);
+    }
+
+    return new BBox(x, y, width, height);
   }
 }
