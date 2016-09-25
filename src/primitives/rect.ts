@@ -1,6 +1,8 @@
 declare var require: any;
 let vec2: any = require('gl-matrix/src/gl-matrix/vec2.js');
 
+import { Node } from "../core/node";
+import { Selection } from '../core/selection';
 import { Primitive } from "../core/primitive";
 import { BBox } from '../core/bbox';
 import { Vector } from "../structs/vector";
@@ -24,6 +26,45 @@ export class Rect extends Primitive {
           this._points.push(new Vector(0, 0));
         }
     }
+
+    /**
+     * Overriding parent methods
+     */
+
+    public id(): string;
+    public id(id: string): Rect;
+    public id(id?: string): any {
+        return super.id(id);
+    };
+
+    public translate(): Vector;
+    public translate(x: number, y: number): Rect;
+    public translate(x?: number, y?: number): any {
+        return super.translate(x, y);
+    };
+
+    public rotate(): number;
+    public rotate(rotation: number): Rect;
+    public rotate(rotation?: number): any {
+        return super.rotate(rotation);
+    };
+
+    public scale(): Vector;
+    public scale(x: number, y: number): Rect;
+    public scale(x?: number, y?: number): any {
+        return super.scale(x, y);
+    };
+
+   public append(...nodes: Array<Node>): Rect;
+   public append(...nodes: Array<Node>): any {
+       return super.append(...nodes);
+   }
+
+   public active(): boolean;
+   public active(active: boolean): Rect;
+   public active(active?: boolean): any {
+       return super.active(active);
+   }
 
     /**
      * Define width of the rect and return it
