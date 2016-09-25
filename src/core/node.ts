@@ -5,15 +5,13 @@ let vec2: any = require('gl-matrix/src/gl-matrix/vec2.js');
 import { Selection } from '../core/selection';
 import { BBox } from '../core/bbox';
 import { Vector } from '../structs/vector';
-import { Rotation } from '../structs/rotation';
-import { Angle } from '../enums/angle';
-import { degToRad } from '../utils/math';
+import { degToRad, radToDeg, trimAngle } from '../utils/math';
 
 export class Node {
 
     protected _id: string; // Current node's id
     protected _position: Vector; // Current nodes position
-    protected _rotation: Rotation; // Current nodes rotation
+    protected _rotation: number; // Current nodes rotation in degrees
     protected _scale: Vector; // Current nodes scale
     protected _matrix: any; // Current nodes transformation matrix
     protected _parent: Node; // Parent node of the current node
@@ -21,14 +19,14 @@ export class Node {
     protected _active: boolean; // Describes, whether the node should be iterated over during rendering
 
     constructor() {
+        this._id = null;
         this._position = new Vector();
-        this._rotation = new Rotation();
+        this._rotation = 0;
         this._scale = new Vector(1, 1);
         this._matrix = mat3.create();
         this._children = [];
         this._parent = null;
         this._active = true;
-        this._id = null;
     }
 
     public id(): string;
@@ -49,11 +47,12 @@ export class Node {
      */
 
     public translate(): Vector;
-    public translate(position: Vector): Node;
-    public translate(position?: Vector): any {
-        if (position) {
-            mat3.translate(this._matrix, this._matrix, vec2.fromValues(position.x, position.y));
-            this._position = position;
+    public translate(x: number, y: number): Node;
+    public translate(x?: number, y?: number): (Vector | Node) {
+        if (x && y) {
+            mat3.translate(this._matrix, this._matrix, vec2.fromValues(x, y));
+            this._position.x += x;
+            this._position.y += y;
             return this;
         } else {
             return this._position;
@@ -66,12 +65,12 @@ export class Node {
      * @param rotation?: Rotation - New rotation value
      */
 
-    public rotate(): Rotation;
-    public rotate(rotation: Rotation): Node;
-    public rotate(rotation?: Rotation): any {
+    public rotate(): number;
+    public rotate(rotation: number): Node;
+    public rotate(rotation?: number): (number | Node) {
         if (rotation) {
-            mat3.rotate(this._matrix, this._matrix, ((rotation.type === Angle.DEGREE) && degToRad(rotation.angle)) || rotation.type);
-            this._rotation = rotation;
+            mat3.rotate(this._matrix, this._matrix, degToRad(rotation));
+            this._rotation = trimAngle(this._rotation + rotation);
             return this;
         } else {
             return this._rotation;
@@ -85,11 +84,12 @@ export class Node {
      */
 
     public scale(): Vector;
-    public scale(scale: Vector): Node;
-    public scale(scale?: Vector): any {
-        if (scale) {
-            mat3.scale(this._matrix, this._matrix, vec2.fromValues(scale.x, scale.y));
-            this._scale = scale;
+    public scale(x: number, y: number): Node;
+    public scale(x?: number, y?: number): (Vector | Node) {
+        if (x && y) {
+            mat3.scale(this._matrix, this._matrix, vec2.fromValues(x, y));
+            this._scale.x *= x;
+            this._scale.y *= y;
             return this;
         } else {
             return this._scale;
@@ -161,7 +161,7 @@ export class Node {
 
     public active(): boolean;
     public active(active: boolean): Node;
-    public active(active?: boolean): any {
+    public active(active?: boolean): (boolean | Node) {
         if (typeof active !== 'undefined') {
             this._active = active;
             return this;
@@ -171,17 +171,23 @@ export class Node {
     }
 
     /**
-     * Gets the bounding box of the current node which merges all of the
-     * bounding boxes of its children.
+     * Gets the bounding box of the current node only
+     */
+
+    public getOwnBBox(): BBox {
+        return new BBox();
+    }
+
+    /**
+     * Starts recursive merge of all the child bboxes
      */
 
     public getBBox(): BBox {
-        const bbox: BBox = new BBox();
+        const bboxes: Array<BBox> = new Array<BBox>();
         for (let i = 0; i < this._children.length; ++i) {
-          bbox.merge(this._children[i].getBBox());
-            //TODO replace with BBoxUtils.merge method
+            bboxes.push(this._children[i].getBBox());
         }
-        return bbox;
+        return this.getOwnBBox().merge(...bboxes);
     }
 
     /**

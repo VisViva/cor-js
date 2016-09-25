@@ -1,7 +1,6 @@
 import { expect, should } from 'chai';
 
 import { Primitive } from '../../src/core/primitive';
-import { Angle } from '../../src/enums/angle';
 
 describe('Primitive tests', () => {
     describe('Constructor behavior', () => {
@@ -16,8 +15,7 @@ describe('Primitive tests', () => {
             expect(primitive.children().array().length).to.equal(0);
             expect(primitive.translate().x).to.equal(0);
             expect(primitive.translate().y).to.equal(0);
-            expect(primitive.rotate().angle).to.equal(0);
-            expect(primitive.rotate().type).to.equal(Angle.DEGREE);
+            expect(primitive.rotate()).to.equal(0);
             expect(primitive.scale().x).to.equal(1);
             expect(primitive.scale().y).to.equal(1);
             expect(primitive.matrix().join('')).to.equal('100010001');

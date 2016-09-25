@@ -1,7 +1,6 @@
 import { expect, should } from 'chai';
 
 import { Scene } from '../../src/core/scene';
-import { Angle } from '../../src/enums/angle';
 
 describe('Scene tests', () => {
     describe('Common behavior', () => {
@@ -23,8 +22,7 @@ describe('Scene tests', () => {
             expect(scene.root().children().array().length).to.equal(0);
             expect(scene.root().translate().x).to.equal(0);
             expect(scene.root().translate().y).to.equal(0);
-            expect(scene.root().rotate().angle).to.equal(0);
-            expect(scene.root().rotate().type).to.equal(Angle.DEGREE);
+            expect(scene.root().rotate()).to.equal(0);
             expect(scene.root().scale().x).to.equal(1);
             expect(scene.root().scale().y).to.equal(1);
             expect(scene.root().matrix().join('')).to.equal('100010001');

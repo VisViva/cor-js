@@ -1,3 +1,5 @@
+import { Vector } from '../structs/vector';
+
 export class BBox {
   private _x: number;
   private _y: number;
@@ -49,47 +51,66 @@ export class BBox {
    * @param bbox: BBox - Bounding box to be concatenated
    */
 
-  public merge(bbox: BBox): BBox { // TODO add spread operator and optimize
+  public merge(...bboxes: Array<BBox>): BBox { // TODO add spread operator and optimize
 
     /**
      *  (0,+)----------------------->(+,+)
-     *    ^ (a1)----(b1)  (a2)----(b2) ^
+     *    ^ (a1)----(b1)  (an)----(bn) ^
      *    |  | (this) |    | (that) |  |
-     *    | (c1)------|   (c2)------|  |
+     *    | (c1)------|   (cn)------|  |
      *  (0,0)----------------------->(+,0)
      */
 
-    const a1Y = this._y;
-    const c1Y = this._y - this._height;
-    const a1X = this._x;
-    const b1X = this._x + this._width;
-    const a2Y = bbox.y();
-    const c2Y = bbox.y() - bbox.height();
-    const a2X = bbox.x();
-    const b2X = bbox.x() + bbox.width();
+    const ay: Array<number> = new Array<number>();
+    const cy: Array<number> = new Array<number>();
+    const ax: Array<number> = new Array<number>();
+    const bx: Array<number> = new Array<number>();
 
-    // Copy the given bounding box if the current bounding box has no area
-
-    if (this._width === 0 && this._height === 0) {
-      this._x = bbox.x();
-      this._y = bbox.y();
-      this._width = bbox.width();
-      this._height = bbox.height();
-      return this;
+    if (this._width !== 0 && this._height !== 0) {
+      ay.push(this._y);
+      cy.push(this._y - this._height);
+      ax.push(this._x);
+      bx.push(this._x + this._width);
     }
 
-    // Return the current bounding box if the given bounding box has no area
-
-    if (bbox.width() === 0 && bbox.height() === 0) {
-      return this;
+    for (let i = 0; i < bboxes.length; ++i) {
+      if (bboxes[i].width() !== 0 && bboxes[i].height() !== 0) {
+        ay.push(bboxes[i].y());
+        cy.push(bboxes[i].y() - bboxes[i].height());
+        ax.push(bboxes[i].x());
+        bx.push(bboxes[i].x() + bboxes[i].width());
+      }
     }
 
-    // Concatenate bounding boxes
+    if (ax.length > 0) {
+      this._x = Math.min(...ax);
+      this._y = Math.max(...ay);
+      this._width = Math.max(...bx) - Math.min(...ax);
+      this._height = Math.max(...ay) - Math.min(...cy);
+    }
 
-    this._x = Math.min(a1X, a2X);
-    this._y = Math.max(a1Y, a2Y);
-    this._width = Math.max(b1X, b2X) - Math.min(a1X, a2X);
-    this._height = Math.max(a1Y, a2Y) - Math.min(c1Y, c2Y);
     return this;
+  }
+
+  static from(points: Array<Vector>): BBox {
+    let x: number = 0;
+    let y: number = 0;
+    let width: number = 0;
+    let height: number = 0;
+
+    if (points.length > 0) {
+      const xValues: Array<number> = new Array<number>();
+      const yValues: Array<number> = new Array<number>();
+      for (let i = 0; i < points.length; ++i) {
+        xValues.push(points[i].x);
+        yValues.push(points[i].y);
+      }
+      x = Math.min(...xValues);
+      y = Math.max(...yValues);
+      width = Math.abs(Math.max(...xValues) - x);
+      height = Math.abs(Math.min(...yValues) - y);
+    }
+
+    return new BBox(x, y, width, height);
   }
 }

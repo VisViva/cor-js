@@ -2,8 +2,8 @@ import { Node } from "../core/node";
 import { Vector } from "../structs/vector";
 
 export class Primitive extends Node {
-    private _depth: number;
-    private _hidden: boolean;
+    protected _depth: number; // Determines the rendering order of the current primitive
+    protected _hidden: boolean; // Determines if the current primitive will render
 
     constructor() {
         super();
