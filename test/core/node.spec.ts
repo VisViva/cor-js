@@ -37,12 +37,11 @@ describe('Node tests', () => {
         });
 
         it('Sets position', () => {
-            const position: Vector = new Vector(5, 10);
-            expect(node.translate(position)).to.equal(node);
+            expect(node.translate(5, 10)).to.equal(node);
             expect(node.translate().x).to.equal(5);
             expect(node.translate().y).to.equal(10);
             expect(node.matrix().join('')).to.equal('1000105101');
-            expect(node.translate(position)).to.equal(node);
+            expect(node.translate(5, 10)).to.equal(node);
             expect(node.translate().x).to.equal(10);
             expect(node.translate().y).to.equal(20);
             expect(node.matrix().join('')).to.equal('10001010201');
@@ -58,12 +57,11 @@ describe('Node tests', () => {
         });
 
         it('Sets scale', () => {
-            const scale: Vector = new Vector(1.5, 2);
-            expect(node.scale(scale)).to.equal(node);
+            expect(node.scale(1.5, 2)).to.equal(node);
             expect(node.scale().x).to.equal(1.5);
             expect(node.scale().y).to.equal(2);
             expect(node.matrix().join('')).to.equal('1.500020001');
-            expect(node.scale(scale)).to.equal(node);
+            expect(node.scale(1.5, 2)).to.equal(node);
             expect(node.scale().x).to.equal(2.25);
             expect(node.scale().y).to.equal(4);
             expect(node.matrix().join('')).to.equal('2.2500040001');
@@ -83,11 +81,11 @@ describe('Node tests', () => {
 
         beforeEach(function() {
             nodeA = new Node();
-            nodeA.translate(new Vector(10, 20));
+            nodeA.translate(10, 20);
             nodeB = new Node();
-            nodeB.translate(new Vector(30, 40));
+            nodeB.translate(30, 40);
             nodeC = new Node();
-            nodeC.translate(new Vector(50, 60));
+            nodeC.translate(50, 60);
         });
 
         it('Appends children one by one', () => {
