@@ -2,8 +2,6 @@ import { expect, should } from 'chai';
 
 import { Node } from '../../src/core/node';
 import { Vector } from '../../src/structs/vector';
-import { Rotation } from '../../src/structs/rotation';
-import { Angle } from '../../src/enums/angle';
 import { BBox } from '../../src/core/bbox';
 
 describe('Node tests', () => {
@@ -25,8 +23,7 @@ describe('Node tests', () => {
             expect(node.children().array().length).to.equal(0);
             expect(node.translate().x).to.equal(0);
             expect(node.translate().y).to.equal(0);
-            expect(node.rotate().angle).to.equal(0);
-            expect(node.rotate().type).to.equal(Angle.DEGREE);
+            expect(node.rotate()).to.equal(0);
             expect(node.scale().x).to.equal(1);
             expect(node.scale().y).to.equal(1);
             expect(node.matrix().join('')).to.equal('100010001');
@@ -45,14 +42,19 @@ describe('Node tests', () => {
             expect(node.translate().x).to.equal(5);
             expect(node.translate().y).to.equal(10);
             expect(node.matrix().join('')).to.equal('1000105101');
+            expect(node.translate(position)).to.equal(node);
+            expect(node.translate().x).to.equal(10);
+            expect(node.translate().y).to.equal(20);
+            expect(node.matrix().join('')).to.equal('10001010201');
         });
 
         it('Sets rotation', () => {
-            const rotation: Rotation = new Rotation(45, Angle.RADIAN);
-            expect(node.rotate(rotation)).to.equal(node);
-            expect(node.rotate().angle).to.equal(45);
-            expect(node.rotate().type).to.equal(Angle.RADIAN);
-            expect(node.matrix().join('')).to.equal('0.52532196044921880.85090351104736330-0.85090351104736330.52532196044921880001');
+            expect(node.rotate(45)).to.equal(node);
+            expect(node.rotate()).to.equal(45);
+            expect(node.matrix().join('')).to.equal('0.70710676908493040.70710676908493040-0.70710676908493040.70710676908493040001');
+            expect(node.rotate(45)).to.equal(node);
+            expect(node.rotate()).to.equal(90);
+            expect(node.matrix().join('')).to.equal('-0.70710676908493040.70710676908493040-0.7071067690849304-0.70710676908493040001');
         });
 
         it('Sets scale', () => {
@@ -61,6 +63,10 @@ describe('Node tests', () => {
             expect(node.scale().x).to.equal(1.5);
             expect(node.scale().y).to.equal(2);
             expect(node.matrix().join('')).to.equal('1.500020001');
+            expect(node.scale(scale)).to.equal(node);
+            expect(node.scale().x).to.equal(2.25);
+            expect(node.scale().y).to.equal(4);
+            expect(node.matrix().join('')).to.equal('2.2500040001');
         });
 
         it('Sets activeness status', () => {

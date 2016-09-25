@@ -1,19 +1,17 @@
 import { Primitive } from "../core/primitive";
-import { Rotation } from "../structs/rotation";
-import { Angle } from "../enums/angle";
-import { degToRad, radToDeg } from "../utils/math";
+import { degToRad, radToDeg, trimAngle } from '../utils/math';
 
 export class Arc extends Primitive {
     private _radius: number;
-    private _start: Rotation;
-    private _end: Rotation;
+    private _start: number;
+    private _end: number;
     private _ccw: boolean;
 
     constructor() {
         super();
         this._radius = 0;
-        this._start = new Rotation();
-        this._end = new Rotation();
+        this._start = 0;
+        this._end = 0;
         this._ccw = false;
     }
 
@@ -47,16 +45,16 @@ export class Arc extends Primitive {
      * @returns Arc - return arc with new startAngle
      */
 
-    public start(start: Rotation): Arc;
+    public start(start: number): Arc;
 
     /**
      * @returns current startAngle in degrees
      */
 
-    public start(): Rotation;
-    public start(start?: Rotation): (Arc | Rotation) {
+    public start(): number;
+    public start(start?: number): (Arc | number) {
         if (start) {
-            this._start = start;
+            this._start = trimAngle(start);
             return this;
         } else {
             return this._start;
@@ -70,16 +68,16 @@ export class Arc extends Primitive {
      * @returns Arc - return arc with new endAngle
      */
 
-    public end(end: Rotation): Arc;
+    public end(end: number): Arc;
 
     /**
      * @returns current endAngle in degrees
      */
 
-    public end(): Rotation;
-    public end(end?: Rotation): (Arc | Rotation) {
+    public end(): number;
+    public end(end?: number): (Arc | number) {
         if (end) {
-            this._end = end;
+            this._end = trimAngle(end);
             return this;
         } else {
             return this._end;
@@ -113,13 +111,10 @@ export class Arc extends Primitive {
      * @returns arc angle in degrees
      */
 
-    public angle(): Rotation {
-        let angleDegrees: number;
-        const startDegrees: number = this._start.type === Angle.DEGREE && this._start.angle || radToDeg(this._start.angle);
-        const endDegrees: number = this._end.type === Angle.DEGREE && this._end.angle || radToDeg(this._end.angle);
-        angleDegrees = this._ccw && (startDegrees - endDegrees) || endDegrees - startDegrees;
-        angleDegrees = (angleDegrees < 0) && 360 - Math.abs(angleDegrees % 360) || Math.abs(angleDegrees % 360);
-        return new Rotation(angleDegrees);
+    public angle(): number {
+        const start: number = this._start;
+        const end: number = this._end;
+        return trimAngle(this._ccw && (start - end) || end - start);
     }
 
     /**
@@ -127,6 +122,6 @@ export class Arc extends Primitive {
      */
 
     public length(): number {
-        return degToRad(this.angle().angle) * this._radius;
+        return degToRad(this.angle()) * this._radius;
     }
 }

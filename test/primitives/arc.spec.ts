@@ -1,8 +1,6 @@
 import { expect, should } from 'chai';
 
 import { Arc } from '../../src/primitives/arc';
-import { Rotation } from '../../src/structs/rotation';
-import { Angle } from '../../src/enums/angle';
 
 describe('Primitive - Arc tests', () => {
     describe('Constructor behavior', () => {
@@ -19,10 +17,8 @@ describe('Primitive - Arc tests', () => {
 
         it('Executes own constructor correctly', () => {
             expect(arc.radius()).to.equal(0);
-            expect(arc.start().angle).to.equal(0);
-            expect(arc.start().type).to.equal(Angle.DEGREE);
-            expect(arc.end().angle).to.equal(0);
-            expect(arc.end().type).to.equal(Angle.DEGREE);
+            expect(arc.start()).to.equal(0);
+            expect(arc.end()).to.equal(0);
             expect(arc.ccw()).to.equal(false);
         });
     });
@@ -40,15 +36,13 @@ describe('Primitive - Arc tests', () => {
         });
 
         it('Sets start angle correctly', () => {
-            expect(arc.start(new Rotation(30))).to.equal(arc);
-            expect(arc.start().angle).to.equal(30);
-            expect(arc.start().type).to.equal(Angle.DEGREE);
+            expect(arc.start(30)).to.equal(arc);
+            expect(arc.start()).to.equal(30);
         });
 
         it('Sets end angle correctly', () => {
-            expect(arc.end(new Rotation(30))).to.equal(arc);
-            expect(arc.end().angle).to.equal(30);
-            expect(arc.end().type).to.equal(Angle.DEGREE);
+            expect(arc.end(30)).to.equal(arc);
+            expect(arc.end()).to.equal(30);
         });
 
         it('Sets ccw flag correctly', () => {
@@ -68,170 +62,170 @@ describe('Primitive - Arc tests', () => {
 
         it('Calculates its angle correctly when both angles are set in degrees, are positive and are within the bounds of 360 degrees, while end is greater and ccw is false', () => {
             arc.ccw(false);
-            arc.start(new Rotation(10));
-            arc.end(new Rotation(170));
-            expect(arc.angle().angle).to.equal(160);
+            arc.start(10);
+            arc.end(170);
+            expect(arc.angle()).to.equal(160);
         });
 
         it('Calculates its angle correctly when both angles are set in degrees, are positive and are within the bounds of 360 degrees, while start is greater and ccw is false', () => {
             arc.ccw(false);
-            arc.start(new Rotation(170));
-            arc.end(new Rotation(10));
-            expect(arc.angle().angle).to.equal(200);
+            arc.start(170);
+            arc.end(10);
+            expect(arc.angle()).to.equal(200);
         });
 
         it('Calculates its angle correctly when both angles are set in degrees, are positive and are not within the bounds of 360 degrees, while end is greater and ccw is false', () => {
             arc.ccw(false);
-            arc.start(new Rotation(560));
-            arc.end(new Rotation(570));
-            expect(arc.angle().angle).to.equal(10);
+            arc.start(560);
+            arc.end(570);
+            expect(arc.angle()).to.equal(10);
         });
 
         it('Calculates its angle correctly when both angles are set in degrees, are positive and are not within the bounds of 360 degrees, while start is greater and ccw is false', () => {
             arc.ccw(false);
-            arc.start(new Rotation(570));
-            arc.end(new Rotation(560));
-            expect(arc.angle().angle).to.equal(350);
+            arc.start(570);
+            arc.end(560);
+            expect(arc.angle()).to.equal(350);
         });
 
         it('Calculates its angle correctly when both angles are set in degrees, are positive and one of them is not within the bounds of 360 degrees, while end is greater and ccw is false', () => {
             arc.ccw(false);
-            arc.start(new Rotation(160));
-            arc.end(new Rotation(770));
-            expect(arc.angle().angle).to.equal(250);
+            arc.start(160);
+            arc.end(770);
+            expect(arc.angle()).to.equal(250);
         });
 
         it('Calculates its angle correctly when both angles are set in degrees, are positive and one of them is not within the bounds of 360 degrees, while start is greater and ccw is false', () => {
             arc.ccw(false);
-            arc.start(new Rotation(770));
-            arc.end(new Rotation(160));
-            expect(arc.angle().angle).to.equal(110);
+            arc.start(770);
+            arc.end(160);
+            expect(arc.angle()).to.equal(110);
         });
 
         it('Calculates its angle correctly when both angles are set in degrees, one is negative and one of them is not within the bounds of 360 degrees, while end is greater and ccw is false', () => {
             arc.ccw(false);
-            arc.start(new Rotation(-160));
-            arc.end(new Rotation(770));
-            expect(arc.angle().angle).to.equal(210);
+            arc.start(-160);
+            arc.end(770);
+            expect(arc.angle()).to.equal(210);
         });
 
         it('Calculates its angle correctly when both angles are set in degrees, one is negative and one of them is not within the bounds of 360 degrees, while start is greater and ccw is false', () => {
             arc.ccw(false);
-            arc.start(new Rotation(770));
-            arc.end(new Rotation(-160));
-            expect(arc.angle().angle).to.equal(150);
+            arc.start(770);
+            arc.end(-160);
+            expect(arc.angle()).to.equal(150);
         });
 
         it('Calculates its angle correctly when both angles are set in degrees, one is negative and are within the bounds of 360 degrees, while end is greater and ccw is false', () => {
             arc.ccw(false);
-            arc.start(new Rotation(-10));
-            arc.end(new Rotation(170));
-            expect(arc.angle().angle).to.equal(180);
+            arc.start(-10);
+            arc.end(170);
+            expect(arc.angle()).to.equal(180);
         });
 
         it('Calculates its angle correctly when both angles are set in degrees, one is negative and are within the bounds of 360 degrees, while start is greater and ccw is false', () => {
             arc.ccw(false);
-            arc.start(new Rotation(170));
-            arc.end(new Rotation(-10));
-            expect(arc.angle().angle).to.equal(180);
+            arc.start(170);
+            arc.end(-10);
+            expect(arc.angle()).to.equal(180);
         });
 
         it('Calculates its angle correctly when both angles are set in degrees, one is negative and are not within the bounds of 360 degrees, while end is greater and ccw is false', () => {
             arc.ccw(false);
-            arc.start(new Rotation(-560));
-            arc.end(new Rotation(570));
-            expect(arc.angle().angle).to.equal(50);
+            arc.start(-560);
+            arc.end(570);
+            expect(arc.angle()).to.equal(50);
         });
 
         it('Calculates its angle correctly when both angles are set in degrees, one is negative and are not within the bounds of 360 degrees, while start is greater and ccw is false', () => {
             arc.ccw(false);
-            arc.start(new Rotation(570));
-            arc.end(new Rotation(-560));
-            expect(arc.angle().angle).to.equal(310);
+            arc.start(570);
+            arc.end(-560);
+            expect(arc.angle()).to.equal(310);
         });
 
         it('Calculates its angle correctly when both angles are set in degrees, are positive and are within the bounds of 360 degrees, while end is greater and ccw is true', () => {
             arc.ccw(true);
-            arc.start(new Rotation(10));
-            arc.end(new Rotation(170));
-            expect(arc.angle().angle).to.equal(200);
+            arc.start(10);
+            arc.end(170);
+            expect(arc.angle()).to.equal(200);
         });
 
         it('Calculates its angle correctly when both angles are set in degrees, are positive and are within the bounds of 360 degrees, while start is greater and ccw is true', () => {
             arc.ccw(true);
-            arc.start(new Rotation(170));
-            arc.end(new Rotation(10));
-            expect(arc.angle().angle).to.equal(160);
+            arc.start(170);
+            arc.end(10);
+            expect(arc.angle()).to.equal(160);
         });
 
         it('Calculates its angle correctly when both angles are set in degrees, are positive and are not within the bounds of 360 degrees, while end is greater and ccw is true', () => {
             arc.ccw(true);
-            arc.start(new Rotation(560));
-            arc.end(new Rotation(570));
-            expect(arc.angle().angle).to.equal(350);
+            arc.start(560);
+            arc.end(570);
+            expect(arc.angle()).to.equal(350);
         });
 
         it('Calculates its angle correctly when both angles are set in degrees, are positive and are not within the bounds of 360 degrees, while start is greater and ccw is true', () => {
             arc.ccw(true);
-            arc.start(new Rotation(570));
-            arc.end(new Rotation(560));
-            expect(arc.angle().angle).to.equal(10);
+            arc.start(570);
+            arc.end(560);
+            expect(arc.angle()).to.equal(10);
         });
 
         it('Calculates its angle correctly when both angles are set in degrees, are positive and one of them is not within the bounds of 360 degrees, while end is greater and ccw is true', () => {
             arc.ccw(true);
-            arc.start(new Rotation(160));
-            arc.end(new Rotation(770));
-            expect(arc.angle().angle).to.equal(110);
+            arc.start(160);
+            arc.end(770);
+            expect(arc.angle()).to.equal(110);
         });
 
         it('Calculates its angle correctly when both angles are set in degrees, are positive and one of them is not within the bounds of 360 degrees, while start is greater and ccw is true', () => {
             arc.ccw(true);
-            arc.start(new Rotation(770));
-            arc.end(new Rotation(160));
-            expect(arc.angle().angle).to.equal(250);
+            arc.start(770);
+            arc.end(160);
+            expect(arc.angle()).to.equal(250);
         });
 
         it('Calculates its angle correctly when both angles are set in degrees, one is negative and one of them is not within the bounds of 360 degrees, while end is greater and ccw is true', () => {
             arc.ccw(true);
-            arc.start(new Rotation(-160));
-            arc.end(new Rotation(770));
-            expect(arc.angle().angle).to.equal(150);
+            arc.start(-160);
+            arc.end(770);
+            expect(arc.angle()).to.equal(150);
         });
 
         it('Calculates its angle correctly when both angles are set in degrees, one is negative and one of them is not within the bounds of 360 degrees, while start is greater and ccw is true', () => {
             arc.ccw(true);
-            arc.start(new Rotation(770));
-            arc.end(new Rotation(-160));
-            expect(arc.angle().angle).to.equal(210);
+            arc.start(770);
+            arc.end(-160);
+            expect(arc.angle()).to.equal(210);
         });
 
         it('Calculates its angle correctly when both angles are set in degrees, one is negative and are within the bounds of 360 degrees, while end is greater and ccw is true', () => {
             arc.ccw(true);
-            arc.start(new Rotation(-10));
-            arc.end(new Rotation(170));
-            expect(arc.angle().angle).to.equal(180);
+            arc.start(-10);
+            arc.end(170);
+            expect(arc.angle()).to.equal(180);
         });
 
         it('Calculates its angle correctly when both angles are set in degrees, one is negative and are within the bounds of 360 degrees, while start is greater and ccw is true', () => {
             arc.ccw(true);
-            arc.start(new Rotation(170));
-            arc.end(new Rotation(-10));
-            expect(arc.angle().angle).to.equal(180);
+            arc.start(170);
+            arc.end(-10);
+            expect(arc.angle()).to.equal(180);
         });
 
         it('Calculates its angle correctly when both angles are set in degrees, one is negative and are not within the bounds of 360 degrees, while end is greater and ccw is true', () => {
             arc.ccw(true);
-            arc.start(new Rotation(-560));
-            arc.end(new Rotation(570));
-            expect(arc.angle().angle).to.equal(310);
+            arc.start(-560);
+            arc.end(570);
+            expect(arc.angle()).to.equal(310);
         });
 
         it('Calculates its angle correctly when both angles are set in degrees, one is negative and are not within the bounds of 360 degrees, while start is greater and ccw is true', () => {
             arc.ccw(true);
-            arc.start(new Rotation(570));
-            arc.end(new Rotation(-560));
-            expect(arc.angle().angle).to.equal(50);
+            arc.start(570);
+            arc.end(-560);
+            expect(arc.angle()).to.equal(50);
         });
     });
 
@@ -245,16 +239,16 @@ describe('Primitive - Arc tests', () => {
         it('Calculates its length correctly when radius is 0', () => {
             arc.ccw(false);
             arc.radius(0);
-            arc.start(new Rotation(10));
-            arc.end(new Rotation(170));
+            arc.start(10);
+            arc.end(170);
             expect(arc.length()).to.equal(0);
         });
 
         it('Calculates its length correctly when radius is positive', () => {
             arc.ccw(false);
             arc.radius(40);
-            arc.start(new Rotation(10));
-            arc.end(new Rotation(170));
+            arc.start(10);
+            arc.end(170);
             expect(arc.length()).to.be.approximately(110, 112);
         });
     });
