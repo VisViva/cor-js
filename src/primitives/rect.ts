@@ -1,6 +1,5 @@
 declare var require: any;
-let mat3: any = require('gl-matrix/src/gl-matrix/mat3.js');
-let vec3: any = require('gl-matrix/src/gl-matrix/vec2.js');
+let vec2: any = require('gl-matrix/src/gl-matrix/vec2.js');
 
 import { Primitive } from "../core/primitive";
 import { BBox } from '../core/bbox';
@@ -84,9 +83,10 @@ export class Rect extends Primitive {
         const transformed2DVectors: Array<Vector> = new Array<Vector>();
 
         // Transformations
+        const transformed3DVector: any = vec2.create();
 
-        for (let i: number = 0, transformed3DVector: any = vec3.create(); i < this._points.length; ++i) {
-          vec3.transformMat3(transformed3DVector, vec3.fromValues(this._points[i].x, this._points[i].y, 1), this._matrix);
+        for (let i: number = 0; i < this._points.length; ++i) {
+          vec2.transformMat3(transformed3DVector, vec2.fromValues(this._points[i].x, this._points[i].y), this._matrix);
           transformed2DVectors.push(new Vector(<number>(transformed3DVector[0]), <number>(transformed3DVector[1])));
         }
 

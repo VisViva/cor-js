@@ -249,7 +249,7 @@ describe('Primitive - Arc tests', () => {
             arc.radius(40);
             arc.start(10);
             arc.end(170);
-            expect(arc.length()).to.be.approximately(110, 112);
+            expect(arc.length()).to.be.approximately(111, 1);
         });
     });
 });

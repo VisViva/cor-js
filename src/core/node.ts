@@ -50,9 +50,9 @@ export class Node {
     public translate(position: Vector): Node;
     public translate(position?: Vector): any {
         if (position) {
-            mat3.translate(this._matrix, this._matrix, vec2.fromValues(position.x, position.y));
             this._position.x += position.x;
             this._position.y += position.y;
+            mat3.translate(this._matrix, this._matrix, vec2.fromValues(position.x, position.y));
             return this;
         } else {
             return this._position;
