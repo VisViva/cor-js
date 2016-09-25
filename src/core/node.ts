@@ -47,12 +47,12 @@ export class Node {
      */
 
     public translate(): Vector;
-    public translate(position: Vector): Node;
-    public translate(position?: Vector): any {
-        if (position) {
-            mat3.translate(this._matrix, this._matrix, vec2.fromValues(position.x, position.y));
-            this._position.x += position.x;
-            this._position.y += position.y;
+    public translate(x: number, y: number): Node;
+    public translate(x?: number, y?: number): (Vector | Node) {
+        if (x && y) {
+            mat3.translate(this._matrix, this._matrix, vec2.fromValues(x, y));
+            this._position.x += x;
+            this._position.y += y;
             return this;
         } else {
             return this._position;
@@ -84,12 +84,12 @@ export class Node {
      */
 
     public scale(): Vector;
-    public scale(scale: Vector): Node;
-    public scale(scale?: Vector): any {
-        if (scale) {
-            mat3.scale(this._matrix, this._matrix, vec2.fromValues(scale.x, scale.y));
-            this._scale.x *= scale.x;
-            this._scale.y *= scale.y;
+    public scale(x: number, y: number): Node;
+    public scale(x?: number, y?: number): (Vector | Node) {
+        if (x && y) {
+            mat3.scale(this._matrix, this._matrix, vec2.fromValues(x, y));
+            this._scale.x *= x;
+            this._scale.y *= y;
             return this;
         } else {
             return this._scale;

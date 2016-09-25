@@ -55,7 +55,7 @@ describe('Primitive - Rect tests', () => {
         });
 
         it('Gets translated primitives bounding box correctly', () => {
-          rect = (<Rect>new Rect().translate(new Vector(50, 50))).width(150).height(150);
+          rect = (<Rect>new Rect().translate(50, 50)).width(150).height(150);
           bbox = rect.getBBox();
           expect(bbox.x()).to.equal(50);
           expect(bbox.y()).to.equal(50);
@@ -73,7 +73,7 @@ describe('Primitive - Rect tests', () => {
         });
 
         it('Gets scaled primitives bounding box correctly', () => {
-          rect = (<Rect>new Rect().scale(new Vector(2, 2))).width(10).height(10);
+          rect = (<Rect>new Rect().scale(2, 2)).width(10).height(10);
           bbox = rect.getBBox();
           expect(bbox.x()).to.equal(0);
           expect(bbox.y()).to.equal(0);
@@ -82,13 +82,13 @@ describe('Primitive - Rect tests', () => {
         });
 
         it('Gets scaled, rotated and translated primitives bounding box correctly', () => {
-          rect = (<Rect>new Rect().translate(new Vector(10, 10)).rotate(270)).width(10).height(10);
+          rect = (<Rect>new Rect().translate(10, 10).rotate(270)).width(10).height(10);
           bbox = rect.getBBox();
           expect(bbox.x()).to.be.approximately(0.0, 0.1);
           expect(bbox.y()).to.be.approximately(10.0, 0.1);
           expect(bbox.width()).to.be.approximately(10.0, 0.1);
           expect(bbox.height()).to.be.approximately(10.1, 0.1);
-          (<Rect>rect.translate(new Vector(10, 10)).rotate(45));
+          (<Rect>rect.translate(10, 10).rotate(45));
           bbox = rect.getBBox();
           expect(rect.getBBox().x()).to.be.approximately(12.9, 0.1);
           expect(rect.getBBox().y()).to.be.approximately(7.0, 7.1);
