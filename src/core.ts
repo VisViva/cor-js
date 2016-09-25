@@ -18,12 +18,7 @@ export * from './primitives/text';
 
 // Structs
 
-export * from './structs/rotation';
 export * from './structs/vector';
-
-// Enums
-
-export * from './enums/angle';
 
 // Utils
 
