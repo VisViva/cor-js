@@ -1,4 +1,8 @@
+import { Node } from "../core/node";
+import { Selection } from '../core/selection';
 import { Primitive } from "../core/primitive";
+import { BBox } from '../core/bbox';
+import { Vector } from "../structs/vector";
 import { degToRad, radToDeg, trimAngle } from '../utils/math';
 
 export class Arc extends Primitive {
@@ -13,6 +17,45 @@ export class Arc extends Primitive {
         this._start = 0;
         this._end = 0;
         this._ccw = false;
+    }
+
+    /**
+     * Overriding parent methods
+     */
+
+    public id(): string;
+    public id(id: string): Arc;
+    public id(id?: string): any {
+        return super.id(id);
+    };
+
+    public translate(): Vector;
+    public translate(x: number, y: number): Arc;
+    public translate(x?: number, y?: number): any {
+        return super.translate(x, y);
+    };
+
+    public rotate(): number;
+    public rotate(rotation: number): Arc;
+    public rotate(rotation?: number): any {
+        return super.rotate(rotation);
+    };
+
+    public scale(): Vector;
+    public scale(x: number, y: number): Arc;
+    public scale(x?: number, y?: number): any {
+        return super.scale(x, y);
+    };
+
+    public append(...nodes: Array<Node>): Arc;
+    public append(...nodes: Array<Node>): any {
+        return super.append(...nodes);
+    }
+
+    public active(): boolean;
+    public active(active: boolean): Arc;
+    public active(active?: boolean): any {
+        return super.active(active);
     }
 
     /**

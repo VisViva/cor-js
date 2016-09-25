@@ -55,16 +55,16 @@ export class Rect extends Primitive {
         return super.scale(x, y);
     };
 
-   public append(...nodes: Array<Node>): Rect;
-   public append(...nodes: Array<Node>): any {
-       return super.append(...nodes);
-   }
+    public append(...nodes: Array<Node>): Rect;
+    public append(...nodes: Array<Node>): any {
+        return super.append(...nodes);
+    }
 
-   public active(): boolean;
-   public active(active: boolean): Rect;
-   public active(active?: boolean): any {
-       return super.active(active);
-   }
+    public active(): boolean;
+    public active(active: boolean): Rect;
+    public active(active?: boolean): any {
+        return super.active(active);
+    }
 
     /**
      * Define width of the rect and return it

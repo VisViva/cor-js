@@ -1,5 +1,7 @@
 import { expect, should } from 'chai';
 
+import { Node } from '../../src/core/node';
+import { BBox } from '../../src/core/bbox';
 import { Arc } from '../../src/primitives/arc';
 
 describe('Primitive - Arc tests', () => {
@@ -30,6 +32,28 @@ describe('Primitive - Arc tests', () => {
             arc = new Arc();
         });
 
+        it('Sets id correctly', () => {
+            expect(arc.id('id1')).to.equal(arc);
+            expect(arc.id()).to.equal('id1');
+        });
+
+        it('Sets rotation correctly', () => {
+            expect(arc.rotate(45)).to.equal(arc);
+            expect(arc.rotate()).to.equal(45);
+        });
+
+        it('Sets position correctly', () => {
+            expect(arc.translate(10, 20)).to.equal(arc);
+            expect(arc.translate().x).to.equal(10);
+            expect(arc.translate().y).to.equal(20);
+        });
+
+        it('Sets scale correctly', () => {
+            expect(arc.scale(10, 20)).to.equal(arc);
+            expect(arc.scale().x).to.equal(10);
+            expect(arc.scale().y).to.equal(20);
+        });
+
         it('Sets radius correctly', () => {
             expect(arc.radius(100)).to.equal(arc);
             expect(arc.radius()).to.equal(100);
@@ -48,6 +72,46 @@ describe('Primitive - Arc tests', () => {
         it('Sets ccw flag correctly', () => {
             expect(arc.ccw(true)).to.equal(arc);
             expect(arc.ccw()).to.equal(true);
+        });
+    });
+
+    describe('Hierarchy', () => {
+        let arc: Arc;
+        let nodeB: Node;
+        let nodeC: Node;
+
+        beforeEach(function() {
+            arc = new Arc();
+            arc.translate(10, 20);
+            nodeB = new Node();
+            nodeB.translate(30, 40);
+            nodeC = new Node();
+            nodeC.translate(50, 60);
+        });
+
+        it('Appends children one by one', () => {
+            expect(arc.append(nodeB)).to.equal(arc);
+            expect(nodeB.append(nodeC)).to.equal(nodeB);
+            expect(arc.children().first()).to.equal(nodeB);
+            expect(arc.children().last()).to.equal(nodeB);
+            expect(arc.children().array().length).to.equal(1);
+            expect(nodeB.children().first()).to.equal(nodeC);
+            expect(nodeB.children().last()).to.equal(nodeC);
+            expect(nodeB.children().array().length).to.equal(1);
+        });
+
+        it('Appends multiple children', () => {
+            expect(arc.append(nodeB, nodeC)).to.equal(arc);
+            expect(arc.children().first()).to.equal(nodeB);
+            expect(arc.children().last()).to.equal(nodeC);
+            expect(arc.children().array().length).to.equal(2);
+        });
+
+        it('Sets parent node correctly', () => {
+            expect(arc.append(nodeB)).to.equal(arc);
+            expect(nodeB.append(nodeC)).to.equal(nodeB);
+            expect(nodeB.parent()).to.equal(arc);
+            expect(nodeC.parent()).to.equal(nodeB);
         });
     });
 

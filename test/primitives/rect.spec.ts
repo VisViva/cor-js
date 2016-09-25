@@ -3,7 +3,6 @@ import { expect, should } from 'chai';
 import { Node } from '../../src/core/node';
 import { BBox } from '../../src/core/bbox';
 import { Rect } from '../../src/primitives/rect';
-import { Vector } from '../../src/structs/vector';
 
 describe('Primitive - Rect tests', () => {
     describe('Constructor behavior', () => {
