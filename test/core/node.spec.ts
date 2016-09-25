@@ -54,7 +54,7 @@ describe('Node tests', () => {
             expect(node.matrix().join('')).to.equal('0.70710545778274540.70710808038711550-0.70710808038711550.70710545778274540001');
             expect(node.rotate(45)).to.equal(node);
             expect(node.rotate()).to.equal(90);
-            expect(node.matrix().join('')).to.equal('-0.70711070299148560.70710283517837520-0.7071028351783752-0.70711070299148560001');
+            expect(node.matrix().join('')).to.equal('-0.000003691063966471119810-1-0.00000369106396647111980001');
         });
 
         it('Sets scale', () => {

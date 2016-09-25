@@ -90,7 +90,7 @@ describe('Primitive - Rect tests', () => {
           expect(bbox.height()).to.be.approximately(10.1, 0.1);
           (<Rect>rect.translate(new Vector(10, 10)).rotate(45));
           bbox = rect.getBBox();
-          expect(rect.getBBox().x()).to.be.approximately(5.8, 0.1);
+          expect(rect.getBBox().x()).to.be.approximately(12.9, 0.1);
           expect(rect.getBBox().y()).to.be.approximately(7.0, 7.1);
           expect(rect.getBBox().width()).to.be.approximately(14.1, 0.1);
           expect(rect.getBBox().height()).to.be.approximately(14.1, 0.1);

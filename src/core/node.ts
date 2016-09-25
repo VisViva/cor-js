@@ -50,9 +50,9 @@ export class Node {
     public translate(position: Vector): Node;
     public translate(position?: Vector): any {
         if (position) {
+            mat3.translate(this._matrix, this._matrix, vec2.fromValues(position.x, position.y));
             this._position.x += position.x;
             this._position.y += position.y;
-            mat3.translate(this._matrix, this._matrix, vec2.fromValues(position.x, position.y));
             return this;
         } else {
             return this._position;
@@ -69,8 +69,8 @@ export class Node {
     public rotate(rotation: number): Node;
     public rotate(rotation?: number): (number | Node) {
         if (rotation) {
+            mat3.rotate(this._matrix, this._matrix, degToRad(rotation));
             this._rotation = trimAngle(this._rotation + rotation);
-            mat3.rotate(this._matrix, this._matrix, degToRad(this._rotation));
             return this;
         } else {
             return this._rotation;
