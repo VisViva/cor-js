@@ -1,5 +1,4 @@
 import { expect, should } from 'chai';
-
 import { Primitive } from '../../src/core/primitive';
 
 describe('Primitive tests', () => {
@@ -11,6 +10,7 @@ describe('Primitive tests', () => {
         });
 
         it('Executes parent constructor correctly', () => {
+            const spy = sinon.spy(primitive, 'parent');
             expect(primitive.parent()).to.equal(null);
             expect(primitive.children().array().length).to.equal(0);
             expect(primitive.translate().x).to.equal(0);
@@ -21,6 +21,7 @@ describe('Primitive tests', () => {
             expect(primitive.matrix().join('')).to.equal('100010001');
             expect(primitive.active()).to.equal(true);
             expect(primitive.id()).to.equal(null);
+            expect(spy.calledOnce).to.equal(true);
         });
 
         it('Executes own constructor correctly', () => {
