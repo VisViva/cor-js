@@ -4,12 +4,12 @@ module.exports = {
   basePath: '',
   frameworks: ['jasmine', 'sinon', 'chai'],
   files: [
-    '../test/**/*.ts'
+    '../test/**/*.spec.js'
   ],
   exclude: [
   ],
   preprocessors: {
-    '../test/**/*.ts': ['webpack']
+    '../test/**/*.spec.js': ['webpack']
   },
   webpack: {
     resolve: webpack_config.resolve,

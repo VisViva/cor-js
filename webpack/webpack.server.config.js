@@ -6,8 +6,9 @@ common.devtool = "eval-source-map";
 
 common.preLoaders = [
   {
-    test: /\.ts$/,
-    loader: "tslint"
+    test: /\.js$/,
+    loader: "eslint-loader",
+    exclude: /node_modules/
   }
 ];
 

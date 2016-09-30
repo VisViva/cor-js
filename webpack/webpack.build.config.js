@@ -4,8 +4,9 @@ const common = require('./webpack.common.config.js');
 
 common.preLoaders = [
   {
-    test: /\.ts$/,
-    loader: "tslint"
+    test: /\.js$/,
+    loader: "eslint-loader",
+    exclude: /node_modules/
   }
 ];
 

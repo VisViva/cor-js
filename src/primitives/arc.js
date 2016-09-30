@@ -1,0 +1,101 @@
+'use strict';
+
+var glMatrix = require('gl-matrix');
+var vec2 = glMatrix.vec2;
+
+import { Node } from "../core/node";
+import { Selection } from '../core/selection';
+import { Primitive } from "../core/primitive";
+import { BBox } from '../core/bbox';
+import { degToRad, radToDeg, trimAngle } from '../utils/math';
+import { inherit } from "../utils/helper";
+
+/**
+ * Extends the Primitive prototype
+ */
+ 
+inherit(Arc, Primitive);
+
+/**
+ * Rect constructor
+ */
+
+function Arc() {
+    Primitive.call(this);
+    this._radius = 0;
+    this._start = 0;
+    this._end = 0;
+    this._ccw = false;
+};
+
+/**
+ * Define radius of the arc and return self
+ */
+
+Arc.prototype.radius = function(radius) {
+    if (radius) {
+        this._radius = radius;
+        return this;
+    } else {
+        return this._radius;
+    }
+};
+
+/**
+ * Define startAngle of the arc and return self
+ */
+
+Arc.prototype.start = function(start) {
+    if (start) {
+        this._start = trimAngle(start);
+        return this;
+    } else {
+        return this._start;
+    }
+};
+
+/**
+ * Define endAngle of the arc and return self
+ */
+
+Arc.prototype.end = function(end) {
+    if (end) {
+        this._end = trimAngle(end);
+        return this;
+    } else {
+        return this._end;
+    }
+};
+
+/**
+ * Define ccw of the arc and return self
+ */
+
+Arc.prototype.ccw = function(ccw) {
+    if (ccw) {
+        this._ccw = ccw;
+        return this;
+    } else {
+        return this._ccw;
+    }
+};
+
+/**
+ * Returns the angle of the arc in degrees
+ */
+
+Arc.prototype.angle = function() {
+    const start = this._start;
+    const end = this._end;
+    return trimAngle(this._ccw && (start - end) || end - start);
+};
+
+/**
+ * Returns the length of the arc
+ */
+
+Arc.prototype.length = function() {
+    return degToRad(this.angle()) * this._radius;
+};
+
+exports.Arc = Arc;
