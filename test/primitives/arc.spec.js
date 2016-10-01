@@ -1,11 +1,14 @@
 'use strict';
 
 import { expect } from 'chai/chai';
-import { Node } from '../../src/core/node';
+import { Scene } from '../../src/core/scene';
 import { BBox } from '../../src/core/bbox';
-import { Arc } from '../../src/primitives/arc';
 
 describe('Arc tests', () => {
+    const Factory = new Scene().factory();
+    const Node = Factory.Node;
+    const Arc = Factory.Arc;
+
     describe('Constructor behavior', () => {
         let arc;
 

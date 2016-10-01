@@ -1,10 +1,12 @@
 'use strict';
 
 import { expect } from 'chai/chai';
-import { Node } from '../../src/core/node';
+import { Scene } from '../../src/core/scene';
 import { BBox } from '../../src/core/bbox';
 
 describe('Node tests', () => {
+    const Node = new Scene().factory().Node;
+
     describe('Common behavior', () => {
         it('Runs tests', () => {
             expect(true).to.be.equal(true);
@@ -105,6 +107,34 @@ describe('Node tests', () => {
             expect(nodeB.append(nodeC)).to.be.equal(nodeB);
             expect(nodeB.parent()).to.be.equal(nodeA);
             expect(nodeC.parent()).to.be.equal(nodeB);
+        });
+
+        it('Checks if the given node is equal to it, linked to it or not', () => {
+            expect(nodeA.append(nodeB)).to.be.equal(nodeA);
+            expect(nodeB.append(nodeC)).to.be.equal(nodeB);
+            expect(nodeA.has(nodeA)).to.be.equal(true);
+            expect(nodeA.has(nodeB)).to.be.equal(true);
+            expect(nodeA.has(nodeC)).to.be.equal(true);
+            expect(nodeB.has(nodeA)).to.be.equal(false);
+            expect(nodeB.has(nodeB)).to.be.equal(true);
+            expect(nodeB.has(nodeC)).to.be.equal(true);
+            expect(nodeC.has(nodeA)).to.be.equal(false);
+            expect(nodeC.has(nodeB)).to.be.equal(false);
+            expect(nodeC.has(nodeC)).to.be.equal(true);
+        });
+
+        it('Checks if the given node is equal to it, has it as amongst its child nodes or not', () => {
+            expect(nodeA.append(nodeB)).to.be.equal(nodeA);
+            expect(nodeB.append(nodeC)).to.be.equal(nodeB);
+            expect(nodeA.linked(nodeA)).to.be.equal(true);
+            expect(nodeA.linked(nodeB)).to.be.equal(false);
+            expect(nodeA.linked(nodeC)).to.be.equal(false);
+            expect(nodeB.linked(nodeA)).to.be.equal(true);
+            expect(nodeB.linked(nodeB)).to.be.equal(true);
+            expect(nodeB.linked(nodeC)).to.be.equal(false);
+            expect(nodeC.linked(nodeA)).to.be.equal(true);
+            expect(nodeC.linked(nodeB)).to.be.equal(true);
+            expect(nodeC.linked(nodeC)).to.be.equal(true);
         });
     });
 

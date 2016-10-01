@@ -1,9 +1,11 @@
 'use strict';
 
 import { expect } from 'chai/chai';
-import { Primitive } from '../../src/core/primitive';
+import { Scene } from '../../src/core/scene';
 
 describe('Primitive tests', () => {
+    const Primitive = new Scene().factory().Primitive;
+
     describe('Constructor behavior', () => {
         let primitive;
 

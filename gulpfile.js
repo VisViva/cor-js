@@ -8,15 +8,15 @@ var uglify = require('gulp-uglify');
  */
 
 gulp.task('uglify', function() {
-  return gulp.src('./dist/core.js')
-  .pipe(rename(function (path) {
-    path.basename += ".min";
-  }))
-  .pipe(uglify({
-    mangle: true,
-    compress: true
-  }))
-  .pipe(gulp.dest("./dist/"));
+    return gulp.src('./dist/scene.manager.js')
+        .pipe(rename(function(path) {
+            path.basename += ".min";
+        }))
+        .pipe(uglify({
+            mangle: true,
+            compress: true
+        }))
+        .pipe(gulp.dest("./dist/"));
 });
 
 /**
