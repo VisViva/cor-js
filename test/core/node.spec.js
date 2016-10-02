@@ -3,6 +3,7 @@
 import { expect } from 'chai/chai';
 import { Scene } from '../../src/core/scene';
 import { BBox } from '../../src/core/bbox';
+import { matrix_to_array } from '../../src/utils/helper';
 
 describe('Node tests', () => {
     const Node = new Scene().factory().Node;
@@ -28,39 +29,53 @@ describe('Node tests', () => {
             expect(node.rotate()).to.be.equal(0);
             expect(node.scale().x).to.be.equal(1);
             expect(node.scale().y).to.be.equal(1);
-            expect(node.matrix().join('')).to.be.equal('100010001');
+            expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('100010001');
+            expect(matrix_to_array(node.matrixCascaded()).join('')).to.be.equal('100010001');
             expect(node.active()).to.be.equal(true);
+            expect(node.dirty()).to.be.equal(false);
         });
 
         it('Sets position', () => {
+            expect(node.dirty()).to.be.equal(false);
             expect(node.translate(5, 10)).to.be.equal(node);
             expect(node.translate().x).to.be.equal(5);
             expect(node.translate().y).to.be.equal(10);
-            expect(node.matrix().join('')).to.be.equal('1000105101');
+            expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('1000105101');
             expect(node.translate(5, 10)).to.be.equal(node);
             expect(node.translate().x).to.be.equal(10);
             expect(node.translate().y).to.be.equal(20);
-            expect(node.matrix().join('')).to.be.equal('10001010201');
+            expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('10001010201');
+            expect(node.dirty()).to.be.equal(true);
         });
 
         it('Sets rotation', () => {
+            expect(node.dirty()).to.be.equal(false);
             expect(node.rotate(45)).to.be.equal(node);
             expect(node.rotate()).to.be.equal(45);
-            expect(node.matrix().join('')).to.be.equal('0.70710545778274540.70710808038711550-0.70710808038711550.70710545778274540001');
+            expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('0.70710545778274540.70710808038711550-0.70710808038711550.70710545778274540001');
             expect(node.rotate(45)).to.be.equal(node);
             expect(node.rotate()).to.be.equal(90);
-            expect(node.matrix().join('')).to.be.equal('-0.000003691063966471119810-1-0.00000369106396647111980001');
+            expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('-0.000003691063966471119810-1-0.00000369106396647111980001');
+            expect(node.dirty()).to.be.equal(true);
         });
 
         it('Sets scale', () => {
+            expect(node.dirty()).to.be.equal(false);
             expect(node.scale(1.5, 2)).to.be.equal(node);
             expect(node.scale().x).to.be.equal(1.5);
             expect(node.scale().y).to.be.equal(2);
-            expect(node.matrix().join('')).to.be.equal('1.500020001');
+            expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('1.500020001');
             expect(node.scale(1.5, 2)).to.be.equal(node);
             expect(node.scale().x).to.be.equal(2.25);
             expect(node.scale().y).to.be.equal(4);
-            expect(node.matrix().join('')).to.be.equal('2.2500040001');
+            expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('2.2500040001');
+            expect(node.dirty()).to.be.equal(true);
+        });
+
+        it('Sets dirtiness status', () => {
+            expect(node.dirty()).to.be.equal(false);
+            expect(node.dirty(true)).to.be.equal(node);
+            expect(node.dirty()).to.be.equal(true);
         });
 
         it('Sets activeness status', () => {
@@ -77,11 +92,29 @@ describe('Node tests', () => {
 
         beforeEach(function() {
             nodeA = new Node();
-            nodeA.translate(10, 20);
             nodeB = new Node();
-            nodeB.translate(30, 40);
             nodeC = new Node();
-            nodeC.translate(50, 60);
+        });
+
+        it('Sets dirtiness indicator correctly while appending children one by one', () => {
+            expect(nodeA.dirty()).to.be.equal(false);
+            expect(nodeB.dirty()).to.be.equal(false);
+            expect(nodeC.dirty()).to.be.equal(false);
+            expect(nodeA.append(nodeB)).to.be.equal(nodeA);
+            expect(nodeA.dirty()).to.be.equal(false);
+            expect(nodeB.dirty()).to.be.equal(true);
+            expect(nodeB.append(nodeC)).to.be.equal(nodeB);
+            expect(nodeC.dirty()).to.be.equal(true);
+        });
+
+        it('Sets dirtiness indicator correctly while appending multiple children', () => {
+            expect(nodeA.dirty()).to.be.equal(false);
+            expect(nodeB.dirty()).to.be.equal(false);
+            expect(nodeC.dirty()).to.be.equal(false);
+            expect(nodeA.append(nodeB, nodeC)).to.be.equal(nodeA);
+            expect(nodeA.dirty()).to.be.equal(false);
+            expect(nodeB.dirty()).to.be.equal(true);
+            expect(nodeC.dirty()).to.be.equal(true);
         });
 
         it('Appends children one by one', () => {
@@ -138,6 +171,116 @@ describe('Node tests', () => {
         });
     });
 
+    describe('Reaching dirty nodes', () => {
+        let nodeA;
+        let nodeB;
+        let nodeC;
+
+        beforeEach(function() {
+            nodeA = new Node();
+            nodeB = new Node();
+            nodeC = new Node();
+        });
+
+        it('Reaches only the node given when it is dirty', () => {
+            expect(nodeA.translate(10, 20)).to.be.equal(nodeA);
+            expect(nodeA.dirty()).to.be.equal(true);
+            expect(nodeB.dirty()).to.be.equal(false);
+            expect(nodeC.dirty()).to.be.equal(false);
+            expect(nodeA.append(nodeB)).to.be.equal(nodeA);
+            expect(nodeB.append(nodeC)).to.be.equal(nodeB);
+            expect(nodeA.dirty()).to.be.equal(true);
+            expect(nodeB.dirty()).to.be.equal(true);
+            expect(nodeC.dirty()).to.be.equal(true);
+            let dirtyNodesSelection = nodeA.reachDirty();
+            expect(dirtyNodesSelection.array().length).to.be.equal(1);
+            expect(dirtyNodesSelection.first().translate().x).to.be.equal(10);
+            expect(dirtyNodesSelection.first().translate().y).to.be.equal(20);
+        });
+
+        it('Reaches only the closest dirty node when the nodes are chained', () => {
+            expect(nodeA.dirty()).to.be.equal(false);
+            expect(nodeB.dirty()).to.be.equal(false);
+            expect(nodeC.dirty()).to.be.equal(false);
+            expect(nodeA.append(nodeB)).to.be.equal(nodeA);
+            expect(nodeB.append(nodeC)).to.be.equal(nodeB);
+            expect(nodeB.translate(10, 20)).to.be.equal(nodeB);
+            expect(nodeA.dirty()).to.be.equal(false);
+            expect(nodeB.dirty()).to.be.equal(true);
+            expect(nodeC.dirty()).to.be.equal(true);
+            let dirtyNodesSelection = nodeA.reachDirty();
+            expect(dirtyNodesSelection.array().length).to.be.equal(1);
+            expect(dirtyNodesSelection.first().translate().x).to.be.equal(10);
+            expect(dirtyNodesSelection.first().translate().y).to.be.equal(20);
+        });
+
+        it('Reaches all of closest dirty node when they are siblings', () => {
+            expect(nodeA.dirty()).to.be.equal(false);
+            expect(nodeB.dirty()).to.be.equal(false);
+            expect(nodeC.dirty()).to.be.equal(false);
+            expect(nodeA.append(nodeB, nodeC)).to.be.equal(nodeA);
+            expect(nodeB.translate(10, 20)).to.be.equal(nodeB);
+            expect(nodeC.translate(30, 40)).to.be.equal(nodeC);
+            expect(nodeA.dirty()).to.be.equal(false);
+            expect(nodeB.dirty()).to.be.equal(true);
+            expect(nodeC.dirty()).to.be.equal(true);
+            let dirtyNodesSelection = nodeA.reachDirty();
+            expect(dirtyNodesSelection.array().length).to.be.equal(2);
+            expect(dirtyNodesSelection.first().translate().x).to.be.equal(10);
+            expect(dirtyNodesSelection.first().translate().y).to.be.equal(20);
+            expect(dirtyNodesSelection.last().translate().x).to.be.equal(30);
+            expect(dirtyNodesSelection.last().translate().y).to.be.equal(40);
+        });
+    });
+
+    describe('Transformation cascading', () => {
+        let nodeA;
+        let nodeB;
+        let nodeC;
+
+        beforeEach(function() {
+            nodeA = new Node();
+            nodeB = new Node();
+            nodeC = new Node();
+        });
+
+        it('Clears the dirty flag while cascading', () => {
+            expect(nodeA.dirty()).to.be.equal(false);
+            expect(nodeB.dirty()).to.be.equal(false);
+            expect(nodeC.dirty()).to.be.equal(false);
+            expect(nodeA.append(nodeB)).to.be.equal(nodeA);
+            expect(nodeB.append(nodeC)).to.be.equal(nodeB);
+            expect(nodeA.dirty()).to.be.equal(false);
+            expect(nodeB.dirty()).to.be.equal(true);
+            expect(nodeC.dirty()).to.be.equal(true);
+            expect(nodeA.cascade()).to.be.equal(nodeA);
+            expect(nodeA.dirty()).to.be.equal(false);
+            expect(nodeB.dirty()).to.be.equal(false);
+            expect(nodeC.dirty()).to.be.equal(false);
+        });
+
+        it('Cascades transformations correctly when only the root of the hierarchy node transformed', () => {
+            expect(nodeA.append(nodeB)).to.be.equal(nodeA);
+            expect(nodeB.append(nodeC)).to.be.equal(nodeB);
+            expect(nodeA.translate(1, 1)).to.be.equal(nodeA);
+            expect(nodeB.translate(2, 2)).to.be.equal(nodeB);
+            expect(nodeC.translate(3, 3)).to.be.equal(nodeC);
+            expect(nodeA.dirty()).to.be.equal(true);
+            expect(nodeB.dirty()).to.be.equal(true);
+            expect(nodeC.dirty()).to.be.equal(true);
+            expect(nodeA.cascade()).to.be.equal(nodeA);
+            expect(nodeA.dirty()).to.be.equal(false);
+            expect(nodeB.dirty()).to.be.equal(false);
+            expect(nodeC.dirty()).to.be.equal(false);
+            expect(matrix_to_array(nodeA.matrixOwn()).join('')).to.be.equal('100010111');
+            expect(matrix_to_array(nodeA.matrixCascaded()).join('')).to.be.equal('100010111');
+            expect(matrix_to_array(nodeB.matrixOwn()).join('')).to.be.equal('100010221');
+            expect(matrix_to_array(nodeB.matrixCascaded()).join('')).to.be.equal('100010331');
+            expect(matrix_to_array(nodeC.matrixOwn()).join('')).to.be.equal('100010331');
+            expect(matrix_to_array(nodeC.matrixCascaded()).join('')).to.be.equal('100010661');
+        });
+    });
+
     describe('Calculation of bounding boxes', () => {
         let nodeA;
         let nodeB;
@@ -149,27 +292,27 @@ describe('Node tests', () => {
             nodeC = new Node();
         });
 
-        it('Calculates its bound box correctly', () => {
-            expect(nodeA.getBBox().x()).to.be.equal(0);
-            expect(nodeA.getBBox().y()).to.be.equal(0);
-            expect(nodeA.getBBox().width()).to.be.equal(0);
-            expect(nodeA.getBBox().height()).to.be.equal(0);
+        it('Calculates its own bounding box correctly', () => {
+            expect(nodeA.bboxOwn().x()).to.be.equal(0);
+            expect(nodeA.bboxOwn().y()).to.be.equal(0);
+            expect(nodeA.bboxOwn().width()).to.be.equal(0);
+            expect(nodeA.bboxOwn().height()).to.be.equal(0);
         });
 
-        it('Gets its own bounding box correctly', () => {
-            expect(nodeA.getOwnBBox().x()).to.be.equal(0);
-            expect(nodeA.getOwnBBox().y()).to.be.equal(0);
-            expect(nodeA.getOwnBBox().width()).to.be.equal(0);
-            expect(nodeA.getOwnBBox().height()).to.be.equal(0);
+        it('Calculates the cascaded bound box correctly', () => {
+            expect(nodeA.bboxCascaded().x()).to.be.equal(0);
+            expect(nodeA.bboxCascaded().y()).to.be.equal(0);
+            expect(nodeA.bboxCascaded().width()).to.be.equal(0);
+            expect(nodeA.bboxCascaded().height()).to.be.equal(0);
         });
 
-        it('Gets all of its child nodes bounding boxes correctly', () => {
+        it('Calculates the cascaded bound box correctly when there are several children present', () => {
             expect(nodeA.append(nodeB)).to.be.equal(nodeA);
             expect(nodeB.append(nodeC)).to.be.equal(nodeB);
-            expect(nodeA.getBBox().x()).to.be.equal(0);
-            expect(nodeA.getBBox().y()).to.be.equal(0);
-            expect(nodeA.getBBox().width()).to.be.equal(0);
-            expect(nodeA.getBBox().height()).to.be.equal(0);
+            expect(nodeA.bboxCascaded().x()).to.be.equal(0);
+            expect(nodeA.bboxCascaded().y()).to.be.equal(0);
+            expect(nodeA.bboxCascaded().width()).to.be.equal(0);
+            expect(nodeA.bboxCascaded().height()).to.be.equal(0);
         });
     });
 });

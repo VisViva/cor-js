@@ -16,8 +16,8 @@ Selection.prototype.last = function last() {
     return this._elements[this._elements.length - 1] || null;
 };
 
-Selection.prototype.add = function add(element) {
-    this._elements.push(element);
+Selection.prototype.add = function add(...elements) {
+    Array.prototype.push.apply(this._elements, elements);
     return this;
 };
 
@@ -28,7 +28,7 @@ Selection.prototype.range = function range(from, to) {
 };
 
 Selection.prototype.array = function array() {
-    return this._elements.splice(0);
+    return this._elements.slice();
 };
 
 Selection.prototype.modify = function modify(modifier) {

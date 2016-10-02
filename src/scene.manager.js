@@ -1,12 +1,8 @@
 'use strict';
 
 import { Scene } from './core/scene';
-import { Node } from './core/node';
-import { Primitive } from './core/primitive';
 import { Selection } from './core/selection';
 import { BBox } from './core/bbox';
-import { Arc } from './primitives/arc';
-import { Rect } from './primitives/rect';
 
 /**
  * Scene manager constructor

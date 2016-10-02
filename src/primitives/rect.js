@@ -71,7 +71,7 @@ exports.Rect = function(_scene, Primitive) {
      * Gets the bounding box of the current node only
      */
 
-    Rect.prototype.getOwnBBox = function() {
+    Rect.prototype.bboxOwn = function() {
 
         // Transformed points
 
@@ -82,7 +82,7 @@ exports.Rect = function(_scene, Primitive) {
         const transformed3DVector = vec2.create();
 
         for (let i = 0; i < this._points.length; ++i) {
-            vec2.transformMat3(transformed3DVector, vec2.fromValues(this._points[i].x, this._points[i].y), this._matrix);
+            vec2.transformMat3(transformed3DVector, vec2.fromValues(this._points[i].x, this._points[i].y), this._matrix_own);
             transformed2DVectors.push({
                 x: transformed3DVector[0],
                 y: transformed3DVector[1]

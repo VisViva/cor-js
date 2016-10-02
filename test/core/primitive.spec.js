@@ -2,6 +2,7 @@
 
 import { expect } from 'chai/chai';
 import { Scene } from '../../src/core/scene';
+import { matrix_to_array } from '../../src/utils/helper';
 
 describe('Primitive tests', () => {
     const Primitive = new Scene().factory().Primitive;
@@ -22,7 +23,8 @@ describe('Primitive tests', () => {
             expect(primitive.rotate()).to.be.equal(0);
             expect(primitive.scale().x).to.be.equal(1);
             expect(primitive.scale().y).to.be.equal(1);
-            expect(primitive.matrix().join('')).to.be.equal('100010001');
+            expect(matrix_to_array(primitive.matrixOwn()).join('')).to.be.equal('100010001');
+            expect(matrix_to_array(primitive.matrixCascaded()).join('')).to.be.equal('100010001');
             expect(primitive.active()).to.be.equal(true);
             expect(spy.calledOnce).to.be.equal(true);
         });

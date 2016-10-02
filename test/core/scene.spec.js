@@ -3,6 +3,7 @@
 import { expect } from 'chai/chai';
 import { Scene } from '../../src/core/scene';
 import { DepthBuffer } from '../../src/core/depthbuffer';
+import { matrix_to_array } from '../../src/utils/helper';
 
 describe('Scene tests', () => {
     describe('Common behavior', () => {
@@ -31,7 +32,8 @@ describe('Scene tests', () => {
             expect(scene.root().rotate()).to.be.equal(0);
             expect(scene.root().scale().x).to.be.equal(1);
             expect(scene.root().scale().y).to.be.equal(1);
-            expect(scene.root().matrix().join('')).to.be.equal('100010001');
+            expect(matrix_to_array(scene.root().matrixOwn()).join('')).to.be.equal('100010001');
+            expect(matrix_to_array(scene.root().matrixCascaded()).join('')).to.be.equal('100010001');
             expect(scene.root().active()).to.be.equal(true);
         });
 

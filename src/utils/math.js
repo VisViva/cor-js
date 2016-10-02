@@ -1,39 +1,39 @@
 'use strict';
 
 /**
- * Trim floats to certain precision
+ * Convert degrees to radians
  */
 
-export function trimFloat(float, digits) {
-    const trimmer = Math.pow(10, digits);
-    return Math.round(float * trimmer) / trimmer;
+export function deg_to_rad(degrees) {
+    return trim_float(degrees % 360 * (Math.PI / 180), 5);
 }
 
 /**
  * Convert degrees to radians
  */
 
-export function degToRad(degrees) {
-    return trimFloat(degrees % 360 * (Math.PI / 180), 5);
-}
-
-/**
- * Convert degrees to radians
- */
-
-export function radToDeg(radians) {
+export function rad_to_deg(radians) {
     let negative = radians < 0;
     if (negative) {
         return (Math.floor((radians * (180 / Math.PI))) % 360);
     }
-    return trimFloat(Math.ceil((radians * (180 / Math.PI))) % 360, 5);
+    return trim_float(Math.ceil((radians * (180 / Math.PI))) % 360, 5);
+}
+
+/**
+ * Trim floats to certain precision
+ */
+
+export function trim_float(float, digits) {
+    const trimmer = Math.pow(10, digits);
+    return Math.round(float * trimmer) / trimmer;
 }
 
 /**
  * Trim angles
  */
 
-export function trimAngle(angle) {
+export function trim_angle(angle) {
     if (angle > 360) {
         return angle % 360;
     } else {

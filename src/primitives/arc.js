@@ -5,7 +5,7 @@ var vec2 = glMatrix.vec2;
 
 import { Selection } from '../core/selection';
 import { BBox } from '../core/bbox';
-import { degToRad, radToDeg, trimAngle } from '../utils/math';
+import { deg_to_rad, rad_to_deg, trim_angle } from '../utils/math';
 import { inherit } from "../utils/helper";
 
 exports.Arc = function(_scene, Primitive) {
@@ -47,7 +47,7 @@ exports.Arc = function(_scene, Primitive) {
 
     Arc.prototype.start = function(start) {
         if (start) {
-            this._start = trimAngle(start);
+            this._start = trim_angle(start);
             return this;
         } else {
             return this._start;
@@ -60,7 +60,7 @@ exports.Arc = function(_scene, Primitive) {
 
     Arc.prototype.end = function(end) {
         if (end) {
-            this._end = trimAngle(end);
+            this._end = trim_angle(end);
             return this;
         } else {
             return this._end;
@@ -87,7 +87,7 @@ exports.Arc = function(_scene, Primitive) {
     Arc.prototype.angle = function() {
         const start = this._start;
         const end = this._end;
-        return trimAngle(this._ccw && (start - end) || end - start);
+        return trim_angle(this._ccw && (start - end) || end - start);
     };
 
     /**
@@ -95,7 +95,7 @@ exports.Arc = function(_scene, Primitive) {
      */
 
     Arc.prototype.length = function() {
-        return degToRad(this.angle()) * this._radius;
+        return deg_to_rad(this.angle()) * this._radius;
     };
 
     return Arc;
