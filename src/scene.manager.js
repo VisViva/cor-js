@@ -55,3 +55,49 @@ setInterval(() => {
   scene.root().cascade();
   scene.render();
 }, 1000/60);
+
+let ascene = sm.new('Scene2');
+let aRect = ascene.factory().Rect;
+let arect = new aRect().width(20).height(10);
+let arect2 = new aRect().width(120).height(60);
+let arect3 = new aRect().width(120).height(60);
+ascene.root().translate(256, 256).append(arect.append(arect2.append(arect3)));
+arect.translate(30, 50);
+arect2.translate(-30, 30).scale(2, 2);
+arect3.translate(20, 20).scale(2, 2);
+
+setInterval(() => {
+  ascene._context.save();
+  ascene._context.setTransform(1, 0, 0, 1, 0, 0);
+  ascene._context.fillStyle = '#ddd';
+  ascene._context.fillRect(0, 0, ascene._canvas.width, ascene._canvas.height);
+  ascene._context.restore();
+  arect.rotate(-2);
+  arect2.rotate(-1);
+  arect3.rotate(-3);
+  ascene.root().cascade();
+  ascene.render();
+}, 1000/60);
+
+let bscene = sm.new('Scene3');
+let bRect = bscene.factory().Rect;
+let brect = new bRect().width(20).height(10);
+let brect2 = new bRect().width(120).height(60);
+let brect3 = new bRect().width(120).height(60);
+bscene.root().translate(256, 256).append(brect.append(brect2.append(brect3)));
+brect.translate(30, 20).scale(5, 5);
+brect2.translate(-10, 30);
+brect3.translate(20, 20).scale(2, 2);
+
+setInterval(() => {
+  bscene._context.save();
+  bscene._context.setTransform(1, 0, 0, 1, 0, 0);
+  bscene._context.fillStyle = '#ddd';
+  bscene._context.fillRect(0, 0, bscene._canvas.width, bscene._canvas.height);
+  bscene._context.restore();
+  brect.rotate(-2);
+  brect2.rotate(-1);
+  brect3.rotate(-3);
+  bscene.root().cascade();
+  bscene.render();
+}, 1000/60);
