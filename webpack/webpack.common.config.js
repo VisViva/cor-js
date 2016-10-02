@@ -7,7 +7,7 @@ module.exports = {
         path: root + "/dist",
         filename: "scene.manager.js",
         libraryTarget: "var",
-        library: "scene.manager"
+        library: "scenemanager"
     },
     module: {
         loaders: [{

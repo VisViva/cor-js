@@ -98,4 +98,31 @@ describe('Scene tests', () => {
             expect(sceneB._depthbuffer.primitives().length).to.be.equal(2);
         });
     });
+
+    describe('Rendering behavior', () => {
+        let Primitive;
+        let scene;
+
+        beforeEach(function() {
+            scene = new Scene('scene');
+            Primitive = scene.factory().Primitive;
+        });
+
+        it('Calls the render function of each of the primitives present in the depth buffer upon render', () => {
+            let primitiveA = new Primitive();
+            let primitiveB = new Primitive();
+            let primitiveC = new Primitive();
+            const spyA = sinon.spy(primitiveA, 'render');
+            const spyB = sinon.spy(primitiveB, 'render');
+            const spyC = sinon.spy(primitiveC, 'render');
+            expect(primitiveA.append(primitiveB)).to.be.equal(primitiveA);
+            expect(primitiveB.append(primitiveC)).to.be.equal(primitiveB);
+            expect(scene.root().append(primitiveA)).to.be.equal(scene.root());
+            expect(scene._depthbuffer.primitives().length).to.be.equal(3);
+            expect(scene.render()).to.be.equal(scene);
+            expect(spyA.calledOnce).to.be.equal(true);
+            expect(spyB.calledOnce).to.be.equal(true);
+            expect(spyC.calledOnce).to.be.equal(true);
+        });
+    });
 });

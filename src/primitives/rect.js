@@ -94,5 +94,18 @@ exports.Rect = function(_scene, Primitive) {
         return BBox.prototype.from(transformed2DVectors);
     };
 
+    /**
+     * Render the current rect
+     */
+
+    Rect.prototype.render = function() {
+      let context = _scene.context();
+      let matrix = this._matrix_cascaded;
+      context.fillStyle = 'blue';
+      context.fillRect(this._points[0].x, this._points[0].y, this.width(), this.height());
+      context.setTransform(matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5]);
+      context.stroke();
+    };
+
     return Rect;
 };

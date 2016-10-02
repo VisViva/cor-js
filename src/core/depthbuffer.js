@@ -34,7 +34,7 @@ DepthBuffer.prototype.append = function(primitive) {
  */
 
 DepthBuffer.prototype.primitives = function() {
-    return this._primitives.slice();
+    return this._primitives;
 };
 
 exports.DepthBuffer = DepthBuffer;

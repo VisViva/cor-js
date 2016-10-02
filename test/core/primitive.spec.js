@@ -15,7 +15,6 @@ describe('Primitive tests', () => {
         });
 
         it('Executes parent constructor correctly', () => {
-            const spy = sinon.spy(primitive, 'parent');
             expect(primitive.parent()).to.be.equal(null);
             expect(primitive.children().array().length).to.be.equal(0);
             expect(primitive.translate().x).to.be.equal(0);
@@ -26,7 +25,6 @@ describe('Primitive tests', () => {
             expect(matrix_to_array(primitive.matrixOwn()).join('')).to.be.equal('100010001');
             expect(matrix_to_array(primitive.matrixCascaded()).join('')).to.be.equal('100010001');
             expect(primitive.active()).to.be.equal(true);
-            expect(spy.calledOnce).to.be.equal(true);
         });
 
         it('Executes own constructor correctly', () => {

@@ -15,6 +15,13 @@ function Scene(name) {
     this._factory = null;
     this._root = new(this.factory()).Node();
     this._depthbuffer = new DepthBuffer();
+
+    this._canvas = document.body.appendChild(document.createElement("canvas"));
+    this._canvas.width = 512;
+    this._canvas.height = 512;
+    this._canvas.id = this._name;
+
+    this._context = this._canvas.getContext('2d');
 };
 
 /**
@@ -31,6 +38,22 @@ Scene.prototype.name = function() {
 
 Scene.prototype.root = function() {
     return this._root;
+};
+
+/**
+ * Get the canvas
+ */
+
+Scene.prototype.canvas = function() {
+    return this._canvas;
+};
+
+/**
+ * Get the context
+ */
+
+Scene.prototype.context = function() {
+    return this._context;
 };
 
 /**
@@ -61,6 +84,18 @@ Scene.prototype.factory = function() {
     }(this);
 
     return this._factory;
+};
+
+/**
+ * Render all of the primitives that are in the depth buffer
+ */
+
+Scene.prototype.render = function() {
+    const primitives = this._depthbuffer.primitives();
+    for (let i = 0; i < primitives.length; ++i){
+      primitives[i].render();
+    }
+    return this;
 };
 
 exports.Scene = Scene;

@@ -29,3 +29,12 @@ exports.SceneManager = SceneManager;
 
 export * from './utils/math';
 export * from './utils/helper';
+
+// Playground code
+
+let sm = new SceneManager();
+let scene = sm.new('Scene1');
+let Rect = scene.factory().Rect;
+let rect = new Rect().width(20).height(10);
+scene.root().append(rect);
+scene.render();
