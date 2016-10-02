@@ -10,7 +10,7 @@ function DepthBuffer() {
 
 /**
  * Append the given primitive and all of its children
- * to the depth buffer
+ * to the depth buffer in a sorted fashion
  */
 
 DepthBuffer.prototype.append = function(primitive) {
@@ -18,7 +18,14 @@ DepthBuffer.prototype.append = function(primitive) {
     for (let i = 0; i < children.length; ++i) {
         this.append(children[i]);
     }
-    this._primitives.push(primitive);
+    let start = 0;
+    let end = this._primitives.length;
+    while (start < end) {
+        let middle = start + end >>> 1;
+        if (this._primitives[middle].depth() < primitive.depth()) start = middle + 1;
+        else end = middle;
+    }
+    this._primitives.splice(start, 0, primitive);
     return this;
 };
 

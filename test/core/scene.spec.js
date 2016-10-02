@@ -51,7 +51,7 @@ describe('Scene tests', () => {
             sceneB = new Scene('sceneB');
         });
 
-        it('Exposes properly linked node object that can be used to communicate with its scene', () => {
+        it('Assures that simple nodes are not getting appended to it', () => {
             expect(sceneA.factory().Node).to.exist;
             let NodeConstructorA = sceneA.factory().Node;
             let nodeA = new NodeConstructorA();
@@ -61,27 +61,40 @@ describe('Scene tests', () => {
             expect(nodeA.append(nodeB.append(nodeC.append(nodeD)))).to.be.equal(nodeA);
             expect(sceneA._depthbuffer.primitives().length).to.be.equal(0);
             expect(sceneA.root().append(nodeA)).to.be.equal(sceneA.root());
+            expect(sceneA._depthbuffer.primitives().length).to.be.equal(0);
+        });
+
+        it('Exposes properly linked primitive that can be used to communicate with its scene', () => {
+            expect(sceneA.factory().Primitive).to.exist;
+            let PrimitiveConstructorA = sceneA.factory().Primitive;
+            let primitiveA = new PrimitiveConstructorA();
+            let primitiveB = new PrimitiveConstructorA();
+            let primitiveC = new PrimitiveConstructorA();
+            let primitiveD = new PrimitiveConstructorA();
+            expect(primitiveA.append(primitiveB.append(primitiveC.append(primitiveD)))).to.be.equal(primitiveA);
+            expect(sceneA._depthbuffer.primitives().length).to.be.equal(0);
+            expect(sceneA.root().append(primitiveA)).to.be.equal(sceneA.root());
             expect(sceneA._depthbuffer.primitives().length).to.be.equal(4);
         });
 
-        it('Exposes properly linked node object that can be used to communicate with its scene, even when there are several scenes', () => {
-            expect(sceneA.factory().Node).to.exist;
-            let NodeConstructorA = sceneA.factory().Node;
-            let nodeA = new NodeConstructorA();
-            let nodeB = new NodeConstructorA();
-            let nodeC = new NodeConstructorA();
-            let nodeD = new NodeConstructorA();
-            expect(nodeA.append(nodeB.append(nodeC.append(nodeD)))).to.be.equal(nodeA);
+        it('Exposes properly linked primitive that can be used to communicate with its scene, even when there are several scenes', () => {
+            expect(sceneA.factory().Primitive).to.exist;
+            let PrimitiveConstructorA = sceneA.factory().Primitive;
+            let primitiveA = new PrimitiveConstructorA();
+            let primitiveB = new PrimitiveConstructorA();
+            let primitiveC = new PrimitiveConstructorA();
+            let primitiveD = new PrimitiveConstructorA();
+            expect(primitiveA.append(primitiveB.append(primitiveC.append(primitiveD)))).to.be.equal(primitiveA);
             expect(sceneA._depthbuffer.primitives().length).to.be.equal(0);
-            expect(sceneA.root().append(nodeA)).to.be.equal(sceneA.root());
+            expect(sceneA.root().append(primitiveA)).to.be.equal(sceneA.root());
             expect(sceneA._depthbuffer.primitives().length).to.be.equal(4);
-            expect(sceneB.factory().Node).to.exist;
-            let NodeConstructorB = sceneB.factory().Node;
-            let nodeE = new NodeConstructorB();
-            let nodeF = new NodeConstructorB();
-            expect(nodeE.append(nodeF)).to.be.equal(nodeE);
+            expect(sceneB.factory().Primitive).to.exist;
+            let PrimitiveConstructorB = sceneB.factory().Primitive;
+            let primitiveE = new PrimitiveConstructorB();
+            let primitiveF = new PrimitiveConstructorB();
+            expect(primitiveE.append(primitiveF)).to.be.equal(primitiveE);
             expect(sceneB._depthbuffer.primitives().length).to.be.equal(0);
-            expect(sceneB.root().append(nodeE)).to.be.equal(sceneB.root());
+            expect(sceneB.root().append(primitiveE)).to.be.equal(sceneB.root());
             expect(sceneB._depthbuffer.primitives().length).to.be.equal(2);
         });
     });

@@ -18,7 +18,7 @@ export function inherit(child, parent) {
 };
 
 /**
- * Deep clones a 3x3 matrix and returns the clone
+ * Converts a glmatrix mat3 object to an array
  */
 
 export function matrix_to_array(matrix) {

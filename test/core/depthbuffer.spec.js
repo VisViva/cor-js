@@ -5,7 +5,7 @@ import { Scene } from '../../src/core/scene';
 import { DepthBuffer } from '../../src/core/depthbuffer';
 
 describe('Depth buffer tests', () => {
-    const Node = new Scene().factory().Node;
+    const Primitive = new Scene().factory().Primitive;
 
     describe('Common behavior', () => {
         it('Runs tests', () => {
@@ -27,18 +27,34 @@ describe('Depth buffer tests', () => {
 
     describe('Buffer altering behavior', () => {
         let depthbuffer;
-        let nodeA, nodeB;
+        let primitiveA, primitiveB, primitiveC, primitiveD;
 
         beforeEach(function() {
             depthbuffer = new DepthBuffer();
-            nodeA = new Node();
-            nodeB = new Node();
+            primitiveA = new Primitive();
+            primitiveB = new Primitive();
+            primitiveC = new Primitive();
+            primitiveD = new Primitive();
         });
 
-        it('Appends node with all of its child nodes', () => {
-            expect(nodeA.append(nodeB)).to.be.equal(nodeA);
-            expect(depthbuffer.append(nodeA)).to.be.equal(depthbuffer);
+        it('Appends a node with all of its child nodes', () => {
+            expect(primitiveA.append(primitiveB)).to.be.equal(primitiveA);
+            expect(depthbuffer.append(primitiveA)).to.be.equal(depthbuffer);
             expect(depthbuffer.primitives().length).to.be.equal(2);
+        });
+
+        it('Appends nodes in a sorted fashion', () => {
+            primitiveA.depth(10);
+            primitiveB.depth(0);
+            primitiveC.depth(-15);
+            primitiveD.depth(20);
+            expect(primitiveA.append(primitiveB).append(primitiveC.append(primitiveD))).to.be.equal(primitiveA);
+            expect(depthbuffer.append(primitiveA)).to.be.equal(depthbuffer);
+            expect(depthbuffer.primitives().length).to.be.equal(4);
+            expect(depthbuffer.primitives()[0].depth()).to.be.equal(-15);
+            expect(depthbuffer.primitives()[1].depth()).to.be.equal(0);
+            expect(depthbuffer.primitives()[2].depth()).to.be.equal(10);
+            expect(depthbuffer.primitives()[3].depth()).to.be.equal(20);
         });
     });
 });
