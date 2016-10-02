@@ -5,7 +5,7 @@ var vec2 = glMatrix.vec2;
 
 import { Selection } from '../core/selection';
 import { BBox } from '../core/bbox';
-import { inherit } from "../utils/helper";
+import { inherit, random_color } from "../utils/helper";
 
 exports.Rect = function(_scene, Primitive) {
 
@@ -36,7 +36,8 @@ exports.Rect = function(_scene, Primitive) {
                 x: 0,
                 y: 0
             });
-        }
+        };
+        this._color = random_color();
     };
 
     /**
@@ -101,9 +102,9 @@ exports.Rect = function(_scene, Primitive) {
     Rect.prototype.render = function() {
       let context = _scene.context();
       let matrix = this._matrix_cascaded;
-      context.fillStyle = 'blue';
+      context.fillStyle =  this._color;
       context.fillRect(this._points[0].x, this._points[0].y, this.width(), this.height());
-      context.setTransform(matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5]);
+      context.setTransform(matrix[0], matrix[1], matrix[3], matrix[4], matrix[6], matrix[7]);
       context.stroke();
     };
 

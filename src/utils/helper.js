@@ -10,6 +10,7 @@ export function inherit(child, parent) {
             child[property] = parent[property];
         }
     }
+
     function extend() {
         this.constructor = child;
     }
@@ -28,3 +29,16 @@ export function matrix_to_array(matrix) {
     }
     return _matrix;
 };
+
+/**
+ * Get a random color
+ */
+
+export function random_color() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
