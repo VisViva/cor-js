@@ -103,8 +103,9 @@ exports.Rect = function(_scene, Primitive) {
       let context = _scene.context();
       let matrix = this._matrix_cascaded;
       context.fillStyle =  this._color;
-      context.fillRect(this._points[0].x, this._points[0].y, this.width(), this.height());
       context.setTransform(matrix[0], matrix[1], matrix[3], matrix[4], matrix[6], matrix[7]);
+      context.fillRect(this._points[0].x, this._points[0].y, this.width(), this.height());
+
       context.stroke();
     };
 
