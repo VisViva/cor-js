@@ -4,6 +4,7 @@ import { Node } from "./node";
 import { Primitive } from "./primitive";
 import { DepthBuffer } from "./depthbuffer";
 import { Rect } from "../primitives/rect";
+import { Sector } from "../primitives/sector";
 import { Arc } from "../primitives/arc";
 
 /**
@@ -74,12 +75,14 @@ Scene.prototype.factory = function() {
         const _Primitive = Primitive(scene, _Node);
         const _Rect = Rect(scene, _Primitive);
         const _Arc = Arc(scene, _Primitive);
+        const _Sector = Sector(scene, _Primitive);
 
         return {
             Node: _Node,
             Primitive: _Primitive,
             Rect: _Rect,
-            Arc: _Arc
+            Arc: _Arc,
+            Sector: _Sector
         };
     }(this);
 
