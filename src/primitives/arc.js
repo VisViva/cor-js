@@ -180,6 +180,7 @@ exports.Arc = function (_scene, Primitive) {
         let matrix = this._matrix_cascaded;
         context.strokeStyle = this._color;
         context.setTransform(matrix[0], matrix[1], matrix[3], matrix[4], matrix[6], matrix[7]);
+        context.beginPath();
         context.arc(this._cx, this._cy, this._radius, deg_to_rad(this._start), deg_to_rad(this._end), this._ccw);
         context.stroke();
     };

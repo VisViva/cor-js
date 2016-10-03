@@ -49,14 +49,16 @@ rect3.translate(20, 20).scale(5, 5);
 var color1 = random_color();
 var color2 = random_color();
 var color3 = random_color();
-var i = 0;
+var i = false;
 setInterval(() => {
+    scene._context.save();
     scene._context.setTransform(1, 0, 0, 1, 0, 0);
     scene._context.fillStyle = color1;
-    scene._context.clearRect(0, 0, scene._canvas.width, scene._canvas.height);
+    scene._context.fillRect(0, 0, scene._canvas.width, scene._canvas.height);
     arc.rotate(1);
     scene.root().cascade();
     scene.render();
+    scene._context.restore();
 }, 1000 / 60);
 
 /*
