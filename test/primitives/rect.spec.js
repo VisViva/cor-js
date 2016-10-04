@@ -33,7 +33,12 @@ describe('Rect tests', () => {
         beforeEach(function() {
             rect = new Rect();
         });
-
+        it('Should place rect in correct position', ()=> {
+            rect.at(50, 50);
+            const point = rect.at();
+            expect(point.x).to.be.equal(50);
+            expect(point.y).to.be.equal(50);
+        });
         it('Sets rotation correctly', () => {
             expect(rect.rotate(45)).to.be.equal(rect);
             expect(rect.rotate()).to.be.equal(45);

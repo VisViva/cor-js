@@ -1,8 +1,8 @@
 'use strict';
 
-import { expect } from 'chai/chai';
-import { Scene } from '../../src/core/scene';
-import { BBox } from '../../src/core/bbox';
+import {expect} from 'chai/chai';
+import {Scene} from '../../src/core/scene';
+import {BBox} from '../../src/core/bbox';
 
 describe('Arc tests', () => {
     const Factory = new Scene().factory();
@@ -12,7 +12,7 @@ describe('Arc tests', () => {
     describe('Constructor behavior', () => {
         let arc;
 
-        beforeEach(function() {
+        beforeEach(function () {
             arc = new Arc();
         });
 
@@ -32,10 +32,15 @@ describe('Arc tests', () => {
     describe('Property setting behavior', () => {
         let arc;
 
-        beforeEach(function() {
+        beforeEach(function () {
             arc = new Arc();
         });
-
+        it('Should place arc in correct position', ()=> {
+            arc.at(50, 50);
+            const point = arc.at();
+            expect(point.x).to.be.equal(50);
+            expect(point.y).to.be.equal(50);
+        });
         it('Sets rotation correctly', () => {
             expect(arc.rotate(45)).to.be.equal(arc);
             expect(arc.rotate()).to.be.equal(45);
@@ -79,7 +84,7 @@ describe('Arc tests', () => {
         let nodeB;
         let nodeC;
 
-        beforeEach(function() {
+        beforeEach(function () {
             arc = new Arc();
             arc.translate(10, 20);
             nodeB = new Node();
@@ -117,7 +122,7 @@ describe('Arc tests', () => {
     describe('Angle calculation behavior', () => {
         let arc;
 
-        beforeEach(function() {
+        beforeEach(function () {
             arc = new Arc();
         });
 
@@ -293,7 +298,7 @@ describe('Arc tests', () => {
     describe('Length calculation behavior', () => {
         let arc;
 
-        beforeEach(function() {
+        beforeEach(function () {
             arc = new Arc();
         });
 

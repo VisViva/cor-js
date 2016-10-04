@@ -39,7 +39,20 @@ exports.Rect = function(_scene, Primitive) {
         };
         this._color = random_color();
     };
-
+    /**
+     * Place left-top point of the rect to {x: cx, y: cy}
+     * @param x left top x of the rect
+     * @param y left top y of the rect
+     */
+    Rect.prototype.at = function (x, y) {
+        if (typeof x !== 'undefined' && typeof y !== 'undefined') {
+            this._points[0].x = x;
+            this._points[0].y = y;
+            return this;
+        } else {
+            return this._points[0];
+        }
+    };
     /**
      * Define width of the rect and return it
      */

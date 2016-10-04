@@ -5,6 +5,9 @@
  */
 
 export function deg_to_rad(degrees) {
+    if(degrees===360){
+        return Math.PI*2;
+    }
     return trim_float(degrees % 360 * (Math.PI / 180), 5);
 }
 

@@ -117,56 +117,7 @@ exports.Sector = function (_scene, Primitive) {
      */
 
     Sector.prototype.bboxOwn = function() {
-       /* let points = [];
 
-        points.push({x:this._cx,y:this._cy});
-        points.push({x:this._cx+Math.cos(deg_to_rad(this._start))*this._radius,y:this._cx+Math.sin(deg_to_rad(this._start))*this._radius});
-        points.push({x:this._cx+Math.cos(deg_to_rad(this.end))*this._radius,y:this._cx+Math.sin(deg_to_rad(this.end))*this._radius});
-        if (this._ccw) {
-            if (start < this._end) {
-                start += 360;
-            }
-            start = Math.ceil(start / 90) * 90;
-            while (start > this._end) {
-                start -= 90;
-                points.push({
-                    x: this._cx + Math.cos(deg_to_rad(start)) * this._radius,
-                    y: this._cx + Math.sin(deg_to_rad(start)) * this._radius
-                })
-            }
-        } else {
-            let start = this._start;
-            if (start > this._end) {
-                start -= 360;
-            }
-            start = Math.floor(start / 90) * 90;
-            while (start + 90 < this._end) {
-                start += 90;
-                points.push({
-                    x: this._cx + Math.cos(deg_to_rad(start)) * this._radius,
-                    y: this._cx + Math.sin(deg_to_rad(start)) * this._radius
-                })
-            }
-        }
-        // Transformed points
-
-        const transformed2DVectors = [];
-
-        // Transformations
-
-        const transformed3DVector = vec2.create();
-
-        for (let i = 0; i < this._points.length; ++i) {
-            vec2.transformMat3(transformed3DVector, vec2.fromValues(this._points[i].x, this._points[i].y), this._matrix_own);
-            transformed2DVectors.push({
-                x: transformed3DVector[0],
-                y: transformed3DVector[1]
-            });
-        }
-
-        // Returning the newly created bouding box
-
-        return BBox.prototype.from(transformed2DVectors);*/
     };
 
 
@@ -185,7 +136,7 @@ exports.Sector = function (_scene, Primitive) {
      */
 
     Sector.prototype.length = function () {
-        return deg_to_rad(this.angle()) * this._radius;
+        return deg_to_rad(this.angle()) * this._outerRadius;
     };
 
 
