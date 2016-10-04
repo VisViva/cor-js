@@ -1,7 +1,9 @@
 const common = require('./karma.common.config.js')
 
-common.reporters = ['progress', 'html'];
+common.reporters = ['progress', 'html', 'coverage'];
 common.browsers = ['PhantomJS', 'Chrome', 'Firefox'];
+common.autoWatch = false;
+common.singleRun = true;
 
 common.htmlReporter = {
     outputDir: 'reports',
@@ -14,8 +16,16 @@ common.htmlReporter = {
     foldAll: false
 };
 
-common.autoWatch = false;
-common.singleRun = true;
+common.coverageReporter = {
+    reporters: [{
+        type: 'html',
+        dir: __dirname + '/../coverage/'
+    }, {
+        type: 'text-summary'
+    }, {
+        type: 'text'
+    }]
+};
 
 module.exports = function(config) {
     config.set(common)

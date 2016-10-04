@@ -6,7 +6,11 @@ common.autoWatch = true;
 common.singleRun = false;
 
 common.coverageReporter = {
-  type: 'text'
+    reporters: [{
+        type: 'text-summary'
+    }, {
+        type: 'text'
+    }]
 };
 
 module.exports = function(config) {
