@@ -131,13 +131,7 @@ exports.Sector = function (_scene, Primitive) {
         return trim_angle(this._ccw && (start - end) || end - start);
     };
 
-    /**
-     * Returns the length of the sector
-     */
 
-    Sector.prototype.length = function () {
-        return deg_to_rad(this.angle()) * this._outerRadius;
-    };
 
 
     Sector.prototype.render = function () {

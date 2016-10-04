@@ -295,27 +295,5 @@ describe('Arc tests', () => {
         });
     });
 
-    describe('Length calculation behavior', () => {
-        let arc;
 
-        beforeEach(function () {
-            arc = new Arc();
-        });
-
-        it('Calculates its length correctly when radius is 0', () => {
-            arc.ccw(false);
-            arc.radius(0);
-            arc.start(10);
-            arc.end(170);
-            expect(arc.length()).to.be.equal(0);
-        });
-
-        it('Calculates its length correctly when radius is positive', () => {
-            arc.ccw(false);
-            arc.radius(40);
-            arc.start(10);
-            arc.end(170);
-            expect(arc.length()).to.be.approximately(111, 1);
-        });
-    });
 });

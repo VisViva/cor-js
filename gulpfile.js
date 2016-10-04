@@ -8,7 +8,7 @@ var uglify = require('gulp-uglify');
  */
 
 gulp.task('uglify', function() {
-    return gulp.src('./dist/scene.manager.js')
+    return gulp.src('./dist/scene_manager.js')
         .pipe(rename(function(path) {
             path.basename += ".min";
         }))

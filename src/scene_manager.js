@@ -55,6 +55,7 @@ water._color = "#0f0";
 let time = 0;
 let rT = 0;
 let direction = false;
+water.rotate(10);
 setInterval(() => {
     scene._context.save();
     scene._context.setTransform(1, 0, 0, 1, 0, 0);
@@ -74,6 +75,7 @@ setInterval(() => {
         }
         rT+=0.5;
     }
+
     arc.radius(100 + rT);
     rect.translate(40,40);
     rect.rotate(1);

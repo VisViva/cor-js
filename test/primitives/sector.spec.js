@@ -304,29 +304,5 @@ describe('Sector tests', () => {
         });
     });
 
-    describe('Length calculation behavior', () => {
-        let sector;
 
-        beforeEach(function() {
-            sector = new Sector();
-        });
-
-        it('Calculates its length correctly when radius is 0', () => {
-            sector.ccw(false);
-            sector.innerRadius(0);
-            sector.outerRadius(0);
-            sector.start(10);
-            sector.end(170);
-            expect(sector.length()).to.be.equal(0);
-        });
-
-        it('Calculates its length correctly when radius is positive', () => {
-            sector.ccw(false);
-            sector.innerRadius(0);
-            sector.outerRadius(50);
-            sector.start(0);
-            sector.end(360);
-            expect(sector.length()).to.be.approximately(50*2*Math.PI, 1);
-        });
-    });
 });

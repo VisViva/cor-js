@@ -1,9 +1,11 @@
 /**
  * Created by rlapin on 10/4/16.
  */
+
 // Playground code
 import {random_color} from '../../src/utils/helper';
-import {SceneManager} from '../../src/scene.manager';
+import {SceneManager} from '../../src/scene_manager';
+
 let sm = new SceneManager();
 let scene = sm.new('Scene1');
 let Rect = scene.factory().Rect;

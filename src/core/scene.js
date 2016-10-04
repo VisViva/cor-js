@@ -2,7 +2,7 @@
 
 import { Node } from "./node";
 import { Primitive } from "./primitive";
-import { DepthBuffer } from "./depthbuffer";
+import { DepthBuffer } from "./depth_buffer";
 import { Rect } from "../primitives/rect";
 import { Sector } from "../primitives/sector";
 import { Arc } from "../primitives/arc";

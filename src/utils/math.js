@@ -5,10 +5,11 @@
  */
 
 export function deg_to_rad(degrees) {
-    if(degrees===360){
-        return Math.PI*2;
+
+    if (degrees > 0 && degrees % 360 === 0) {
+        return trim_float(Math.PI * 2);
     }
-    return trim_float(degrees % 360 * (Math.PI / 180), 5);
+    return trim_float(degrees % 360 * (Math.PI / 180));
 }
 
 /**
@@ -20,14 +21,14 @@ export function rad_to_deg(radians) {
     if (negative) {
         return (Math.floor((radians * (180 / Math.PI))) % 360);
     }
-    return trim_float(Math.ceil((radians * (180 / Math.PI))) % 360, 5);
+    return trim_float(Math.ceil((radians * (180 / Math.PI))) % 360);
 }
 
 /**
  * Trim floats to certain precision
  */
 
-export function trim_float(float, digits) {
+export function trim_float(float, digits = 5) {
     const trimmer = Math.pow(10, digits);
     return Math.round(float * trimmer) / trimmer;
 }

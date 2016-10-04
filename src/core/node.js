@@ -30,7 +30,7 @@ exports.Node = function (_scene) {
             x: 1,
             y: 1
         };
-        this._tagName = "";
+        this._tags = [];
         // Current nodes transformation matrix
         this._matrix_own = mat3.create();
 
@@ -80,19 +80,29 @@ exports.Node = function (_scene) {
             return this._rotation;
         }
     };
+
     /**
-     * Define tagName for node and return node or return tagName
-     * @param tagName
+     * Add tags for node to tagsand return node or return tags
+     * @param tag
      * @returns {*}
      */
-    Node.prototype.tagName = function (tagName) {
-        if (tagName) {
-            this._tagName = tagName;
-            return this;
-        } else {
-            return tagName;
-        }
 
+    Node.prototype.tags = function (tag) {
+        if (tag) {
+            if (this._tags.indexOf(tag) === -1) {
+                this._tags.push(tag);
+            }
+        }
+        return this;
+    };
+
+    /**
+     * Get tags for current node
+     * @param tag
+     * @returns {*}
+     */
+    Node.prototype.tags = function () {
+        return this._tags.slice();
     };
     /**
      * Get or set the scale of the node
@@ -150,6 +160,22 @@ exports.Node = function (_scene) {
 
         return this;
     };
+
+    /**
+     * Returns first matches for given selector.
+     * Selector can be defined as node type e.g arc or tagName .water , if you wanna search child of node use space. ".water arc"
+     * @param selector
+     */
+    /*Node.prototype.select = function (selector) {
+
+        lexicalAnalyzer(selector);
+        selector = selector.trim();
+        for(let i=0,a = '';i<selector.length || a!=' ';i++,a = selector.charAt(i)){
+
+        }
+
+    };*/
+
 
     /**
      * Get or set the current nodes parent
