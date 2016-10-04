@@ -4,11 +4,11 @@ const glMatrix = require('gl-matrix');
 const vec2 = glMatrix.vec2;
 const mat3 = glMatrix.mat3;
 
-import { Selection } from '../core/selection';
-import { BBox } from '../core/bbox';
-import { deg_to_rad, rad_to_deg, trim_angle } from '../utils/math';
+import {Selection} from '../core/selection';
+import {BBox} from '../core/bbox';
+import {deg_to_rad, rad_to_deg, trim_angle} from '../utils/math';
 
-exports.Node = function(_scene) {
+exports.Node = function (_scene) {
 
     /**
      * Node constructor
@@ -30,7 +30,7 @@ exports.Node = function(_scene) {
             x: 1,
             y: 1
         };
-
+        this._tagName = "";
         // Current nodes transformation matrix
         this._matrix_own = mat3.create();
 
@@ -54,7 +54,7 @@ exports.Node = function(_scene) {
      * Get or set the position of the node
      */
 
-    Node.prototype.translate = function(x, y) {
+    Node.prototype.translate = function (x, y) {
         if (x && y) {
             mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(x, y));
             this._position.x += x;
@@ -70,7 +70,7 @@ exports.Node = function(_scene) {
      * Get or set the rotation of the node
      */
 
-    Node.prototype.rotate = function(rotation) {
+    Node.prototype.rotate = function (rotation) {
         if (rotation) {
             mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(rotation));
             this._rotation = trim_angle(this._rotation + rotation);
@@ -80,12 +80,25 @@ exports.Node = function(_scene) {
             return this._rotation;
         }
     };
+    /**
+     * Define tagName for node and return node or return tagName
+     * @param tagName
+     * @returns {*}
+     */
+    Node.prototype.tagName = function (tagName) {
+        if (tagName) {
+            this._tagName = tagName;
+            return this;
+        } else {
+            return tagName;
+        }
 
+    };
     /**
      * Get or set the scale of the node
      */
 
-    Node.prototype.scale = function(x, y) {
+    Node.prototype.scale = function (x, y) {
         if (x && y) {
             mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(x, y));
             this._scale.x *= x;
@@ -101,7 +114,7 @@ exports.Node = function(_scene) {
      * Get the nodes transformation matrix
      */
 
-    Node.prototype.matrixOwn = function() {
+    Node.prototype.matrixOwn = function () {
         return mat3.clone(this._matrix_own);
     };
 
@@ -109,7 +122,7 @@ exports.Node = function(_scene) {
      * Get the nodes cascaded transformation matrix
      */
 
-    Node.prototype.matrixCascaded = function() {
+    Node.prototype.matrixCascaded = function () {
         return mat3.clone(this._matrix_cascaded);
     };
 
@@ -117,7 +130,7 @@ exports.Node = function(_scene) {
      * Append one or more nodes as children of the current node
      */
 
-    Node.prototype.append = function(...nodes) {
+    Node.prototype.append = function (...nodes) {
 
         /**
          * Check if the current node is linked to the root,
@@ -142,7 +155,7 @@ exports.Node = function(_scene) {
      * Get or set the current nodes parent
      */
 
-    Node.prototype.parent = function(parent) {
+    Node.prototype.parent = function (parent) {
         if (parent) {
             this._parent = parent;
             return this;
@@ -155,7 +168,7 @@ exports.Node = function(_scene) {
      * List child nodes of the current node
      */
 
-    Node.prototype.children = function() {
+    Node.prototype.children = function () {
         const children = [];
         for (let i = 0; i < this._children.length; ++i) {
             children.push(this._children[i]);
@@ -167,7 +180,7 @@ exports.Node = function(_scene) {
      * Check if the current nodes children contain the given node
      */
 
-    Node.prototype.has = function(node) {
+    Node.prototype.has = function (node) {
         if (this === node) return true;
         for (let i = 0; i < this._children.length; ++i) {
             if (this._children[i].has(node) === true) return true;
@@ -179,7 +192,7 @@ exports.Node = function(_scene) {
      * Check if the current node is linked to the given node
      */
 
-    Node.prototype.linked = function(node) {
+    Node.prototype.linked = function (node) {
         let current = this;
         while (current !== node && current.parent()) current = current.parent();
         return current === node;
@@ -189,7 +202,7 @@ exports.Node = function(_scene) {
      * Get or set the current nodes activeness status
      */
 
-    Node.prototype.active = function(active) {
+    Node.prototype.active = function (active) {
         if (typeof active !== 'undefined') {
             this._active = active;
             return this;
@@ -202,7 +215,7 @@ exports.Node = function(_scene) {
      * Get or set the current nodes dirtiness status
      */
 
-    Node.prototype.dirty = function(value) {
+    Node.prototype.dirty = function (value) {
         if (typeof value !== 'undefined') {
             this._dirty = value;
             return this;
@@ -215,7 +228,7 @@ exports.Node = function(_scene) {
      * Get a selection of dirty nodes in straight reachability
      */
 
-    Node.prototype.reachDirty = function() {
+    Node.prototype.reachDirty = function () {
         if (this._dirty === true) {
             return new Selection(this);
         } else {
@@ -232,7 +245,7 @@ exports.Node = function(_scene) {
      * Cascades transformations down the hierarchy, cleaning the dirty flag
      */
 
-    Node.prototype.cascade = function() {
+    Node.prototype.cascade = function () {
         if (this.parent()) {
             mat3.multiply(this._matrix_cascaded, this.parent()._matrix_cascaded, this._matrix_own);
         } else {
@@ -249,7 +262,7 @@ exports.Node = function(_scene) {
      * Gets the bounding box of the current node only
      */
 
-    Node.prototype.bboxOwn = function() {
+    Node.prototype.bboxOwn = function () {
         return new BBox();
     };
 
@@ -257,7 +270,7 @@ exports.Node = function(_scene) {
      * Starts recursive merge of all the child bboxes
      */
 
-    Node.prototype.bboxCascaded = function() {
+    Node.prototype.bboxCascaded = function () {
         const bboxes = [];
         for (let i = 0; i < this._children.length; ++i) {
             bboxes.push(this._children[i].bboxCascaded());

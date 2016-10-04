@@ -77,7 +77,7 @@ setInterval(() => {
     arc.radius(100 + rT);
     rect.translate(40,40);
     rect.rotate(1);
-    rect.translate(-40,-40)
+    rect.translate(-40,-40);
     scene.root().cascade();
     scene.render();
     scene._context.restore();
