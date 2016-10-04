@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const html_webpack_plugin = require('html-webpack-plugin');
 const common = require('./webpack.common.config.js');
 
+common.entry = "../samples/{{sample}}.js";
 common.devtool = "eval-source-map";
 
 common.preLoaders = [{

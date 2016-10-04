@@ -1,8 +1,13 @@
+# IDE
+.idea/
+
+# Node
 node_modules/
-typings/
+*.log
+~/
+
+# Infrastructure
 reports/
 dist/
 temp/
-~/
-.idea/
-*.log
+webpack/webpack.server.entry.config.js
