@@ -1,8 +1,8 @@
 'use strict';
 
-import {Scene} from './core/scene';
-import {Selection} from './core/selection';
-import {BBox} from './core/bbox';
+import { Scene } from './core/scene';
+import { Selection } from './core/selection';
+import { BBox } from './core/bbox';
 
 /**
  * Scene manager constructor
