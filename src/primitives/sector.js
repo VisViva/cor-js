@@ -102,7 +102,7 @@ exports.Sector = function (_scene, Primitive) {
      */
 
     Sector.prototype.ccw = function (ccw) {
-        if (arguments.length === 1) {
+        if (typeof ccw !== 'undefined') {
             this._ccw = ccw;
             return this;
         } else {
@@ -192,9 +192,8 @@ exports.Sector = function (_scene, Primitive) {
     Sector.prototype.render = function () {
         let context = _scene.context();
         let matrix = this._matrix_cascaded;
-        context.strokeStyle = this._color;
+        context.fillStyle = this._color;
         context.setTransform(matrix[0], matrix[1], matrix[3], matrix[4], matrix[6], matrix[7]);
-        debugger;
         context.beginPath();
         context.arc(this._cx, this._cy, this._outerRadius, deg_to_rad(this._start), deg_to_rad(this._end), this._ccw);
         context.arc(this._cx, this._cy, this._innerRadius, deg_to_rad(this._end), deg_to_rad(this._start), !this._ccw);

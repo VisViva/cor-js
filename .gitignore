@@ -4,5 +4,5 @@ reports/
 dist/
 temp/
 ~/
-
+.idea/
 *.log
