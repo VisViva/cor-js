@@ -3,17 +3,20 @@
   "version": "1.0.0",
   "description": "Scene manager",
   "scripts": {
-    "win:start": "webpack-dev-server --config \"webpack/webpack.server.config.js\" --hot --inline",
+    "win:start": "npm run win:start:gauge",
+    "win:start:gauge": "gulp replace --entry 'gauge' && webpack-dev-server --config \"webpack/webpack.server.entry.config.js\" --hot --inline",
     "win:test:watch:phantomjs": "rimraf reports && karma start \"karma/karma.watch.phantomjs.config.js\"",
     "win:test:watch:all": "rimraf reports && karma start \"karma/karma.watch.all.config.js\"",
     "win:test:once": "rimraf reports && karma start \"karma/karma.once.config.js\"",
-    "win:build": "rimraf dist && npm run test:once && webpack --config \"webpack/webpack.build.config.js\"",
+    "win:build:dry": "rimraf dist && webpack --config \"webpack/webpack.build.config.js\"",
+    "win:build:report": "rimraf dist && npm run test:once && webpack --config \"webpack/webpack.build.config.js\"",
+    "start": "npm run start:gauge",
+    "start:gauge": "gulp replace --entry 'gauge' && webpack-dev-server --config './webpack/webpack.server.entry.config.js' --hot --inline",
     "test:watch:phantomjs": "rimraf reports && karma start './karma/karma.watch.phantomjs.config.js'",
     "test:watch:all": "rimraf reports && karma start './karma/karma.watch.all.config.js'",
     "test:once": "rimraf reports && karma start './karma/karma.once.config.js'",
     "build:dry": "rimraf dist && webpack --config './webpack/webpack.build.config.js'",
-    "build:report": "rimraf dist && webpack --config './webpack/webpack.build.config.js'",
-    "start:gauge": "gulp replace --entry 'gauge' && webpack-dev-server --config './webpack/webpack.server.entry.config.js' --hot --inline"
+    "build:report": "rimraf dist && npm run test:once && webpack --config './webpack/webpack.build.config.js'"
   },
   "devDependencies": {
     "babel-core": "^6.17.0",
