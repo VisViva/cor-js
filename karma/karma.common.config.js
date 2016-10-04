@@ -1,4 +1,4 @@
-const webpack_config = require('../webpack/webpack.server.config.js')
+const webpack_config = require('../webpack/webpack.test.config.js')
 
 module.exports = {
     basePath: '',
