@@ -39,7 +39,7 @@ describe('Sector tests', () => {
         beforeEach(function() {
             sector = new Sector();
         });
-        it('Should place sector in correct position', ()=> {
+        it('Should place sector in correct position', () => {
             sector.at(50, 50);
             const point = sector.at();
             expect(point.x).to.be.equal(50);
@@ -303,6 +303,4 @@ describe('Sector tests', () => {
             expect(sector.angle()).to.be.equal(50);
         });
     });
-
-
 });

@@ -33,7 +33,7 @@ describe('Rect tests', () => {
         beforeEach(function() {
             rect = new Rect();
         });
-        it('Should place rect in correct position', ()=> {
+        it('Should place rect in correct position', () => {
             rect.at(50, 50);
             const point = rect.at();
             expect(point.x).to.be.equal(50);

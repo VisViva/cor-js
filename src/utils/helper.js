@@ -10,7 +10,6 @@ export function inherit(child, parent) {
             child[property] = parent[property];
         }
     }
-
     function extend() {
         this.constructor = child;
     }

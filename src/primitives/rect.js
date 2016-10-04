@@ -42,11 +42,9 @@ exports.Rect = function(_scene, Primitive) {
 
     /**
      * Place left-top point of the rect to {x: cx, y: cy}
-     * @param x left top x of the rect
-     * @param y left top y of the rect
      */
 
-    Rect.prototype.at = function (x, y) {
+    Rect.prototype.at = function(x, y) {
         if (typeof x !== 'undefined' && typeof y !== 'undefined') {
             this._points[0].x = x;
             this._points[0].y = y;
@@ -116,13 +114,12 @@ exports.Rect = function(_scene, Primitive) {
      */
 
     Rect.prototype.render = function() {
-      let context = _scene.context();
-      let matrix = this._matrix_cascaded;
-      context.fillStyle =  this._color;
-      context.setTransform(matrix[0], matrix[1], matrix[3], matrix[4], matrix[6], matrix[7]);
-      context.fillRect(this._points[0].x, this._points[0].y, this.width(), this.height());
-
-      context.stroke();
+        let context = _scene.context();
+        let matrix = this._matrix_cascaded;
+        context.fillStyle = this._color;
+        context.setTransform(matrix[0], matrix[1], matrix[3], matrix[4], matrix[6], matrix[7]);
+        context.fillRect(this._points[0].x, this._points[0].y, this.width(), this.height());
+        context.stroke();
     };
 
     return Rect;

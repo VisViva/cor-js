@@ -46,7 +46,7 @@ describe('Math utils', () => {
         });
 
         it('Converts correctly boundary 360 degree values', () => {
-            expect(deg_to_rad(360)).to.be.approximately(Math.PI*2, 1E-3);
+            expect(deg_to_rad(360)).to.be.approximately(Math.PI * 2, 1E-3);
         });
 
         it('Converts correctly boundary -360 degree values', () => {

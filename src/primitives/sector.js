@@ -3,10 +3,10 @@
 var glMatrix = require('gl-matrix');
 var vec2 = glMatrix.vec2;
 
-import {deg_to_rad, trim_angle} from "../utils/math";
-import {inherit} from "../utils/helper";
+import { deg_to_rad, trim_angle } from "../utils/math";
+import { inherit } from "../utils/helper";
 
-exports.Sector = function (_scene, Primitive) {
+exports.Sector = function(_scene, Primitive) {
 
     /**
      * Extends the Primitive prototype
@@ -29,26 +29,28 @@ exports.Sector = function (_scene, Primitive) {
         this._ccw = false;
     }
 
-
     /**
      * Place center point of the sector to {x: cx, y: cy}
-     * @param cx center x of the sector
-     * @param cy center y of the sector
      */
-    Sector.prototype.at = function (cx, cy) {
+
+    Sector.prototype.at = function(cx, cy) {
         if (typeof cx !== 'undefined' && typeof cy !== 'undefined') {
             this._cx = cx;
             this._cy = cy;
             return this;
         } else {
-            return {x: this._cx, y: this._cy};
+            return {
+                x: this._cx,
+                y: this._cy
+            };
         }
     };
 
     /**
      * Define inner radius of the sector and return self
      */
-    Sector.prototype.innerRadius = function (innerRadius) {
+
+    Sector.prototype.innerRadius = function(innerRadius) {
         if (typeof innerRadius !== 'undefined') {
             this._innerRadius = innerRadius;
             return this;
@@ -60,7 +62,8 @@ exports.Sector = function (_scene, Primitive) {
     /**
      * Define inner radius of the sector and return self
      */
-    Sector.prototype.outerRadius = function (outerRadius) {
+
+    Sector.prototype.outerRadius = function(outerRadius) {
         if (typeof outerRadius !== 'undefined') {
             this._outerRadius = outerRadius;
             return this;
@@ -69,13 +72,11 @@ exports.Sector = function (_scene, Primitive) {
         }
     };
 
-
-
     /**
      * Define startAngle of the sector and return self
      */
 
-    Sector.prototype.start = function (start) {
+    Sector.prototype.start = function(start) {
         if (typeof start !== 'undefined') {
             this._start = trim_angle(start);
             return this;
@@ -88,7 +89,7 @@ exports.Sector = function (_scene, Primitive) {
      * Define endAngle of the sector and return self
      */
 
-    Sector.prototype.end = function (end) {
+    Sector.prototype.end = function(end) {
         if (typeof end !== 'undefined') {
             this._end = trim_angle(end);
             return this;
@@ -101,7 +102,7 @@ exports.Sector = function (_scene, Primitive) {
      * Define ccw of the sector and return self
      */
 
-    Sector.prototype.ccw = function (ccw) {
+    Sector.prototype.ccw = function(ccw) {
         if (typeof ccw !== 'undefined') {
             this._ccw = ccw;
             return this;
@@ -110,31 +111,23 @@ exports.Sector = function (_scene, Primitive) {
         }
     };
 
-
-
     /**
      * Gets the bounding box of the current node only
      */
 
-    Sector.prototype.bboxOwn = function() {
-
-    };
-
+    Sector.prototype.bboxOwn = function() {};
 
     /**
      * Returns the angle of the sector in degrees
      */
 
-    Sector.prototype.angle = function () {
+    Sector.prototype.angle = function() {
         const start = this._start;
         const end = this._end;
         return trim_angle(this._ccw && (start - end) || end - start);
     };
 
-
-
-
-    Sector.prototype.render = function () {
+    Sector.prototype.render = function() {
         let context = _scene.context();
         let matrix = this._matrix_cascaded;
         context.fillStyle = this._color;

@@ -6,7 +6,7 @@ var vec2 = glMatrix.vec2;
 import { deg_to_rad, trim_angle } from "../utils/math";
 import { inherit } from "../utils/helper";
 
-exports.Arc = function (_scene, Primitive) {
+exports.Arc = function(_scene, Primitive) {
 
     /**
      * Extends the Primitive prototype
@@ -30,25 +30,26 @@ exports.Arc = function (_scene, Primitive) {
 
     /**
      * Place center point of the arc to {x: cx, y: cy}
-     * @param cx center x of the arc
-     * @param cy center y of the arc
      */
 
-    Arc.prototype.at = function (cx, cy) {
-        debugger;
+    Arc.prototype.at = function(cx, cy) {
         if (typeof cx !== 'undefined' && typeof cy !== 'undefined') {
             this._cx = cx;
             this._cy = cy;
             return this;
         } else {
-            return {x: this._cx, y: this._cy};
+            return {
+                x: this._cx,
+                y: this._cy
+            };
         }
     };
 
     /**
      * Define radius of the arc and return self
      */
-    Arc.prototype.radius = function (radius) {
+
+    Arc.prototype.radius = function(radius) {
         if (typeof radius !== 'undefined') {
             this._radius = radius;
             return this;
@@ -61,7 +62,7 @@ exports.Arc = function (_scene, Primitive) {
      * Define startAngle of the arc and return self
      */
 
-    Arc.prototype.start = function (start) {
+    Arc.prototype.start = function(start) {
         if (typeof start !== 'undefined') {
             this._start = trim_angle(start);
             return this;
@@ -74,7 +75,7 @@ exports.Arc = function (_scene, Primitive) {
      * Define endAngle of the arc and return self
      */
 
-    Arc.prototype.end = function (end) {
+    Arc.prototype.end = function(end) {
         if (typeof end !== 'undefined') {
             this._end = trim_angle(end);
             return this;
@@ -87,7 +88,7 @@ exports.Arc = function (_scene, Primitive) {
      * Define ccw of the arc and return self
      */
 
-    Arc.prototype.ccw = function (ccw) {
+    Arc.prototype.ccw = function(ccw) {
         if (arguments.length === 1) {
             this._ccw = ccw;
             return this;
@@ -102,21 +103,23 @@ exports.Arc = function (_scene, Primitive) {
      */
 
     Arc.prototype.bboxOwn = function() {
-        //
     };
 
     /**
      * Returns the angle of the arc in degrees
      */
 
-    Arc.prototype.angle = function () {
+    Arc.prototype.angle = function() {
         const start = this._start;
         const end = this._end;
         return trim_angle(this._ccw && (start - end) || end - start);
     };
 
+    /**
+     * Renders the current arc
+     */
 
-    Arc.prototype.render = function () {
+    Arc.prototype.render = function() {
         let context = _scene.context();
         let matrix = this._matrix_cascaded;
         context.strokeStyle = this._color;
