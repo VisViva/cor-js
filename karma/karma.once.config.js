@@ -4,19 +4,19 @@ common.reporters = ['progress', 'html'];
 common.browsers = ['PhantomJS', 'Chrome', 'Firefox'];
 
 common.htmlReporter = {
-  outputDir: 'reports',
-  templatePath: null,
-  focusOnFailures: true,
-  namedFiles: true,
-  pageTitle: null,
-  urlFriendlyName: false,
-  preserveDescribeNesting: false,
-  foldAll: false
-},
+    outputDir: 'reports',
+    templatePath: null,
+    focusOnFailures: true,
+    namedFiles: true,
+    pageTitle: null,
+    urlFriendlyName: false,
+    preserveDescribeNesting: false,
+    foldAll: false
+};
 
-common.autoWatch = false,
-common.singleRun = true,
+common.autoWatch = false;
+common.singleRun = true;
 
-module.exports = function (config) {
-  config.set(common)
-}
+module.exports = function(config) {
+    config.set(common)
+};

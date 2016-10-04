@@ -1,23 +1,24 @@
 var root = __dirname + '/../';
 
 module.exports = {
-  context: root + "/src",
-  entry: "./core.ts",
-  output: {
-    path: root + "/dist",
-    filename: "core.js",
-    libraryTarget: "var",
-    library: "core"
-  },
-  module: {
-    loaders: [
-      {
-        test: /\.ts$/,
-        loader: "babel-loader?presets[]=es2015!ts-loader"
-      }
-    ]
-  },
-  resolve: {
-    extensions: ["", ".webpack.js", ".web.js", ".ts", ".js"]
-  }
+    context: root + "/src",
+    entry: "./scene_manager.js",
+    output: {
+        path: root + "/dist",
+        filename: "scene_manager.js",
+        libraryTarget: "var",
+        library: "core"
+    },
+    module: {
+        loaders: [{
+            test: /\.js$/,
+            loader: "babel-loader?presets[]=es2015!eslint-loader"
+        }]
+    },
+    resolve: {
+        extensions: ["", ".webpack.js", ".web.js", ".js"],
+        alias: {
+            'gl-matrix': __dirname + '/../node_modules/gl-matrix/dist/gl-matrix.js',
+        }
+    }
 };

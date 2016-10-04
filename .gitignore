@@ -2,11 +2,7 @@ node_modules/
 typings/
 reports/
 dist/
+temp/
 ~/
-
-src/**/*.js
-src/**/*.map
-test/**/*.js
-test/**/*.map
-
+.idea/
 *.log
