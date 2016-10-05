@@ -4,6 +4,7 @@ import { Node } from "./node";
 import { Primitive } from "./primitive";
 import { DepthBuffer } from "./depth_buffer";
 import { Rect } from "../primitives/rect";
+import { Path } from "../primitives/path";
 
 /**
  * Scene constructor
@@ -72,11 +73,13 @@ Scene.prototype.factory = function() {
         const _Node = Node(scene);
         const _Primitive = Primitive(scene, _Node);
         const _Rect = Rect(scene, _Primitive);
+        const _Path = Rect(scene, _Primitive);
 
         return {
             Node: _Node,
             Primitive: _Primitive,
-            Rect: _Rect
+            Rect: _Rect,
+            Path: _Path,
         };
     }(this);
 
