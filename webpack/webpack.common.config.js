@@ -2,10 +2,9 @@ var root = __dirname + '/../';
 
 module.exports = {
     context: root + "/src",
-    entry: "./scene_manager.js",
     output: {
         path: root + "/dist",
-        filename: "scene_manager.js",
+        filename: "core.js",
         libraryTarget: "var",
         library: "core"
     },
