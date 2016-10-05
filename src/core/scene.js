@@ -73,7 +73,7 @@ Scene.prototype.factory = function() {
         const _Node = Node(scene);
         const _Primitive = Primitive(scene, _Node);
         const _Rect = Rect(scene, _Primitive);
-        const _Path = Rect(scene, _Primitive);
+        const _Path = Path(scene, _Primitive);
 
         return {
             Node: _Node,

@@ -34,13 +34,12 @@ describe('Rect tests', () => {
             rect = new Rect();
         });
 
-        it('Should place rect in correct position', () => {
-            rect.at(50, 50);
-            const point = rect.at();
-            expect(point.x).to.be.equal(50);
-            expect(point.y).to.be.equal(50);
+        it('Sets upper left point of the rect in the correct position', () => {
+            expect(rect.at(50, 60)).to.be.equal(rect);
+            expect(rect.at().x).to.be.equal(50);
+            expect(rect.at().y).to.be.equal(60);
         });
-        
+
         it('Sets rotation correctly', () => {
             expect(rect.rotate(45)).to.be.equal(rect);
             expect(rect.rotate()).to.be.equal(45);

@@ -41,7 +41,7 @@ exports.Rect = function(_scene, Primitive) {
     };
 
     /**
-     * Place left-top point of the rect to {x: cx, y: cy}
+     * Get or set the upper left point of the rect
      */
 
     Rect.prototype.at = function(x, y) {
@@ -55,7 +55,7 @@ exports.Rect = function(_scene, Primitive) {
     };
 
     /**
-     * Define width of the rect and return it
+     * Get or set width of the rect and return it
      */
 
     Rect.prototype.width = function(width) {
@@ -69,7 +69,7 @@ exports.Rect = function(_scene, Primitive) {
     };
 
     /**
-     * Define height of the rect and return it
+     * Get or set height of the rect and return it
      */
 
     Rect.prototype.height = function(height) {
@@ -83,7 +83,7 @@ exports.Rect = function(_scene, Primitive) {
     };
 
     /**
-     * Gets the bounding box of the current node only
+     * Get the bounding box of the current node only
      */
 
     Rect.prototype.bboxOwn = function() {
