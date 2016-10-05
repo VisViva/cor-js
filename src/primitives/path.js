@@ -64,6 +64,39 @@ exports.Path = function(_scene, Primitive) {
     };
 
     /**
+     * Add linear segment
+     */
+
+    Path.prototype.linearTo = function(...points) {
+        if (points.length === 2) {
+          this._segments.push(points);
+        }
+        return this;
+    };
+
+    /**
+     * Add quadratic segment
+     */
+
+    Path.prototype.quadraticTo = function(...points) {
+        if (points.length === 4) {
+          this._segments.push(points);
+        }
+        return this;
+    };
+
+    /**
+     * Add cubic segment
+     */
+
+    Path.prototype.cubicTo = function(...points) {
+        if (points.length === 6) {
+          this._segments.push(points);
+        }
+        return this;
+    };
+
+    /**
      * Get the segments of the path
      */
 

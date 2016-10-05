@@ -35,10 +35,28 @@ describe('Rect tests', () => {
             path = new Path();
         });
 
-        it('Should place rect in correct position', () => {
+        it('Sets the starting point of the path in the correct position', () => {
             expect(path.at(50, 60)).to.be.equal(path);
             expect(path.at().x).to.be.equal(50);
             expect(path.at().y).to.be.equal(60);
+        });
+
+        it('Sets linear segments correctly', () => {
+            expect(path.linearTo(10, 20)).to.be.equal(path);
+            expect(path.segments().length).to.be.equal(1);
+            expect(path.segments()[0].length).to.be.equal(2);
+        });
+
+        it('Sets quadratic segments correctly', () => {
+            expect(path.quadraticTo(10, 20, 30, 40)).to.be.equal(path);
+            expect(path.segments().length).to.be.equal(1);
+            expect(path.segments()[0].length).to.be.equal(4);
+        });
+
+        it('Sets cubic segments correctly', () => {
+            expect(path.cubicTo(10, 20, 30, 40, 50, 60)).to.be.equal(path);
+            expect(path.segments().length).to.be.equal(1);
+            expect(path.segments()[0].length).to.be.equal(6);
         });
     });
 
