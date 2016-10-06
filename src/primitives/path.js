@@ -69,7 +69,7 @@ exports.Path = function(_scene, Primitive) {
 
     Path.prototype.linearTo = function(...points) {
         if (points.length === 2) {
-          this._segments.push(points);
+            this._segments.push(points);
         }
         return this;
     };
@@ -80,7 +80,7 @@ exports.Path = function(_scene, Primitive) {
 
     Path.prototype.quadraticTo = function(...points) {
         if (points.length === 4) {
-          this._segments.push(points);
+            this._segments.push(points);
         }
         return this;
     };
@@ -91,7 +91,7 @@ exports.Path = function(_scene, Primitive) {
 
     Path.prototype.cubicTo = function(...points) {
         if (points.length === 6) {
-          this._segments.push(points);
+            this._segments.push(points);
         }
         return this;
     };

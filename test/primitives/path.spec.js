@@ -4,7 +4,7 @@ import { expect } from 'chai/chai';
 import { Scene } from '../../src/core/scene';
 import { BBox } from '../../src/core/bbox';
 
-describe('Rect tests', () => {
+describe('Path tests', () => {
     const Factory = new Scene().factory();
     const Node = Factory.Node;
     const Path = Factory.Path;
