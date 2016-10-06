@@ -4,9 +4,9 @@ const glMatrix = require('gl-matrix');
 const vec2 = glMatrix.vec2;
 const mat3 = glMatrix.mat3;
 
-import {Selection} from '../core/selection';
-import {BBox} from '../core/bbox';
-import {deg_to_rad, rad_to_deg, trim_angle} from '../utils/math';
+import { Selection } from '../core/selection';
+import { BBox } from '../core/bbox';
+import { deg_to_rad, rad_to_deg, trim_angle } from '../utils/math';
 
 exports.Node = function(_scene) {
 
@@ -30,7 +30,7 @@ exports.Node = function(_scene) {
             x: 1,
             y: 1
         };
-        this._tags = [];
+
         // Current nodes transformation matrix
         this._matrix_own = mat3.create();
 
@@ -79,27 +79,6 @@ exports.Node = function(_scene) {
         } else {
             return this._rotation;
         }
-    };
-
-    /**
-     * Add tags for node to tagsand return node or return tags
-     */
-
-    Node.prototype.tags = function(tag) {
-        if (tag) {
-            if (this._tags.indexOf(tag) === -1) {
-                this._tags.push(tag);
-            }
-        }
-        return this;
-    };
-
-    /**
-     * Get tags for current node
-     */
-
-    Node.prototype.tags = function() {
-        return this._tags.slice();
     };
 
     /**

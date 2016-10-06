@@ -4,8 +4,6 @@ import { Node } from "./node";
 import { Primitive } from "./primitive";
 import { DepthBuffer } from "./depth_buffer";
 import { Rect } from "../primitives/rect";
-import { Sector } from "../primitives/sector";
-import { Arc } from "../primitives/arc";
 
 /**
  * Scene constructor
@@ -74,15 +72,11 @@ Scene.prototype.factory = function() {
         const _Node = Node(scene);
         const _Primitive = Primitive(scene, _Node);
         const _Rect = Rect(scene, _Primitive);
-        const _Arc = Arc(scene, _Primitive);
-        const _Sector = Sector(scene, _Primitive);
 
         return {
             Node: _Node,
             Primitive: _Primitive,
-            Rect: _Rect,
-            Arc: _Arc,
-            Sector: _Sector
+            Rect: _Rect
         };
     }(this);
 
@@ -95,8 +89,8 @@ Scene.prototype.factory = function() {
 
 Scene.prototype.render = function() {
     const primitives = this._depthbuffer.primitives();
-    for (let i = 0; i < primitives.length; ++i){
-      primitives[i].render();
+    for (let i = 0; i < primitives.length; ++i) {
+        primitives[i].render();
     }
     return this;
 };

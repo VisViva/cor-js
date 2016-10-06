@@ -12,6 +12,10 @@ function SceneManager(...elements) {
     this._scenes = [];
 };
 
+/**
+ * Create new scene
+ */
+
 SceneManager.prototype.new = function (name) {
     for (let i = 0; i < this._scenes.length; ++i) {
         if (this._scenes[i].name() === name) return null;
@@ -20,6 +24,10 @@ SceneManager.prototype.new = function (name) {
     this._scenes.push(scene);
     return scene;
 };
+
+/**
+ * List available scenes
+ */
 
 SceneManager.prototype.scenes = function () {
     return this._scenes.slice();
