@@ -114,6 +114,61 @@ exports.Path = function(_scene, Primitive) {
                   y: transformed3DVector[1]
               });
               break;
+            case 4:
+              let point_start = vec2.create();
+              let control_point = vec2.create();
+              let point_end = vec2.create();
+              vec2.transformMat3(point_start, vec2.fromValues(this._segments[i-1][this._segments[i-1].length - 2], this._segments[i-1][this._segments[i-1].length - 1]), this._matrix_cascaded);
+              vec2.transformMat3(control_point, vec2.fromValues(this._segments[i][0], this._segments[i][1]), this._matrix_cascaded);
+              vec2.transformMat3(point_end, vec2.fromValues(this._segments[i][2], this._segments[i][3]), this._matrix_cascaded);
+
+              let extremum_x = (point_start[0] - control_point[0]) / (point_start[0] - 2 * control_point[0] + point_end[0]);
+              let extremum_y = (point_start[1] - control_point[1]) / (point_start[1] - 2 * control_point[1] + point_end[1]);
+
+              function get_point(t, i){
+                const mt = 1 - t;
+                return point_start[i] * mt * mt + control_point[i] * 2 * mt * t + point_end[i] * t * t;
+              }
+
+              transformed2DVectors.push({
+                  x: point_start[0],
+                  y: point_start[1]
+              }, {
+                  x: point_end[0],
+                  y: point_end[1]
+              });
+
+              let qx = get_point(extremum_x, 0);
+              let qy = get_point(extremum_y, 1);
+
+              _scene._context.setTransform(1, 0, 0, 1, 0, 0);
+              _scene._context.fillStyle = "#EE0000";
+              _scene._context.fillRect(point_start[0] - 3, point_start[1] - 3, 6, 6);
+              _scene._context.fillRect(point_end[0] - 3, point_end[1] - 3, 6, 6);
+              _scene._context.fillStyle = "#0000EE";
+              _scene._context.fillRect(control_point[0] - 3, control_point[1] - 3, 6, 6);
+              for (let k = 0; k < 1; k += 0.1){
+                let x = get_point(k, 0);
+                let y = get_point(k, 1);
+                _scene._context.fillStyle = "#FFFF00";
+                _scene._context.fillRect(x - 2, y - 2, 4, 4);
+              }
+              _scene._context.fillStyle = "#FF00FF";
+              if ((extremum_y >= 0 && extremum_y <= 1)) {
+                transformed2DVectors.push({
+                    x: 256,
+                    y: qy
+                });
+              }
+              if ((extremum_x >= 0 && extremum_x <= 1)) {
+                transformed2DVectors.push({
+                    x: qx,
+                    y: 256
+                });
+              }
+              _scene._context.stroke();
+              _scene._context.restore();
+              break;
             default:
           }
         }
