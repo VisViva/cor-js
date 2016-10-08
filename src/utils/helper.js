@@ -30,6 +30,14 @@ export function matrix_to_array(matrix) {
 };
 
 /**
+ * Convert a glmatrix mat3 object to an array canvas transformation function accepts
+ */
+
+ export function glmatrix_to_canvas_matrix(matrix) {
+     return [matrix[0], matrix[1], matrix[3], matrix[4], matrix[6], matrix[7]];
+ }
+
+/**
  * Get a random color
  */
 

@@ -5,7 +5,7 @@ var vec2 = glMatrix.vec2;
 
 import { Selection } from '../core/selection';
 import { BBox } from '../core/bbox';
-import { inherit, random_color } from "../utils/helper";
+import { inherit, glmatrix_to_canvas_matrix } from "../utils/helper";
 
 exports.Rect = function(_scene, Primitive) {
 
@@ -114,10 +114,8 @@ exports.Rect = function(_scene, Primitive) {
 
     Rect.prototype.render = function() {
         let context = _scene.context();
-        let matrix = this._matrix_cascaded;
-
         context.fillStyle = '#888';
-        context.setTransform(matrix[0], matrix[1], matrix[3], matrix[4], matrix[6], matrix[7]);
+        context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
         context.fillRect(this._points[0].x, -this._points[0].y, this.width(), this.height());
 
         if (this._debug === true) {

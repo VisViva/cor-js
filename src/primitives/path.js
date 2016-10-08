@@ -5,7 +5,7 @@ var vec2 = glMatrix.vec2;
 
 import { Selection } from '../core/selection';
 import { BBox } from '../core/bbox';
-import { inherit } from "../utils/helper";
+import { inherit, glmatrix_to_canvas_matrix } from "../utils/helper";
 
 exports.Path = function(_scene, Primitive) {
 
@@ -93,8 +93,7 @@ exports.Path = function(_scene, Primitive) {
 
     Path.prototype.render = function() {
         let context = _scene.context();
-        let matrix = this._matrix_cascaded;
-        context.setTransform(matrix[0], matrix[1], matrix[3], matrix[4], matrix[6], matrix[7]);
+        context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
         context.beginPath();
         context.moveTo(this._at.x, this._at.y);
         for (let i = 0; i < this._segments.length; ++i) {
