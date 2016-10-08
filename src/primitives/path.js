@@ -114,7 +114,28 @@ exports.Path = function(_scene, Primitive) {
      * Render the current path
      */
 
-    Path.prototype.render = function() {};
+    Path.prototype.render = function() {
+        let context = _scene.context();
+        let matrix = this._matrix_cascaded;
+        context.setTransform(matrix[0], matrix[1], matrix[3], matrix[4], matrix[6], matrix[7]);
+        context.beginPath();
+        context.moveTo(this._at.x, this._at.y);
+        for (let i = 0; i < this._segments.length; ++i) {
+          switch (this._segments[i].length) {
+            case 2:
+              context.lineTo(...this._segments[i]);
+              break;
+            case 4:
+              context.quadraticCurveTo(...this._segments[i]);
+              break;
+            case 6:
+              context.bezierCurveTo(...this._segments[i]);
+              break;
+            default:
+          }
+        }
+        context.stroke();
+    };
 
     return Path;
 };
