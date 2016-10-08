@@ -23,6 +23,10 @@ describe('Scene tests', () => {
             expect(scene.name()).to.be.equal('scene');
         });
 
+        it('Constructs the grid flag correctly', () => {
+            expect(scene.grid()).to.be.equal(false);
+        });
+
         it('Constructs the root node correctly', () => {
             expect(scene.root()).to.exist;
             expect(scene.root().parent()).to.be.equal(null);
@@ -39,6 +43,19 @@ describe('Scene tests', () => {
 
         it('Constructs the depth buffer correctly', () => {
             expect(scene.depthbuffer().primitives().length).to.be.equal(0);
+        });
+    });
+
+    describe('Property setting behavior', () => {
+        let scene;
+
+        beforeEach(function() {
+            scene = new Scene('scene');
+        });
+
+        it('Sets rotation correctly', () => {
+            expect(scene.grid(true)).to.be.equal(scene);
+            expect(scene.grid()).to.be.equal(true);
         });
     });
 

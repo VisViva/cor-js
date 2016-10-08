@@ -43,4 +43,11 @@ Selection.prototype.reduce = function reduce(condition) {
     return this;
 };
 
+Selection.prototype.iterate = function reduce(iterator) {
+    for (let i = 0; i < this._elements.length; ++i) {
+        iterator(this._elements[i]);
+    }
+    return this;
+};
+
 exports.Selection = Selection;

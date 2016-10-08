@@ -82,5 +82,13 @@ describe('Selection tests', () => {
             expect(rangeB1Array.length).to.be.equal(1);
             expect(rangeB1Array.join('')).to.be.equal('a');
         });
+
+        it('Exposes proper iteration interface', () => {
+            let sum = 0;
+            selectionA.iterate((element) => {
+                sum += element;
+            }).array();
+            expect(sum).to.be.equal(15);
+        });
     });
 });

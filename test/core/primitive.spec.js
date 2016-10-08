@@ -28,6 +28,7 @@ describe('Primitive tests', () => {
         });
 
         it('Executes own constructor correctly', () => {
+            expect(primitive.debug()).to.be.equal(false);
             expect(primitive.depth()).to.be.equal(0);
             expect(primitive.hidden()).to.be.equal(false);
         });
@@ -38,6 +39,11 @@ describe('Primitive tests', () => {
 
         beforeEach(function() {
             primitive = new Primitive();
+        });
+
+        it('Sets debugging state correctly', () => {
+            expect(primitive.debug(true)).to.be.equal(debug);
+            expect(primitive.debug()).to.be.equal(true);
         });
 
         it('Sets depth correctly', () => {

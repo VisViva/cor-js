@@ -21,6 +21,19 @@ exports.Primitive = function(_scene, Node) {
     }
 
     /**
+     * Get or set the current nodes debugger state
+     */
+
+    Node.prototype.debug = function(debug) {
+        if (typeof debug !== 'undefined') {
+            this._debug = debug;
+            return this;
+        } else {
+            return this._debug;
+        }
+    };
+
+    /**
      * Define depth of the primitive and return it
      */
 
