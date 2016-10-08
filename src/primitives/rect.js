@@ -120,10 +120,10 @@ exports.Rect = function(_scene, Primitive) {
     Rect.prototype.render = function() {
         let context = _scene.context();
         let matrix = this._matrix_cascaded;
+
         context.fillStyle = this._color;
         context.setTransform(matrix[0], matrix[1], matrix[3], matrix[4], matrix[6], matrix[7]);
         context.fillRect(this._points[0].x, -this._points[0].y, this.width(), this.height());
-        context.stroke();
 
         if (this._debug === true) {
           let bbox = this.bboxCascaded();

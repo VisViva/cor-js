@@ -119,7 +119,7 @@ Scene.prototype.clear = function() {
       this._context.lineTo(this._canvas.width >>> 1, this._canvas.height);
       this._context.moveTo(0, this._canvas.height >>> 1);
       this._context.lineTo(this._canvas.width, this._canvas.height >>> 1);
-      this._context.stroke();
+      this._context.stroke();      
     }
 };
 
