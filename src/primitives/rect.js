@@ -30,30 +30,19 @@ exports.Rect = function(_scene, Primitive) {
          * (2)------(3)
          */
 
-        this._at = { x: 0, y: 0 };
         this._points = [];
-        for (let i = 0; i < 4; ++i) {
-            this._points.push({
-                x: 0,
-                y: 0
-            });
-        };
-        this._color = random_color();
         this._bbox = false;
-    };
 
-    /**
-     * Get or set the upper left point of the rect
-     */
+        /**
+         * Initialize points
+         */
 
-    Rect.prototype.at = function(x, y) {
-        if (typeof x !== 'undefined' && typeof y !== 'undefined') {
-            this._at.x = x;
-            this._at.y = y;
-            return this;
-        } else {
-            return this._points[0];
-        }
+         for (let i = 0; i < 4; ++i) {
+             this._points.push({
+                 x: 0,
+                 y: 0
+             });
+         };
     };
 
     /**
@@ -92,11 +81,15 @@ exports.Rect = function(_scene, Primitive) {
 
     Rect.prototype.bboxOwn = function() {
 
-        // Transformed points
+        /**
+         * Transformed points
+         */
 
         const transformed2DVectors = [];
 
-        // Transformations
+        /**
+         * Transformations
+         */
 
         const transformed3DVector = vec2.create();
 
@@ -108,7 +101,9 @@ exports.Rect = function(_scene, Primitive) {
             });
         }
 
-        // Returning the newly created bouding box
+        /**
+         * Returning the newly created bouding box
+         */
 
         return BBox.prototype.from(transformed2DVectors);
     };
@@ -121,16 +116,16 @@ exports.Rect = function(_scene, Primitive) {
         let context = _scene.context();
         let matrix = this._matrix_cascaded;
 
-        context.fillStyle = this._color;
+        context.fillStyle = '#888';
         context.setTransform(matrix[0], matrix[1], matrix[3], matrix[4], matrix[6], matrix[7]);
         context.fillRect(this._points[0].x, -this._points[0].y, this.width(), this.height());
 
         if (this._debug === true) {
-          let bbox = this.bboxCascaded();
-          context.setTransform(1, 0, 0, 1, 0, 0);
-          context.beginPath();
-          context.rect(bbox.x(), bbox.y() - bbox.height(), bbox.width(), bbox.height());
-          context.stroke();
+            let bbox = this.bboxCascaded();
+            context.setTransform(1, 0, 0, 1, 0, 0);
+            context.beginPath();
+            context.rect(bbox.x(), bbox.y() - bbox.height(), bbox.width(), bbox.height());
+            context.stroke();
         }
     };
 

@@ -16,37 +16,66 @@ exports.Node = function(_scene) {
 
     function Node() {
 
-        // Current nodes position
+        /**
+         * Current nodes position
+         */
+
         this._position = {
             x: 0,
             y: 0
         };
 
-        // Current nodes rotation in degrees
+        /**
+         * Current nodes rotation in degrees
+         */
+
         this._rotation = 0;
 
-        // Current nodes scale
+        /**
+         * Current nodes scale
+         */
+
         this._scale = {
             x: 1,
             y: 1
         };
 
-        // Current nodes transformation matrix
+        /**
+         * Current nodes transformation matrix
+         */
+
         this._matrix_own = mat3.create();
 
-        // Current nodes cascaded transformation matrix
+        /**
+         * Current nodes cascaded transformation matrix
+         */
+
         this._matrix_cascaded = mat3.create();
 
-        // Child nodes of the current node
+        /**
+         * Child nodes of the current node
+         */
+
         this._children = [];
 
-        // Parent node of the current node
+        /**
+         * Parent node of the current node
+         */
+
         this._parent = null;
 
-        // Indicates whether the current node should be iterated over during rendering
+        /**
+         * Indicates whether the current node should be iterated over
+         * during rendering
+         */
+
         this._active = true;
 
-        // Indicates whether uncascaded transformations have been applied to the current nodes children
+        /**
+         * Indicates whether uncascaded transformations have been applied to the
+         * current nodes children
+         */
+
         this._dirty = false;
     };
 

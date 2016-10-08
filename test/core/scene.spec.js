@@ -31,12 +31,12 @@ describe('Scene tests', () => {
             expect(scene.root()).to.exist;
             expect(scene.root().parent()).to.be.equal(null);
             expect(scene.root().children().array().length).to.be.equal(0);
-            expect(scene.root().translate().x).to.be.equal(0);
-            expect(scene.root().translate().y).to.be.equal(0);
+            expect(scene.root().translate().x).to.be.equal(scene._canvas.width >>> 1);
+            expect(scene.root().translate().y).to.be.equal(scene._canvas.height >>> 1);
             expect(scene.root().rotate()).to.be.equal(0);
             expect(scene.root().scale().x).to.be.equal(1);
             expect(scene.root().scale().y).to.be.equal(1);
-            expect(matrix_to_array(scene.root().matrixOwn()).join('')).to.be.equal('100010001');
+            expect(matrix_to_array(scene.root().matrixOwn()).join('')).to.be.equal('100010' + (scene._canvas.width >>> 1) + '' + (scene._canvas.height >>> 1) + '1');
             expect(matrix_to_array(scene.root().matrixCascaded()).join('')).to.be.equal('100010001');
             expect(scene.root().active()).to.be.equal(true);
         });

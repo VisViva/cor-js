@@ -17,13 +17,14 @@ describe('Path tests', () => {
         });
 
         it('Executes parent constructor correctly', () => {
+            expect(path.at().x).to.be.equal(0);
+            expect(path.at().y).to.be.equal(0);
             expect(path.depth()).to.be.equal(0);
+            expect(path.debug()).to.be.equal(false);
             expect(path.hidden()).to.be.equal(false);
         });
 
         it('Executes own constructor correctly', () => {
-            expect(path.at().x).to.be.equal(0);
-            expect(path.at().y).to.be.equal(0);
             expect(path.segments().join('')).to.be.equal('');
         });
     });
@@ -33,12 +34,6 @@ describe('Path tests', () => {
 
         beforeEach(function() {
             path = new Path();
-        });
-
-        it('Sets the starting point of the path in the correct position', () => {
-            expect(path.at(50, 60)).to.be.equal(path);
-            expect(path.at().x).to.be.equal(50);
-            expect(path.at().y).to.be.equal(60);
         });
 
         it('Sets linear segments correctly', () => {

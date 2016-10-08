@@ -23,15 +23,6 @@ exports.Path = function(_scene, Primitive) {
         Primitive.call(this);
 
         /**
-         * Starting point used to apply vectors to
-         */
-
-        this._at = {
-            x: 0,
-            y: 0
-        };
-
-        /**
          * Segment elements are arrays obeying the following conventions:
          *
          * Linear - consists of one element representing the x and y of
@@ -47,20 +38,6 @@ exports.Path = function(_scene, Primitive) {
          */
 
         this._segments = [];
-    };
-
-    /**
-     * Get or set the starting point of the path
-     */
-
-    Path.prototype.at = function(x, y) {
-        if (typeof x !== 'undefined' && typeof y !== 'undefined') {
-            this._at.x = x;
-            this._at.y = y;
-            return this;
-        } else {
-            return this._at;
-        }
     };
 
     /**

@@ -88,6 +88,10 @@ BBox.prototype.merge = function merge(...bboxes) {
     return this;
 };
 
+/**
+ * Construct a bounding box from a set of arbitrary points
+ */
+
 BBox.prototype.from = function from(points) {
     let x = 0;
     let y = 0;

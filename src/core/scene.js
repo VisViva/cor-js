@@ -114,12 +114,12 @@ Scene.prototype.clear = function() {
     // Draw grid if needed
 
     if (this._grid === true) {
-      this._context.beginPath();
-      this._context.moveTo(this._canvas.width >>> 1, 0);
-      this._context.lineTo(this._canvas.width >>> 1, this._canvas.height);
-      this._context.moveTo(0, this._canvas.height >>> 1);
-      this._context.lineTo(this._canvas.width, this._canvas.height >>> 1);
-      this._context.stroke();      
+        this._context.beginPath();
+        this._context.moveTo(this._canvas.width >>> 1, 0);
+        this._context.lineTo(this._canvas.width >>> 1, this._canvas.height);
+        this._context.moveTo(0, this._canvas.height >>> 1);
+        this._context.lineTo(this._canvas.width, this._canvas.height >>> 1);
+        this._context.stroke();
     }
 };
 
@@ -136,9 +136,9 @@ Scene.prototype.render = function() {
     // Detect dirty nodes and cascade their transformations
 
     this.root().reachDirty().iterate(
-      element => {
-        element.cascade();
-      }
+        element => {
+            element.cascade();
+        }
     );
 
     // Iterate over the depth buffer and render all of the primitives

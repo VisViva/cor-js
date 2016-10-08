@@ -9,8 +9,8 @@ function DepthBuffer() {
 };
 
 /**
- * Append the given primitive and all of its children
- * to the depth buffer in a sorted fashion
+ * Append the given primitive and all of its children to the depth buffer in
+ * a sorted fashion
  */
 
 DepthBuffer.prototype.append = function(primitive) {

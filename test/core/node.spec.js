@@ -29,10 +29,10 @@ describe('Node tests', () => {
             expect(node.rotate()).to.be.equal(0);
             expect(node.scale().x).to.be.equal(1);
             expect(node.scale().y).to.be.equal(1);
-            expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('100010001');
-            expect(matrix_to_array(node.matrixCascaded()).join('')).to.be.equal('100010001');
             expect(node.active()).to.be.equal(true);
             expect(node.dirty()).to.be.equal(false);
+            expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('100010001');
+            expect(matrix_to_array(node.matrixCascaded()).join('')).to.be.equal('100010001');
         });
 
         it('Sets position', () => {
