@@ -85,7 +85,45 @@ exports.Path = function(_scene, Primitive) {
      * Get the bounding box of the current node only
      */
 
-    Path.prototype.bboxOwn = function() {};
+    Path.prototype.bboxOwn = function() {
+
+        /**
+         * Transformed points
+         */
+
+        const transformed2DVectors = [];
+
+        /**
+         * Transformations
+         */
+
+        const transformed3DVector = vec2.create();
+
+        vec2.transformMat3(transformed3DVector, vec2.fromValues(this._at.x, this._at.y), this._matrix_cascaded);
+        transformed2DVectors.push({
+            x: transformed3DVector[0],
+            y: transformed3DVector[1]
+        });
+
+        for (let i = 0; i < this._segments.length; ++i) {
+          switch (this._segments[i].length) {
+            case 2:
+              vec2.transformMat3(transformed3DVector, vec2.fromValues(this._segments[i][0], this._segments[i][1]), this._matrix_cascaded);
+              transformed2DVectors.push({
+                  x: transformed3DVector[0],
+                  y: transformed3DVector[1]
+              });
+              break;
+            default:
+          }
+        }
+
+        /**
+         * Returning the newly created bouding box
+         */
+
+        return BBox.prototype.from(transformed2DVectors);
+    };
 
     /**
      * Render the current path
@@ -111,6 +149,14 @@ exports.Path = function(_scene, Primitive) {
           }
         }
         context.stroke();
+
+        if (this._debug === true) {
+            let bbox = this.bboxCascaded();
+            context.setTransform(1, 0, 0, 1, 0, 0);
+            context.beginPath();
+            context.rect(bbox.x(), bbox.y() - bbox.height(), bbox.width(), bbox.height());
+            context.stroke();
+        }
     };
 
     return Path;
