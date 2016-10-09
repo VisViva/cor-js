@@ -6,7 +6,7 @@ var vec2 = glMatrix.vec2;
 import { Selection } from '../core/selection';
 import { BBox } from '../core/bbox';
 import { inherit, glmatrix_to_canvas_matrix } from "../utils/helper";
-import { get_quadratic_function_for, get_cubic_function_for, get_cubic_function_extremas_for } from "../utils/math";
+import { get_quadratic_function_for, get_quadratic_function_extrema_for, get_cubic_function_for, get_cubic_function_extremas_for } from "../utils/math";
 
 exports.Path = function(_scene, Primitive) {
 
@@ -174,8 +174,18 @@ exports.Path = function(_scene, Primitive) {
                         * Calculate extremas for each axis
                         */
 
-                        const x_extrema_t = (point_start[0] - control_point[0]) / (point_start[0] - 2 * control_point[0] + point_end[0]);
-                        const y_extrema_t = (point_start[1] - control_point[1]) / (point_start[1] - 2 * control_point[1] + point_end[1]);
+                        const extremas = [];
+                        const extremas_t = [];
+                        extremas_t.push(...(get_quadratic_function_extrema_for(point_start[0], control_point[0], point_end[0])));
+                        extremas_t.push(...(get_quadratic_function_extrema_for(point_start[1], control_point[1], point_end[1])));
+
+                        for (let i = 0; i < extremas_t.length; ++i) {
+                          const extrema_x = get_quadratic_function_for(point_start[0], control_point[0], point_end[0], extremas_t[i]);
+                          const extrema_y = get_quadratic_function_for(point_start[1], control_point[1], point_end[1], extremas_t[i]);
+                          extremas.push([extrema_x, extrema_y]);
+                          xValues.push(extrema_x);
+                          yValues.push(extrema_y);
+                        }
 
                         /**
                         * Append end points to the arrays for further calculation
@@ -184,21 +194,6 @@ exports.Path = function(_scene, Primitive) {
 
                         xValues.push(point_end[0]);
                         yValues.push(point_end[1]);
-
-                        /**
-                        * If extremas are within zero and one, append them to
-                        * the arrays for further calculation of the bounding box
-                        */
-
-                        let x_extrema, y_extrema;
-                        if (x_extrema_t >= 0 && x_extrema_t <= 1) {
-                            x_extrema = get_quadratic_function_for(point_start[0], control_point[0], point_end[0], x_extrema_t);
-                            xValues.push(x_extrema);
-                        }
-                        if (y_extrema_t >= 0 && y_extrema_t <= 1) {
-                            y_extrema = get_quadratic_function_for(point_start[1], control_point[1], point_end[1], y_extrema_t);
-                            yValues.push(y_extrema);
-                        }
 
                         /**
                         * Render out debug info if the debug flag is enabled
