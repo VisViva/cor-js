@@ -1,9 +1,6 @@
 import {
     SceneManager
 } from '../src/scene_manager';
-import {
-    random_color
-} from '../src/utils/helper';
 
 let scene_manager = new SceneManager();
 let scene = scene_manager.new('scene');
@@ -15,7 +12,10 @@ let path = new Path()
     .linearTo(20, 90)
     .quadraticTo(50, -150, 200, 70);
 
-scene.grid(true).root().append(path);
+scene
+    .grid(true)
+    .root()
+    .append(path);
 
 setInterval(() => {
     path.rotate(1);
