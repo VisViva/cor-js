@@ -43,21 +43,23 @@ describe('Node tests', () => {
             expect(matrix_to_array(node.matrixCascaded()).join('')).to.be.equal('100010001');
         });
 
-        it('Sets position', () => {
+        it('Sets translation', () => {
             expect(node.dirty()).to.be.equal(false);
-            expect(node.translate(5, 10)).to.be.equal(node);
+            expect(node.translate(5, 0)).to.be.equal(node);
             expect(node.translate().x).to.be.equal(5);
-            expect(node.translate().y).to.be.equal(10);
-            expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('1000105101');
+            expect(node.translate().y).to.be.equal(0);
+            expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('100010501');
             expect(node.translate(5, 10)).to.be.equal(node);
             expect(node.translate().x).to.be.equal(10);
-            expect(node.translate().y).to.be.equal(20);
-            expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('10001010201');
+            expect(node.translate().y).to.be.equal(10);
+            expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('10001010101');
             expect(node.dirty()).to.be.equal(true);
         });
 
         it('Sets rotation', () => {
             expect(node.dirty()).to.be.equal(false);
+            expect(node.rotate(0)).to.be.equal(node);
+            expect(node.rotate()).to.be.equal(0);
             expect(node.rotate(45)).to.be.equal(node);
             expect(node.rotate()).to.be.equal(45);
             expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('0.70710545778274540.70710808038711550-0.70710808038711550.70710545778274540001');

@@ -11,9 +11,8 @@ const Path = scene.factory().Path;
 
 let path = new Path()
     .debug(true)
-    .cubicTo(150, 0, -150, -150, -100, 100)
-    .linearTo(20, 90)
-    .quadraticTo(50, -150, 200, 70);
+    .translate(150, 10)
+    .cubicTo(150, 0, -150, -150, -100, 100);
 
 scene.grid(true).root().append(path);
 scene.render();

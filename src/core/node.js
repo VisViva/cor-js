@@ -92,7 +92,7 @@ exports.Node = function(_scene) {
      */
 
     Node.prototype.translate = function(x, y) {
-        if (x && y) {
+        if (typeof x !== 'undefined' && typeof y !== 'undefined') {
             mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(x, y));
             this._position.x += x;
             this._position.y += y;
@@ -108,7 +108,7 @@ exports.Node = function(_scene) {
      */
 
     Node.prototype.rotate = function(rotation) {
-        if (rotation) {
+        if (typeof rotation !== 'undefined') {
             mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(rotation));
             this._rotation = trim_angle(this._rotation + rotation);
             this._dirty = true;
@@ -123,7 +123,7 @@ exports.Node = function(_scene) {
      */
 
     Node.prototype.scale = function(x, y) {
-        if (x && y) {
+        if (typeof x !== 'undefined' && typeof y !== 'undefined') {
             mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(x, y));
             this._scale.x *= x;
             this._scale.y *= y;
