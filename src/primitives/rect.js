@@ -120,7 +120,16 @@ exports.Rect = function(_scene, Primitive) {
 
     Rect.prototype.render = function() {
         let context = _scene.context();
-        context.fillStyle = '#888';
+
+        /**
+         * Apply current primitive's material to the current context
+         */
+
+        this._material.style(context);
+
+        /**
+         * Setup transformations and render
+         */
         context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
         context.fillRect(this._points[0].x, -this._points[0].y, this.width(), this.height());
 

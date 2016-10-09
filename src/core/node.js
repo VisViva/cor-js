@@ -91,6 +91,21 @@ exports.Node = function(_scene) {
      * Get or set the position of the node
      */
 
+    Node.prototype.reset = function() {
+        this._matrix_own = mat3.create();
+        this._position.x = 0;
+        this._position.y = 0;
+        this._rotation = 0;
+        this._scale.x = 1;
+        this._scale.y = 1;
+        this._dirty = true;
+        return this;
+    };
+
+    /**
+     * Get or set the position of the node
+     */
+
     Node.prototype.translate = function(x, y) {
         if (typeof x !== 'undefined' && typeof y !== 'undefined') {
             mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(x, y));
@@ -283,7 +298,7 @@ exports.Node = function(_scene) {
     };
 
     /**
-     * Gets the bounding box of the current node only
+     * Get the bounding box of the current node only
      */
 
     Node.prototype.bboxOwn = function() {
@@ -291,7 +306,7 @@ exports.Node = function(_scene) {
     };
 
     /**
-     * Starts recursive merge of all the child bboxes
+     * Initiate recursive merge of all the child bboxes
      */
 
     Node.prototype.bboxCascaded = function() {

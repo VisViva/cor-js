@@ -34,6 +34,9 @@ describe('Path tests', () => {
             expect(path.depth()).to.be.equal(0);
             expect(path.debug()).to.be.equal(false);
             expect(path.hidden()).to.be.equal(false);
+            expect(path.material().stroke()).to.be.equal('#000000');
+            expect(path.material().width()).to.be.equal(1);
+            expect(path.material().fill()).to.be.equal('#000000');
         });
 
         it('Executes own constructor correctly', () => {

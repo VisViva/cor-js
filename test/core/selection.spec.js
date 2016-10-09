@@ -8,12 +8,6 @@ import {
 } from '../../src/core/selection';
 
 describe('Selection tests', () => {
-    describe('Common behavior', () => {
-        it('Runs tests', () => {
-            expect(true).to.be.equal(true);
-        });
-    });
-
     describe('Selection behavior', () => {
         let selectionA;
         let selectionB;

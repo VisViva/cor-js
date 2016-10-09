@@ -10,16 +10,13 @@ import {
     DepthBuffer
 } from '../../src/core/depth_buffer';
 import {
+    Material
+} from '../../src/core/material';
+import {
     matrix_to_array
 } from '../../src/utils/helper';
 
 describe('Scene tests', () => {
-    describe('Common behavior', () => {
-        it('Runs tests', () => {
-            expect(true).to.be.equal(true);
-        });
-    });
-
     describe('Constructor behavior', () => {
         let scene;
 
@@ -44,9 +41,12 @@ describe('Scene tests', () => {
             expect(scene.root().rotate()).to.be.equal(0);
             expect(scene.root().scale().x).to.be.equal(1);
             expect(scene.root().scale().y).to.be.equal(1);
+            expect(scene.root().active()).to.be.equal(true);
+            expect(scene.material().stroke()).to.be.equal('#000000');
+            expect(scene.material().width()).to.be.equal(1);
+            expect(scene.material().fill()).to.be.equal('#000000');
             expect(matrix_to_array(scene.root().matrixOwn()).join('')).to.be.equal('100010' + (scene._canvas.width >>> 1) + '' + (scene._canvas.height >>> 1) + '1');
             expect(matrix_to_array(scene.root().matrixCascaded()).join('')).to.be.equal('100010001');
-            expect(scene.root().active()).to.be.equal(true);
         });
 
         it('Constructs the depth buffer correctly', () => {
@@ -61,9 +61,26 @@ describe('Scene tests', () => {
             scene = new Scene('scene');
         });
 
-        it('Sets rotation correctly', () => {
+        it('Resizes correctly', () => {
+            expect(scene.resize(100, 200)).to.be.equal(scene);
+            expect(scene._canvas.width).to.be.equal(100);
+            expect(scene._canvas.height).to.be.equal(200);
+            expect(scene.root().translate().x).to.be.equal(50);
+            expect(scene.root().translate().y).to.be.equal(100);
+            expect(scene.root().rotate()).to.be.equal(0);
+            expect(scene.root().scale().x).to.be.equal(1);
+            expect(scene.root().scale().y).to.be.equal(1);
+        });
+
+        it('Sets the grids visibility flag correctly', () => {
             expect(scene.grid(true)).to.be.equal(scene);
             expect(scene.grid()).to.be.equal(true);
+        });
+
+        it('Sets material correctly', () => {
+            const material = new Material().stroke('#333333').width(3).fill('#444444');
+            expect(scene.material(material)).to.be.equal(scene);
+            expect(scene.material()).to.be.equal(material);
         });
     });
 

@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Links the child objects prototype to the parent objects prototype
+ * Link the child objects prototype to the parent objects prototype
  */
 
 export function inherit(child, parent) {
@@ -19,7 +19,7 @@ export function inherit(child, parent) {
 };
 
 /**
- * Converts a glmatrix mat3 object to an array
+ * Convert a glmatrix mat3 object to an array
  */
 
 export function matrix_to_array(matrix) {

@@ -22,11 +22,21 @@ function SceneManager(...elements) {
  * Create new scene
  */
 
-SceneManager.prototype.new = function(name) {
+SceneManager.prototype.new = function(name, width, height) {
+
+    /**
+     * Check if a scene with the supplied name already exists
+     */
+
     for (let i = 0; i < this._scenes.length; ++i) {
         if (this._scenes[i].name() === name) return null;
     }
-    let scene = new Scene(name);
+
+    /**
+     * Pass supplied arguments to the scene constructor
+     */
+
+    let scene = new Scene(name, width, height);
     this._scenes.push(scene);
     return scene;
 };

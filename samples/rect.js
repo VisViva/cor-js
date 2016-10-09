@@ -1,13 +1,14 @@
 import {
     SceneManager
 } from '../src/scene_manager';
-import {
-    random_color
-} from '../src/utils/helper';
 
 let scene_manager = new SceneManager();
 let scene = scene_manager.new('scene');
 const Rect = scene.factory().Rect;
+
+window.addEventListener('resize', function(event) {
+    scene.resize();
+});
 
 let rect = new Rect()
     .debug(true)
@@ -15,7 +16,10 @@ let rect = new Rect()
     .height(100)
     .rotate(45);
 
-scene.grid(true).root().append(rect);
+scene
+    .grid(true)
+    .root()
+    .append(rect);
 
 setInterval(() => {
     rect.rotate(1);

@@ -369,8 +369,17 @@ exports.Path = function(_scene, Primitive) {
 
     Path.prototype.render = function() {
         const context = _scene.context();
-        context.strokeStyle = '#000000';
-        context.lineWidth = 2;
+
+        /**
+         * Apply current primitive's material to the current context
+         */
+
+        this._material.style(context);
+
+        /**
+         * Setup transformations and render
+         */
+
         context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
         context.beginPath();
         context.moveTo(this._at.x, this._at.y);

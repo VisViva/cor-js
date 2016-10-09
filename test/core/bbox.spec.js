@@ -8,12 +8,6 @@ import {
 } from '../../src/core/bbox';
 
 describe('Selection tests', () => {
-    describe('Common behavior', () => {
-        it('Runs tests', () => {
-            expect(true).to.be.equal(true);
-        });
-    });
-
     describe('Constructor behavior', () => {
         let bboxA;
         let bboxB;
