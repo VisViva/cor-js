@@ -260,25 +260,17 @@ exports.Path = function(_scene, Primitive) {
                         * Calculate extremas for each axis
                         */
 
-                        const x_extremas_t = get_cubic_function_extremas_for(point_start[0], control_point_a[0], control_point_b[0], point_end[0]);
-                        const y_extremas_t = get_cubic_function_extremas_for(point_start[1], control_point_a[1], control_point_b[1], point_end[1]);
-                        const x_extremas = [];
-                        const y_extremas = [];
+                        const extremas = [];
+                        const extremas_t = [];
+                        extremas_t.push(...(get_cubic_function_extremas_for(point_start[0], control_point_a[0], control_point_b[0], point_end[0])));
+                        extremas_t.push(...(get_cubic_function_extremas_for(point_start[1], control_point_a[1], control_point_b[1], point_end[1])));
 
-                        for (let i = 0; i < x_extremas_t.length; ++i) {
-                          const x_extrema_x = get_cubic_function_for(point_start[0], control_point_a[0], control_point_b[0], point_end[0], x_extremas_t[i]);
-                          const x_extrema_y = get_cubic_function_for(point_start[1], control_point_a[1], control_point_b[1], point_end[1], x_extremas_t[i]);
-                          x_extremas.push([x_extrema_x, x_extrema_y]);
-                          xValues.push(x_extrema_x);
-                          yValues.push(x_extrema_y);
-                        }
-
-                        for (let i = 0; i < y_extremas_t.length; ++i) {
-                          const y_extrema_x = get_cubic_function_for(point_start[0], control_point_a[0], control_point_b[0], point_end[0], y_extremas_t[i]);
-                          const y_extrema_y = get_cubic_function_for(point_start[1], control_point_a[1], control_point_b[1], point_end[1], y_extremas_t[i]);
-                          y_extremas.push([y_extrema_x, y_extrema_y]);
-                          xValues.push(y_extrema_x);
-                          yValues.push(y_extrema_y);
+                        for (let i = 0; i < extremas_t.length; ++i) {
+                          const extrema_x = get_cubic_function_for(point_start[0], control_point_a[0], control_point_b[0], point_end[0], extremas_t[i]);
+                          const extrema_y = get_cubic_function_for(point_start[1], control_point_a[1], control_point_b[1], point_end[1], extremas_t[i]);
+                          extremas.push([extrema_x, extrema_y]);
+                          xValues.push(extrema_x);
+                          yValues.push(extrema_y);
                         }
 
                         /**
@@ -338,14 +330,9 @@ exports.Path = function(_scene, Primitive) {
                              * Extremas
                              */
 
-                            for (let i = 0; i < x_extremas.length; ++i) {
+                            for (let i = 0; i < extremas.length; ++i) {
                               context.beginPath();
-                              context.arc(x_extremas[i][0], x_extremas[i][1], 4, 0, 2 * Math.PI, false);
-                              context.stroke();
-                            }
-                            for (let i = 0; i < y_extremas.length; ++i) {
-                              context.beginPath();
-                              context.arc(y_extremas[i][0], y_extremas[i][1], 4, 0, 2 * Math.PI, false);
+                              context.arc(extremas[i][0], extremas[i][1], 4, 0, 2 * Math.PI, false);
                               context.stroke();
                             }
                         }
