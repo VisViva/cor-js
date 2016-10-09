@@ -1,7 +1,18 @@
 'use strict';
 
-import { expect } from 'chai/chai';
-import { deg_to_rad, rad_to_deg, trim_float, trim_angle, get_quadratic_function_for } from "../../src/utils/math";
+import {
+    expect
+} from 'chai/chai';
+import {
+    deg_to_rad,
+    rad_to_deg,
+    trim_float,
+    trim_angle,
+    get_quadratic_function_for,
+    get_quadratic_function_extrema_for,
+    get_cubic_function_for,
+    get_cubic_function_extremas_for
+} from "../../src/utils/math";
 
 describe('Math utils', () => {
     describe('Angle conversion', () => {
@@ -81,6 +92,26 @@ describe('Math utils', () => {
     describe('Quadratic function', () => {
         it('Gets value of a quadratic function by supplying control points and an interval correctly', () => {
             expect(get_quadratic_function_for(306, 156, 456, 0.33)).to.be.approximately(256, 0.1);
+        });
+    });
+
+    describe('Quadratic extremas', () => {
+        it('Gets value of a quadratic function by supplying control points and an interval correctly', () => {
+            const extrema = get_quadratic_function_extrema_for(290, 281, 464);
+            expect(extrema[0]).to.be.approximately(0.0468, 0.0001);
+        });
+    });
+
+    describe('Cubic function', () => {
+        it('Gets value of a quadratic function by supplying control points and an interval correctly', () => {
+            expect(get_cubic_function_for(306, 156, 456, 320, 0.33)).to.be.approximately(272.6, 0.1);
+        });
+    });
+
+    describe('Cubic extremas', () => {
+        it('Gets value of a quadratic function by supplying control points and an interval correctly', () => {
+            const extremas = get_cubic_function_extremas_for(290, 281, 464, 320);
+            expect(extremas[0]).to.be.approximately(0.7156, 0.0001);
         });
     });
 });

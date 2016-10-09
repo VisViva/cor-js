@@ -26,16 +26,16 @@ exports.Path = function(_scene, Primitive) {
         /**
          * Segment elements are arrays obeying the following conventions:
          *
-         * Linear - consists of one element representing the x and y of
+         * Linear - consists of two element representing the x and y of
          * the next point
          *
-         * Quadratic - consists of two elements, the first one represents
-         * the x and y of the next point, the second one represents the
-         * control point of a quadratic bezier curve
+         * Quadratic - consists of four elements, the first and the second represent
+         * the x and y of the control point of a quadratic bezier curve and the
+         * third and fourth elements represent the x and y of the next point
          *
-         * Cubic - consists of three elements, the first one represents
-         * the x and y of the next point, the second and the third elements
-         * represent the control points of a cubic bezier curve
+         * Cubic - consists of three elements, the first through the fourth elements
+         * represent the x's and y's of the control points of a cubic bezier curve
+         * and the fifth and the sixth elements represent the x and y of the next point
          */
 
         this._segments = [];
@@ -137,8 +137,8 @@ exports.Path = function(_scene, Primitive) {
                         yValues.push(point_end[1]);
 
                         /**
-                        * Render out debug info if the debug flag is enabled
-                        */
+                         * Render out debug info if the debug flag is enabled
+                         */
 
                         if (this._debug === true) {
                             const context = _scene.context();
@@ -162,42 +162,42 @@ exports.Path = function(_scene, Primitive) {
                 case 4:
                     {
                         /**
-                        * Apply cascaded matrix transformations to the end point
-                        * and the control point
-                        */
+                         * Apply cascaded matrix transformations to the end point
+                         * and the control point
+                         */
 
-                        const control_point = vec2.create();
-                        vec2.transformMat3(control_point, vec2.fromValues(this._segments[i][0], this._segments[i][1]), this._matrix_cascaded);
+                        const point_control = vec2.create();
+                        vec2.transformMat3(point_control, vec2.fromValues(this._segments[i][0], this._segments[i][1]), this._matrix_cascaded);
                         vec2.transformMat3(point_end, vec2.fromValues(this._segments[i][2], this._segments[i][3]), this._matrix_cascaded);
 
                         /**
-                        * Calculate extremas for each axis
-                        */
+                         * Calculate extremas for each axis
+                         */
 
                         const extremas = [];
                         const extremas_t = [];
-                        extremas_t.push(...(get_quadratic_function_extrema_for(point_start[0], control_point[0], point_end[0])));
-                        extremas_t.push(...(get_quadratic_function_extrema_for(point_start[1], control_point[1], point_end[1])));
+                        extremas_t.push(...(get_quadratic_function_extrema_for(point_start[0], point_control[0], point_end[0])));
+                        extremas_t.push(...(get_quadratic_function_extrema_for(point_start[1], point_control[1], point_end[1])));
 
                         for (let i = 0; i < extremas_t.length; ++i) {
-                          const extrema_x = get_quadratic_function_for(point_start[0], control_point[0], point_end[0], extremas_t[i]);
-                          const extrema_y = get_quadratic_function_for(point_start[1], control_point[1], point_end[1], extremas_t[i]);
-                          extremas.push([extrema_x, extrema_y]);
-                          xValues.push(extrema_x);
-                          yValues.push(extrema_y);
+                            const extrema_x = get_quadratic_function_for(point_start[0], point_control[0], point_end[0], extremas_t[i]);
+                            const extrema_y = get_quadratic_function_for(point_start[1], point_control[1], point_end[1], extremas_t[i]);
+                            extremas.push([extrema_x, extrema_y]);
+                            xValues.push(extrema_x);
+                            yValues.push(extrema_y);
                         }
 
                         /**
-                        * Append end points to the arrays for further calculation
-                        * of the bounding box
-                        */
+                         * Append end points to the arrays for further calculation
+                         * of the bounding box
+                         */
 
                         xValues.push(point_end[0]);
                         yValues.push(point_end[1]);
 
                         /**
-                        * Render out debug info if the debug flag is enabled
-                        */
+                         * Render out debug info if the debug flag is enabled
+                         */
 
                         if (this._debug === true) {
                             const context = _scene.context();
@@ -210,8 +210,8 @@ exports.Path = function(_scene, Primitive) {
                             context.arc(point_end[0], point_end[1], 3, 0, 2 * Math.PI, false);
                             context.stroke();
                             for (let i = 0; i < 1; i += 0.1) {
-                                let x = get_quadratic_function_for(point_start[0], control_point[0], point_end[0], i);
-                                let y = get_quadratic_function_for(point_start[1], control_point[1], point_end[1], i);
+                                let x = get_quadratic_function_for(point_start[0], point_control[0], point_end[0], i);
+                                let y = get_quadratic_function_for(point_start[1], point_control[1], point_end[1], i);
                                 context.beginPath();
                                 context.arc(x, y, 3, 0, 2 * Math.PI, false);
                                 context.stroke();
@@ -219,16 +219,23 @@ exports.Path = function(_scene, Primitive) {
                             context.beginPath();
                             context.strokeStyle = "#0000EE";
                             context.moveTo(point_start[0], point_start[1]);
-                            context.lineTo(control_point[0], control_point[1]);
+                            context.lineTo(point_control[0], point_control[1]);
                             context.lineTo(point_end[0], point_end[1]);
                             context.stroke();
                             context.beginPath();
                             context.lineWidth = 2;
-                            context.arc(control_point[0], control_point[1], 4, 0, 2 * Math.PI, false);
+                            context.arc(point_control[0], point_control[1], 4, 0, 2 * Math.PI, false);
                             context.stroke();
-                            context.beginPath();
-                            context.arc(x_extrema, y_extrema, 4, 0, 2 * Math.PI, false);
-                            context.stroke();
+
+                            /**
+                             * Extremas
+                             */
+
+                            for (let i = 0; i < extremas.length; ++i) {
+                                context.beginPath();
+                                context.arc(extremas[i][0], extremas[i][1], 4, 0, 2 * Math.PI, false);
+                                context.stroke();
+                            }
                         }
 
                         break;
@@ -241,44 +248,44 @@ exports.Path = function(_scene, Primitive) {
                 case 6:
                     {
                         /**
-                        * Apply cascaded matrix transformations to the end point
-                        * and the control points
-                        */
+                         * Apply cascaded matrix transformations to the end point
+                         * and the control points
+                         */
 
-                        const control_point_a = vec2.create();
-                        const control_point_b = vec2.create();
-                        vec2.transformMat3(control_point_a, vec2.fromValues(this._segments[i][0], this._segments[i][1]), this._matrix_cascaded);
-                        vec2.transformMat3(control_point_b, vec2.fromValues(this._segments[i][2], this._segments[i][3]), this._matrix_cascaded);
+                        const point_control_a = vec2.create();
+                        const point_control_b = vec2.create();
+                        vec2.transformMat3(point_control_a, vec2.fromValues(this._segments[i][0], this._segments[i][1]), this._matrix_cascaded);
+                        vec2.transformMat3(point_control_b, vec2.fromValues(this._segments[i][2], this._segments[i][3]), this._matrix_cascaded);
                         vec2.transformMat3(point_end, vec2.fromValues(this._segments[i][4], this._segments[i][5]), this._matrix_cascaded);
 
                         /**
-                        * Calculate extremas for each axis
-                        */
+                         * Calculate extremas for each axis
+                         */
 
                         const extremas = [];
                         const extremas_t = [];
-                        extremas_t.push(...(get_cubic_function_extremas_for(point_start[0], control_point_a[0], control_point_b[0], point_end[0])));
-                        extremas_t.push(...(get_cubic_function_extremas_for(point_start[1], control_point_a[1], control_point_b[1], point_end[1])));
+                        extremas_t.push(...(get_cubic_function_extremas_for(point_start[0], point_control_a[0], point_control_b[0], point_end[0])));
+                        extremas_t.push(...(get_cubic_function_extremas_for(point_start[1], point_control_a[1], point_control_b[1], point_end[1])));
 
                         for (let i = 0; i < extremas_t.length; ++i) {
-                          const extrema_x = get_cubic_function_for(point_start[0], control_point_a[0], control_point_b[0], point_end[0], extremas_t[i]);
-                          const extrema_y = get_cubic_function_for(point_start[1], control_point_a[1], control_point_b[1], point_end[1], extremas_t[i]);
-                          extremas.push([extrema_x, extrema_y]);
-                          xValues.push(extrema_x);
-                          yValues.push(extrema_y);
+                            const extrema_x = get_cubic_function_for(point_start[0], point_control_a[0], point_control_b[0], point_end[0], extremas_t[i]);
+                            const extrema_y = get_cubic_function_for(point_start[1], point_control_a[1], point_control_b[1], point_end[1], extremas_t[i]);
+                            extremas.push([extrema_x, extrema_y]);
+                            xValues.push(extrema_x);
+                            yValues.push(extrema_y);
                         }
 
                         /**
-                        * Append end points to the arrays for further calculation
-                        * of the bounding box
-                        */
+                         * Append end points to the arrays for further calculation
+                         * of the bounding box
+                         */
 
                         xValues.push(point_end[0]);
                         yValues.push(point_end[1]);
 
                         /**
-                        * Render out debug info if the debug flag is enabled
-                        */
+                         * Render out debug info if the debug flag is enabled
+                         */
 
                         if (this._debug === true) {
                             const context = _scene.context();
@@ -296,8 +303,8 @@ exports.Path = function(_scene, Primitive) {
                              */
 
                             for (let i = 0; i < 1; i += 0.1) {
-                                let x = get_cubic_function_for(point_start[0], control_point_a[0], control_point_b[0], point_end[0], i);
-                                let y = get_cubic_function_for(point_start[1], control_point_a[1], control_point_b[1], point_end[1], i);
+                                let x = get_cubic_function_for(point_start[0], point_control_a[0], point_control_b[0], point_end[0], i);
+                                let y = get_cubic_function_for(point_start[1], point_control_a[1], point_control_b[1], point_end[1], i);
                                 context.beginPath();
                                 context.arc(x, y, 3, 0, 2 * Math.PI, false);
                                 context.stroke();
@@ -310,15 +317,15 @@ exports.Path = function(_scene, Primitive) {
                             context.beginPath();
                             context.strokeStyle = "#0000EE";
                             context.moveTo(point_start[0], point_start[1]);
-                            context.lineTo(control_point_a[0], control_point_a[1]);
-                            context.lineTo(control_point_b[0], control_point_b[1]);
+                            context.lineTo(point_control_a[0], point_control_a[1]);
+                            context.lineTo(point_control_b[0], point_control_b[1]);
                             context.lineTo(point_end[0], point_end[1]);
                             context.stroke();
                             context.lineWidth = 2;
                             context.beginPath();
-                            context.arc(control_point_a[0], control_point_a[1], 4, 0, 2 * Math.PI, false);
-                            context.moveTo(control_point_b[0], control_point_b[1]);
-                            context.arc(control_point_b[0], control_point_b[1], 4, 0, 2 * Math.PI, false);
+                            context.arc(point_control_a[0], point_control_a[1], 4, 0, 2 * Math.PI, false);
+                            context.moveTo(point_control_b[0], point_control_b[1]);
+                            context.arc(point_control_b[0], point_control_b[1], 4, 0, 2 * Math.PI, false);
                             context.stroke();
 
                             /**
@@ -326,9 +333,9 @@ exports.Path = function(_scene, Primitive) {
                              */
 
                             for (let i = 0; i < extremas.length; ++i) {
-                              context.beginPath();
-                              context.arc(extremas[i][0], extremas[i][1], 4, 0, 2 * Math.PI, false);
-                              context.stroke();
+                                context.beginPath();
+                                context.arc(extremas[i][0], extremas[i][1], 4, 0, 2 * Math.PI, false);
+                                context.stroke();
                             }
                         }
 
