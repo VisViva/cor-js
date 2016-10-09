@@ -111,7 +111,7 @@ exports.Rect = function(_scene, Primitive) {
          * Returning the newly created bouding box
          */
 
-        return BBox.prototype.from(xValues, xValues);
+        return BBox.prototype.from(xValues, yValues);
     };
 
     /**
@@ -128,7 +128,9 @@ exports.Rect = function(_scene, Primitive) {
             let bbox = this.bboxCascaded();
             context.setTransform(1, 0, 0, 1, 0, 0);
             context.beginPath();
+            context.lineWidth = 2;
             context.rect(bbox.x(), bbox.y() - bbox.height(), bbox.width(), bbox.height());
+            context.strokeStyle = '#EE0000';
             context.stroke();
         }
     };
