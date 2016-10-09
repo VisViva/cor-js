@@ -52,6 +52,17 @@ Material.prototype.reset = function() {
 };
 
 /**
+ * Apply current material to the supplied context
+ */
+
+Material.prototype.style = function(context) {
+    context.strokeStyle = this._stroke.color;
+    context.lineWidth = this._stroke.width;
+    context.fillStyle = this._fill.color;
+    return this;
+};
+
+/**
  * Get or set the stroke color
  */
 

@@ -8,6 +8,9 @@ import {
     Node
 } from "./node";
 import {
+    Material
+} from "./material";
+import {
     Primitive
 } from "./primitive";
 import {
@@ -55,6 +58,12 @@ function Scene(name, width, height) {
      */
 
     this._root = new(this.factory()).Node();
+
+    /**
+     * Material used to clear the context
+     */
+
+    this._material = new Material();
 
     /**
      * Canvas, bound to the scene
@@ -131,6 +140,19 @@ Scene.prototype.grid = function(value) {
 };
 
 /**
+ * Get or set the material of the current scene
+ */
+
+Scene.prototype.material = function(material) {
+    if (material) {
+        this._material = material;
+        return this;
+    } else {
+        return this._material;
+    }
+};
+
+/**
  * Get the canvas
  */
 
@@ -183,10 +205,15 @@ Scene.prototype.factory = function() {
 Scene.prototype.clear = function() {
     const context = this._context;
 
+    /**
+     * Apply current primitive's material to the current context
+     */
+
+    this._material.style(context);
+
     // Clear the context
 
     context.setTransform(1, 0, 0, 1, 0, 0);
-    context.fillStyle = '#CCCCCC';
     context.fillRect(0, 0, this._canvas.width, this._canvas.height);
 
     // Draw the grid if needed
@@ -224,8 +251,6 @@ Scene.prototype.clear = function() {
         context.lineTo(grid_points[1].x, grid_points[1].y);
         context.moveTo(grid_points[2].x, grid_points[2].y);
         context.lineTo(grid_points[3].x, grid_points[3].y);
-        context.strokeStyle = '#444444';
-        context.lineWidth = 1;
         context.stroke();
     }
 };
