@@ -1,7 +1,7 @@
 'use strict';
 
 import { expect } from 'chai/chai';
-import { deg_to_rad, rad_to_deg, trim_float, trim_angle, get_quadratic_point } from "../../src/utils/math";
+import { deg_to_rad, rad_to_deg, trim_float, trim_angle, get_quadratic_function_for } from "../../src/utils/math";
 
 describe('Math utils', () => {
     describe('Angle conversion', () => {
@@ -80,7 +80,7 @@ describe('Math utils', () => {
 
     describe('Quadratic function', () => {
         it('Gets value of a quadratic function by supplying control points and an interval correctly', () => {
-            expect(get_quadratic_point(306, 156, 456, 0.33)).to.be.approximately(256, 0.1);
+            expect(get_quadratic_function_for(306, 156, 456, 0.33)).to.be.approximately(256, 0.1);
         });
     });
 });
