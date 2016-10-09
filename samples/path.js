@@ -7,6 +7,7 @@ const Path = scene.factory().Path;
 
 let path = new Path()
 .debug(true)
+.at(20, 30)
 .linearTo(50, 50)
 .quadraticTo(-100, 140, 200, 100)
 .linearTo(150, 50)

@@ -104,23 +104,25 @@ Scene.prototype.factory = function() {
  */
 
 Scene.prototype.clear = function() {
+    const context = this._context;
 
     // Clear the context
 
-    this._context.setTransform(1, 0, 0, 1, 0, 0);
-    this._context.fillStyle = '#CCCCCC';
-    this._context.fillRect(0, 0, this._canvas.width, this._canvas.height);
+    context.setTransform(1, 0, 0, 1, 0, 0);
+    context.fillStyle = '#CCCCCC';
+    context.fillRect(0, 0, this._canvas.width, this._canvas.height);
 
     // Draw grid if needed
 
     if (this._grid === true) {
-        this._context.beginPath();
-        this._context.moveTo(this._canvas.width >>> 1, 0);
-        this._context.lineTo(this._canvas.width >>> 1, this._canvas.height);
-        this._context.moveTo(0, this._canvas.height >>> 1);
-        this._context.lineTo(this._canvas.width, this._canvas.height >>> 1);
-        this._context.strokeStyle = '#999999';
-        this._context.stroke();
+        context.beginPath();
+        context.moveTo(this._canvas.width >>> 1, 0);
+        context.lineTo(this._canvas.width >>> 1, this._canvas.height);
+        context.moveTo(0, this._canvas.height >>> 1);
+        context.lineTo(this._canvas.width, this._canvas.height >>> 1);
+        context.strokeStyle = '#999999';
+        context.lineWidth = 0.5;
+        context.stroke();
     }
 };
 
