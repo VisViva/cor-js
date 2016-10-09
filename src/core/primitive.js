@@ -1,6 +1,8 @@
 'use strict';
 
-import { inherit } from "../utils/helper";
+import {
+    inherit
+} from "../utils/helper";
 
 exports.Primitive = function(_scene, Node) {
 
@@ -16,9 +18,61 @@ exports.Primitive = function(_scene, Node) {
 
     function Primitive() {
         Node.call(this);
+
+        /**
+         * Primitives starting point
+         */
+
+        this._at = {
+            x: 0,
+            y: 0
+        };
+
+        /**
+         * Depth of the current primitive
+         */
+
         this._depth = 0;
+
+        /**
+         * Flag that indicates whether debugging info should be rendered
+         */
+
+        this._debug = false;
+
+        /**
+         * Flag that indicates whether the primitive should be rendered
+         */
+
         this._hidden = false;
     }
+
+    /**
+     * Get or set the upper left point of the rect
+     */
+
+    Primitive.prototype.at = function(x, y) {
+        if (typeof x !== 'undefined' && typeof y !== 'undefined') {
+            this._at.x = x;
+            this._at.y = y;
+            return this;
+        } else {
+            return this._at;
+        }
+    };
+
+    /**
+     * Get or set the current nodes debugger state
+     */
+
+    Primitive.prototype.debug = function(debug) {
+        if (typeof debug !== 'undefined') {
+            this._debug = debug;
+            return this;
+        } else {
+            return this._debug;
+        }
+    };
 
     /**
      * Define depth of the primitive and return it

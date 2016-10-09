@@ -1,8 +1,14 @@
 'use strict';
 
-import { Scene } from './core/scene';
-import { Selection } from './core/selection';
-import { BBox } from './core/bbox';
+import {
+    Scene
+} from './core/scene';
+import {
+    Selection
+} from './core/selection';
+import {
+    BBox
+} from './core/bbox';
 
 /**
  * Scene manager constructor
@@ -16,7 +22,7 @@ function SceneManager(...elements) {
  * Create new scene
  */
 
-SceneManager.prototype.new = function (name) {
+SceneManager.prototype.new = function(name) {
     for (let i = 0; i < this._scenes.length; ++i) {
         if (this._scenes[i].name() === name) return null;
     }
@@ -29,7 +35,7 @@ SceneManager.prototype.new = function (name) {
  * List available scenes
  */
 
-SceneManager.prototype.scenes = function () {
+SceneManager.prototype.scenes = function() {
     return this._scenes.slice();
 };
 

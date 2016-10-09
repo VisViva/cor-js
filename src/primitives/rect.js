@@ -3,9 +3,16 @@
 var glMatrix = require('gl-matrix');
 var vec2 = glMatrix.vec2;
 
-import { Selection } from '../core/selection';
-import { BBox } from '../core/bbox';
-import { inherit, random_color } from "../utils/helper";
+import {
+    Selection
+} from '../core/selection';
+import {
+    BBox
+} from '../core/bbox';
+import {
+    inherit,
+    glmatrix_to_canvas_matrix
+} from "../utils/helper";
 
 exports.Rect = function(_scene, Primitive) {
 
@@ -31,37 +38,29 @@ exports.Rect = function(_scene, Primitive) {
          */
 
         this._points = [];
+        this._bbox = false;
+
+        /**
+         * Initialize points
+         */
+
         for (let i = 0; i < 4; ++i) {
             this._points.push({
                 x: 0,
                 y: 0
             });
         };
-        this._color = random_color();
     };
 
     /**
-     * Place left-top point of the rect to {x: cx, y: cy}
-     */
-
-    Rect.prototype.at = function(x, y) {
-        if (typeof x !== 'undefined' && typeof y !== 'undefined') {
-            this._points[0].x = x;
-            this._points[0].y = y;
-            return this;
-        } else {
-            return this._points[0];
-        }
-    };
-
-    /**
-     * Define width of the rect and return it
+     * Get or set width of the rect and return it
      */
 
     Rect.prototype.width = function(width) {
         if (width) {
-            this._points[1].x = this._points[0].x + width;
-            this._points[3].x = this._points[0].x + width;
+            const half_width = width >>> 1;
+            this._points[0].x = this._points[2].x = this._at.x - half_width;
+            this._points[1].x = this._points[3].x = this._at.x + half_width;
             return this;
         } else {
             return Math.abs(this._points[0].x - this._points[1].x);
@@ -69,13 +68,14 @@ exports.Rect = function(_scene, Primitive) {
     };
 
     /**
-     * Define height of the rect and return it
+     * Get or set height of the rect and return it
      */
 
     Rect.prototype.height = function(height) {
         if (height) {
-            this._points[2].y = this._points[0].y - height;
-            this._points[3].y = this._points[0].y - height;
+            const half_height = height >>> 1;
+            this._points[0].y = this._points[1].y = this._at.y + half_height;
+            this._points[2].y = this._points[3].y = this._at.y - half_height;
             return this;
         } else {
             return Math.abs(this._points[0].y - this._points[2].y);
@@ -83,30 +83,35 @@ exports.Rect = function(_scene, Primitive) {
     };
 
     /**
-     * Gets the bounding box of the current node only
+     * Get the bounding box of the current node only
      */
 
     Rect.prototype.bboxOwn = function() {
 
-        // Transformed points
+        /**
+         * Transformed points
+         */
 
-        const transformed2DVectors = [];
+        const xValues = [];
+        const yValues = [];
 
-        // Transformations
+        /**
+         * Transformations
+         */
 
         const transformed3DVector = vec2.create();
 
         for (let i = 0; i < this._points.length; ++i) {
-            vec2.transformMat3(transformed3DVector, vec2.fromValues(this._points[i].x, this._points[i].y), this._matrix_own);
-            transformed2DVectors.push({
-                x: transformed3DVector[0],
-                y: transformed3DVector[1]
-            });
+            vec2.transformMat3(transformed3DVector, vec2.fromValues(this._points[i].x, this._points[i].y), this._matrix_cascaded);
+            xValues.push(transformed3DVector[0]);
+            yValues.push(transformed3DVector[1]);
         }
 
-        // Returning the newly created bouding box
+        /**
+         * Returning the newly created bouding box
+         */
 
-        return BBox.prototype.from(transformed2DVectors);
+        return BBox.prototype.from(xValues, xValues);
     };
 
     /**
@@ -115,11 +120,17 @@ exports.Rect = function(_scene, Primitive) {
 
     Rect.prototype.render = function() {
         let context = _scene.context();
-        let matrix = this._matrix_cascaded;
-        context.fillStyle = this._color;
-        context.setTransform(matrix[0], matrix[1], matrix[3], matrix[4], matrix[6], matrix[7]);
-        context.fillRect(this._points[0].x, this._points[0].y, this.width(), this.height());
-        context.stroke();
+        context.fillStyle = '#888';
+        context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
+        context.fillRect(this._points[0].x, -this._points[0].y, this.width(), this.height());
+
+        if (this._debug === true) {
+            let bbox = this.bboxCascaded();
+            context.setTransform(1, 0, 0, 1, 0, 0);
+            context.beginPath();
+            context.rect(bbox.x(), bbox.y() - bbox.height(), bbox.width(), bbox.height());
+            context.stroke();
+        }
     };
 
     return Rect;

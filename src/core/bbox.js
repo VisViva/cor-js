@@ -88,24 +88,20 @@ BBox.prototype.merge = function merge(...bboxes) {
     return this;
 };
 
-BBox.prototype.from = function from(points) {
+/**
+ * Construct a bounding box from a set of arbitrary points
+ */
+
+BBox.prototype.from = function from(xValues, yValues) {
     let x = 0;
     let y = 0;
     let width = 0;
     let height = 0;
 
-    if (points.length > 0) {
-        const xValues = [];
-        const yValues = [];
-        for (let i = 0; i < points.length; ++i) {
-            xValues.push(points[i].x);
-            yValues.push(points[i].y);
-        }
-        x = Math.min(...xValues);
-        y = Math.max(...yValues);
-        width = Math.abs(Math.max(...xValues) - x);
-        height = Math.abs(Math.min(...yValues) - y);
-    }
+    x = Math.min(...xValues);
+    y = Math.max(...yValues);
+    width = Math.abs(Math.max(...xValues) - x);
+    height = Math.abs(Math.min(...yValues) - y);
 
     return new BBox(x, y, width, height);
 };

@@ -1,8 +1,14 @@
 'use strict';
 
-import { expect } from 'chai/chai';
-import { Scene } from '../../src/core/scene';
-import { matrix_to_array } from '../../src/utils/helper';
+import {
+    expect
+} from 'chai/chai';
+import {
+    Scene
+} from '../../src/core/scene';
+import {
+    matrix_to_array
+} from '../../src/utils/helper';
 
 describe('Primitive tests', () => {
     const Primitive = new Scene().factory().Primitive;
@@ -22,22 +28,37 @@ describe('Primitive tests', () => {
             expect(primitive.rotate()).to.be.equal(0);
             expect(primitive.scale().x).to.be.equal(1);
             expect(primitive.scale().y).to.be.equal(1);
+            expect(primitive.active()).to.be.equal(true);
+            expect(primitive.dirty()).to.be.equal(false);
             expect(matrix_to_array(primitive.matrixOwn()).join('')).to.be.equal('100010001');
             expect(matrix_to_array(primitive.matrixCascaded()).join('')).to.be.equal('100010001');
-            expect(primitive.active()).to.be.equal(true);
         });
 
         it('Executes own constructor correctly', () => {
+            expect(primitive.at().x).to.be.equal(0);
+            expect(primitive.at().y).to.be.equal(0);
             expect(primitive.depth()).to.be.equal(0);
+            expect(primitive.debug()).to.be.equal(false);
             expect(primitive.hidden()).to.be.equal(false);
         });
     });
 
-    describe('Depth setting behavior', () => {
+    describe('Property setting behavior', () => {
         let primitive;
 
         beforeEach(function() {
             primitive = new Primitive();
+        });
+
+        it('Sets upper left point of the rect in the correct position', () => {
+            expect(primitive.at(50, 60)).to.be.equal(primitive);
+            expect(primitive.at().x).to.be.equal(50);
+            expect(primitive.at().y).to.be.equal(60);
+        });
+
+        it('Sets debugging state correctly', () => {
+            expect(primitive.debug(true)).to.be.equal(primitive);
+            expect(primitive.debug()).to.be.equal(true);
         });
 
         it('Sets depth correctly', () => {
