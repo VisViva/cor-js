@@ -20,10 +20,25 @@ import {
  * Scene constructor
  */
 
-function Scene(name) {
+function Scene(name, width, height) {
     this._canvas = document.body.appendChild(document.createElement("canvas"));
-    this._canvas.width = 512;
-    this._canvas.height = 512;
+
+    /**
+     * Set dimensions to the values that have been supplied to the constructor,
+     * if none were passed set the width and height to the maximum of
+     * the available area
+     */
+
+    if (typeof width !== 'undefined' && typeof height !== 'undefined') {
+        this._canvas.width = width;
+        this._canvas.height = height;
+    } else {
+        this._canvas.style.width = '100%';
+        this._canvas.style.height = '100%';
+        this._canvas.width = this._canvas.offsetWidth;
+        this._canvas.height = this._canvas.offsetHeight;
+    }
+
     this._canvas.id = this._name;
     this._context = this._canvas.getContext('2d');
 

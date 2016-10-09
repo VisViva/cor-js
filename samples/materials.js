@@ -19,7 +19,7 @@ for (let i = -1; i < 2; ++i) {
             .scale(0.2 * Math.abs(i) + 0.8, 0.2  *Math.abs(i) + 0.8)
             .rotate(45 * i * j);
         path
-            .debug(false)
+            .debug(true)
             .cubicTo(50, -50, -15, -15, 50, 50)
             .linearTo(-25, 25)
             .quadraticTo(-50, -50, -50, -50);

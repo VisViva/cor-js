@@ -13,7 +13,8 @@ common.preLoaders = [{
 
 common.plugins = [
     new html_webpack_plugin({
-        title: 'Scene Manager - Playground'
+        title: 'Scene manager samples - {{sample}}',
+        template: __dirname + '/../samples/template/template.ejs'
     })
 ];
 
