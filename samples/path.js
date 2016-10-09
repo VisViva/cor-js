@@ -6,6 +6,10 @@ let scene_manager = new SceneManager();
 let scene = scene_manager.new('scene');
 const Path = scene.factory().Path;
 
+window.addEventListener('resize', function(event) {
+    scene.resize();
+});
+
 let path = new Path()
     .debug(true)
     .cubicTo(150, 0, -150, -150, -100, 100)

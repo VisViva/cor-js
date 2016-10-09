@@ -61,7 +61,18 @@ describe('Scene tests', () => {
             scene = new Scene('scene');
         });
 
-        it('Sets rotation correctly', () => {
+        it('Resizes correctly', () => {
+            expect(scene.resize(100, 200)).to.be.equal(scene);
+            expect(scene._canvas.width).to.be.equal(100);
+            expect(scene._canvas.height).to.be.equal(200);
+            expect(scene.root().translate().x).to.be.equal(50);
+            expect(scene.root().translate().y).to.be.equal(100);
+            expect(scene.root().rotate()).to.be.equal(0);
+            expect(scene.root().scale().x).to.be.equal(1);
+            expect(scene.root().scale().y).to.be.equal(1);
+        });
+
+        it('Sets the grids visibility flag correctly', () => {
             expect(scene.grid(true)).to.be.equal(scene);
             expect(scene.grid()).to.be.equal(true);
         });

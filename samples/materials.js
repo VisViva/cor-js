@@ -7,16 +7,19 @@ let scene = scene_manager.new('scene').grid(true);
 const Path = scene.factory().Path;
 const Rect = scene.factory().Rect;
 
-for (let i = -1; i < 2; ++i) {
-    for (let j = -1; j < 2; ++j) {
+window.addEventListener('resize', function(event) {
+    scene.resize();
+});
+
+for (let i = -4; i < 5; ++i) {
+    for (let j = -4; j < 5; ++j) {
         const rect = new Rect();
         const path = new Path();
         rect
-            .debug(false)
+            .debug(true)
             .translate(150 * i, 150 * j)
             .width(100)
             .height(100)
-            .scale(0.2 * Math.abs(i) + 0.8, 0.2  *Math.abs(i) + 0.8)
             .rotate(45 * i * j);
         path
             .debug(true)

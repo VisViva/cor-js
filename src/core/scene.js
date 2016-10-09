@@ -21,7 +21,23 @@ import {
  */
 
 function Scene(name, width, height) {
+    this._name = name;
+    this._factory = null;
+    this._root = new(this.factory()).Node();
+    this._depthbuffer = new DepthBuffer();
+    this._grid = false;
+
     this._canvas = document.body.appendChild(document.createElement("canvas"));
+    this._canvas.id = this._name;
+    this._context = this._canvas.getContext('2d');
+    this.resize(width, height);
+};
+
+/**
+ * Resize the scene
+ */
+
+Scene.prototype.resize = function(width, height) {
 
     /**
      * Set dimensions to the values that have been supplied to the constructor,
@@ -38,15 +54,8 @@ function Scene(name, width, height) {
         this._canvas.width = this._canvas.offsetWidth;
         this._canvas.height = this._canvas.offsetHeight;
     }
-
-    this._canvas.id = this._name;
-    this._context = this._canvas.getContext('2d');
-
-    this._name = name;
-    this._factory = null;
-    this._root = new(this.factory()).Node().translate(this._canvas.width >>> 1, this._canvas.height >>> 1);
-    this._depthbuffer = new DepthBuffer();
-    this._grid = false;
+    this._root.reset().translate(this._canvas.width >>> 1, this._canvas.height >>> 1);
+    return this;
 };
 
 /**

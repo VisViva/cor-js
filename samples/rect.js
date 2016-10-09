@@ -6,6 +6,10 @@ let scene_manager = new SceneManager();
 let scene = scene_manager.new('scene');
 const Rect = scene.factory().Rect;
 
+window.addEventListener('resize', function(event) {
+    scene.resize();
+});
+
 let rect = new Rect()
     .debug(true)
     .width(100)

@@ -43,6 +43,22 @@ describe('Node tests', () => {
             expect(matrix_to_array(node.matrixCascaded()).join('')).to.be.equal('100010001');
         });
 
+        it('Resets transformations', () => {
+            expect(node.dirty()).to.be.equal(false);
+            expect(node.translate(5, 0)).to.be.equal(node);
+            expect(node.rotate(45)).to.be.equal(node);
+            expect(node.scale(1.5, 2)).to.be.equal(node);
+            expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('1.06065821647644041.06066215038299560-1.4142161607742311.41421091556549070501');
+            expect(node.reset()).to.be.equal(node);
+            expect(node.translate().x).to.be.equal(0);
+            expect(node.translate().y).to.be.equal(0);
+            expect(node.rotate()).to.be.equal(0);
+            expect(node.scale().x).to.be.equal(1);
+            expect(node.scale().y).to.be.equal(1);
+            expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('100010001');
+            expect(node.dirty()).to.be.equal(true);
+        });
+
         it('Sets translation', () => {
             expect(node.dirty()).to.be.equal(false);
             expect(node.translate(5, 0)).to.be.equal(node);
