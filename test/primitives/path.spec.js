@@ -5,9 +5,15 @@ import { Scene } from '../../src/core/scene';
 import { BBox } from '../../src/core/bbox';
 
 describe('Path tests', () => {
-    const Factory = new Scene().factory();
-    const Node = Factory.Node;
-    const Path = Factory.Path;
+    let scene;
+    let Node;
+    let Path;
+
+    beforeEach(function() {
+        scene = new Scene();
+        Node = scene.factory().Node;
+        Path = scene.factory().Path;
+    });
 
     describe('Constructor behavior', () => {
         let path;
@@ -98,5 +104,29 @@ describe('Path tests', () => {
     describe('Bounding box calculation behavior', () => {
         let path;
         let bbox;
+
+        beforeEach(function() {
+            path = new Path();
+        });
+
+        it('Gets linear segments bounding box correctly', () => {
+            expect(path.linearTo(-100, 100)).to.be.equal(path);
+            expect(scene.root().append(path)).to.be.equal(scene.root());
+            bbox = path.bboxOwn();
+            expect(bbox.x()).to.be.equal(-100);
+            expect(bbox.y()).to.be.equal(100);
+            expect(bbox.width()).to.be.equal(100);
+            expect(bbox.height()).to.be.equal(100);
+        });
+
+        it('Gets quadratic segments bounding box correctly', () => {
+            expect(path.quadraticTo(-100, 100, 0, 200)).to.be.equal(path);
+            expect(scene.root().append(path)).to.be.equal(scene.root());
+            bbox = path.bboxOwn();
+            expect(bbox.x()).to.be.equal(-50);
+            expect(bbox.y()).to.be.equal(200);
+            expect(bbox.width()).to.be.equal(50);
+            expect(bbox.height()).to.be.equal(200);
+        });
     });
 });

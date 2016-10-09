@@ -11,18 +11,14 @@ let path = new Path()
 .linearTo(50, 50)
 .quadraticTo(-100, 140, 200, 100)
 .linearTo(150, 50)
-.quadraticTo(130, 80, 120, 160);
-// .linearTo(100, 70)
-// .linearTo(-20, 50)
-// .linearTo(50, 30);
-// .linearTo(10, 10)
-// .linearTo(10, 50)
-// .cubicTo(20, 100, 200, 100, 200, 20);
+.quadraticTo(130, 80, 120, 160)
+.linearTo(100, 70)
+.quadraticTo(-220, 30, -100, 140)
+.linearTo(50, 30)
+.linearTo(10, 10)
+.linearTo(10, 50);
 
 scene.grid(true).root().append(path);
-
-
-path.rotate(0);
 scene.render();
 
 setInterval(() => {
