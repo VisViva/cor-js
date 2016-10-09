@@ -13,12 +13,6 @@ import {
 describe('Depth buffer tests', () => {
     const Primitive = new Scene().factory().Primitive;
 
-    describe('Common behavior', () => {
-        it('Runs tests', () => {
-            expect(true).to.be.equal(true);
-        });
-    });
-
     describe('Constructor behavior', () => {
         let depthbuffer;
 

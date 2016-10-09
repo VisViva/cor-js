@@ -16,12 +16,6 @@ import {
 describe('Node tests', () => {
     const Node = new Scene().factory().Node;
 
-    describe('Common behavior', () => {
-        it('Runs tests', () => {
-            expect(true).to.be.equal(true);
-        });
-    });
-
     describe('Node behavior', () => {
         let node;
 
