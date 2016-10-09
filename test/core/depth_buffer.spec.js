@@ -1,8 +1,14 @@
 'use strict';
 
-import { expect } from 'chai/chai';
-import { Scene } from '../../src/core/scene';
-import { DepthBuffer } from '../../src/core/depth_buffer';
+import {
+    expect
+} from 'chai/chai';
+import {
+    Scene
+} from '../../src/core/scene';
+import {
+    DepthBuffer
+} from '../../src/core/depth_buffer';
 
 describe('Depth buffer tests', () => {
     const Primitive = new Scene().factory().Primitive;

@@ -1,7 +1,11 @@
 'use strict';
 
-import { expect } from 'chai/chai';
-import { Selection } from '../../src/core/selection';
+import {
+    expect
+} from 'chai/chai';
+import {
+    Selection
+} from '../../src/core/selection';
 
 describe('Selection tests', () => {
     describe('Common behavior', () => {

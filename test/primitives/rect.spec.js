@@ -1,8 +1,14 @@
 'use strict';
 
-import { expect } from 'chai/chai';
-import { Scene } from '../../src/core/scene';
-import { BBox } from '../../src/core/bbox';
+import {
+    expect
+} from 'chai/chai';
+import {
+    Scene
+} from '../../src/core/scene';
+import {
+    BBox
+} from '../../src/core/bbox';
 
 describe('Rect tests', () => {
     const Factory = new Scene().factory();

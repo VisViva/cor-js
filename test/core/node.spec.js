@@ -1,9 +1,17 @@
 'use strict';
 
-import { expect } from 'chai/chai';
-import { Scene } from '../../src/core/scene';
-import { BBox } from '../../src/core/bbox';
-import { matrix_to_array } from '../../src/utils/helper';
+import {
+    expect
+} from 'chai/chai';
+import {
+    Scene
+} from '../../src/core/scene';
+import {
+    BBox
+} from '../../src/core/bbox';
+import {
+    matrix_to_array
+} from '../../src/utils/helper';
 
 describe('Node tests', () => {
     const Node = new Scene().factory().Node;

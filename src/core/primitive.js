@@ -1,6 +1,8 @@
 'use strict';
 
-import { inherit } from "../utils/helper";
+import {
+    inherit
+} from "../utils/helper";
 
 exports.Primitive = function(_scene, Node) {
 

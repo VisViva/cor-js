@@ -1,10 +1,20 @@
 'use strict';
 
-import { Node } from "./node";
-import { Primitive } from "./primitive";
-import { DepthBuffer } from "./depth_buffer";
-import { Rect } from "../primitives/rect";
-import { Path } from "../primitives/path";
+import {
+    Node
+} from "./node";
+import {
+    Primitive
+} from "./primitive";
+import {
+    DepthBuffer
+} from "./depth_buffer";
+import {
+    Rect
+} from "../primitives/rect";
+import {
+    Path
+} from "../primitives/path";
 
 /**
  * Scene constructor

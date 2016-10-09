@@ -3,9 +3,16 @@
 var glMatrix = require('gl-matrix');
 var vec2 = glMatrix.vec2;
 
-import { Selection } from '../core/selection';
-import { BBox } from '../core/bbox';
-import { inherit, glmatrix_to_canvas_matrix } from "../utils/helper";
+import {
+    Selection
+} from '../core/selection';
+import {
+    BBox
+} from '../core/bbox';
+import {
+    inherit,
+    glmatrix_to_canvas_matrix
+} from "../utils/helper";
 
 exports.Rect = function(_scene, Primitive) {
 
@@ -37,12 +44,12 @@ exports.Rect = function(_scene, Primitive) {
          * Initialize points
          */
 
-         for (let i = 0; i < 4; ++i) {
-             this._points.push({
-                 x: 0,
-                 y: 0
-             });
-         };
+        for (let i = 0; i < 4; ++i) {
+            this._points.push({
+                x: 0,
+                y: 0
+            });
+        };
     };
 
     /**

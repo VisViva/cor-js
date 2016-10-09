@@ -1,7 +1,11 @@
 'use strict';
 
-import { expect } from 'chai/chai';
-import { SceneManager } from '../src/scene_manager';
+import {
+    expect
+} from 'chai/chai';
+import {
+    SceneManager
+} from '../src/scene_manager';
 
 describe('Core tests', () => {
     describe('Common behavior', () => {

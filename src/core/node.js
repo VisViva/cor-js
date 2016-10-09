@@ -4,9 +4,17 @@ const glMatrix = require('gl-matrix');
 const vec2 = glMatrix.vec2;
 const mat3 = glMatrix.mat3;
 
-import { Selection } from '../core/selection';
-import { BBox } from '../core/bbox';
-import { deg_to_rad, rad_to_deg, trim_angle } from '../utils/math';
+import {
+    Selection
+} from '../core/selection';
+import {
+    BBox
+} from '../core/bbox';
+import {
+    deg_to_rad,
+    rad_to_deg,
+    trim_angle
+} from '../utils/math';
 
 exports.Node = function(_scene) {
 

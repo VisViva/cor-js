@@ -3,8 +3,14 @@
 const glMatrix = require('gl-matrix');
 const mat3 = glMatrix.mat3;
 
-import { expect } from 'chai/chai';
-import { inherit, matrix_to_array, glmatrix_to_canvas_matrix } from "../../src/utils/helper";
+import {
+    expect
+} from 'chai/chai';
+import {
+    inherit,
+    matrix_to_array,
+    glmatrix_to_canvas_matrix
+} from "../../src/utils/helper";
 
 describe('Helper utilities', () => {
     describe('Inheriting behavior', () => {

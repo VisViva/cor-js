@@ -1,5 +1,9 @@
-import { SceneManager } from '../src/scene_manager';
-import { random_color } from '../src/utils/helper';
+import {
+    SceneManager
+} from '../src/scene_manager';
+import {
+    random_color
+} from '../src/utils/helper';
 
 let scene_manager = new SceneManager();
 let scene = scene_manager.new('scene');

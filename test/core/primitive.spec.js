@@ -1,8 +1,14 @@
 'use strict';
 
-import { expect } from 'chai/chai';
-import { Scene } from '../../src/core/scene';
-import { matrix_to_array } from '../../src/utils/helper';
+import {
+    expect
+} from 'chai/chai';
+import {
+    Scene
+} from '../../src/core/scene';
+import {
+    matrix_to_array
+} from '../../src/utils/helper';
 
 describe('Primitive tests', () => {
     const Primitive = new Scene().factory().Primitive;

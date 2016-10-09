@@ -3,10 +3,22 @@
 var glMatrix = require('gl-matrix');
 var vec2 = glMatrix.vec2;
 
-import { Selection } from '../core/selection';
-import { BBox } from '../core/bbox';
-import { inherit, glmatrix_to_canvas_matrix } from "../utils/helper";
-import { get_quadratic_function_for, get_quadratic_function_extrema_for, get_cubic_function_for, get_cubic_function_extremas_for } from "../utils/math";
+import {
+    Selection
+} from '../core/selection';
+import {
+    BBox
+} from '../core/bbox';
+import {
+    inherit,
+    glmatrix_to_canvas_matrix
+} from "../utils/helper";
+import {
+    get_quadratic_function_for,
+    get_quadratic_function_extrema_for,
+    get_cubic_function_for,
+    get_cubic_function_extremas_for
+} from "../utils/math";
 
 exports.Path = function(_scene, Primitive) {
 

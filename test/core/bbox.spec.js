@@ -1,7 +1,11 @@
 'use strict';
 
-import { expect } from 'chai/chai';
-import { BBox } from '../../src/core/bbox';
+import {
+    expect
+} from 'chai/chai';
+import {
+    BBox
+} from '../../src/core/bbox';
 
 describe('Selection tests', () => {
     describe('Common behavior', () => {
