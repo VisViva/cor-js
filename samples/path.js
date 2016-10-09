@@ -8,7 +8,9 @@ const Path = scene.factory().Path;
 let path = new Path()
 .debug(true)
 .linearTo(50, 50)
-.quadraticTo(-100, 140, 200, 100);
+.quadraticTo(-100, 140, 200, 100)
+.linearTo(150, 50)
+.quadraticTo(130, 80, 120, 160);
 // .linearTo(100, 70)
 // .linearTo(-20, 50)
 // .linearTo(50, 30);

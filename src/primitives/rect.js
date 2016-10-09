@@ -85,7 +85,8 @@ exports.Rect = function(_scene, Primitive) {
          * Transformed points
          */
 
-        const transformed2DVectors = [];
+        const xValues = [];
+        const yValues = [];
 
         /**
          * Transformations
@@ -95,17 +96,15 @@ exports.Rect = function(_scene, Primitive) {
 
         for (let i = 0; i < this._points.length; ++i) {
             vec2.transformMat3(transformed3DVector, vec2.fromValues(this._points[i].x, this._points[i].y), this._matrix_cascaded);
-            transformed2DVectors.push({
-                x: transformed3DVector[0],
-                y: transformed3DVector[1]
-            });
+            xValues.push(transformed3DVector[0]);
+            yValues.push(transformed3DVector[1]);
         }
 
         /**
          * Returning the newly created bouding box
          */
 
-        return BBox.prototype.from(transformed2DVectors);
+        return BBox.prototype.from(xValues, xValues);
     };
 
     /**

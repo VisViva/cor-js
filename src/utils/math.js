@@ -48,3 +48,12 @@ export function trim_angle(angle) {
         }
     }
 }
+
+/**
+ * Get value of a quadratic function by supplying control points and an interval
+ */
+
+export function get_quadratic_point(start, control, end, t) {
+    const a = 1 - t;
+    return start * a * a + control * 2 * a * t + end * t * t;
+}
