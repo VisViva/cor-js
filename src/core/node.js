@@ -298,7 +298,7 @@ exports.Node = function(_scene) {
     };
 
     /**
-     * Gets the bounding box of the current node only
+     * Get the bounding box of the current node only
      */
 
     Node.prototype.bboxOwn = function() {
@@ -306,7 +306,7 @@ exports.Node = function(_scene) {
     };
 
     /**
-     * Starts recursive merge of all the child bboxes
+     * Initiate recursive merge of all the child bboxes
      */
 
     Node.prototype.bboxCascaded = function() {

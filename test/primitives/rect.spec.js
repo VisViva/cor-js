@@ -28,6 +28,9 @@ describe('Rect tests', () => {
             expect(rect.depth()).to.be.equal(0);
             expect(rect.debug()).to.be.equal(false);
             expect(rect.hidden()).to.be.equal(false);
+            expect(rect.material().stroke()).to.be.equal('#000000');
+            expect(rect.material().width()).to.be.equal(1);
+            expect(rect.material().fill()).to.be.equal('#000000');
         });
 
         it('Executes own constructor correctly', () => {

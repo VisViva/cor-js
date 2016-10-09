@@ -3,6 +3,9 @@
 import {
     inherit
 } from "../utils/helper";
+import {
+    Material
+} from '../core/material';
 
 exports.Primitive = function(_scene, Node) {
 
@@ -45,6 +48,12 @@ exports.Primitive = function(_scene, Node) {
          */
 
         this._hidden = false;
+
+        /**
+         * Material of the current primitive
+         */
+
+        this._material = new Material();
     }
 
     /**
@@ -88,7 +97,7 @@ exports.Primitive = function(_scene, Node) {
     };
 
     /**
-     * Gets or sets visibility of the current primitive
+     * Get or set visibility of the current primitive
      */
 
     Primitive.prototype.hidden = function(hidden) {
@@ -97,6 +106,19 @@ exports.Primitive = function(_scene, Node) {
             return this;
         } else {
             return this._hidden;
+        }
+    };
+
+    /**
+     * Get or set the material of the current primitive
+     */
+
+    Primitive.prototype.material = function(material) {
+        if (material) {
+            this._material = material;
+            return this;
+        } else {
+            return this._material;
         }
     };
 
