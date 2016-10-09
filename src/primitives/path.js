@@ -166,7 +166,7 @@ exports.Path = function(_scene, Primitive) {
                         * and the control point
                         */
 
-                        let control_point = vec2.create();
+                        const control_point = vec2.create();
                         vec2.transformMat3(control_point, vec2.fromValues(this._segments[i][0], this._segments[i][1]), this._matrix_cascaded);
                         vec2.transformMat3(point_end, vec2.fromValues(this._segments[i][2], this._segments[i][3]), this._matrix_cascaded);
 
@@ -174,8 +174,8 @@ exports.Path = function(_scene, Primitive) {
                         * Calculate extremas for each axis
                         */
 
-                        let x_extrema_t = (point_start[0] - control_point[0]) / (point_start[0] - 2 * control_point[0] + point_end[0]);
-                        let y_extrema_t = (point_start[1] - control_point[1]) / (point_start[1] - 2 * control_point[1] + point_end[1]);
+                        const x_extrema_t = (point_start[0] - control_point[0]) / (point_start[0] - 2 * control_point[0] + point_end[0]);
+                        const y_extrema_t = (point_start[1] - control_point[1]) / (point_start[1] - 2 * control_point[1] + point_end[1]);
 
                         /**
                         * Append end points to the arrays for further calculation
@@ -235,7 +235,7 @@ exports.Path = function(_scene, Primitive) {
                             context.arc(x_extrema, y_extrema, 4, 0, 2 * Math.PI, false);
                             context.stroke();
                         }
-                        
+
                         break;
                     }
 
