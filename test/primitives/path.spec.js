@@ -111,7 +111,6 @@ describe('Path tests', () => {
 
         it('Gets linear segments bounding box correctly', () => {
             expect(path.linearTo(-100, 100)).to.be.equal(path);
-            expect(scene.root().append(path)).to.be.equal(scene.root());
             bbox = path.bboxOwn();
             expect(bbox.x()).to.be.equal(-100);
             expect(bbox.y()).to.be.equal(100);
@@ -121,11 +120,19 @@ describe('Path tests', () => {
 
         it('Gets quadratic segments bounding box correctly', () => {
             expect(path.quadraticTo(-100, 100, 0, 200)).to.be.equal(path);
-            expect(scene.root().append(path)).to.be.equal(scene.root());
             bbox = path.bboxOwn();
             expect(bbox.x()).to.be.equal(-50);
             expect(bbox.y()).to.be.equal(200);
             expect(bbox.width()).to.be.equal(50);
+            expect(bbox.height()).to.be.equal(200);
+        });
+
+        it('Gets cubic segments bounding box correctly', () => {
+            expect(path.cubicTo(-100, 100, 50, 150, 0, 200)).to.be.equal(path);
+            bbox = path.bboxOwn();
+            expect(bbox.x()).to.be.approximately(-35.21, 0.01);
+            expect(bbox.y()).to.be.equal(200);
+            expect(bbox.width()).to.be.approximately(45.72, 0.01);
             expect(bbox.height()).to.be.equal(200);
         });
     });
