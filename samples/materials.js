@@ -11,8 +11,8 @@ window.addEventListener('resize', function(event) {
     scene.resize();
 });
 
-for (let i = -4; i < 5; ++i) {
-    for (let j = -4; j < 5; ++j) {
+for (let i = -2; i < 3; ++i) {
+    for (let j = -2; j < 3; ++j) {
         const rect = new Rect();
         const path = new Path();
         rect
@@ -20,20 +20,21 @@ for (let i = -4; i < 5; ++i) {
             .translate(150 * i, 150 * j)
             .width(100)
             .height(100)
-            .rotate(45 * i * j);
+            .rotate(i * j);
         path
             .debug(true)
-            .cubicTo(50, -50, -15, -15, 50, 50)
+            .cubicTo(50 * i, -50, -15, -15, 50, 50 * j)
             .linearTo(-25, 25)
             .quadraticTo(-50, -50, -50, -50);
         scene
             .root()
+            .scale(0.99, 0.99)
             .append(rect.append(path));
     }
 }
 
 setInterval(() => {
-    scene.root().children().iterate(
+    scene.root().rotate(0.1).children().iterate(
         node => {
             node.rotate(1);
         }

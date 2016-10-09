@@ -1,5 +1,9 @@
 'use strict';
 
+const glMatrix = require('gl-matrix');
+const vec2 = glMatrix.vec2;
+const mat3 = glMatrix.mat3;
+
 import {
     Node
 } from "./node";
@@ -21,15 +25,54 @@ import {
  */
 
 function Scene(name, width, height) {
+
+    /**
+     * Name of the scene, also used as canvas id
+     */
+
     this._name = name;
-    this._factory = null;
-    this._root = new(this.factory()).Node();
-    this._depthbuffer = new DepthBuffer();
+
+    /**
+     * Flag, representing the visibility state of the grid
+     */
+
     this._grid = false;
+
+    /**
+     * Constructor factory
+     */
+
+    this._factory = null;
+
+    /**
+     * Depth buffer that contains all renderable assets sorted by depth
+     */
+
+    this._depthbuffer = new DepthBuffer();
+
+    /**
+     * Root node of the scene
+     */
+
+    this._root = new(this.factory()).Node();
+
+    /**
+     * Canvas, bound to the scene
+     */
 
     this._canvas = document.body.appendChild(document.createElement("canvas"));
     this._canvas.id = this._name;
+
+    /**
+     * Rendering context
+     */
+
     this._context = this._canvas.getContext('2d');
+
+    /**
+     * Resizing the scene
+     */
+
     this.resize(width, height);
 };
 
@@ -146,16 +189,43 @@ Scene.prototype.clear = function() {
     context.fillStyle = '#CCCCCC';
     context.fillRect(0, 0, this._canvas.width, this._canvas.height);
 
-    // Draw grid if needed
+    // Draw the grid if needed
 
     if (this._grid === true) {
+
+        const grid_points = [{
+            x: 10000,
+            y: 0
+        }, {
+            x: -10000,
+            y: 0
+        }, {
+            x: 0,
+            y: 10000
+        }, {
+            x: 0,
+            y: -10000
+        }];
+
+        /**
+         * Transformations
+         */
+
+        const transformed3DVector = vec2.create();
+
+        for (let i = 0; i < grid_points.length; ++i) {
+            vec2.transformMat3(transformed3DVector, vec2.fromValues(grid_points[i].x, grid_points[i].y), this.root()._matrix_cascaded);
+            grid_points[i].x = transformed3DVector[0];
+            grid_points[i].y = transformed3DVector[1];
+        }
+
         context.beginPath();
-        context.moveTo(this._canvas.width >>> 1, 0);
-        context.lineTo(this._canvas.width >>> 1, this._canvas.height);
-        context.moveTo(0, this._canvas.height >>> 1);
-        context.lineTo(this._canvas.width, this._canvas.height >>> 1);
-        context.strokeStyle = '#999999';
-        context.lineWidth = 0.5;
+        context.moveTo(grid_points[0].x, grid_points[0].y);
+        context.lineTo(grid_points[1].x, grid_points[1].y);
+        context.moveTo(grid_points[2].x, grid_points[2].y);
+        context.lineTo(grid_points[3].x, grid_points[3].y);
+        context.strokeStyle = '#444444';
+        context.lineWidth = 1;
         context.stroke();
     }
 };
