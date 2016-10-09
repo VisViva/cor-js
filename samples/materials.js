@@ -11,8 +11,8 @@ const Path = scene.factory().Path;
 const Rect = scene.factory().Rect;
 
 scene
-.grid(true)
-.material()
+    .grid(true)
+    .material()
     .stroke('#000000')
     .width(1)
     .fill('#CCCCCC');
@@ -32,14 +32,14 @@ for (let i = -2; i < 3; ++i) {
             .height(100)
             .rotate(i * j)
             .material()
-                .fill(random_color());
+            .fill(random_color());
         path
             .debug(true)
             .cubicTo(50 * i, -50, -15, -15, 50, 50 * j)
             .linearTo(-25, 25)
             .quadraticTo(-50, -50, -50, -50)
             .material()
-                .stroke(random_color());
+            .stroke(random_color());
         scene
             .root()
             .scale(0.99, 0.99)
