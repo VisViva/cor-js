@@ -30,7 +30,7 @@ for (let i = -5; i < 6; ++i) {
         const recta = new RectA();
         const patha = new PathA();
         recta
-            .debug(false)
+            .debug(true)
             .translate(150 * i, 150 * j)
             .width(100)
             .height(100)
@@ -39,7 +39,7 @@ for (let i = -5; i < 6; ++i) {
             .material()
             .fill(random_color());
         patha
-            .debug(false)
+            .debug(true)
             .cubicTo(50 * i, -50, -15, -15, 50, 50 * j)
             .linearTo(-25, 25)
             .quadraticTo(-50, -50, -50, -50)
@@ -47,7 +47,7 @@ for (let i = -5; i < 6; ++i) {
             .material()
             .stroke(random_color());
         roota
-            .append(recta);
+            .append(recta.append(patha));
     }
 }
 
@@ -158,4 +158,4 @@ rootc.rotate(0.005).children().iterate(
     }
 );
 
-scenec.render();
+scenec.render();scenec.render();

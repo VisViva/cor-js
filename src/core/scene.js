@@ -264,7 +264,6 @@ Scene.prototype.clear = function() {
     // Draw the grid if needed
 
     if (this._grid === true) {
-
         const grid_points = [{
             x: 10000,
             y: 0
@@ -310,10 +309,6 @@ Scene.prototype.render = function() {
 
     this._timer.reset();
 
-    // Clear the context
-
-    this.clear();
-
     // Detect dirty nodes and cascade their transformations
 
     this.root().reachDirty().iterate(
@@ -321,6 +316,10 @@ Scene.prototype.render = function() {
             element.cascade();
         }
     );
+
+    // Clear the context
+
+    this.clear();
 
     // Iterate over the depth buffer and render all of the primitives
 
@@ -336,6 +335,8 @@ Scene.prototype.render = function() {
  */
 
 Scene.prototype.start = function(callback) {
+    callback();
+    this.render();
     ! function _loop() {
         setTimeout(() => {
             requestAnimationFrame(_loop.bind(this));
