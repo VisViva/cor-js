@@ -12,9 +12,13 @@ import {
 import {
     matrix_to_array
 } from '../../src/utils/helper';
+import {
+    trim_angle
+} from '../../src/utils/math';
 
 describe('Node tests', () => {
-    const Node = new Scene().factory().Node;
+    const scene = new Scene();
+    const Node = scene.factory().Node;
 
     describe('Node behavior', () => {
         let node;
@@ -33,6 +37,7 @@ describe('Node tests', () => {
             expect(node.scale().y).to.be.equal(1);
             expect(node.active()).to.be.equal(true);
             expect(node.dirty()).to.be.equal(false);
+            expect(node.timed()).to.be.equal(false);
             expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('100010001');
             expect(matrix_to_array(node.matrixCascaded()).join('')).to.be.equal('100010001');
         });
@@ -53,7 +58,8 @@ describe('Node tests', () => {
             expect(node.dirty()).to.be.equal(true);
         });
 
-        it('Sets translation', () => {
+        it('Sets untimed translation', () => {
+            expect(node.timed()).to.be.equal(false);
             expect(node.dirty()).to.be.equal(false);
             expect(node.translate(5, 0)).to.be.equal(node);
             expect(node.translate().x).to.be.equal(5);
@@ -66,7 +72,8 @@ describe('Node tests', () => {
             expect(node.dirty()).to.be.equal(true);
         });
 
-        it('Sets rotation', () => {
+        it('Sets untimed rotation', () => {
+            expect(node.timed()).to.be.equal(false);
             expect(node.dirty()).to.be.equal(false);
             expect(node.rotate(0)).to.be.equal(node);
             expect(node.rotate()).to.be.equal(0);
@@ -79,7 +86,8 @@ describe('Node tests', () => {
             expect(node.dirty()).to.be.equal(true);
         });
 
-        it('Sets scale', () => {
+        it('Sets untimed scale', () => {
+            expect(node.timed()).to.be.equal(false);
             expect(node.dirty()).to.be.equal(false);
             expect(node.scale(1.5, 2)).to.be.equal(node);
             expect(node.scale().x).to.be.equal(1.5);
@@ -90,6 +98,55 @@ describe('Node tests', () => {
             expect(node.scale().y).to.be.equal(4);
             expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('2.2500040001');
             expect(node.dirty()).to.be.equal(true);
+        });
+        
+        it('Sets timed status', () => {
+            expect(node.timed()).to.be.equal(false);
+            expect(node.timed(true)).to.be.equal(node);
+            expect(node.timed()).to.be.equal(true);
+        });
+
+        it('Sets timed translation', (done) => {
+            expect(node.timed(true)).to.be.equal(node);
+            expect(node.dirty()).to.be.equal(false);
+            scene.timer().reset();
+            setTimeout(() => {
+                expect(node.translate(5, 10)).to.be.equal(node);
+                var delta = scene.timer().delta();
+                expect(node.translate().x).to.be.approximately(5 * delta, 1);
+                expect(node.translate().y).to.be.approximately(10 * delta, 1);
+                expect(node.dirty()).to.be.equal(true);
+                done();
+            }, 500);
+        });
+
+        it('Sets timed rotation', (done) => {
+            expect(node.timed(true)).to.be.equal(node);
+            expect(node.dirty()).to.be.equal(false);
+            expect(node.rotate(0)).to.be.equal(node);
+            expect(node.rotate()).to.be.equal(0);
+            scene.timer().reset();
+            setTimeout(() => {
+                expect(node.rotate(45)).to.be.equal(node);
+                var delta = scene.timer().delta();
+                expect(node.rotate()).to.be.approximately(trim_angle(45 * delta), 1);
+                expect(node.dirty()).to.be.equal(true);
+                done();
+            }, 500);
+        });
+
+        it('Sets timed scale', (done) => {
+            expect(node.timed(true)).to.be.equal(node);
+            expect(node.dirty()).to.be.equal(false);
+            scene.timer().reset();
+            setTimeout(() => {
+                expect(node.scale(5, 10)).to.be.equal(node);
+                var delta = scene.timer().delta();
+                expect(node.scale().x).to.be.approximately(5 * delta, 1);
+                expect(node.scale().y).to.be.approximately(10 * delta, 1);
+                expect(node.dirty()).to.be.equal(true);
+                done();
+            }, 500);
         });
 
         it('Sets dirtiness status', () => {

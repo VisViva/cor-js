@@ -5,8 +5,9 @@ import {
     random_color
 } from '../src/utils/helper';
 
-let scene_manager = new SceneManager();
-let scene = scene_manager.new('scene');
+const scene_manager = new SceneManager();
+const scene = scene_manager.new('scene');
+const root = scene.root();
 const Path = scene.factory().Path;
 const Rect = scene.factory().Rect;
 
@@ -16,6 +17,9 @@ scene
     .stroke('#000000')
     .width(1)
     .fill('#CCCCCC');
+
+root
+    .timed(true);
 
 window.addEventListener('resize', function(event) {
     scene.resize();
@@ -31,6 +35,7 @@ for (let i = -2; i < 3; ++i) {
             .width(100)
             .height(100)
             .rotate(i * j)
+            .timed(true)
             .material()
             .fill(random_color());
         path
@@ -38,26 +43,22 @@ for (let i = -2; i < 3; ++i) {
             .cubicTo(50 * i, -50, -15, -15, 50, 50 * j)
             .linearTo(-25, 25)
             .quadraticTo(-50, -50, -50, -50)
+            .timed(true)
             .material()
             .stroke(random_color());
-        scene
-            .root()
-            .scale(0.99, 0.99)
+        root
             .append(rect.append(path));
     }
 }
 
 var fps = 60;
-var time;
+
 function draw() {
     setTimeout(function() {
         requestAnimationFrame(draw);
-        var now = new Date().getTime(),
-        dt = now - (time || now);
-        time = now;
-        scene.root().rotate(0.01 * dt).children().iterate(
+        root.rotate(0.05).children().iterate(
             node => {
-                node.rotate(0.01 * dt);
+                node.rotate(-0.05);
             }
         );
         scene_manager.render();

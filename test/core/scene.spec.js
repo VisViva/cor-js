@@ -7,6 +7,9 @@ import {
     Scene
 } from '../../src/core/scene';
 import {
+    Timer
+} from '../../src/core/timer';
+import {
     DepthBuffer
 } from '../../src/core/depth_buffer';
 import {
@@ -22,6 +25,11 @@ describe('Scene tests', () => {
 
         beforeEach(function() {
             scene = new Scene('scene');
+        });
+
+        it('Constructs the timercorrectly', () => {
+            expect(scene.timer() instanceof Timer).to.be.equal(true);
+            expect(scene.timer()._snapshot).to.be.approximately(new Date().getTime(), 100);
         });
 
         it('Constructs the name property correctly', () => {
@@ -148,6 +156,14 @@ describe('Scene tests', () => {
         beforeEach(function() {
             scene = new Scene('scene');
             Primitive = scene.factory().Primitive;
+        });
+
+        it('Resets the timer snapshot on render', (done) => {
+            setTimeout(() => {
+              expect(scene.render()).to.be.equal(scene);
+              expect(scene.timer().delta()).to.be.approximately(0, 100);
+              done();
+            }, 1000);
         });
 
         it('Calls the render function of each of the primitives present in the depth buffer upon render', () => {

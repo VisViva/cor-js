@@ -5,6 +5,9 @@ const vec2 = glMatrix.vec2;
 const mat3 = glMatrix.mat3;
 
 import {
+    Timer
+} from './timer';
+import {
     Node
 } from "./node";
 import {
@@ -28,6 +31,12 @@ import {
  */
 
 function Scene(name, width, height) {
+
+    /**
+     * Timer bound to the current scene
+     */
+
+    this._timer = new Timer();
 
     /**
      * Name of the scene, also used as canvas id
@@ -106,8 +115,25 @@ Scene.prototype.resize = function(width, height) {
         this._canvas.width = this._canvas.offsetWidth;
         this._canvas.height = this._canvas.offsetHeight;
     }
-    this._root.reset().translate(this._canvas.width >>> 1, this._canvas.height >>> 1);
+    const timed = this._root.timed();
+    const scale = this._root.scale();
+    const rotate = this._root.rotate();
+    this._root
+        .timed(false)
+        .reset()
+        .translate(this._canvas.width >>> 1, this._canvas.height >>> 1)
+        .rotate(rotate)
+        .scale(scale.x, scale.y)
+        .timed(timed);
     return this;
+};
+
+/**
+ * Get the scene's timer
+ */
+
+Scene.prototype.timer = function() {
+    return this._timer;
 };
 
 /**
@@ -260,6 +286,10 @@ Scene.prototype.clear = function() {
  */
 
 Scene.prototype.render = function() {
+
+    // Reset the timer
+
+    this._timer.reset();
 
     // Clear the context
 
