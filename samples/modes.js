@@ -51,13 +51,30 @@ for (let i = -5; i < 6; ++i) {
     }
 }
 
-scenea.start(() => {
-    roota.rotate(0.005).children().iterate(
-        node => {
-            node.rotate(-0.15);
-        }
-    );
-});
+let stopped = false;
+
+const renderscenea = () => {
+    scenea.start(() => {
+        roota.rotate(0.005).children().iterate(
+            node => {
+                node.rotate(-0.15);
+            }
+        );
+    });
+};
+
+renderscenea();
+
+setInterval(() => {
+    if (stopped === false) {
+        scenea.stop();
+        stopped = true;
+    } else {
+        renderscenea();
+        stopped = false;
+    }
+}, 2000);
+
 
 const sceneb = scene_manager.new('sceneb', window.innerWidth / 3, window.innerHeight);
 const rootb = sceneb.root();
@@ -158,7 +175,6 @@ rootc.rotate(0.005).children().iterate(
     }
 );
 
-scenec.render();
 scenec.render();
 
 window.addEventListener('resize', function(event) {

@@ -45,6 +45,12 @@ function Scene(name, width, height) {
     this._fps = 60;
 
     /**
+     * Request animation frame id
+     */
+
+    this._request_animation_frame_id = null;
+
+    /**
      * Name of the scene, also used as canvas id
      */
 
@@ -331,19 +337,38 @@ Scene.prototype.render = function() {
 };
 
 /**
+ * Rendering loop
+ */
+
+Scene.prototype.loop = function(callback) {
+    setTimeout(() => {
+        if (this._request_animation_frame_id) {
+            this._request_animation_frame_id = requestAnimationFrame(() => this.loop.bind(this)(callback));
+            callback();
+            this.render();
+        }
+    }, 1000 / this._fps);
+};
+
+/**
  * Start rendering
  */
 
 Scene.prototype.start = function(callback) {
+    this.timer().reset();
     callback();
     this.render();
-    ! function _loop() {
-        setTimeout(() => {
-            requestAnimationFrame(_loop.bind(this));
-            callback();
-            this.render();
-        }, 1000 / this._fps);
-    }.bind(this)();
+    this._request_animation_frame_id = requestAnimationFrame(() => this.loop.bind(this)(callback));
+};
+
+/**
+ * Start rendering
+ */
+
+Scene.prototype.stop = function() {
+    this._request_animation_frame_id &&
+    window.cancelAnimationFrame(this._request_animation_frame_id);
+    this._request_animation_frame_id = null;
 };
 
 exports.Scene = Scene;
