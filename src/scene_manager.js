@@ -49,4 +49,15 @@ SceneManager.prototype.scenes = function() {
     return this._scenes.slice();
 };
 
+/**
+ * Render available scenes
+ */
+
+SceneManager.prototype.render = function() {
+    for (let i = 0; i < this._scenes.length; ++i) {
+        this._scenes[i].render();
+    }
+    return this;
+};
+
 exports.SceneManager = SceneManager;

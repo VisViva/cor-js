@@ -53,5 +53,5 @@ setInterval(() => {
             node.rotate(1);
         }
     );
-    scene.render();
+    scene_manager.render();
 }, 1000 / 60);

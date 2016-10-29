@@ -35,4 +35,20 @@ describe('Core tests', () => {
             expect(scenemanager.scenes().length).to.be.equal(1);
         });
     });
+
+    describe('Scene rendering behavior', () => {
+        let scenemanager;
+
+        beforeEach(function() {
+            scenemanager = new SceneManager();
+        });
+
+        it('Creates new scenes properly', () => {
+            expect(scenemanager.scenes().length).to.be.equal(0);
+            const scene = scenemanager.new('scene');
+            const spy = sinon.spy(scene, 'render');
+            expect(scenemanager.render()).to.be.equal(scenemanager);
+            expect(spy.calledOnce).to.be.equal(true);
+        });
+    });
 });
