@@ -172,9 +172,9 @@ describe('Scene tests', () => {
 
         it('Resets the timer snapshot on render', (done) => {
             setTimeout(() => {
-              expect(scene.render()).to.be.equal(scene);
-              expect(scene.timer().delta()).to.be.approximately(0, 100);
-              done();
+                expect(scene.render()).to.be.equal(scene);
+                expect(scene.timer().delta()).to.be.approximately(0, 100);
+                done();
             }, 1000);
         });
 

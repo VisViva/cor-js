@@ -42,8 +42,8 @@ describe('Timer tests', () => {
         it('Gets the delta correctly', (done) => {
             expect(timer.reset()).to.be.approximately(new Date().getTime(), 100);
             setTimeout(() => {
-              expect(timer.delta()).to.be.approximately(1000, 100);
-              done();
+                expect(timer.delta()).to.be.approximately(1000, 100);
+                done();
             }, 1000);
         });
     });

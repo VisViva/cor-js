@@ -20,15 +20,15 @@ scene
     .fill('#CCCCCC');
 
 root
-    .scale(0.1, 0.1)
+    .scale(0.4, 0.4)
     .timed(true);
 
 window.addEventListener('resize', function(event) {
     scene.resize();
 });
 
-for (let i = -60; i < 61; ++i) {
-    for (let j = -60; j < 61; ++j) {
+for (let i = -10; i < 11; ++i) {
+    for (let j = -10; j < 11; ++j) {
         const rect = new Rect();
         const path = new Path();
         rect
@@ -49,14 +49,14 @@ for (let i = -60; i < 61; ++i) {
             .material()
             .stroke(random_color());
         root
-            .append(rect);
+            .append(rect.append(path));
     }
 }
 
 scene.start(() => {
-  root.rotate(0.005).children().iterate(
-      node => {
-          node.rotate(-0.15);
-      }
-  );
+    root.rotate(0.005).children().iterate(
+        node => {
+            node.rotate(-0.15);
+        }
+    );
 });

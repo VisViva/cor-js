@@ -52,11 +52,11 @@ for (let i = -5; i < 6; ++i) {
 }
 
 scenea.start(() => {
-  roota.rotate(0.005).children().iterate(
-      node => {
-          node.rotate(-0.15);
-      }
-  );
+    roota.rotate(0.005).children().iterate(
+        node => {
+            node.rotate(-0.15);
+        }
+    );
 });
 
 const sceneb = scene_manager.new('sceneb', window.innerWidth / 3, window.innerHeight);
@@ -103,11 +103,11 @@ for (let i = -5; i < 6; ++i) {
 }
 
 sceneb.start(() => {
-  rootb.rotate(0.005).children().iterate(
-      node => {
-          node.rotate(-0.15);
-      }
-  );
+    rootb.rotate(0.005).children().iterate(
+        node => {
+            node.rotate(-0.15);
+        }
+    );
 });
 
 const scenec = scene_manager.new('scenec', window.innerWidth / 3, window.innerHeight);
@@ -158,7 +158,8 @@ rootc.rotate(0.005).children().iterate(
     }
 );
 
-scenec.render();scenec.render();
+scenec.render();
+scenec.render();
 
 window.addEventListener('resize', function(event) {
     const width = window.innerWidth / 3;
