@@ -125,7 +125,10 @@ exports.Node = function(_scene) {
             this._dirty = true;
             return this;
         } else {
-            return this._position;
+            return {
+                x: this._position.x,
+                y: this._position.y
+            };
         }
     };
 
@@ -163,7 +166,10 @@ exports.Node = function(_scene) {
             this._dirty = true;
             return this;
         } else {
-            return this._scale;
+            return {
+                x: this._scale.x,
+                y: this._scale.y
+            };
         }
     };
 

@@ -99,7 +99,7 @@ describe('Node tests', () => {
             expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('2.2500040001');
             expect(node.dirty()).to.be.equal(true);
         });
-        
+
         it('Sets timed status', () => {
             expect(node.timed()).to.be.equal(false);
             expect(node.timed(true)).to.be.equal(node);
@@ -111,12 +111,16 @@ describe('Node tests', () => {
             expect(node.dirty()).to.be.equal(false);
             scene.timer().reset();
             setTimeout(() => {
-                expect(node.translate(5, 10)).to.be.equal(node);
-                var delta = scene.timer().delta();
-                expect(node.translate().x).to.be.approximately(5 * delta, 1);
-                expect(node.translate().y).to.be.approximately(10 * delta, 1);
-                expect(node.dirty()).to.be.equal(true);
-                done();
+                try {
+                    expect(node.translate(5, 10)).to.be.equal(node);
+                    var delta = scene.timer().delta();
+                    expect(node.translate().x).to.be.approximately(5 * delta, 10);
+                    expect(node.translate().y).to.be.approximately(10 * delta, 10);
+                    expect(node.dirty()).to.be.equal(true);
+                    done();
+                } catch (error) {
+                    done(error);
+                }
             }, 500);
         });
 
@@ -127,11 +131,15 @@ describe('Node tests', () => {
             expect(node.rotate()).to.be.equal(0);
             scene.timer().reset();
             setTimeout(() => {
-                expect(node.rotate(45)).to.be.equal(node);
-                var delta = scene.timer().delta();
-                expect(node.rotate()).to.be.approximately(trim_angle(45 * delta), 1);
-                expect(node.dirty()).to.be.equal(true);
-                done();
+                try {
+                    expect(node.rotate(45)).to.be.equal(node);
+                    var delta = scene.timer().delta();
+                    expect(node.rotate()).to.be.approximately(trim_angle(45 * delta), 10);
+                    expect(node.dirty()).to.be.equal(true);
+                    done();
+                } catch (error) {
+                    done(error);
+                }
             }, 500);
         });
 
@@ -140,12 +148,16 @@ describe('Node tests', () => {
             expect(node.dirty()).to.be.equal(false);
             scene.timer().reset();
             setTimeout(() => {
-                expect(node.scale(5, 10)).to.be.equal(node);
-                var delta = scene.timer().delta();
-                expect(node.scale().x).to.be.approximately(5 * delta, 1);
-                expect(node.scale().y).to.be.approximately(10 * delta, 1);
-                expect(node.dirty()).to.be.equal(true);
-                done();
+                try {
+                    expect(node.scale(5, 10)).to.be.equal(node);
+                    var delta = scene.timer().delta();
+                    expect(node.scale().x).to.be.approximately(5 * delta, 10);
+                    expect(node.scale().y).to.be.approximately(10 * delta, 10);
+                    expect(node.dirty()).to.be.equal(true);
+                    done();
+                } catch (error) {
+                    done(error);
+                }
             }, 500);
         });
 

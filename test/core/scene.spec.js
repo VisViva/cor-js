@@ -36,6 +36,10 @@ describe('Scene tests', () => {
             expect(scene.name()).to.be.equal('scene');
         });
 
+        it('Constructs the fps correctly', () => {
+            expect(scene.fps()).to.be.equal(60);
+        });
+
         it('Constructs the grid flag correctly', () => {
             expect(scene.grid()).to.be.equal(false);
         });
@@ -50,6 +54,8 @@ describe('Scene tests', () => {
             expect(scene.root().scale().x).to.be.equal(1);
             expect(scene.root().scale().y).to.be.equal(1);
             expect(scene.root().active()).to.be.equal(true);
+            expect(scene.root().dirty()).to.be.equal(true);
+            expect(scene.root().timed()).to.be.equal(false);
             expect(scene.material().stroke()).to.be.equal('#000000');
             expect(scene.material().width()).to.be.equal(1);
             expect(scene.material().fill()).to.be.equal('#000000');
@@ -67,6 +73,12 @@ describe('Scene tests', () => {
 
         beforeEach(function() {
             scene = new Scene('scene');
+        });
+
+        it('Sets the fps correctly', () => {
+            expect(scene.fps()).to.be.equal(60);
+            expect(scene.fps(30)).to.be.equal(scene);
+            expect(scene.fps()).to.be.equal(30);
         });
 
         it('Resizes correctly', () => {

@@ -39,6 +39,12 @@ function Scene(name, width, height) {
     this._timer = new Timer();
 
     /**
+     * Frames per second
+     */
+
+    this._fps = 60;
+
+    /**
      * Name of the scene, also used as canvas id
      */
 
@@ -122,8 +128,8 @@ Scene.prototype.resize = function(width, height) {
         .timed(false)
         .reset()
         .translate(this._canvas.width >>> 1, this._canvas.height >>> 1)
-        .rotate(rotate)
         .scale(scale.x, scale.y)
+        .rotate(rotate)
         .timed(timed);
     return this;
 };
@@ -134,6 +140,19 @@ Scene.prototype.resize = function(width, height) {
 
 Scene.prototype.timer = function() {
     return this._timer;
+};
+
+/**
+ * Get or set fps
+ */
+
+Scene.prototype.fps = function(fps) {
+    if (typeof fps !== 'undefined') {
+        this._fps = fps;
+        return this;
+    } else {
+        return this._fps;
+    }
 };
 
 /**
@@ -310,6 +329,20 @@ Scene.prototype.render = function() {
         primitives[i].render();
     }
     return this;
+};
+
+/**
+ * Start rendering
+ */
+
+Scene.prototype.start = function(callback) {
+    ! function _loop() {
+        setTimeout(() => {
+            requestAnimationFrame(_loop.bind(this));
+            callback();
+            this.render();
+        }, 1000 / this._fps);
+    }.bind(this)();
 };
 
 exports.Scene = Scene;

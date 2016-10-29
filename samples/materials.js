@@ -13,24 +13,26 @@ const Rect = scene.factory().Rect;
 
 scene
     .grid(true)
+    .fps(60)
     .material()
     .stroke('#000000')
     .width(1)
     .fill('#CCCCCC');
 
 root
+    .scale(0.1, 0.1)
     .timed(true);
 
 window.addEventListener('resize', function(event) {
     scene.resize();
 });
 
-for (let i = -2; i < 3; ++i) {
-    for (let j = -2; j < 3; ++j) {
+for (let i = -60; i < 61; ++i) {
+    for (let j = -60; j < 61; ++j) {
         const rect = new Rect();
         const path = new Path();
         rect
-            .debug(true)
+            .debug(false)
             .translate(150 * i, 150 * j)
             .width(100)
             .height(100)
@@ -39,7 +41,7 @@ for (let i = -2; i < 3; ++i) {
             .material()
             .fill(random_color());
         path
-            .debug(true)
+            .debug(false)
             .cubicTo(50 * i, -50, -15, -15, 50, 50 * j)
             .linearTo(-25, 25)
             .quadraticTo(-50, -50, -50, -50)
@@ -47,21 +49,14 @@ for (let i = -2; i < 3; ++i) {
             .material()
             .stroke(random_color());
         root
-            .append(rect.append(path));
+            .append(rect);
     }
 }
 
-var fps = 60;
-
-function draw() {
-    setTimeout(function() {
-        requestAnimationFrame(draw);
-        root.rotate(0.05).children().iterate(
-            node => {
-                node.rotate(-0.05);
-            }
-        );
-        scene_manager.render();
-    }, 1000 / fps);
-}
-draw();
+scene.start(() => {
+  root.rotate(0.005).children().iterate(
+      node => {
+          node.rotate(-0.15);
+      }
+  );
+});

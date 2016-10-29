@@ -33,6 +33,7 @@ describe('Primitive tests', () => {
             expect(primitive.scale().y).to.be.equal(1);
             expect(primitive.active()).to.be.equal(true);
             expect(primitive.dirty()).to.be.equal(false);
+            expect(primitive.timed()).to.be.equal(false);
             expect(matrix_to_array(primitive.matrixOwn()).join('')).to.be.equal('100010001');
             expect(matrix_to_array(primitive.matrixCascaded()).join('')).to.be.equal('100010001');
         });
