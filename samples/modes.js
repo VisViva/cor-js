@@ -6,7 +6,7 @@ import {
 } from '../src/utils/helper';
 
 const scene_manager = new SceneManager();
-const scenea = scene_manager.new('scene', 500, 500);
+const scenea = scene_manager.new('scene', window.innerWidth / 3, window.innerHeight);
 const roota = scenea.root();
 const PathA = scenea.factory().Path;
 const RectA = scenea.factory().Rect;
@@ -59,7 +59,7 @@ scenea.start(() => {
   );
 });
 
-const sceneb = scene_manager.new('sceneb', 500, 500);
+const sceneb = scene_manager.new('sceneb', window.innerWidth / 3, window.innerHeight);
 const rootb = sceneb.root();
 const PathB = sceneb.factory().Path;
 const RectB = sceneb.factory().Rect;
@@ -110,7 +110,7 @@ sceneb.start(() => {
   );
 });
 
-const scenec = scene_manager.new('scenec', 500, 500);
+const scenec = scene_manager.new('scenec', window.innerWidth / 3, window.innerHeight);
 const rootc = scenec.root();
 const PathC = scenec.factory().Path;
 const RectC = scenec.factory().Rect;
@@ -159,3 +159,11 @@ rootc.rotate(0.005).children().iterate(
 );
 
 scenec.render();scenec.render();
+
+window.addEventListener('resize', function(event) {
+    const width = window.innerWidth / 3;
+    const height = window.innerHeight;
+    scenea.resize(width, height).render();
+    sceneb.resize(width, height).render();
+    scenec.resize(width, height).render();
+});
