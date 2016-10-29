@@ -47,11 +47,20 @@ for (let i = -2; i < 3; ++i) {
     }
 }
 
-setInterval(() => {
-    scene.root().rotate(0.1).children().iterate(
-        node => {
-            node.rotate(1);
-        }
-    );
-    scene_manager.render();
-}, 1000 / 60);
+var fps = 60;
+var time;
+function draw() {
+    setTimeout(function() {
+        requestAnimationFrame(draw);
+        var now = new Date().getTime(),
+        dt = now - (time || now);
+        time = now;
+        scene.root().rotate(0.01 * dt).children().iterate(
+            node => {
+                node.rotate(0.01 * dt);
+            }
+        );
+        scene_manager.render();
+    }, 1000 / fps);
+}
+draw();
