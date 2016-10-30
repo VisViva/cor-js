@@ -132,6 +132,7 @@ exports.Rect = function(_scene, Primitive) {
          */
         context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
         context.fillRect(this._points[0].x, -this._points[0].y, this.width(), this.height());
+        context.strokeRect(this._points[0].x, -this._points[0].y, this.width(), this.height());
 
         if (this._debug === true) {
             let bbox = this.bboxCascaded();

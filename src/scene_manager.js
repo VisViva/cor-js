@@ -9,6 +9,9 @@ import {
 import {
     BBox
 } from './core/bbox';
+import {
+    Material
+} from './core/material';
 
 /**
  * Scene manager constructor
@@ -61,3 +64,4 @@ SceneManager.prototype.render = function() {
 };
 
 exports.SceneManager = SceneManager;
+exports.Material = Material;

@@ -30,6 +30,15 @@ DepthBuffer.prototype.append = function(primitive) {
 };
 
 /**
+ * Empty the depth buffer
+ */
+
+DepthBuffer.prototype.clear = function() {
+    this._primitives.length = 0;
+    return this;
+};
+
+/**
  * List all the primitives currently in the depth buffer
  */
 
