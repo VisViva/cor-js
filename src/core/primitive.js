@@ -88,7 +88,7 @@ exports.Primitive = function(_scene, Node) {
      */
 
     Primitive.prototype.depth = function(depth) {
-        if (depth) {
+        if (typeof depth !== 'undefined') {
             this._depth = depth;
             return this;
         } else {
@@ -101,7 +101,7 @@ exports.Primitive = function(_scene, Node) {
      */
 
     Primitive.prototype.hidden = function(hidden) {
-        if (hidden) {
+        if (typeof hidden !== 'undefined') {
             this._hidden = hidden;
             return this;
         } else {
