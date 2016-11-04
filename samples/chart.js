@@ -39,12 +39,12 @@ const scene_manager = new SceneManager();
     function drawGrid() {
         for (let i = -5; i < 6; ++i) {
             const line = new Path();
-            line.depth(-100).at(- scene._canvas.width / 3, i * scene._canvas.height * 4 / 60).linearTo(scene._canvas.width / 3, i * scene._canvas.height * 4 / 60).material(gridMaterial);
+            line.depth(-100).at(- scene._canvas.width / 3, i * scene._canvas.height * 4 / 60).linearTo(scene._canvas.width / 3, - i * scene._canvas.height * 4 / 60).material(gridMaterial);
             root.append(line);
         }
         for (let i = -5; i < 6; ++i) {
             const line = new Path();
-            line.depth(-100).at(i * scene._canvas.width * 4 / 60, - scene._canvas.height / 3).linearTo(i * scene._canvas.width * 4 / 60, scene._canvas.height / 3).material(gridMaterial);
+            line.depth(-100).at(i * scene._canvas.width * 4 / 60, - scene._canvas.height / 3).linearTo(i * scene._canvas.width * 4 / 60, - scene._canvas.height / 3).material(gridMaterial);
             root.append(line);
         }
     }
