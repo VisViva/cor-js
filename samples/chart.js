@@ -62,6 +62,6 @@ const scene_manager = new SceneManager();
     drawBars();
 
     scene.start(() => {
-      //root.rotate(0.01);
+      root.rotate(0.01);
     });
 }();
