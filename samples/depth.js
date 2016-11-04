@@ -55,10 +55,10 @@ for (let i = -1; i < 2; ++i) {
         .material()
         .fill(random_color());
     patha
-        .cubicTo(50 * i, -50, -15, -15, 50, 50)
-        .linearTo(-25, 25)
+        .cubicTo(50 * i, 50, -15, 15, 50, -50)
+        .linearTo(-25, -25)
         .depth(i)
-        .quadraticTo(-50, -50, -50, -50)
+        .quadraticTo(-50, 50, -50, 50)
         .timed(true)
         .material()
         .width(10)

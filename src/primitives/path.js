@@ -459,7 +459,6 @@ exports.Path = function(_scene, Primitive) {
                 default:
             }
         }
-        context.stroke();
 
         /**
          * Close shape
@@ -474,6 +473,8 @@ exports.Path = function(_scene, Primitive) {
 
             this._filled && context.fill();
         }
+        
+        context.stroke();
 
         if (this._debug === true) {
             let bbox = this.bboxCascaded();
