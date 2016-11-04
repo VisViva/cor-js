@@ -121,7 +121,7 @@ exports.Node = function(_scene) {
              */
 
             y = -y;
-            
+
             if (this._timed === true) {
                 const delta = _scene.timer().delta();
                 x *= delta;
@@ -135,7 +135,7 @@ exports.Node = function(_scene) {
         } else {
             return {
                 x: this._position.x,
-                y: this._position.y
+                y: -this._position.y
             };
         }
     };

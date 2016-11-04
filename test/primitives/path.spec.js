@@ -40,6 +40,8 @@ describe('Path tests', () => {
         });
 
         it('Executes own constructor correctly', () => {
+            expect(path.closed()).to.be.equal(false);
+            expect(path.filled()).to.be.equal(false);
             expect(path.segments().join('')).to.be.equal('');
         });
     });
@@ -49,6 +51,22 @@ describe('Path tests', () => {
 
         beforeEach(function() {
             path = new Path();
+        });
+
+        it('Sets the closed flag correclty', () => {
+            expect(path.closed()).to.be.equal(false);
+            expect(path.closed(true)).to.be.equal(path);
+            expect(path.closed()).to.be.equal(true);
+            expect(path.closed(false)).to.be.equal(path);
+            expect(path.closed()).to.be.equal(false);
+        });
+
+        it('Sets the filled flag correclty', () => {
+            expect(path.filled()).to.be.equal(false);
+            expect(path.filled(true)).to.be.equal(path);
+            expect(path.filled()).to.be.equal(true);
+            expect(path.filled(false)).to.be.equal(path);
+            expect(path.filled()).to.be.equal(false);
         });
 
         it('Sets linear segments correctly', () => {
@@ -122,7 +140,7 @@ describe('Path tests', () => {
             expect(path.linearTo(-100, 100)).to.be.equal(path);
             bbox = path.bboxOwn();
             expect(bbox.x()).to.be.equal(-100);
-            expect(bbox.y()).to.be.equal(100);
+            expect(bbox.y()).to.be.equal(0);
             expect(bbox.width()).to.be.equal(100);
             expect(bbox.height()).to.be.equal(100);
         });
@@ -131,7 +149,7 @@ describe('Path tests', () => {
             expect(path.quadraticTo(-100, 100, 0, 200)).to.be.equal(path);
             bbox = path.bboxOwn();
             expect(bbox.x()).to.be.equal(-50);
-            expect(bbox.y()).to.be.equal(200);
+            expect(bbox.y()).to.be.equal(0);
             expect(bbox.width()).to.be.equal(50);
             expect(bbox.height()).to.be.equal(200);
         });
@@ -140,7 +158,7 @@ describe('Path tests', () => {
             expect(path.cubicTo(-100, 100, 50, 150, 0, 200)).to.be.equal(path);
             bbox = path.bboxOwn();
             expect(bbox.x()).to.be.approximately(-35.21, 0.01);
-            expect(bbox.y()).to.be.equal(200);
+            expect(bbox.y()).to.be.equal(0);
             expect(bbox.width()).to.be.approximately(45.72, 0.01);
             expect(bbox.height()).to.be.equal(200);
         });

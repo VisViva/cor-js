@@ -68,7 +68,7 @@ describe('Node tests', () => {
             expect(node.translate(5, 10)).to.be.equal(node);
             expect(node.translate().x).to.be.equal(10);
             expect(node.translate().y).to.be.equal(10);
-            expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('10001010101');
+            expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('10001010-101');
             expect(node.dirty()).to.be.equal(true);
         });
 
@@ -361,12 +361,12 @@ describe('Node tests', () => {
             expect(nodeA.dirty()).to.be.equal(false);
             expect(nodeB.dirty()).to.be.equal(false);
             expect(nodeC.dirty()).to.be.equal(false);
-            expect(matrix_to_array(nodeA.matrixOwn()).join('')).to.be.equal('100010111');
-            expect(matrix_to_array(nodeA.matrixCascaded()).join('')).to.be.equal('100010111');
-            expect(matrix_to_array(nodeB.matrixOwn()).join('')).to.be.equal('100010221');
-            expect(matrix_to_array(nodeB.matrixCascaded()).join('')).to.be.equal('100010331');
-            expect(matrix_to_array(nodeC.matrixOwn()).join('')).to.be.equal('100010331');
-            expect(matrix_to_array(nodeC.matrixCascaded()).join('')).to.be.equal('100010661');
+            expect(matrix_to_array(nodeA.matrixOwn()).join('')).to.be.equal('1000101-11');
+            expect(matrix_to_array(nodeA.matrixCascaded()).join('')).to.be.equal('1000101-11');
+            expect(matrix_to_array(nodeB.matrixOwn()).join('')).to.be.equal('1000102-21');
+            expect(matrix_to_array(nodeB.matrixCascaded()).join('')).to.be.equal('1000103-31');
+            expect(matrix_to_array(nodeC.matrixOwn()).join('')).to.be.equal('1000103-31');
+            expect(matrix_to_array(nodeC.matrixCascaded()).join('')).to.be.equal('1000106-61');
         });
     });
 

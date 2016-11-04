@@ -51,6 +51,44 @@ exports.Path = function(_scene, Primitive) {
          */
 
         this._segments = [];
+
+        /**
+         * A flag that indicates whether the shape is closed or not
+         */
+
+        this._closed = false;
+
+        /**
+         * A flag that indicates whether the shape is filled or not
+         */
+
+        this._filled = false;
+    };
+
+    /**
+     * Set the closed flag
+     */
+
+    Path.prototype.closed = function(value) {
+        if (typeof value !== 'undefined') {
+            this._closed = value;
+            return this;
+        } else {
+          return this._closed;
+        }
+    };
+
+    /**
+     * Set the filled flag
+     */
+
+    Path.prototype.filled = function(value) {
+        if (typeof value !== 'undefined') {
+            this._filled = value;
+            return this;
+        } else {
+          return this._filled;
+        }
     };
 
     /**
@@ -65,7 +103,7 @@ exports.Path = function(_scene, Primitive) {
              */
 
             points[1] = -points[1];
-            
+
             this._segments.push(points);
         }
         return this;
@@ -422,6 +460,20 @@ exports.Path = function(_scene, Primitive) {
             }
         }
         context.stroke();
+
+        /**
+         * Close shape
+         */
+
+        if (this._closed) {
+            context.closePath();
+
+            /**
+             * Fill shape
+             */
+
+            this._filled && context.fill();
+        }
 
         if (this._debug === true) {
             let bbox = this.bboxCascaded();
