@@ -115,6 +115,13 @@ exports.Node = function(_scene) {
 
     Node.prototype.translate = function(x, y) {
         if (typeof x !== 'undefined' && typeof y !== 'undefined') {
+
+            /**
+             * Compensate for canvas specific y-axis direction
+             */
+
+            y = -y;
+            
             if (this._timed === true) {
                 const delta = _scene.timer().delta();
                 x *= delta;

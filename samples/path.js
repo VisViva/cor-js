@@ -27,9 +27,9 @@ scene.render();
 
 path
     .debug(true)
-    .cubicTo(150, 0, -150, -150, -100, 100)
-    .linearTo(20, 90)
-    .quadraticTo(50, -150, 200, 70)
+    .cubicTo(150, 0, -150, 150, -100, -100)
+    .linearTo(20, -90)
+    .quadraticTo(50, 150, 200, -70)
     .timed(true)
     .material()
     .stroke(random_color())
