@@ -161,9 +161,12 @@ exports.Node = function(_scene) {
                 const delta = _scene.timer().delta();
                 x *= delta;
                 y *= delta;
+                this._scale.x += x;
+                this._scale.y += y;
+            } else {
+                this._scale.x *= x;
+                this._scale.y *= y;
             }
-            this._scale.x += x;
-            this._scale.y += y;
             mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
             this._dirty = true;
             return this;
