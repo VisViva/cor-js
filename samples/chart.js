@@ -19,7 +19,7 @@ const scene_manager = new SceneManager();
     let bars = new Node().timed(true);
 
     scene.fps(60).material().fill('#DDD');
-    root.translate(scene._canvas.width / 6, scene._canvas.height / 6).scale(1, 1);
+    root.timed(true);
     const gridMaterial = new Material().stroke('rgba(0, 0, 0, 0.1)').width(1);
     const barMaterial = new Material().stroke('rgba(0, 101, 190, 1)').fill('rgba(0, 101, 190, 0.69)');
 
@@ -33,7 +33,6 @@ const scene_manager = new SceneManager();
 
     function resetScene() {
         scene.depthbuffer().clear();
-        root.translate(scene._canvas.width / 6, scene._canvas.height / 6);
         root._children.length = 0;
     }
 
@@ -54,7 +53,7 @@ const scene_manager = new SceneManager();
         for (let i = 0; i < 5; ++i) {
             const bar = new Rect();
             var height = scene._canvas.height / (Math.random() * 7 + 2);
-            bar.debug(true).depth(i).material(barMaterial).at(i * scene._canvas.width * 4 / 30 + scene._canvas.width * 2 / 30, scene._canvas.height * 4 / 6 - height / 2).width(scene._canvas.width / 30).height(height);
+            bar.debug(true).depth(i).material(barMaterial).at(i * scene._canvas.width * 4 / 30 + scene._canvas.width * 2 / 30, - scene._canvas.height * 4 / 6 + height / 2).width(scene._canvas.width / 30).height(height);
             root.append(bar);
         }
     }
@@ -63,6 +62,6 @@ const scene_manager = new SceneManager();
     drawBars();
 
     scene.start(() => {
-      root.timed(false).translate(scene._canvas.width / 3, scene._canvas.height / 3).timed(true).rotate(0.01).timed(false).translate(-scene._canvas.width / 3, -scene._canvas.height / 3).timed(false);
+      //root.rotate(0.01);
     });
 }();

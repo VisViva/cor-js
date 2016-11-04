@@ -128,9 +128,13 @@ Scene.prototype.resize = function(width, height) {
         this._canvas.height = this._canvas.offsetHeight;
     }
     const timed = this._root.timed();
+    const scale = this._root.scale();
+    const rotate = this._root.rotate();
     this._root
         .timed(false)
         .reset()
+        .scale(scale.x, scale.y)
+        .rotate(rotate)
         .timed(timed);
     return this;
 };
