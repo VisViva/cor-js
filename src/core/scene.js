@@ -133,7 +133,7 @@ Scene.prototype.resize = function(width, height) {
     this._root
         .timed(false)
         .reset()
-        .translate(this._canvas.width / 2, this._canvas.height / 2)
+        .translate(this._canvas.width / 2, - this._canvas.height / 2)
         .scale(scale.x, scale.y)
         .rotate(rotate)
         .timed(timed);

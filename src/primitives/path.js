@@ -59,6 +59,13 @@ exports.Path = function(_scene, Primitive) {
 
     Path.prototype.linearTo = function(...points) {
         if (points.length === 2) {
+
+            /**
+             * Compensate for canvas specific y-axis direction
+             */
+
+            points[1] = -points[1];
+            
             this._segments.push(points);
         }
         return this;
@@ -70,6 +77,14 @@ exports.Path = function(_scene, Primitive) {
 
     Path.prototype.quadraticTo = function(...points) {
         if (points.length === 4) {
+
+            /**
+             * Compensate for canvas specific y-axis direction
+             */
+
+            points[1] = -points[1];
+            points[3] = -points[3];
+
             this._segments.push(points);
         }
         return this;
@@ -81,6 +96,15 @@ exports.Path = function(_scene, Primitive) {
 
     Path.prototype.cubicTo = function(...points) {
         if (points.length === 6) {
+
+            /**
+             * Compensate for canvas specific y-axis direction
+             */
+
+            points[1] = -points[1];
+            points[3] = -points[3];
+            points[5] = -points[5];
+
             this._segments.push(points);
         }
         return this;
