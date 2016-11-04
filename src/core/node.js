@@ -116,8 +116,9 @@ exports.Node = function(_scene) {
     Node.prototype.translate = function(x, y) {
         if (typeof x !== 'undefined' && typeof y !== 'undefined') {
             if (this._timed === true) {
-                x *= _scene.timer().delta();
-                y *= _scene.timer().delta();
+                const delta = _scene.timer().delta();
+                x *= delta;
+                y *= delta;
             }
             mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(x, y));
             this._position.x += x;
@@ -154,15 +155,16 @@ exports.Node = function(_scene) {
      * Get or set the scale of the node
      */
 
-    Node.prototype.scale = function(x, y) {
+     Node.prototype.scale = function(x, y) {
         if (typeof x !== 'undefined' && typeof y !== 'undefined') {
             if (this._timed === true) {
-                x *= _scene.timer().delta();
-                y *= _scene.timer().delta();
+                const delta = _scene.timer().delta();
+                x *= delta;
+                y *= delta;
             }
-            mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(x, y));
-            this._scale.x *= x;
-            this._scale.y *= y;
+            this._scale.x += x;
+            this._scale.y += y;
+            mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
             this._dirty = true;
             return this;
         } else {

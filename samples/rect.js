@@ -27,10 +27,8 @@ scene.render();
 
 rect
     .debug(true)
-    .at(200, 200)
     .width(100)
     .height(100)
-    .rotate(45)
     .timed(true)
     .material()
     .fill(random_color());
@@ -40,5 +38,5 @@ root
     .append(rect);
 
 scene.start(() => {
-    rect.rotate(0.1);
+    rect.timed(true).scale(0.000001, 0.000001);
 });
