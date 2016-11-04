@@ -41,6 +41,13 @@ exports.Rect = function(_scene, Primitive) {
         this._bbox = false;
 
         /**
+         * Initialize attributes
+         */
+
+        this._width = 0;
+        this._height = 0;
+
+        /**
          * Initialize points
          */
 
@@ -59,8 +66,8 @@ exports.Rect = function(_scene, Primitive) {
     Rect.prototype.width = function(width) {
         if (width) {
             const half_width = width >>> 1;
-            this._points[0].x = this._points[2].x = this._at.x - half_width;
-            this._points[1].x = this._points[3].x = this._at.x + half_width;
+            this._points[0].x = this._points[2].x = - half_width;
+            this._points[1].x = this._points[3].x = half_width;
             return this;
         } else {
             return Math.abs(this._points[0].x - this._points[1].x);
@@ -74,8 +81,8 @@ exports.Rect = function(_scene, Primitive) {
     Rect.prototype.height = function(height) {
         if (height) {
             const half_height = height >>> 1;
-            this._points[0].y = this._points[1].y = this._at.y + half_height;
-            this._points[2].y = this._points[3].y = this._at.y - half_height;
+            this._points[0].y = this._points[1].y = half_height;
+            this._points[2].y = this._points[3].y = - half_height;
             return this;
         } else {
             return Math.abs(this._points[0].y - this._points[2].y);
@@ -102,7 +109,7 @@ exports.Rect = function(_scene, Primitive) {
         const transformed3DVector = vec2.create();
 
         for (let i = 0; i < this._points.length; ++i) {
-            vec2.transformMat3(transformed3DVector, vec2.fromValues(this._points[i].x, this._points[i].y), this._matrix_cascaded);
+            vec2.transformMat3(transformed3DVector, vec2.fromValues(this._at.x + this._points[i].x, this._at.y + this._points[i].y), this._matrix_cascaded);
             xValues.push(transformed3DVector[0]);
             yValues.push(transformed3DVector[1]);
         }
@@ -131,8 +138,8 @@ exports.Rect = function(_scene, Primitive) {
          * Setup transformations and render
          */
         context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
-        context.fillRect(this._points[0].x, -this._points[0].y, this.width(), this.height());
-        context.strokeRect(this._points[0].x, -this._points[0].y, this.width(), this.height());
+        context.fillRect(this._at.x + this._points[0].x, this._at.y - this._points[0].y, this.width(), this.height());
+        context.strokeRect(this._at.x + this._points[0].x, this._at.y - this._points[0].y, this.width(), this.height());
 
         if (this._debug === true) {
             let bbox = this.bboxCascaded();
