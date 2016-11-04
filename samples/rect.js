@@ -38,5 +38,5 @@ root
     .append(rect);
 
 scene.start(() => {
-    rect.timed(true).scale(0.000001, 0.000001);
+    rect.timed(true).scale(0.001, 0.001);
 });
