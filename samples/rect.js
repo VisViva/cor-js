@@ -27,6 +27,7 @@ scene.render();
 
 rect
     .debug(true)
+    .at(200, 200)
     .width(100)
     .height(100)
     .rotate(45)

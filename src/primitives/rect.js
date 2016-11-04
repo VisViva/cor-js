@@ -41,6 +41,13 @@ exports.Rect = function(_scene, Primitive) {
         this._bbox = false;
 
         /**
+         * Initialize attributes
+         */
+
+        this._width = 0;
+        this._height = 0;
+
+        /**
          * Initialize points
          */
 
@@ -53,17 +60,38 @@ exports.Rect = function(_scene, Primitive) {
     };
 
     /**
+     * Get or set the upper left point of the rect
+     */
+
+    Rect.prototype.at = function(x, y) {
+        if (typeof x !== 'undefined' && typeof y !== 'undefined') {
+            this._at.x = x;
+            this._at.y = y;
+            const half_width = this._width >>> 1;
+            this._points[0].x = this._points[2].x = this._at.x - half_width;
+            this._points[1].x = this._points[3].x = this._at.x + half_width;
+            const half_height = this._height >>> 1;
+            this._points[0].y = this._points[1].y = this._at.y + half_height;
+            this._points[2].y = this._points[3].y = this._at.y - half_height;
+            return this;
+        } else {
+            return this._at;
+        }
+    };
+
+    /**
      * Get or set width of the rect and return it
      */
 
     Rect.prototype.width = function(width) {
         if (width) {
+            this._width = width;
             const half_width = width >>> 1;
             this._points[0].x = this._points[2].x = this._at.x - half_width;
             this._points[1].x = this._points[3].x = this._at.x + half_width;
             return this;
         } else {
-            return Math.abs(this._points[0].x - this._points[1].x);
+            return this._width;
         }
     };
 
@@ -73,12 +101,13 @@ exports.Rect = function(_scene, Primitive) {
 
     Rect.prototype.height = function(height) {
         if (height) {
+            this._height = height;
             const half_height = height >>> 1;
             this._points[0].y = this._points[1].y = this._at.y + half_height;
             this._points[2].y = this._points[3].y = this._at.y - half_height;
             return this;
         } else {
-            return Math.abs(this._points[0].y - this._points[2].y);
+            return this._height;
         }
     };
 
@@ -102,7 +131,7 @@ exports.Rect = function(_scene, Primitive) {
         const transformed3DVector = vec2.create();
 
         for (let i = 0; i < this._points.length; ++i) {
-            vec2.transformMat3(transformed3DVector, vec2.fromValues(this._points[i].x, this._points[i].y), this._matrix_cascaded);
+            vec2.transformMat3(transformed3DVector, vec2.fromValues(this._points[i].x, - this._points[i].y), this._matrix_cascaded);
             xValues.push(transformed3DVector[0]);
             yValues.push(transformed3DVector[1]);
         }
@@ -131,8 +160,8 @@ exports.Rect = function(_scene, Primitive) {
          * Setup transformations and render
          */
         context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
-        context.fillRect(this._points[0].x, -this._points[0].y, this.width(), this.height());
-        context.strokeRect(this._points[0].x, -this._points[0].y, this.width(), this.height());
+        context.fillRect(this._points[0].x, - this._points[0].y, this.width(), this.height());
+        context.strokeRect(this._points[0].x, - this._points[0].y, this.width(), this.height());
 
         if (this._debug === true) {
             let bbox = this.bboxCascaded();

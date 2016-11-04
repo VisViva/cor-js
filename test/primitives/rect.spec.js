@@ -119,54 +119,106 @@ describe('Rect tests', () => {
         let bbox;
 
         it('Gets untouched bounding box correctly', () => {
-            rect = new Rect().width(10).height(10);
+            rect = new Rect().width(10).height(10).cascade();
             bbox = rect.bboxCascaded();
             expect(bbox.x()).to.be.equal(-5);
             expect(bbox.y()).to.be.equal(5);
+            expect(bbox.width()).to.be.equal(10);
+            expect(bbox.height()).to.be.equal(10);
+        });
+
+        it('Gets bounding box of a rectangle with an offset correctly', () => {
+            rect = new Rect().at(10, 10).width(10).height(10).cascade();
+            bbox = rect.bboxCascaded();
+            expect(bbox.x()).to.be.equal(5);
+            expect(bbox.y()).to.be.equal(-5);
             expect(bbox.width()).to.be.equal(10);
             expect(bbox.height()).to.be.equal(10);
         });
 
         it('Gets translated primitives bounding box correctly', () => {
-            rect = new Rect().translate(50, 50).width(150).height(150);
+            rect = new Rect().translate(50, 50).width(150).height(150).cascade();
             bbox = rect.bboxCascaded();
-            expect(bbox.x()).to.be.equal(-75);
-            expect(bbox.y()).to.be.equal(75);
+            expect(bbox.x()).to.be.equal(-25);
+            expect(bbox.y()).to.be.equal(125);
+            expect(bbox.width()).to.be.equal(150);
+            expect(bbox.height()).to.be.equal(150);
+        });
+
+        it('Gets translated primitives bounding box with an offset correctly', () => {
+            rect = new Rect().at(10, 10).translate(50, 50).width(150).height(150).cascade();
+            bbox = rect.bboxCascaded();
+            expect(bbox.x()).to.be.equal(-15);
+            expect(bbox.y()).to.be.equal(115);
             expect(bbox.width()).to.be.equal(150);
             expect(bbox.height()).to.be.equal(150);
         });
 
         it('Gets rotated primitives bounding box correctly', () => {
-            rect = new Rect().rotate(45).width(10).height(10);
+            rect = new Rect().rotate(45).width(10).height(10).cascade();
             bbox = rect.bboxCascaded();
-            expect(bbox.x()).to.be.equal(-5);
-            expect(bbox.y()).to.be.approximately(7, 7.1);
-            expect(bbox.width()).to.be.approximately(10, 0.1);
-            expect(bbox.height()).to.be.approximately(10, 0.1);
+            expect(bbox.x()).to.be.approximately(-7, 0.1);
+            expect(bbox.y()).to.be.approximately(7, 0.1);
+            expect(bbox.width()).to.be.approximately(14.1, 0.1);
+            expect(bbox.height()).to.be.approximately(14.1, 0.1);
+        });
+
+        it('Gets rotated primitives bounding box with an offset correctly', () => {
+            rect = new Rect().at(10, 10).rotate(45).width(10).height(10).cascade();
+            bbox = rect.bboxCascaded();
+            expect(bbox.x()).to.be.approximately(7, 0.1);
+            expect(bbox.y()).to.be.approximately(7, 0.1);
+            expect(bbox.width()).to.be.approximately(14.1, 0.1);
+            expect(bbox.height()).to.be.approximately(14.1, 0.1);
         });
 
         it('Gets scaled primitives bounding box correctly', () => {
-            rect = new Rect().scale(2, 2).width(10).height(10);
+            rect = new Rect().scale(2, 2).width(10).height(10).cascade();
             bbox = rect.bboxCascaded();
-            expect(bbox.x()).to.be.equal(-5);
-            expect(bbox.y()).to.be.equal(5);
-            expect(bbox.width()).to.be.equal(10);
-            expect(bbox.height()).to.be.equal(10);
+            expect(bbox.x()).to.be.equal(-10);
+            expect(bbox.y()).to.be.equal(10);
+            expect(bbox.width()).to.be.equal(20);
+            expect(bbox.height()).to.be.equal(20);
+        });
+
+        it('Gets scaled primitives bounding box with an offset correctly', () => {
+            rect = new Rect();
+            rect.at(10, 10).scale(3, 3).width(10).height(10).cascade();
+            bbox = rect.bboxCascaded();
+            expect(bbox.x()).to.be.equal(15);
+            expect(bbox.y()).to.be.equal(-15);
+            expect(bbox.width()).to.be.equal(30);
+            expect(bbox.height()).to.be.equal(30);
         });
 
         it('Gets scaled, rotated and translated primitives bounding box correctly', () => {
-            rect = new Rect().translate(10, 10).rotate(270).width(10).height(10);
+            rect = new Rect().translate(10, 10).rotate(270).width(10).height(10).cascade();
             bbox = rect.bboxCascaded();
-            expect(bbox.x()).to.be.approximately(-5, 0.1);
-            expect(bbox.y()).to.be.approximately(5, 0.1);
+            expect(bbox.x()).to.be.approximately(5, 0.1);
+            expect(bbox.y()).to.be.approximately(15, 0.1);
             expect(bbox.width()).to.be.approximately(10.0, 0.1);
             expect(bbox.height()).to.be.approximately(10.1, 0.1);
-            rect.translate(10, 10).rotate(45);
+            rect.translate(10, 10).rotate(45).cascade();
             bbox = rect.bboxCascaded();
-            expect(rect.bboxCascaded().x()).to.be.approximately(-5, 0.1);
-            expect(rect.bboxCascaded().y()).to.be.approximately(7.0, 7.1);
-            expect(rect.bboxCascaded().width()).to.be.approximately(10, 0.1);
-            expect(rect.bboxCascaded().height()).to.be.approximately(10, 0.1);
+            expect(rect.bboxCascaded().x()).to.be.approximately(13, 0.1);
+            expect(rect.bboxCascaded().y()).to.be.approximately(7.0, 0.1);
+            expect(rect.bboxCascaded().width()).to.be.approximately(14.1, 0.1);
+            expect(rect.bboxCascaded().height()).to.be.approximately(14.1, 0.1);
+        });
+
+        it('Gets scaled, rotated and translated primitives bounding box with an offset correctly', () => {
+            rect = new Rect().at(10, 10).translate(10, 10).rotate(270).width(10).height(10).cascade();
+            bbox = rect.bboxCascaded();
+            expect(bbox.x()).to.be.approximately(-4.9, 0.1);
+            expect(bbox.y()).to.be.approximately(4.9, 0.1);
+            expect(bbox.width()).to.be.approximately(10.0, 0.1);
+            expect(bbox.height()).to.be.approximately(10.1, 0.1);
+            rect.translate(10, 10).rotate(45).cascade();
+            bbox = rect.bboxCascaded();
+            expect(rect.bboxCascaded().x()).to.be.approximately(13, 0.1);
+            expect(rect.bboxCascaded().y()).to.be.approximately(-7.0, 0.1);
+            expect(rect.bboxCascaded().width()).to.be.approximately(14.1, 0.1);
+            expect(rect.bboxCascaded().height()).to.be.approximately(14.1, 0.1);
         });
     });
 });
