@@ -57,7 +57,7 @@ exports.Primitive = function(_scene, Node) {
     }
 
     /**
-     * Get or set the upper left point of the rect
+     * Get or set the primitives starting point
      */
 
     Primitive.prototype.at = function(x, y) {

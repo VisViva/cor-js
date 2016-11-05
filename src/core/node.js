@@ -25,6 +25,15 @@ exports.Node = function(_scene) {
     function Node() {
 
         /**
+         * Nodes pivot point
+         */
+
+        this._pivot = {
+            x: 0,
+            y: 0
+        };
+
+        /**
          * Current nodes position
          */
 
@@ -110,6 +119,20 @@ exports.Node = function(_scene) {
     };
 
     /**
+     * Get or set the nodes pivot point
+     */
+
+    Node.prototype.pivot = function(x, y) {
+        if (typeof x !== 'undefined' && typeof y !== 'undefined') {
+            this._pivot.x = x;
+            this._pivot.y = y;
+            return this;
+        } else {
+            return this._pivot;
+        }
+    };
+
+    /**
      * Get or set the position of the node
      */
 
@@ -149,7 +172,13 @@ exports.Node = function(_scene) {
             if (this._timed === true) {
                 rotation *= _scene.timer().delta();
             }
-            mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(rotation));
+            if (this._pivot.x !== 0 || this._pivot.y !== 0) {
+                mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(this._pivot.x, this._pivot.y));
+                mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(rotation));
+                mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(-this._pivot.x, -this._pivot.y));
+            } else {
+                mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(rotation));
+            }
             this._rotation = trim_angle(this._rotation + rotation);
             this._dirty = true;
             return this;
@@ -162,7 +191,7 @@ exports.Node = function(_scene) {
      * Get or set the scale of the node
      */
 
-     Node.prototype.scale = function(x, y) {
+    Node.prototype.scale = function(x, y) {
         if (typeof x !== 'undefined' && typeof y !== 'undefined') {
             if (this._timed === true) {
                 const delta = _scene.timer().delta();
@@ -170,12 +199,26 @@ exports.Node = function(_scene) {
                 this._scale.y += y * delta;
                 this._matrix_own = mat3.create();
                 mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(this._position.x, this._position.y));
-                mat3.rotate(this._matrix_own, this._matrix_own, this._rotation);
-                mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
+                if (this._pivot.x !== 0 || this._pivot.y !== 0) {
+                    mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(this._pivot.x, this._pivot.y));
+                    mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(this._rotation));
+                    mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
+                    mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(-this._pivot.x, -this._pivot.y));
+                } else {
+                    mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(this._rotation));
+                    mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
+                }
             } else {
                 this._scale.x *= x;
                 this._scale.y *= y;
+                if (this._pivot.x !== 0 || this._pivot.y !== 0) {
+
+                } else {
+
+                }
+                mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(this._pivot.x, this._pivot.y));
                 mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
+                mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(-this._pivot.x, -this._pivot.y));
             }
             this._dirty = true;
             return this;
