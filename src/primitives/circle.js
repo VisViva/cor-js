@@ -99,6 +99,26 @@ exports.Circle = function(_scene, Primitive) {
          */
 
         context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
+        context.beginPath();
+        context.arc(this._at.x, this._at.y, this._radius, 0, 2 * Math.PI, false);
+
+        /**
+         * Fill the circle
+         */
+
+        this._material._fill.enabled &&
+        context.fill();
+
+        /**
+         * Stroke the circle
+         */
+
+        this._material._stroke.enabled &&
+        context.stroke();
+
+        /**
+         * Rendering debug info
+         */
 
         if (this._debug === true) {
             let bbox = this.bboxCascaded();

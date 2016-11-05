@@ -57,12 +57,6 @@ exports.Path = function(_scene, Primitive) {
          */
 
         this._closed = false;
-
-        /**
-         * A flag that indicates whether the shape is filled or not
-         */
-
-        this._filled = false;
     };
 
     /**
@@ -75,19 +69,6 @@ exports.Path = function(_scene, Primitive) {
             return this;
         } else {
           return this._closed;
-        }
-    };
-
-    /**
-     * Set the filled flag
-     */
-
-    Path.prototype.filled = function(value) {
-        if (typeof value !== 'undefined') {
-            this._filled = value;
-            return this;
-        } else {
-          return this._filled;
         }
     };
 
@@ -468,13 +449,21 @@ exports.Path = function(_scene, Primitive) {
             context.closePath();
 
             /**
-             * Fill shape
+             * Fill the shape
              */
 
-            this._filled && context.fill();
+            this._material._fill.enabled && context.fill();
         }
-        
-        context.stroke();
+
+        /**
+         * Stroke the path
+         */
+
+        this._material._stroke.enabled && context.stroke();
+
+        /**
+         * Rendering debug info
+         */
 
         if (this._debug === true) {
             let bbox = this.bboxCascaded();

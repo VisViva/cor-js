@@ -36,6 +36,7 @@ Material.prototype.reset = function() {
      */
 
     this._stroke = {
+        enabled: true,
         color: '#000000',
         width: 1
     };
@@ -45,6 +46,7 @@ Material.prototype.reset = function() {
      */
 
     this._fill = {
+        enabled: true,
         color: '#000000',
     };
 
@@ -56,9 +58,13 @@ Material.prototype.reset = function() {
  */
 
 Material.prototype.style = function(context) {
-    context.strokeStyle = this._stroke.color;
+    if (this._stroke.enabled === true) {
+        context.strokeStyle = this._stroke.color;
+    }
     context.lineWidth = this._stroke.width;
-    context.fillStyle = this._fill.color;
+    if (this._fill.enabled === true) {
+        context.fillStyle = this._fill.color;
+    }
     return this;
 };
 
@@ -72,6 +78,19 @@ Material.prototype.stroke = function(color) {
         return this;
     } else {
         return this._stroke.color;
+    }
+};
+
+/**
+ * Set the stroked flag
+ */
+
+Material.prototype.stroked = function(value) {
+    if (typeof value !== 'undefined') {
+        this._stroke.enabled = value;
+        return this;
+    } else {
+        return this._stroke.enabled;
     }
 };
 
@@ -98,6 +117,19 @@ Material.prototype.fill = function(color) {
         return this;
     } else {
         return this._fill.color;
+    }
+};
+
+/**
+ * Set the filled flag
+ */
+
+Material.prototype.filled = function(value) {
+    if (typeof value !== 'undefined') {
+        this._fill.enabled = value;
+        return this;
+    } else {
+        return this._fill.enabled;
     }
 };
 

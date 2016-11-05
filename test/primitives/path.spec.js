@@ -35,13 +35,14 @@ describe('Path tests', () => {
             expect(path.debug()).to.be.equal(false);
             expect(path.hidden()).to.be.equal(false);
             expect(path.material().stroke()).to.be.equal('#000000');
+            expect(path.material().stroked()).to.be.equal(true);
             expect(path.material().width()).to.be.equal(1);
             expect(path.material().fill()).to.be.equal('#000000');
+            expect(path.material().filled()).to.be.equal(true);
         });
 
         it('Executes own constructor correctly', () => {
             expect(path.closed()).to.be.equal(false);
-            expect(path.filled()).to.be.equal(false);
             expect(path.segments().join('')).to.be.equal('');
         });
     });
@@ -59,14 +60,6 @@ describe('Path tests', () => {
             expect(path.closed()).to.be.equal(true);
             expect(path.closed(false)).to.be.equal(path);
             expect(path.closed()).to.be.equal(false);
-        });
-
-        it('Sets the filled flag correclty', () => {
-            expect(path.filled()).to.be.equal(false);
-            expect(path.filled(true)).to.be.equal(path);
-            expect(path.filled()).to.be.equal(true);
-            expect(path.filled(false)).to.be.equal(path);
-            expect(path.filled()).to.be.equal(false);
         });
 
         it('Sets linear segments correctly', () => {

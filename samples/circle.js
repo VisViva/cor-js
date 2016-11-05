@@ -26,7 +26,7 @@ scene
 scene.render();
 
 circle
-    .debug(true)
+    .debug(false)
     .radius(100)
     .timed(true)
     .material()

@@ -59,7 +59,7 @@ exports.Rect = function(_scene, Primitive) {
         /**
          * Height of the rectangle
          */
-         
+
         this._height = 0;
     };
 
@@ -165,8 +165,24 @@ exports.Rect = function(_scene, Primitive) {
          */
 
         context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
+
+        /**
+         * Fill the rect
+         */
+
+        this._material._fill.enabled &&
         context.fillRect(this._points[0].x, - this._points[0].y, this.width(), this.height());
+
+        /**
+         * Stroke the stroke
+         */
+
+        this._material._stroke.enabled &&
         context.strokeRect(this._points[0].x, - this._points[0].y, this.width(), this.height());
+
+        /**
+         * Rendering debug info
+         */
 
         if (this._debug === true) {
             let bbox = this.bboxCascaded();

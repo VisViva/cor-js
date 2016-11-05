@@ -17,8 +17,10 @@ describe('Material tests', () => {
 
         it('Constructs correctly', () => {
             expect(material.stroke()).to.be.equal('#000000');
+            expect(material.stroked()).to.be.equal(true);
             expect(material.width()).to.be.equal(1);
             expect(material.fill()).to.be.equal('#000000');
+            expect(material.filled()).to.be.equal(true);
         });
     });
 
@@ -39,9 +41,25 @@ describe('Material tests', () => {
             expect(material.width()).to.be.equal(0.5);
         });
 
+        it('Sets the stroked flag correclty', () => {
+            expect(material.stroked()).to.be.equal(true);
+            expect(material.stroked(false)).to.be.equal(material);
+            expect(material.stroked()).to.be.equal(false);
+            expect(material.stroked(true)).to.be.equal(material);
+            expect(material.stroked()).to.be.equal(true);
+        });
+
         it('Sets fill color correctly', () => {
             expect(material.fill('#FFFFFF')).to.be.equal(material);
             expect(material.fill()).to.be.equal('#FFFFFF');
+        });
+
+        it('Sets the filled flag correclty', () => {
+            expect(material.filled()).to.be.equal(true);
+            expect(material.filled(false)).to.be.equal(material);
+            expect(material.filled()).to.be.equal(false);
+            expect(material.filled(true)).to.be.equal(material);
+            expect(material.filled()).to.be.equal(true);
         });
     });
 });
