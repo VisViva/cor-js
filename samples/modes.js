@@ -22,8 +22,7 @@ scenea
 scenea.render();
 
 roota
-    .scale(0.1, 0.1)
-    .timed(true);
+    .scale(0.1, 0.1);
 
 for (let i = -5; i < 6; ++i) {
     for (let j = -5; j < 6; ++j) {
@@ -35,7 +34,6 @@ for (let i = -5; i < 6; ++i) {
             .width(100)
             .height(100)
             .rotate(i * j)
-            .timed(true)
             .material()
             .fill(random_color());
         patha
@@ -43,7 +41,6 @@ for (let i = -5; i < 6; ++i) {
             .cubicTo(50 * i, -50, -15, -15, 50, 50 * j)
             .linearTo(-25, 25)
             .quadraticTo(-50, -50, -50, -50)
-            .timed(true)
             .material()
             .stroke(random_color());
         roota
@@ -55,9 +52,9 @@ let stopped = false;
 
 const renderscenea = () => {
     scenea.start(() => {
-        roota.rotate(0.005).children().iterate(
+        roota.rotate(0.5).children().iterate(
             node => {
-                node.rotate(-0.15);
+                node.rotate(-5);
             }
         );
     });
@@ -90,8 +87,7 @@ sceneb
     .fill('#333333');
 
 rootb
-    .scale(0.1, 0.1)
-    .timed(true);
+    .scale(0.1, 0.1);
 
 for (let i = -5; i < 6; ++i) {
     for (let j = -5; j < 6; ++j) {
@@ -103,7 +99,6 @@ for (let i = -5; i < 6; ++i) {
             .width(100)
             .height(100)
             .rotate(i * j)
-            .timed(true)
             .material()
             .fill(random_color());
         pathb
@@ -111,7 +106,6 @@ for (let i = -5; i < 6; ++i) {
             .cubicTo(50 * i, -50, -15, -15, 50, 50 * j)
             .linearTo(-25, 25)
             .quadraticTo(-50, -50, -50, -50)
-            .timed(true)
             .material()
             .stroke(random_color());
         rootb
@@ -120,9 +114,9 @@ for (let i = -5; i < 6; ++i) {
 }
 
 sceneb.start(() => {
-    rootb.rotate(0.005).children().iterate(
+    rootb.rotate(0.5).children().iterate(
         node => {
-            node.rotate(-0.15);
+            node.rotate(-5);
         }
     );
 });
@@ -140,8 +134,7 @@ scenec
     .fill('#888888');
 
 rootc
-    .scale(0.1, 0.1)
-    .timed(true);
+    .scale(0.1, 0.1);
 
 for (let i = -5; i < 6; ++i) {
     for (let j = -5; j < 6; ++j) {
@@ -153,7 +146,6 @@ for (let i = -5; i < 6; ++i) {
             .width(100)
             .height(100)
             .rotate(i * j)
-            .timed(true)
             .material()
             .fill(random_color());
         pathc
@@ -161,7 +153,6 @@ for (let i = -5; i < 6; ++i) {
             .cubicTo(50 * i, -50, -15, -15, 50, 50 * j)
             .linearTo(-25, 25)
             .quadraticTo(-50, -50, -50, -50)
-            .timed(true)
             .material()
             .stroke(random_color());
         rootc
@@ -169,9 +160,9 @@ for (let i = -5; i < 6; ++i) {
     }
 }
 
-rootc.rotate(0.005).children().iterate(
+rootc.rotate(0.5).children().iterate(
     node => {
-        node.rotate(-0.15);
+        node.rotate(-5);
     }
 );
 

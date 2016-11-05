@@ -55,7 +55,6 @@ describe('Scene tests', () => {
             expect(scene.root().scale().y).to.be.equal(1);
             expect(scene.root().active()).to.be.equal(true);
             expect(scene.root().dirty()).to.be.equal(true);
-            expect(scene.root().timed()).to.be.equal(false);
             expect(scene.material().stroke()).to.be.equal('#000000');
             expect(scene.material().width()).to.be.equal(1);
             expect(scene.material().fill()).to.be.equal('#000000');

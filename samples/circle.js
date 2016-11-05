@@ -28,15 +28,14 @@ scene.render();
 circle
     .debug(true)
     .at(200, 0)
+    .pivot(200, 0)
     .radius(100)
-    .timed(true)
     .material()
     .fill(random_color());
 
 root
-    .timed(true)
     .append(circle);
 
 scene.start(() => {
-    circle.timed(true).rotate(0.001).scale(0.0001, 0.0001);
+    circle.rotate(0.1).scale(1.01, 1.01);
 });

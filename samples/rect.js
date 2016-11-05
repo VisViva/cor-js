@@ -31,14 +31,12 @@ rect
     .pivot(250, 0)
     .width(100)
     .height(100)
-    .timed(true)
     .material()
     .fill(random_color());
 
 root
-    .timed(true)
     .append(rect);
 
 scene.start(() => {
-    rect.rotate(0.1).scale(0.0001, 0.001);
+    rect.rotate(0.1).scale(1.0001, 1.0001);
 });

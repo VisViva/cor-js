@@ -33,7 +33,6 @@ path
     .cubicTo(150, 0, -150, 150, -100, -100)
     .linearTo(20, -90)
     .quadraticTo(50, 150, 200, -70)
-    .timed(true)
     .material()
     .width(1);
 
@@ -43,8 +42,8 @@ closed_path
     .linearTo(20, -90)
     .quadraticTo(50, 150, 200, -70)
     .closed(true)
-    .timed(true)
     .material()
+    .filled(false)
     .fill(random_color())
     .width(1);
 
@@ -55,14 +54,11 @@ shape
     .linearTo(20, -90)
     .quadraticTo(50, 150, 200, -70)
     .closed(true)
-    .filled(true)
-    .timed(true)
     .material()
     .fill(random_color())
     .width(1);
 
 root
-    .timed(true)
     .append(path, closed_path, shape);
 
 scene.start(() => {

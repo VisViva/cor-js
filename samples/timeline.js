@@ -33,7 +33,6 @@ rect
     .fill(random_color());
 
 root
-    .timed(true)
     .append(rect);
 
 

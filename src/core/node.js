@@ -94,13 +94,6 @@ exports.Node = function(_scene) {
          */
 
         this._dirty = false;
-
-        /**
-         * Indicates whether transformations should be applied after taking time
-         * delta into consideration
-         */
-
-        this._timed = false;
     };
 
     /**
@@ -147,11 +140,6 @@ exports.Node = function(_scene) {
 
             y = -y;
 
-            if (this._timed === true) {
-                const delta = _scene.timer().delta();
-                x *= delta;
-                y *= delta;
-            }
             mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(x, y));
             this._position.x += x;
             this._position.y += y;
@@ -171,9 +159,6 @@ exports.Node = function(_scene) {
 
     Node.prototype.rotate = function(rotation) {
         if (typeof rotation !== 'undefined') {
-            if (this._timed === true) {
-                rotation *= _scene.timer().delta();
-            }
             if (this._pivot.x !== 0 || this._pivot.y !== 0) {
                 mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(this._pivot.x, this._pivot.y));
                 mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(rotation));
@@ -195,31 +180,18 @@ exports.Node = function(_scene) {
 
     Node.prototype.scale = function(x, y) {
         if (typeof x !== 'undefined' && typeof y !== 'undefined') {
-            if (this._timed === true) {
-                const delta = _scene.timer().delta();
-                this._scale.x += x * delta;
-                this._scale.y += y * delta;
-                this._matrix_own = mat3.create();
-                mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(this._position.x, this._position.y));
-                if (this._pivot.x !== 0 || this._pivot.y !== 0) {
-                    mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(this._pivot.x, this._pivot.y));
-                    mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(this._rotation));
-                    mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
-                    mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(-this._pivot.x, -this._pivot.y));
-                } else {
-                    mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(this._rotation));
-                    mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
-                }
+            this._scale.x *= x;
+            this._scale.y *= y;
+            this._matrix_own = mat3.create();
+            mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(this._position.x, this._position.y));
+            if (this._pivot.x !== 0 || this._pivot.y !== 0) {
+                mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(this._pivot.x, this._pivot.y));
+                mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(this._rotation));
+                mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
+                mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(-this._pivot.x, -this._pivot.y));
             } else {
-                this._scale.x *= x;
-                this._scale.y *= y;
-                if (this._pivot.x !== 0 || this._pivot.y !== 0) {
-                    mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(this._pivot.x, this._pivot.y));
-                    mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
-                    mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(-this._pivot.x, -this._pivot.y));
-                } else {
-                    mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
-                }
+                mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(this._rotation));
+                mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
             }
             this._dirty = true;
             return this;
@@ -342,20 +314,6 @@ exports.Node = function(_scene) {
             return this;
         } else {
             return this._dirty;
-        }
-    };
-
-    /**
-     * Get or set the flag which indicates if the time delta affects basics
-     * transformations of the node
-     */
-
-    Node.prototype.timed = function(value) {
-        if (typeof value !== 'undefined') {
-            this._timed = value;
-            return this;
-        } else {
-            return this._timed;
         }
     };
 

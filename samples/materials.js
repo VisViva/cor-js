@@ -20,8 +20,7 @@ scene
     .fill('#CCCCCC');
 
 root
-    .scale(0.4, 0.4)
-    .timed(true);
+    .scale(0.4, 0.4);
 
 window.addEventListener('resize', function(event) {
     scene.resize();
@@ -37,7 +36,6 @@ for (let i = -10; i < 11; ++i) {
             .width(100)
             .height(100)
             .rotate(i * j)
-            .timed(true)
             .material()
             .fill(random_color());
         path
@@ -45,7 +43,6 @@ for (let i = -10; i < 11; ++i) {
             .cubicTo(50 * i, -50, -15, -15, 50, 50 * j)
             .linearTo(-25, 25)
             .quadraticTo(-50, -50, -50, -50)
-            .timed(true)
             .material()
             .stroke(random_color());
         root
