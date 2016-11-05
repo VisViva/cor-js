@@ -155,30 +155,37 @@ exports.Rect = function(_scene, Primitive) {
         let context = _scene.context();
 
         /**
-         * Apply current primitive's material to the current context
+         * Render only if primitive is not hidden
          */
 
-        this._material.style(context);
+        if (this._hidden === false) {
 
-        /**
-         * Setup transformations and render
-         */
+            /**
+            * Apply current primitive's material to the current context
+            */
 
-        context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
+            this._material.style(context);
 
-        /**
-         * Fill the rect
-         */
+            /**
+            * Setup transformations and render
+            */
 
-        this._material._fill.enabled &&
-        context.fillRect(this._points[0].x, - this._points[0].y, this.width(), this.height());
+            context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
 
-        /**
-         * Stroke the stroke
-         */
+            /**
+            * Fill the rect
+            */
 
-        this._material._stroke.enabled &&
-        context.strokeRect(this._points[0].x, - this._points[0].y, this.width(), this.height());
+            this._material._fill.enabled &&
+            context.fillRect(this._points[0].x, - this._points[0].y, this.width(), this.height());
+
+            /**
+            * Stroke the stroke
+            */
+
+            this._material._stroke.enabled &&
+            context.strokeRect(this._points[0].x, - this._points[0].y, this.width(), this.height());
+        }
 
         /**
          * Rendering debug info

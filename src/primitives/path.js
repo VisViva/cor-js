@@ -414,52 +414,59 @@ exports.Path = function(_scene, Primitive) {
         const context = _scene.context();
 
         /**
-         * Apply current primitive's material to the current context
+         * Render only if primitive is not hidden
          */
 
-        this._material.style(context);
-
-        /**
-         * Setup transformations and render
-         */
-
-        context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
-        context.beginPath();
-        context.moveTo(this._at.x, this._at.y);
-        for (let i = 0; i < this._segments.length; ++i) {
-            switch (this._segments[i].length) {
-                case 2:
-                    context.lineTo(...this._segments[i]);
-                    break;
-                case 4:
-                    context.quadraticCurveTo(...this._segments[i]);
-                    break;
-                case 6:
-                    context.bezierCurveTo(...this._segments[i]);
-                    break;
-                default:
-            }
-        }
-
-        /**
-         * Close shape
-         */
-
-        if (this._closed) {
-            context.closePath();
+        if (this._hidden === false) {
 
             /**
-             * Fill the shape
+             * Apply current primitive's material to the current context
              */
 
-            this._material._fill.enabled && context.fill();
+            this._material.style(context);
+
+            /**
+             * Setup transformations and render
+             */
+
+            context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
+            context.beginPath();
+            context.moveTo(this._at.x, this._at.y);
+            for (let i = 0; i < this._segments.length; ++i) {
+                switch (this._segments[i].length) {
+                    case 2:
+                        context.lineTo(...this._segments[i]);
+                        break;
+                    case 4:
+                        context.quadraticCurveTo(...this._segments[i]);
+                        break;
+                    case 6:
+                        context.bezierCurveTo(...this._segments[i]);
+                        break;
+                    default:
+                }
+            }
+
+            /**
+             * Close shape
+             */
+
+            if (this._closed) {
+                context.closePath();
+
+                /**
+                 * Fill the shape
+                 */
+
+                this._material._fill.enabled && context.fill();
+            }
+
+            /**
+             * Stroke the path
+             */
+
+            this._material._stroke.enabled && context.stroke();
         }
-
-        /**
-         * Stroke the path
-         */
-
-        this._material._stroke.enabled && context.stroke();
 
         /**
          * Rendering debug info

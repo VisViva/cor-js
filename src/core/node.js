@@ -109,6 +109,8 @@ exports.Node = function(_scene) {
 
     Node.prototype.reset = function() {
         this._matrix_own = mat3.create();
+        this._pivot.x = 0;
+        this._pivot.y = 0;
         this._position.x = 0;
         this._position.y = 0;
         this._rotation = 0;
@@ -212,13 +214,12 @@ exports.Node = function(_scene) {
                 this._scale.x *= x;
                 this._scale.y *= y;
                 if (this._pivot.x !== 0 || this._pivot.y !== 0) {
-
+                    mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(this._pivot.x, this._pivot.y));
+                    mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
+                    mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(-this._pivot.x, -this._pivot.y));
                 } else {
-
+                    mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
                 }
-                mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(this._pivot.x, this._pivot.y));
-                mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
-                mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(-this._pivot.x, -this._pivot.y));
             }
             this._dirty = true;
             return this;
@@ -263,9 +264,9 @@ exports.Node = function(_scene) {
             nodes[i]._dirty = true;
             this._children.push(nodes[i]);
             linked === true && // Proceed if node is linked to the root
-                nodes[i].active() && // Proceed if node is active
-                typeof nodes[i]._depth !== 'undefined' && // Proceed if the node has depth
-                _scene._depthbuffer.append(nodes[i]); // Append the current node to the depth buffer
+            nodes[i].active() && // Proceed if node is active
+            typeof nodes[i]._depth !== 'undefined' && // Proceed if the node has depth
+            _scene._depthbuffer.append(nodes[i]); // Append the current node to the depth buffer
         }
 
         return this;

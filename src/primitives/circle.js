@@ -88,32 +88,39 @@ exports.Circle = function(_scene, Primitive) {
         let context = _scene.context();
 
         /**
-         * Apply current primitive's material to the current context
+         * Render only if primitive is not hidden
          */
 
-        this._material.style(context);
+        if (this._hidden === false) {
 
-        /**
-         * Setup transformations and render
-         */
+            /**
+            * Apply current primitive's material to the current context
+            */
 
-        context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
-        context.beginPath();
-        context.arc(this._at.x, this._at.y, this._radius, 0, 2 * Math.PI, false);
+            this._material.style(context);
 
-        /**
-         * Fill the circle
-         */
+            /**
+            * Setup transformations and render
+            */
 
-        this._material._fill.enabled &&
-        context.fill();
+            context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
+            context.beginPath();
+            context.arc(this._at.x, this._at.y, this._radius, 0, 2 * Math.PI, false);
 
-        /**
-         * Stroke the circle
-         */
+            /**
+            * Fill the circle
+            */
 
-        this._material._stroke.enabled &&
-        context.stroke();
+            this._material._fill.enabled &&
+            context.fill();
+
+            /**
+            * Stroke the circle
+            */
+
+            this._material._stroke.enabled &&
+            context.stroke();
+        }
 
         /**
          * Rendering debug info
