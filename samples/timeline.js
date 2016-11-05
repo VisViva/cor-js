@@ -26,7 +26,6 @@ scene
 scene.render();
 
 rect
-    .debug(true)
     .width(100)
     .height(100)
     .material()
