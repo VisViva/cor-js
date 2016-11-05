@@ -32,6 +32,15 @@ exports.Primitive = function(_scene, Node) {
         };
 
         /**
+         * Primitives pivot point
+         */
+
+        this._pivot = {
+            x: 0,
+            y: 0
+        };
+
+        /**
          * Depth of the current primitive
          */
 
@@ -57,7 +66,7 @@ exports.Primitive = function(_scene, Node) {
     }
 
     /**
-     * Get or set the upper left point of the rect
+     * Get or set the primitives starting point
      */
 
     Primitive.prototype.at = function(x, y) {
@@ -67,6 +76,20 @@ exports.Primitive = function(_scene, Node) {
             return this;
         } else {
             return this._at;
+        }
+    };
+
+    /**
+     * Get or set the primitives pivot point
+     */
+
+    Primitive.prototype.pivot = function(x, y) {
+        if (typeof x !== 'undefined' && typeof y !== 'undefined') {
+            this._pivot.x = x;
+            this._pivot.y = y;
+            return this;
+        } else {
+            return this._pivot;
         }
     };
 

@@ -41,6 +41,8 @@ describe('Primitive tests', () => {
         it('Executes own constructor correctly', () => {
             expect(primitive.at().x).to.be.equal(0);
             expect(primitive.at().y).to.be.equal(0);
+            expect(primitive.pivot().x).to.be.equal(0);
+            expect(primitive.pivot().y).to.be.equal(0);
             expect(primitive.depth()).to.be.equal(0);
             expect(primitive.debug()).to.be.equal(false);
             expect(primitive.hidden()).to.be.equal(false);
@@ -57,10 +59,16 @@ describe('Primitive tests', () => {
             primitive = new Primitive();
         });
 
-        it('Sets upper left point of the rect in the correct position', () => {
+        it('Sets primitives starting point', () => {
             expect(primitive.at(50, 60)).to.be.equal(primitive);
             expect(primitive.at().x).to.be.equal(50);
             expect(primitive.at().y).to.be.equal(60);
+        });
+
+        it('Sets primitives pivot point', () => {
+          expect(primitive.pivot(50, 60)).to.be.equal(primitive);
+          expect(primitive.pivot().x).to.be.equal(50);
+          expect(primitive.pivot().y).to.be.equal(60);
         });
 
         it('Sets debugging state correctly', () => {
