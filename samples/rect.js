@@ -27,8 +27,8 @@ scene.render();
 
 rect
     .debug(true)
-    .at(200, 0)
-    .pivot(100, 0)
+    .at(250, 0)
+    .pivot(250, 0)
     .width(100)
     .height(100)
     .timed(true)
@@ -40,5 +40,5 @@ root
     .append(rect);
 
 scene.start(() => {
-    rect.rotate(0.001).scale(0.0001, 0.0001);
+    rect.rotate(0.1).scale(0.0001, 0.001);
 });
