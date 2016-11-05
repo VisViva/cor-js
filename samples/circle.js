@@ -38,5 +38,5 @@ root
     .append(circle);
 
 scene.start(() => {
-    //circle.timed(true).rotate(0.001).scale(0.0001, 0.0001);
+    circle.timed(true).rotate(0.001).scale(0.0001, 0.0001);
 });

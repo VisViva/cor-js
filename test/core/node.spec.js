@@ -30,6 +30,8 @@ describe('Node tests', () => {
         it('Constructs correctly', () => {
             expect(node.parent()).to.be.equal(null);
             expect(node.children().array().length).to.be.equal(0);
+            expect(node.pivot().x).to.be.equal(0);
+            expect(node.pivot().y).to.be.equal(0);
             expect(node.translate().x).to.be.equal(0);
             expect(node.translate().y).to.be.equal(0);
             expect(node.rotate()).to.be.equal(0);
@@ -42,8 +44,16 @@ describe('Node tests', () => {
             expect(matrix_to_array(node.matrixCascaded()).join('')).to.be.equal('100010001');
         });
 
+        it('Sets nodes pivot point', () => {
+            expect(node.pivot(50, 60)).to.be.equal(node);
+            expect(node.pivot().x).to.be.equal(50);
+            expect(node.pivot().y).to.be.equal(60);
+        });
+
         it('Resets transformations', () => {
             expect(node.dirty()).to.be.equal(false);
+            expect(node.pivot().x).to.be.equal(0);
+            expect(node.pivot().y).to.be.equal(0);
             expect(node.translate(5, 0)).to.be.equal(node);
             expect(node.rotate(45)).to.be.equal(node);
             expect(node.scale(1.5, 2)).to.be.equal(node);

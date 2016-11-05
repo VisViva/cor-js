@@ -26,6 +26,8 @@ describe('Primitive tests', () => {
         it('Executes parent constructor correctly', () => {
             expect(primitive.parent()).to.be.equal(null);
             expect(primitive.children().array().length).to.be.equal(0);
+            expect(primitive.pivot().x).to.be.equal(0);
+            expect(primitive.pivot().y).to.be.equal(0);
             expect(primitive.translate().x).to.be.equal(0);
             expect(primitive.translate().y).to.be.equal(0);
             expect(primitive.rotate()).to.be.equal(0);
@@ -41,8 +43,6 @@ describe('Primitive tests', () => {
         it('Executes own constructor correctly', () => {
             expect(primitive.at().x).to.be.equal(0);
             expect(primitive.at().y).to.be.equal(0);
-            expect(primitive.pivot().x).to.be.equal(0);
-            expect(primitive.pivot().y).to.be.equal(0);
             expect(primitive.depth()).to.be.equal(0);
             expect(primitive.debug()).to.be.equal(false);
             expect(primitive.hidden()).to.be.equal(false);
@@ -63,12 +63,6 @@ describe('Primitive tests', () => {
             expect(primitive.at(50, 60)).to.be.equal(primitive);
             expect(primitive.at().x).to.be.equal(50);
             expect(primitive.at().y).to.be.equal(60);
-        });
-
-        it('Sets primitives pivot point', () => {
-          expect(primitive.pivot(50, 60)).to.be.equal(primitive);
-          expect(primitive.pivot().x).to.be.equal(50);
-          expect(primitive.pivot().y).to.be.equal(60);
         });
 
         it('Sets debugging state correctly', () => {

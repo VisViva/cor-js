@@ -25,6 +25,15 @@ exports.Node = function(_scene) {
     function Node() {
 
         /**
+         * Nodes pivot point
+         */
+
+        this._pivot = {
+            x: 0,
+            y: 0
+        };
+
+        /**
          * Current nodes position
          */
 
@@ -110,6 +119,20 @@ exports.Node = function(_scene) {
     };
 
     /**
+     * Get or set the nodes pivot point
+     */
+
+    Node.prototype.pivot = function(x, y) {
+        if (typeof x !== 'undefined' && typeof y !== 'undefined') {
+            this._pivot.x = x;
+            this._pivot.y = y;
+            return this;
+        } else {
+            return this._pivot;
+        }
+    };
+
+    /**
      * Get or set the position of the node
      */
 
@@ -162,7 +185,7 @@ exports.Node = function(_scene) {
      * Get or set the scale of the node
      */
 
-     Node.prototype.scale = function(x, y) {
+    Node.prototype.scale = function(x, y) {
         if (typeof x !== 'undefined' && typeof y !== 'undefined') {
             if (this._timed === true) {
                 const delta = _scene.timer().delta();
