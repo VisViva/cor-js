@@ -29,8 +29,10 @@ describe('Rect tests', () => {
             expect(rect.debug()).to.be.equal(false);
             expect(rect.hidden()).to.be.equal(false);
             expect(rect.material().stroke()).to.be.equal('#000000');
+            expect(rect.material().stroked()).to.be.equal(true);
             expect(rect.material().width()).to.be.equal(1);
             expect(rect.material().fill()).to.be.equal('#000000');
+            expect(rect.material().filled()).to.be.equal(true);
         });
 
         it('Executes own constructor correctly', () => {

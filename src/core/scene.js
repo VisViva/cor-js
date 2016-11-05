@@ -23,6 +23,9 @@ import {
     Rect
 } from "../primitives/rect";
 import {
+    Circle
+} from "../primitives/circle";
+import {
     Path
 } from "../primitives/path";
 
@@ -236,12 +239,14 @@ Scene.prototype.factory = function() {
         const _Node = Node(scene);
         const _Primitive = Primitive(scene, _Node);
         const _Rect = Rect(scene, _Primitive);
+        const _Circle = Circle(scene, _Primitive);
         const _Path = Path(scene, _Primitive);
 
         return {
             Node: _Node,
             Primitive: _Primitive,
             Rect: _Rect,
+            Circle: _Circle,
             Path: _Path,
         };
     }(this);
