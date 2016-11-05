@@ -67,12 +67,11 @@ exports.Circle = function(_scene, Primitive) {
          */
 
         const transformed3DVector = vec2.create();
-
-        for (let i = 0; i < this._points.length; ++i) {
-            vec2.transformMat3(transformed3DVector, vec2.fromValues(this._points[i].x, - this._points[i].y), this._matrix_cascaded);
-            xValues.push(transformed3DVector[0]);
-            yValues.push(transformed3DVector[1]);
-        }
+        vec2.transformMat3(transformed3DVector, vec2.fromValues(this._at.x, - this._at.y), this._matrix_cascaded);
+        xValues.push(transformed3DVector[0] - this._radius * this._scale.x);
+        xValues.push(transformed3DVector[0] + this._radius * this._scale.x);
+        yValues.push(transformed3DVector[1] + this._radius * this._scale.y);
+        yValues.push(transformed3DVector[1] - this._radius * this._scale.y);
 
         /**
          * Returning the newly created bouding box
