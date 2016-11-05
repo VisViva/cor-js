@@ -5,6 +5,7 @@
     "scripts": {
         "win:start": "npm run win:start:materials",
         "win:start:rect": "gulp replace --entry 'rect' && webpack-dev-server --config \"webpack/webpack.server.entry.config.js\" --hot --inline",
+        "win:start:circle": "gulp replace --entry 'circle' && webpack-dev-server --config \"webpack/webpack.server.entry.config.js\" --hot --inline",
         "win:start:path": "gulp replace --entry 'path' && webpack-dev-server --config \"webpack/webpack.server.entry.config.js\" --hot --inline",
         "win:start:materials": "gulp replace --entry 'materials' && webpack-dev-server --config \"webpack/webpack.server.entry.config.js\" --hot --inline",
         "win:start:modes": "gulp replace --entry 'modes' && webpack-dev-server --config \"webpack/webpack.server.entry.config.js\" --hot --inline",
@@ -15,8 +16,9 @@
         "win:test:once": "rimraf reports && karma start \"karma/karma.once.config.js\"",
         "win:build:dry": "rimraf dist && webpack --config \"webpack/webpack.build.config.js\"",
         "win:build:report": "rimraf dist && npm run test:once && webpack --config \"webpack/webpack.build.config.js\"",
-        "start": "npm run start:chart",
+        "start": "npm run start:circle",
         "start:rect": "gulp replace --entry 'rect' && webpack-dev-server --config './webpack/webpack.server.entry.config.js' --hot --inline",
+        "start:circle": "gulp replace --entry 'circle' && webpack-dev-server --config './webpack/webpack.server.entry.config.js' --hot --inline",
         "start:path": "gulp replace --entry 'path' && webpack-dev-server --config './webpack/webpack.server.entry.config.js' --hot --inline",
         "start:materials": "gulp replace --entry 'materials' && webpack-dev-server --config \"webpack/webpack.server.entry.config.js\" --hot --inline",
         "start:modes": "gulp replace --entry 'modes' && webpack-dev-server --config \"webpack/webpack.server.entry.config.js\" --hot --inline",
