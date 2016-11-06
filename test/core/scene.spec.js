@@ -169,14 +169,6 @@ describe('Scene tests', () => {
             Primitive = scene.factory().Primitive;
         });
 
-        it('Resets the timer snapshot on render', (done) => {
-            setTimeout(() => {
-                expect(scene.render()).to.be.equal(scene);
-                expect(scene.timer().delta()).to.be.approximately(0, 100);
-                done();
-            }, 1000);
-        });
-
         it('Calls the render function of each of the primitives present in the depth buffer upon render', () => {
             let primitiveA = new Primitive();
             let primitiveB = new Primitive();

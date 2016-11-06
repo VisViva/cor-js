@@ -102,7 +102,7 @@ describe('Node tests', () => {
             expect(node.scale(1.5, 2)).to.be.equal(node);
             expect(node.scale().x).to.be.approximately(2.25, 0.1);
             expect(node.scale().y).to.be.equal(4);
-            expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('3.37500080001');
+            expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('2.2500040001');
             expect(node.dirty()).to.be.equal(true);
         });
 
