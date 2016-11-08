@@ -5,26 +5,15 @@
  */
 
 function Timeline() {
-    this._nodes = [node];
-    this._tracks = [
-        [{
-            position_x: [
-                0: 0,
-                1000: 100
-            ],
-            position_y: [
-                0: 0,
-                5000: 50
-            ]
-        }]
-    ];
+    this._nodes = [];
+    this._tracks = [];
 };
 
 /**
  * Add keyframe
  */
 
-Timeline.prototype.add = function(node, keyframe) {
+Timeline.prototype.add = function(node, ...keyframes) {
 
     /**
      * Track reference
@@ -36,11 +25,12 @@ Timeline.prototype.add = function(node, keyframe) {
      * Acquire correct track reference, bound to the given node
      */
 
-    const index = this._nodes.indexOf(node);
+    let index = this._nodes.indexOf(node);
     if (index === -1) {
         this._nodes.push(node);
         track = {};
         this._tracks.push(track);
+        index = this._tracks.length - 1;
     } else {
         track = this._tracks[index];
     }
@@ -48,12 +38,20 @@ Timeline.prototype.add = function(node, keyframe) {
     /**
      * Add given keyframe to the track
      */
+
+    for (let i = 0; i < keyframes.length; ++i) {
+        for (var property in keyframes[i]._keys) {
+            if (keyframes[i]._keys.hasOwnProperty(property)) {
+                track[property] = track[property] || [];
+                track[property][keyframes[i]._time] = keyframes[i]._keys[property];
+            }
+        }
+    }
 };
 
 exports.Timeline = Timeline;
 
 /* get first 2 element of an array
-
 var i = 0;
 for (var property in a) {
     if (a.hasOwnProperty(property)) {
@@ -61,3 +59,4 @@ for (var property in a) {
          ++i; if (i === 2) break;
     }
 }
+*/
