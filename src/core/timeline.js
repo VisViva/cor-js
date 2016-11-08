@@ -50,13 +50,3 @@ Timeline.prototype.add = function(node, ...keyframes) {
 };
 
 exports.Timeline = Timeline;
-
-/* get first 2 element of an array
-var i = 0;
-for (var property in a) {
-    if (a.hasOwnProperty(property)) {
-         console.log(property);
-         ++i; if (i === 2) break;
-    }
-}
-*/
