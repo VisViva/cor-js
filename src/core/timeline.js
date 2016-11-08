@@ -10,7 +10,7 @@ function Timeline() {
 };
 
 /**
- * Add keyframe
+ * Add keyframes
  */
 
 Timeline.prototype.add = function(node, ...keyframes) {
@@ -36,7 +36,7 @@ Timeline.prototype.add = function(node, ...keyframes) {
     }
 
     /**
-     * Add given keyframe to the track
+     * Add given keyframes to the track
      */
 
     for (let i = 0; i < keyframes.length; ++i) {
@@ -47,6 +47,49 @@ Timeline.prototype.add = function(node, ...keyframes) {
             }
         }
     }
+
+    return this;
+};
+
+/**
+ * Remove keyframes
+ */
+
+Timeline.prototype.remove = function(node, ...keyframes) {
+
+    /**
+     * Track reference
+     */
+
+    let track;
+
+    /**
+     * Acquire correct track reference, bound to the given node
+     * or return the timeline itself
+     */
+
+    let index = this._nodes.indexOf(node);
+    if (index === -1) return this;
+    track = this._tracks[index];
+
+    /**
+     * Remove given keyframes from the track
+     */
+
+    for (let i = 0; i < keyframes.length; ++i) {
+        for (var property in keyframes[i]._keys) {
+            if (keyframes[i]._keys.hasOwnProperty(property) && track.hasOwnProperty(property)) {
+                let keyframe_counter = 0;
+                for (var property_value in track[property]) {
+                    if (++keyframe_counter === 2) break;
+                    delete track[property][keyframes[i]._time];
+                }
+                keyframe_counter === 1 && delete track[property];
+            }
+        }
+    }
+
+    return this;
 };
 
 exports.Timeline = Timeline;

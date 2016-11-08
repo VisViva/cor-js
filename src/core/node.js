@@ -236,9 +236,9 @@ exports.Node = function(_scene) {
             nodes[i]._dirty = true;
             this._children.push(nodes[i]);
             linked === true && // Proceed if node is linked to the root
-            nodes[i].active() && // Proceed if node is active
-            typeof nodes[i]._depth !== 'undefined' && // Proceed if the node has depth
-            _scene._depthbuffer.append(nodes[i]); // Append the current node to the depth buffer
+                nodes[i].active() && // Proceed if node is active
+                typeof nodes[i]._depth !== 'undefined' && // Proceed if the node has depth
+                _scene._depthbuffer.append(nodes[i]); // Append the current node to the depth buffer
         }
 
         return this;

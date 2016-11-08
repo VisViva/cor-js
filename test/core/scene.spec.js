@@ -49,7 +49,7 @@ describe('Scene tests', () => {
             expect(scene.root().parent()).to.be.equal(null);
             expect(scene.root().children().array().length).to.be.equal(0);
             expect(scene.root().translate().x).to.be.equal(scene._canvas.width >>> 1);
-            expect(scene.root().translate().y).to.be.equal(- scene._canvas.height / 2);
+            expect(scene.root().translate().y).to.be.equal(-scene._canvas.height / 2);
             expect(scene.root().rotate()).to.be.equal(0);
             expect(scene.root().scale().x).to.be.equal(1);
             expect(scene.root().scale().y).to.be.equal(1);

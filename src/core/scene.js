@@ -143,7 +143,7 @@ Scene.prototype.resize = function(width, height) {
     const rotate = this._root.rotate();
     this._root
         .reset()
-        .translate(this._canvas.width / 2, - this._canvas.height / 2)
+        .translate(this._canvas.width / 2, -this._canvas.height / 2)
         .scale(scale.x, scale.y)
         .rotate(rotate);
     return this;
@@ -374,7 +374,7 @@ Scene.prototype.start = function(callback) {
 
 Scene.prototype.stop = function() {
     this._request_animation_frame_id &&
-    window.cancelAnimationFrame(this._request_animation_frame_id);
+        window.cancelAnimationFrame(this._request_animation_frame_id);
     this._request_animation_frame_id = null;
 };
 

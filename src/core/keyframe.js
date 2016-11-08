@@ -59,7 +59,7 @@ Keyframe.prototype.position_x = function(x) {
 
 Keyframe.prototype.position_y = function(y) {
     if (typeof y !== 'undefined') {
-        if (x === null) delete this._keys.position_y;
+        if (y === null) delete this._keys.position_y;
         else this._keys.position_y = y;
         return this;
     } else {

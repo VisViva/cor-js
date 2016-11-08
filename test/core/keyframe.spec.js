@@ -15,7 +15,6 @@ describe('Keyframe tests', () => {
             keyframe = new Keyframe();
         });
 
-        it('Constructs correctly', () => {
-        });
+        it('Constructs correctly', () => {});
     });
 });

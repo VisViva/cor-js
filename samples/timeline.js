@@ -37,5 +37,4 @@ root
 
 //scene.timeline().add(new Keyframe().node(rect).time(0).position(0, 0));
 
-scene.start(() => {
-});
+scene.start(() => {});

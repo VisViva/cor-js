@@ -68,7 +68,7 @@ exports.Path = function(_scene, Primitive) {
             this._closed = value;
             return this;
         } else {
-          return this._closed;
+            return this._closed;
         }
     };
 
