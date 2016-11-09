@@ -43,6 +43,7 @@ describe('Timeline tests', () => {
             expect(timeline.add(node, keyframe_a)).to.be.equal(timeline);
             expect(timeline._tracks.length).to.be.equal(1);
             expect(timeline._tracks[0].position_x.length).to.be.equal(21);
+            expect(timeline._tracks[0].position_x[0]).to.be.equal(0);
             expect(timeline._tracks[0].position_x[20]).to.be.equal(21);
         });
 
@@ -54,6 +55,7 @@ describe('Timeline tests', () => {
             expect(timeline.add(node, keyframe_a, keyframe_b, keyframe_c)).to.be.equal(timeline);
             expect(timeline._tracks.length).to.be.equal(1);
             expect(timeline._tracks[0].position_x.length).to.be.equal(5001);
+            expect(timeline._tracks[0].position_x[0]).to.be.equal(0);
             expect(timeline._tracks[0].position_x[20]).to.be.equal(21);
             expect(timeline._tracks[0].position_x[5000]).to.be.equal(5001);
             expect(timeline._tracks[0].position_x[300]).to.be.equal(301);
@@ -63,7 +65,7 @@ describe('Timeline tests', () => {
                     result += timeline._tracks[0].position_x[property];
                 }
             }
-            expect(result).to.be.equal('213015001');
+            expect(result).to.be.equal('0213015001');
         });
     });
 
@@ -93,6 +95,7 @@ describe('Timeline tests', () => {
             expect(timeline.remove(node, keyframe_b, keyframe_a)).to.be.equal(timeline);
             expect(timeline._tracks.length).to.be.equal(1);
             expect(timeline._tracks[0].position_x.length).to.be.equal(5001);
+            expect(timeline._tracks[0].position_x[0]).to.be.equal(0);
             expect(timeline._tracks[0].position_x[20]).not.to.exist;
             expect(timeline._tracks[0].position_x[300]).to.be.equal(301);
             expect(timeline._tracks[0].position_x[5000]).not.to.exist;
@@ -109,9 +112,26 @@ describe('Timeline tests', () => {
             expect(timeline.remove(node, keyframe_b, keyframe_a)).to.be.equal(timeline);
             expect(timeline._tracks.length).to.be.equal(1);
             expect(timeline._tracks[0].position_x).not.to.exist;
+            expect(timeline._tracks[0].position_y[0]).to.be.equal(0);
             expect(timeline._tracks[0].position_y[300]).to.be.equal(301);
             expect(timeline.remove(node, keyframe_c, keyframe_a)).to.be.equal(timeline);
             expect(timeline._tracks[0].position_y).not.to.exist;
         });
     });
+
+    // describe('Calculate scene state for the given time', () => {
+    //     let timeline;
+    //
+    //     beforeEach(function() {
+    //         timeline = new Timeline();
+    //     });
+    //
+    //     it('Calculates single node', () => {
+    //         let node = new Node();
+    //         let keyframe = new Keyframe().time(20).position_x(21);
+    //         expect(timeline.add(node, keyframe)).to.be.equal(timeline);
+    //         expect(timeline._tracks[0].position_x[20]).to.be.equal(21);
+    //
+    //     });
+    // });
 });

@@ -43,6 +43,7 @@ Timeline.prototype.add = function(node, ...keyframes) {
         for (var property in keyframes[i]._keys) {
             if (keyframes[i]._keys.hasOwnProperty(property)) {
                 track[property] = track[property] || [];
+                track[property][0] = track[property][0] || 0;
                 track[property][keyframes[i]._time] = keyframes[i]._keys[property];
             }
         }
