@@ -40,8 +40,18 @@ Timeline.prototype.add = function(node, ...keyframes) {
      */
 
     for (let i = 0; i < keyframes.length; ++i) {
+
+        /**
+         * For each key of the keyframe
+         */
+
         for (var property in keyframes[i]._keys) {
             if (keyframes[i]._keys.hasOwnProperty(property)) {
+
+                /**
+                 * Append keyframe to the timeline
+                 */
+
                 track[property] = track[property] || [];
                 track[property][0] = track[property][0] || 0;
                 track[property][keyframes[i]._time] = keyframes[i]._keys[property];
@@ -78,13 +88,28 @@ Timeline.prototype.remove = function(node, ...keyframes) {
      */
 
     for (let i = 0; i < keyframes.length; ++i) {
+
+        /**
+         * For each key of the keyframe
+         */
+
         for (var property in keyframes[i]._keys) {
             if (keyframes[i]._keys.hasOwnProperty(property) && track.hasOwnProperty(property)) {
+
+                /**
+                 * Delete keyframe from the timeline
+                 */
+
                 let keyframe_counter = 0;
                 for (var property_value in track[property]) {
                     if (++keyframe_counter === 2) break;
                     delete track[property][keyframes[i]._time];
                 }
+
+                /**
+                 * Delete the whole track if it has no more keyframes
+                 */
+
                 keyframe_counter === 1 && delete track[property];
             }
         }
@@ -98,9 +123,34 @@ Timeline.prototype.remove = function(node, ...keyframes) {
  */
 
 Timeline.prototype.seek = function(time) {
+
+    /**
+     * For each node
+     */
+
     for (let node_index = 0; node_index < this._nodes.length; ++node_index) {
+
+        /**
+        * For each property track of the node
+        */
+
         for (var property_value in this._tracks[node_index]) {
-            this._nodes[node_index][property_value](this._tracks[node_index][property_value][time]);
+
+            /**
+             * Get interpolated value
+             */
+
+            const interpolated_value = this._tracks[node_index][property_value][time];
+
+            /**
+             * Delete previous keyframe if needed
+             */
+
+            /**
+             * Transform node
+             */
+
+            this._nodes[node_index][property_value](interpolated_value);
         }
     }
 
