@@ -379,6 +379,7 @@ exports.Node = function(_scene) {
         for (let i = 0; i < this._children.length; ++i) {
             this._children[i].cascade();
         }
+        this._matrix_own = mat3.create();
         this._dirty = false;
         return this;
     };
