@@ -73,7 +73,8 @@ Keyframe.prototype.translateY = function(y) {
 
 Keyframe.prototype.rotate = function(rotation) {
     if (typeof rotation !== 'undefined') {
-        this.rotate(rotation);
+        if (rotation === null) delete this._keys.rotate;
+        else this._keys.rotate = rotation;
         return this;
     } else {
         return this._keys.rotate;

@@ -224,7 +224,7 @@ exports.Node = function(_scene) {
      */
 
     Node.prototype.scaleX = function(x) {
-        return this.scale(x, 0);
+        return this.scale(x, 1);
     };
 
     /**
@@ -232,7 +232,7 @@ exports.Node = function(_scene) {
      */
 
     Node.prototype.scaleY = function(y) {
-        return this.scale(0, y);
+        return this.scale(1, y);
     };
 
     /**
