@@ -126,17 +126,30 @@ describe('Timeline tests', () => {
             timeline = new Timeline();
         });
 
-        it('Seeks single node to the given time correctly using linear interpolation', () => {
+        it('Seeks single node to the keyframed time correctly using linear interpolation', () => {
             let node = new Node();
-            let keyframe = new Keyframe().time(20).scale(1.1, 1.2).translate(21, 150).rotate(50);
+            let keyframe = new Keyframe().time(20).translate(140, 150).rotate(50).scale(2.0, 4.0);
             expect(timeline.add(node, keyframe)).to.be.equal(timeline);
-            expect(timeline._tracks[0].translateX[20]).to.be.equal(21);
+            expect(timeline._tracks[0].translateX[20]).to.be.equal(140);
             expect(timeline.seek(20)).to.be.equal(timeline);
-            expect(node.translate().x).to.be.equal(21);
+            expect(node.translate().x).to.be.equal(140);
             expect(node.translate().y).to.be.equal(150);
             expect(node.rotate()).to.be.equal(50);
-            expect(node.scale().x).to.be.equal(1.1);
-            expect(node.scale().y).to.be.equal(1.2);
+            expect(node.scale().x).to.be.equal(2.0);
+            expect(node.scale().y).to.be.equal(4.0);
+        });
+
+        it('Seeks single node to the given time correctly using linear interpolation', () => {
+            let node = new Node();
+            let keyframe = new Keyframe().time(20).translate(140, 150).rotate(50).scale(2.0, 4.0);
+            expect(timeline.add(node, keyframe)).to.be.equal(timeline);
+            expect(timeline._tracks[0].translateX[20]).to.be.equal(140);
+            expect(timeline.seek(10)).to.be.equal(timeline);
+            expect(node.translate().x).to.be.equal(70);
+            expect(node.translate().y).to.be.equal(75);
+            expect(node.rotate()).to.be.equal(25);
+            expect(node.scale().x).to.be.equal(1.0);
+            expect(node.scale().y).to.be.equal(2.0);
         });
     });
 });

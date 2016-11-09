@@ -1,5 +1,9 @@
 'use strict';
 
+import {
+    get_linear_function_for
+} from "../utils/math";
+
 /**
  * Timeline constructor
  */
@@ -136,15 +140,42 @@ Timeline.prototype.seek = function(time) {
 
         for (var property_value in this._tracks[node_index]) {
 
+            let time_start;
+            let time_end;
+
+            /**
+             * Get the first two keyframes on the track to interpolate between,
+             * removing earlier keyframes
+             */
+
+            for (var property_time in this._tracks[node_index][property_value]) {
+                if (property_time >= time) {
+                    time_end = property_time;
+                    break;
+                } else {
+
+                    /**
+                     * Delete previous keyframe if there is another keyframe
+                     * before the time to seek to
+                     */
+
+                    time_start &&
+                    delete this._tracks[node_index][property_value][property_time];
+                    time_start = property_time;
+                }
+            }
+
             /**
              * Get interpolated value
              */
 
-            const interpolated_value = this._tracks[node_index][property_value][time];
-
-            /**
-             * Delete previous keyframe if needed
-             */
+            const interpolated_value = get_linear_function_for(
+              time_start,
+              time_end,
+              time,
+              this._tracks[node_index][property_value][time_start],
+              this._tracks[node_index][property_value][time_end]
+            );
 
             /**
              * Transform node

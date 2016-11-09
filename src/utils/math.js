@@ -121,3 +121,12 @@ export function get_cubic_function_extremas_for(point_start, point_control_a, po
     t2 >= 0 && t2 <= 1 && extremas.push(t2);
     return extremas;
 };
+
+/**
+ * Get value for a linear function by supplying starting time, ending time,
+ * an interval and two values
+ */
+
+export function get_linear_function_for(time_start, time_end, time_at, point_start, point_end) {
+    return (point_end - point_start) / (time_end - time_start) * time_at;
+}
