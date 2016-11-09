@@ -158,6 +158,14 @@ Scene.prototype.timer = function() {
 };
 
 /**
+ * Get the scene's timeline
+ */
+
+Scene.prototype.timeline = function() {
+    return this._timeline;
+};
+
+/**
  * Get or set fps
  */
 
@@ -351,7 +359,8 @@ Scene.prototype.loop = function(callback) {
     setTimeout(() => {
         if (this._request_animation_frame_id) {
             this._request_animation_frame_id = requestAnimationFrame(() => this.loop.bind(this)(callback));
-            callback();
+            this._timeline.seek(this._timer.delta());
+            callback && callback();
             this.render();
         }
     }, 1000 / this._fps);
@@ -363,8 +372,6 @@ Scene.prototype.loop = function(callback) {
 
 Scene.prototype.start = function(callback) {
     this.timer().reset();
-    callback();
-    this.render();
     this._request_animation_frame_id = requestAnimationFrame(() => this.loop.bind(this)(callback));
 };
 

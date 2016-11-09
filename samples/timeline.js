@@ -35,6 +35,11 @@ rect
 root
     .append(rect);
 
-//scene.timeline().add(new Keyframe().node(rect).time(0).position(0, 0));
+scene.timeline().add(
+    rect,
+    new Keyframe().translateX(-200),
+    new Keyframe().time(1000).translateX(200),
+    new Keyframe().time(10000).translateX(-200)
+);
 
 scene.start(() => {});

@@ -140,9 +140,12 @@ exports.Node = function(_scene) {
 
             y = -y;
 
-            mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(x, y));
             this._position.x += x;
             this._position.y += y;
+            this._matrix_own = mat3.create();
+            mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(x, y));
+            mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(this._rotation));
+            mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
             this._dirty = true;
             return this;
         } else {
@@ -175,14 +178,18 @@ exports.Node = function(_scene) {
 
     Node.prototype.rotate = function(rotation) {
         if (typeof rotation !== 'undefined') {
+            this._rotation = trim_angle(this._rotation + rotation);
+            this._matrix_own = mat3.create();
+            mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(this._position.x, this._position.y));
             if (this._pivot.x !== 0 || this._pivot.y !== 0) {
                 mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(this._pivot.x, this._pivot.y));
-                mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(rotation));
+                mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(this._rotation));
+                mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
                 mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(-this._pivot.x, -this._pivot.y));
             } else {
-                mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(rotation));
+                mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(this._rotation));
+                mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
             }
-            this._rotation = trim_angle(this._rotation + rotation);
             this._dirty = true;
             return this;
         } else {
