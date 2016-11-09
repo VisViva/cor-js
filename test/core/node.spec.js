@@ -76,7 +76,7 @@ describe('Node tests', () => {
             expect(node.translate(5, 10)).to.be.equal(node);
             expect(node.translate().x).to.be.equal(10);
             expect(node.translate().y).to.be.equal(10);
-            expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('10001010-101');
+            expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('1000105-101');
             expect(node.dirty()).to.be.equal(true);
         });
 
@@ -89,7 +89,7 @@ describe('Node tests', () => {
             expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('0.70710545778274540.70710808038711550-0.70710808038711550.70710545778274540001');
             expect(node.rotate(45)).to.be.equal(node);
             expect(node.rotate()).to.be.equal(90);
-            expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('-0.000003691063966471119810-1-0.00000369106396647111980001');
+            expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('-0.000003673205128507106610-1-0.00000367320512850710660001');
             expect(node.dirty()).to.be.equal(true);
         });
 

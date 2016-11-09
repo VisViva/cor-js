@@ -38,8 +38,16 @@ root
 scene.timeline().add(
     rect,
     new Keyframe().translateX(-200),
+    new Keyframe().time(1100).translateY(-200),
     new Keyframe().time(1000).translateX(200),
-    new Keyframe().time(10000).translateX(-200)
+    new Keyframe().time(2000).translateX(-200),
+    new Keyframe().time(3000).translateX(200),
+    new Keyframe().time(4000).translateX(-200),
+    new Keyframe().time(5000).translateX(200),
+    new Keyframe().time(6000).translateX(-200),
+    new Keyframe().time(7000).translateX(200),
+    new Keyframe().time(8000).translateX(-200),
+    new Keyframe().time(9000).translateY(200)
 );
 
 scene.start(() => {});

@@ -191,7 +191,7 @@ describe('Circle tests', () => {
             expect(bbox.height()).to.be.approximately(200.1, 0.1);
             circle.translate(10, 10).rotate(45).cascade();
             bbox = circle.bboxCascaded();
-            expect(circle.bboxCascaded().x()).to.be.approximately(-100, 0.1);
+            expect(circle.bboxCascaded().x()).to.be.approximately(-80, 0.1);
             expect(circle.bboxCascaded().y()).to.be.approximately(80, 0.1);
             expect(circle.bboxCascaded().width()).to.be.approximately(200, 0.1);
             expect(circle.bboxCascaded().height()).to.be.approximately(200, 0.1);
@@ -206,7 +206,7 @@ describe('Circle tests', () => {
             expect(bbox.height()).to.be.approximately(200.0, 0.1);
             circle.translate(10, 10).rotate(45).cascade();
             bbox = circle.bboxCascaded();
-            expect(circle.bboxCascaded().x()).to.be.approximately(-100.0, 0.1);
+            expect(circle.bboxCascaded().x()).to.be.approximately(-80.0, 0.1);
             expect(circle.bboxCascaded().y()).to.be.approximately(65.8, 0.1);
             expect(circle.bboxCascaded().width()).to.be.approximately(200, 0.1);
             expect(circle.bboxCascaded().height()).to.be.approximately(200, 0.1);

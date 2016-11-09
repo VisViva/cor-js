@@ -161,11 +161,11 @@ Timeline.prototype.seek = function(time) {
                             this._tracks[node_index][property_value][property_time].value
                         );
                         if (typeof time_start !== 'undefined') {
-                            delete this._tracks[node_index][property_value][property_time];
+                            delete this._tracks[node_index][property_value][time_start];
                         }
-                        return this;
+                    } else {
+                        time_end = property_time;
                     }
-                    time_end = property_time;
                     break;
                 } else {
 
@@ -202,8 +202,6 @@ Timeline.prototype.seek = function(time) {
                         )
                     );
                 }
-            } else {
-                return this;
             }
         }
     }

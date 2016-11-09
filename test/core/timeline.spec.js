@@ -126,7 +126,7 @@ describe('Timeline tests', () => {
             timeline = new Timeline();
         });
 
-        it('Seeks single node to the keyframed time correctly using linear interpolation', () => {
+        it('Seeks single node to the keyframed time correctly', () => {
             let node = new Node();
             let keyframe = new Keyframe().time(20).translate(140, 150).rotate(50).scale(2.0, 4.0);
             expect(timeline.add(node, keyframe)).to.be.equal(timeline);
