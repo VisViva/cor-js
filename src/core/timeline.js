@@ -1,8 +1,6 @@
 'use strict';
 
-import {
-    get_linear_function_for
-} from "../utils/math";
+import * as Easings from '../utils/easings';
 
 /**
  * Timeline constructor
@@ -57,8 +55,16 @@ Timeline.prototype.add = function(node, ...keyframes) {
                  */
 
                 track[property] = track[property] || [];
-                track[property][0] = track[property][0] || 0;
-                track[property][keyframes[i]._time] = keyframes[i]._keys[property];
+                track[property][0] = track[property][0] || {
+                    value: 0,
+                    ease_in: 'linear',
+                    ease_out: 'linear'
+                };
+                track[property][keyframes[i]._time] = {
+                    ease_in: keyframes[i]._keys[property].ease_in,
+                    ease_out: keyframes[i]._keys[property].ease_out,
+                    value: keyframes[i]._keys[property].value
+                };
             }
         }
     }
@@ -165,16 +171,21 @@ Timeline.prototype.seek = function(time) {
                 }
             }
 
+            const easing = Easings[
+                'in_' + this._tracks[node_index][property_value][time_start].ease_out +
+                '_out_' + this._tracks[node_index][property_value][time_end].ease_in
+            ];
+
             /**
              * Get interpolated value
              */
 
-            const interpolated_value = get_linear_function_for(
-              time_start,
-              time_end,
-              time,
-              this._tracks[node_index][property_value][time_start],
-              this._tracks[node_index][property_value][time_end]
+            const interpolated_value = easing(
+                time_start,
+                time_end,
+                time,
+                this._tracks[node_index][property_value][time_start].value,
+                this._tracks[node_index][property_value][time_end].value
             );
 
             /**
