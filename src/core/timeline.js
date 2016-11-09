@@ -156,7 +156,15 @@ Timeline.prototype.seek = function(time) {
 
             for (var property_time in this._tracks[node_index][property_value]) {
                 if (property_time >= time) {
-                    property_time == time && (time_start = property_time | 0);
+                    if (property_time == time) {
+                        this._nodes[node_index][property_value](
+                            this._tracks[node_index][property_value][property_time].value
+                        );
+                        if (typeof time_start !== 'undefined') {
+                            delete this._tracks[node_index][property_value][property_time];
+                        }
+                        return this;
+                    }
                     time_end = property_time;
                     break;
                 } else {
@@ -166,29 +174,37 @@ Timeline.prototype.seek = function(time) {
                      * before the time to seek to
                      */
 
-                    time_start && delete this._tracks[node_index][property_value][property_time];
+                    if (typeof time_start !== 'undefined') {
+                        delete this._tracks[node_index][property_value][time_start];
+                    }
                     time_start = property_time;
                 }
             }
 
             /**
-             * Transform node
+             * Correct starting time if there are no previous keyframes
              */
 
-            time_start &&
-            time_end &&
-            this._nodes[node_index][property_value](
-                Easings[
-                    'in_' + this._tracks[node_index][property_value][time_start].ease_out +
-                    '_out_' + this._tracks[node_index][property_value][time_end].ease_in
-                ](
-                    time_start,
-                    time_end,
-                    time,
-                    this._tracks[node_index][property_value][time_start].value,
-                    this._tracks[node_index][property_value][time_end].value
-                )
-            );
+            if (time_end) {
+                if (!time_start) {
+                    time_start = time_end;
+                } else {
+                    this._nodes[node_index][property_value](
+                        Easings[
+                            'in_' + this._tracks[node_index][property_value][time_start].ease_out +
+                            '_out_' + this._tracks[node_index][property_value][time_end].ease_in
+                        ](
+                            time_start,
+                            time_end,
+                            time,
+                            this._tracks[node_index][property_value][time_start].value,
+                            this._tracks[node_index][property_value][time_end].value
+                        )
+                    );
+                }
+            } else {
+                return this;
+            }
         }
     }
 

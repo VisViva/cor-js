@@ -372,9 +372,6 @@ Scene.prototype.loop = function(callback) {
 
 Scene.prototype.start = function(callback) {
     this.timer().reset();
-    this._timeline.seek(0);
-    callback && callback();
-    this.render();
     this._request_animation_frame_id = requestAnimationFrame(() => this.loop.bind(this)(callback));
 };
 

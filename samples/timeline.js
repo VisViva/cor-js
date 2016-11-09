@@ -37,13 +37,9 @@ root
 
 scene.timeline().add(
     rect,
-    new Keyframe().time(0).translateX(0),
-    new Keyframe().time(500).translateX(700),
-    new Keyframe().time(1000).translateX(0),
-    new Keyframe().time(1500).translateX(700),
-    new Keyframe().time(2000).translateX(0),
-    new Keyframe().time(2500).translateX(700),
-    new Keyframe().time(3000).translateX(0)
+    new Keyframe().translateX(-200),
+    new Keyframe().time(1000).translateX(200),
+    new Keyframe().time(10000).translateX(-200)
 );
 
 scene.start(() => {});
