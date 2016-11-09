@@ -93,4 +93,17 @@ Timeline.prototype.remove = function(node, ...keyframes) {
     return this;
 };
 
+/**
+ * Seek to the given time or current time if nothing is supplied
+ */
+
+Timeline.prototype.seek = function(time) {
+    for (let node_index = 0; node_index < this._nodes.length; ++node_index) {
+        for (let property_index = 0; property_index < this._tracks[node_index]; ++property_index) {
+
+        }
+    }
+    return this;
+};
+
 exports.Timeline = Timeline;

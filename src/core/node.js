@@ -154,6 +154,22 @@ exports.Node = function(_scene) {
     };
 
     /**
+     * Get or set the position of the node on the x axis
+     */
+
+    Node.prototype.translateX = function(x) {
+        return this.translate(x, 0);
+    };
+
+    /**
+     * Get or set the position of the node on the y axis
+     */
+
+    Node.prototype.translateY = function(y) {
+        return this.translate(0, y);
+    };
+
+    /**
      * Get or set the rotation of the node
      */
 
@@ -201,6 +217,22 @@ exports.Node = function(_scene) {
                 y: this._scale.y
             };
         }
+    };
+
+    /**
+     * Get or set the scale of the node by the x axis
+     */
+
+    Node.prototype.scaleX = function(x) {
+        return this.scale(x, 0);
+    };
+
+    /**
+     * Get or set the scale of the node by the y axis
+     */
+
+    Node.prototype.scaleY = function(y) {
+        return this.scale(0, y);
     };
 
     /**

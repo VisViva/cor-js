@@ -23,47 +23,105 @@ Keyframe.prototype.time = function(time) {
 };
 
 /**
- * Get or set position keys
+ * Get or set translation keys
  */
 
-Keyframe.prototype.position = function(x, y) {
+Keyframe.prototype.translate = function(x, y) {
     if (typeof x !== 'undefined' && typeof y !== 'undefined') {
-        this.position_x(x);
-        this.position_y(y);
+        this.translateX(x);
+        this.translateY(y);
         return this;
     } else {
         return {
-            x: this._keys.position_x,
-            y: this._keys.position_y
+            x: this._keys.translateX,
+            y: this._keys.translateY
         };
     }
 };
 
 /**
- * Get or set key of position on the x axis
+ * Get or set the translation key on the x axis
  */
 
-Keyframe.prototype.position_x = function(x) {
+Keyframe.prototype.translateX = function(x) {
     if (typeof x !== 'undefined') {
-        if (x === null) delete this._keys.position_y;
-        else this._keys.position_x = x;
+        if (x === null) delete this._keys.translateY;
+        else this._keys.translateX = x;
         return this;
     } else {
-        return this._keys.position_x;
+        return this._keys.translateX;
     }
 };
 
 /**
- * Get or set key of position on the y axis
+ * Get or set the translation key on the y axis
  */
 
-Keyframe.prototype.position_y = function(y) {
+Keyframe.prototype.translateY = function(y) {
     if (typeof y !== 'undefined') {
-        if (y === null) delete this._keys.position_y;
-        else this._keys.position_y = y;
+        if (y === null) delete this._keys.translateY;
+        else this._keys.translateY = y;
         return this;
     } else {
-        return this._keys.position_y;
+        return this._keys.translateY;
+    }
+};
+
+/**
+ * Get or set rotation key
+ */
+
+Keyframe.prototype.rotate = function(rotation) {
+    if (typeof rotation !== 'undefined') {
+        this.rotate(rotation);
+        return this;
+    } else {
+        return this._keys.rotate;
+    }
+};
+
+/**
+ * Get or set scale keys
+ */
+
+Keyframe.prototype.scale = function(x, y) {
+    if (typeof x !== 'undefined' && typeof y !== 'undefined') {
+        this.scaleX(x);
+        this.scaleY(y);
+        return this;
+    } else {
+        return {
+            x: this._keys.scaleX,
+            y: this._keys.scaleY
+        };
+    }
+};
+
+/**
+ * Get or set the scale key on the x axis
+ */
+
+Keyframe.prototype.scaleX = function(x) {
+    if (typeof x !== 'undefined') {
+        if (x === null) delete this._keys.scaleX;
+        else this._keys.scaleX = x;
+        return this;
+    } else {
+        return this._keys.scaleX;
+    }
+};
+
+/**
+ * Get or set the scale key on the y axis
+ */
+
+Keyframe.prototype.scaleY = function(y) {
+    if (typeof y !== 'undefined') {
+        if (y === null) delete this._keys.scaleY;
+        else this._keys.scaleY = y;
+        return this;
+    } else {
+        return this._keys.scaleY;
     }
 };
 
