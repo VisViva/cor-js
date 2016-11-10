@@ -13,41 +13,47 @@ const Path = scene.factory().Path;
 const Rect = scene.factory().Rect;
 
 scene
-    .fps(60)
-    .material()
-    .stroke('#000000')
-    .width(1)
-    .fill('#000000');
+    .fps(60);
 
 window.addEventListener('resize', function(event) {
     scene.resize();
 });
 
-for (let i = -28; i < 29; ++i) {
-    for (let j = -28; j < 29; ++j) {
+for (let i = -20; i < 21; ++i) {
+    for (let j = -20; j < 21; ++j) {
         const rect = new Rect();
         const path = new Path();
+
+        let random = Math.random();
+        let ij = i * j;
+        let irandom = i * random;
+        let jrandom = j * random;
+
         rect
             .debug(false)
             .width(100)
             .height(100)
             .rotate(i * j)
-            .pivot(10*i, 10*j)
+            .pivot(100*i*random, 10*j*random)
+            .depth(i*i*j*j)
             .material()
             .width(Math.abs(i)/2)
             .stroked(true)
-            .filled(false)
-            .stroke('#00FF00')
-            .fill(random_color());
+            .filled(true)
+            .stroke('rgba(0, 255, 0, 1)')
+            .fill('rgba(0, 0, 0, 0.8)');
         root
             .append(rect);
 
+
         scene.timeline().add(
             rect,
-            new Keyframe().rotate(0).scale(1, 1).translate(150 * i, 150 * j),
-            new Keyframe().time(1000 + 100*(Math.abs(i))*(Math.abs(j))).scale(Math.random() * 2, Math.random() * 2, 'quad', 'quad').rotate(5 * i, 'quad', 'quad'),
-            new Keyframe().time(1000 + 150*(Math.abs(i))*(Math.abs(j))).scale(Math.random() * 3, Math.random() * 3, 'quad', 'quad').rotate(Math.random() * 10 * j, 'quad', 'quad'),
-            new Keyframe().time(1000 + 200*(Math.abs(i))*(Math.abs(j))).scale(Math.random() * 4, Math.random() * 4, 'quad', 'quad').rotate(Math.random() * 15 * i, 'quad', 'quad').translate(200 * i, 200 * j, 'elastic', 'linear')
+            new Keyframe().rotate(0).scale(1, 1).translate(100 * random, 100 * jrandom),
+            new Keyframe().time(100*(Math.abs(ij))).scale(random * 2, random * 2, 'elastic', 'linear').rotate(5 * i, 'elastic', 'linear'),
+            new Keyframe().time(150*(Math.abs(ij))).scale(random * 3, random * 3, 'elastic', 'linear').rotate(jrandom * 10, 'elastic', 'linear'),
+            new Keyframe().time(200*(Math.abs(ij))).scale(random * 4, random * 4, 'elastic', 'linear').rotate(irandom * 15, 'elastic', 'linear').translate(200 * i, 200 * j, 'elastic', 'linear'),
+            new Keyframe().time(250*(Math.abs(ij))).rotate(irandom, 'elastic', 'linear'),
+            new Keyframe().time(50000).translate(500 * irandom, 500 * jrandom, 'elastic', 'linear').rotate(jrandom * 10, 'elastic', 'linear'),
         );
     }
 }
