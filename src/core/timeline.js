@@ -160,8 +160,9 @@ Timeline.prototype.seek = function(time) {
                         this._nodes[node_index][property_value](
                             this._tracks[node_index][property_value][property_time].value
                         );
-                        if (typeof time_start !== 'undefined') {
+                        if (time_start !== undefined) {
                             delete this._tracks[node_index][property_value][time_start];
+                            time_start = undefined;
                         }
                     } else {
                         time_end = property_time;
@@ -174,7 +175,7 @@ Timeline.prototype.seek = function(time) {
                      * before the time to seek to
                      */
 
-                    if (typeof time_start !== 'undefined') {
+                    if (time_start !== undefined) {
                         delete this._tracks[node_index][property_value][time_start];
                     }
                     time_start = property_time;
@@ -186,7 +187,7 @@ Timeline.prototype.seek = function(time) {
              */
 
             if (time_end) {
-                if (typeof time_start === 'undefined') {
+                if (time_start === undefined) {
                     time_start = time_end;
                 } else {
                     this._nodes[node_index][property_value](
@@ -200,6 +201,12 @@ Timeline.prototype.seek = function(time) {
                             this._tracks[node_index][property_value][time_start].value,
                             this._tracks[node_index][property_value][time_end].value
                         )
+                    );
+                }
+            } else {
+                if (time_start !== undefined) {
+                    this._nodes[node_index][property_value](
+                        this._tracks[node_index][property_value][time_start].value
                     );
                 }
             }

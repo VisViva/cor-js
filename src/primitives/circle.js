@@ -41,7 +41,7 @@ exports.Circle = function(_scene, Primitive) {
      */
 
     Circle.prototype.radius = function(radius) {
-        if (typeof radius !== 'undefined') {
+        if (radius !== undefined) {
             this._radius = radius;
             return this;
         } else {

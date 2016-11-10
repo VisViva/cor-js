@@ -86,7 +86,7 @@ Material.prototype.stroke = function(color) {
  */
 
 Material.prototype.stroked = function(value) {
-    if (typeof value !== 'undefined') {
+    if (value !== undefined) {
         this._stroke.enabled = value;
         return this;
     } else {
@@ -99,7 +99,7 @@ Material.prototype.stroked = function(value) {
  */
 
 Material.prototype.width = function(width) {
-    if (typeof width !== 'undefined') {
+    if (width !== undefined) {
         this._stroke.width = width;
         return this;
     } else {
@@ -125,7 +125,7 @@ Material.prototype.fill = function(color) {
  */
 
 Material.prototype.filled = function(value) {
-    if (typeof value !== 'undefined') {
+    if (value !== undefined) {
         this._fill.enabled = value;
         return this;
     } else {
