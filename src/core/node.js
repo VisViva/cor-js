@@ -138,8 +138,8 @@ exports.Node = function(_scene) {
              * Compensate for canvas specific y-axis direction
              */
 
-            this._position.x = x || this._position.x;
-            this._position.y = y && -y || this._position.y;
+            this._position.x = (x !== undefined) && x || this._position.x;
+            this._position.y = (y !== undefined) && -y || this._position.y;
             this._matrix_own = mat3.create();
             mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(this._position.x, this._position.y));
             mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(this._rotation));
@@ -201,8 +201,8 @@ exports.Node = function(_scene) {
 
     Node.prototype.scale = function(x, y) {
         if (x !== undefined || y !== undefined) {
-            this._scale.x = x || this._scale.x;
-            this._scale.y = y || this._scale.y;
+            this._scale.x = (x !== undefined) ? x : this._scale.x;
+            this._scale.y = (y !== undefined) ? y : this._scale.y;
             this._matrix_own = mat3.create();
             mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(this._position.x, this._position.y));
             if (this._pivot.x !== 0 || this._pivot.y !== 0) {

@@ -243,7 +243,7 @@ Timeline.prototype.seek = function(time) {
              * Correct starting time if there are no previous keyframes
              */
 
-            if (time_end) {
+            if (time_end !== undefined) {
 
                 /**
                  * Set starting time to the value of ending time if no keyframes
