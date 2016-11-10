@@ -202,8 +202,8 @@ describe('Rect tests', () => {
             expect(bbox.height()).to.be.approximately(10.1, 0.1);
             rect.translate(10, 10).rotate(45).cascade();
             bbox = rect.bboxCascaded();
-            expect(rect.bboxCascaded().x()).to.be.approximately(13, 0.1);
-            expect(rect.bboxCascaded().y()).to.be.approximately(-12.9, 0.1);
+            expect(rect.bboxCascaded().x()).to.be.approximately(2.9, 0.1);
+            expect(rect.bboxCascaded().y()).to.be.approximately(-2.9, 0.1);
             expect(rect.bboxCascaded().width()).to.be.approximately(14.1, 0.1);
             expect(rect.bboxCascaded().height()).to.be.approximately(14.1, 0.1);
         });
@@ -217,8 +217,8 @@ describe('Rect tests', () => {
             expect(bbox.height()).to.be.approximately(10.1, 0.1);
             rect.translate(10, 10).rotate(45).cascade();
             bbox = rect.bboxCascaded();
-            expect(rect.bboxCascaded().x()).to.be.approximately(13.0, 0.1);
-            expect(rect.bboxCascaded().y()).to.be.approximately(-27.0, 0.1);
+            expect(rect.bboxCascaded().x()).to.be.approximately(17.0, 0.1);
+            expect(rect.bboxCascaded().y()).to.be.approximately(-2.9, 0.1);
             expect(rect.bboxCascaded().width()).to.be.approximately(14.1, 0.1);
             expect(rect.bboxCascaded().height()).to.be.approximately(14.1, 0.1);
         });

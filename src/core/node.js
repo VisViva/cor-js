@@ -132,18 +132,16 @@ exports.Node = function(_scene) {
      */
 
     Node.prototype.translate = function(x, y) {
-        if (typeof x !== 'undefined' && typeof y !== 'undefined') {
+        if (x !== undefined || y !== undefined) {
 
             /**
              * Compensate for canvas specific y-axis direction
              */
 
-            y = -y;
-
-            this._position.x += x;
-            this._position.y += y;
+            this._position.x = x || this._position.x;
+            this._position.y = y && -y || this._position.y;
             this._matrix_own = mat3.create();
-            mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(x, y));
+            mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(this._position.x, this._position.y));
             mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(this._rotation));
             mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
             this._dirty = true;
@@ -161,7 +159,7 @@ exports.Node = function(_scene) {
      */
 
     Node.prototype.translateX = function(x) {
-        return this.translate(x, 0);
+        return this.translate(x, undefined);
     };
 
     /**
@@ -169,7 +167,7 @@ exports.Node = function(_scene) {
      */
 
     Node.prototype.translateY = function(y) {
-        return this.translate(0, y);
+        return this.translate(undefined, y);
     };
 
     /**
@@ -177,8 +175,8 @@ exports.Node = function(_scene) {
      */
 
     Node.prototype.rotate = function(rotation) {
-        if (typeof rotation !== 'undefined') {
-            this._rotation = trim_angle(this._rotation + rotation);
+        if (rotation !== undefined) {
+            this._rotation = trim_angle(rotation);
             this._matrix_own = mat3.create();
             mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(this._position.x, this._position.y));
             if (this._pivot.x !== 0 || this._pivot.y !== 0) {
@@ -202,9 +200,9 @@ exports.Node = function(_scene) {
      */
 
     Node.prototype.scale = function(x, y) {
-        if (typeof x !== 'undefined' && typeof y !== 'undefined') {
-            this._scale.x *= x;
-            this._scale.y *= y;
+        if (x !== undefined || y !== undefined) {
+            this._scale.x = x || this._scale.x;
+            this._scale.y = y || this._scale.y;
             this._matrix_own = mat3.create();
             mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(this._position.x, this._position.y));
             if (this._pivot.x !== 0 || this._pivot.y !== 0) {
@@ -231,7 +229,7 @@ exports.Node = function(_scene) {
      */
 
     Node.prototype.scaleX = function(x) {
-        return this.scale(x, 1);
+        return this.scale(x, undefined);
     };
 
     /**
@@ -239,7 +237,7 @@ exports.Node = function(_scene) {
      */
 
     Node.prototype.scaleY = function(y) {
-        return this.scale(1, y);
+        return this.scale(undefined, y);
     };
 
     /**

@@ -186,7 +186,7 @@ Timeline.prototype.seek = function(time) {
              */
 
             if (time_end) {
-                if (!time_start) {
+                if (typeof time_start === 'undefined') {
                     time_start = time_end;
                 } else {
                     this._nodes[node_index][property_value](

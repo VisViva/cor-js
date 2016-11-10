@@ -29,6 +29,7 @@ scene.render();
 rect
     .width(100)
     .height(100)
+    .debug(true)
     .material()
     .fill(random_color());
 
@@ -37,17 +38,12 @@ root
 
 scene.timeline().add(
     rect,
-    new Keyframe().translateX(-200),
-    new Keyframe().time(1100).translateY(-200),
-    new Keyframe().time(1000).translateX(200),
-    new Keyframe().time(2000).translateX(-200),
-    new Keyframe().time(3000).translateX(200),
-    new Keyframe().time(4000).translateX(-200),
-    new Keyframe().time(5000).translateX(200),
-    new Keyframe().time(6000).translateX(-200),
-    new Keyframe().time(7000).translateX(200),
-    new Keyframe().time(8000).translateX(-200),
-    new Keyframe().time(9000).translateY(200)
+    new Keyframe().translate(-200, -200).scale(1, 1),
+    new Keyframe().time(4000).scale(1, 1),
+    new Keyframe().time(8000).translate(200, 200),
+    new Keyframe().time(10000).rotate(180).scale(2, 1)
 );
 
-scene.start(() => {});
+scene.start(() => {
+
+});

@@ -74,7 +74,7 @@ describe('Node tests', () => {
             expect(node.translate().y).to.be.equal(0);
             expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('100010501');
             expect(node.translate(5, 10)).to.be.equal(node);
-            expect(node.translate().x).to.be.equal(10);
+            expect(node.translate().x).to.be.equal(5);
             expect(node.translate().y).to.be.equal(10);
             expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('1000105-101');
             expect(node.dirty()).to.be.equal(true);
@@ -88,8 +88,8 @@ describe('Node tests', () => {
             expect(node.rotate()).to.be.equal(45);
             expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('0.70710545778274540.70710808038711550-0.70710808038711550.70710545778274540001');
             expect(node.rotate(45)).to.be.equal(node);
-            expect(node.rotate()).to.be.equal(90);
-            expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('-0.000003673205128507106610-1-0.00000367320512850710660001');
+            expect(node.rotate()).to.be.equal(45);
+            expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('0.70710545778274540.70710808038711550-0.70710808038711550.70710545778274540001');
             expect(node.dirty()).to.be.equal(true);
         });
 
@@ -100,9 +100,9 @@ describe('Node tests', () => {
             expect(node.scale().y).to.be.equal(2);
             expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('1.500020001');
             expect(node.scale(1.5, 2)).to.be.equal(node);
-            expect(node.scale().x).to.be.approximately(2.25, 0.1);
-            expect(node.scale().y).to.be.equal(4);
-            expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('2.2500040001');
+            expect(node.scale().x).to.be.approximately(1.5, 0.1);
+            expect(node.scale().y).to.be.equal(2);
+            expect(matrix_to_array(node.matrixOwn()).join('')).to.be.equal('1.500020001');
             expect(node.dirty()).to.be.equal(true);
         });
 
