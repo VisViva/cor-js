@@ -13,22 +13,18 @@ const Path = scene.factory().Path;
 const Rect = scene.factory().Rect;
 
 scene
-    .grid(true)
     .fps(60)
     .material()
     .stroke('#000000')
     .width(1)
     .fill('#CCCCCC');
 
-root
-    .scale(0.2, 0.2);
-
 window.addEventListener('resize', function(event) {
     scene.resize();
 });
 
 for (let i = -25; i < 26; ++i) {
-    for (let j = -15; j < 16; ++j) {
+    for (let j = -18; j < 19; ++j) {
         const rect = new Rect();
         const path = new Path();
         rect
@@ -37,30 +33,29 @@ for (let i = -25; i < 26; ++i) {
             .width(100)
             .height(100)
             .rotate(i * j)
+            .pivot(10*i, 10*j)
             .material()
-            .fill(random_color());
-        // path
-        //     .debug(false)
-        //     .cubicTo(50 * i, -50, -15, -15, 50, 50 * j)
-        //     .linearTo(-25, 25)
-        //     .quadraticTo(-50, -50, -50, -50)
-        //     .material()
-        //     .stroke(random_color());
+            .width(Math.abs(i))
+            .stroked(true)
+            .filled(false)
+            .stroked(random_color());
         root
             .append(rect);
 
         scene.timeline().add(
             rect,
             new Keyframe().rotate(0, 'linear', 'linear').scale(1, 1).translateX(-200*i),
-            new Keyframe().time(100*(i+1)*(j+1)).scale(2, 2, 'elastic', 'linear').rotate(5 * i*j, 'elastic', 'linear'),
-            new Keyframe().time(150*(i+1)*(j+1)).scale(3, 3, 'elastic', 'linear').rotate(10 * i*j, 'elastic', 'linear'),
-            new Keyframe().time(200*(i+1)*(j+1)).scale(1.1, 3.5, 'elastic', 'linear').rotate(15 * i*j, 'elastic', 'linear').translateX(200*i, 'elastic', 'linear')
+            new Keyframe().time(Math.random() * 1000 + 100*(Math.abs(i)+1)*(Math.abs(j)+1)).scale(Math.random() * 2, Math.random() * 2, 'elastic', 'linear').rotate(Math.random() * 5 * Math.abs(i)*Math.abs(j), 'elastic', 'linear'),
+            new Keyframe().time(Math.random() * 1000 + 150*(Math.abs(i)+1)*(Math.abs(j)+1)).scale(Math.random() * 3, Math.random() * 3, 'elastic', 'linear').rotate(Math.random() * 10 * Math.abs(i)*Math.abs(j), 'elastic', 'linear'),
+            new Keyframe().time(Math.random() * 1000 + 200*(Math.abs(i)+1)*(Math.abs(j)+1)).scale(Math.random() * 4, Math.random() * 4, 'elastic', 'linear').rotate(Math.random() * 15 * Math.abs(i)*Math.abs(j), 'elastic', 'linear').translateX(200*i, 'elastic', 'linear')
         );
     }
 }
 
-// scene.timeline().add(
-//     root
-// );
+scene.timeline().add(
+    root,
+    new Keyframe().scale(0.66, 0.66),
+    new Keyframe().time(30000).scale(0.16, 0.16, 'quad', 'linear').rotate(180, 'quad', 'linear')
+);
 
 scene.start();

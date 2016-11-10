@@ -1,10 +1,10 @@
 'use strict';
 
 /**
- * t: current time
- * b: begInnIng value
- * c: change In value
- * d: duration
+ * t: Current time
+ * b: Starting value
+ * c: Value delta
+ * d: Duration
  */
 
 export function in_step_out_linear(t, b, c, d) {
