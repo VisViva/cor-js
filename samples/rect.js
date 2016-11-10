@@ -1,5 +1,6 @@
 import {
-    SceneManager
+    SceneManager,
+    Keyframe
 } from '../src/scene_manager';
 import {
     random_color
@@ -37,6 +38,12 @@ rect
 root
     .append(rect);
 
-scene.start(() => {
-    rect.rotate(0.1).scale(1.0001, 1.0001);
-});
+scene.timeline().add(
+    rect,
+    new Keyframe().translate(-200, -200).scale(1, 1),
+    new Keyframe().time(4000).scale(1, 1),
+    new Keyframe().time(8000).translate(200, 200),
+    new Keyframe().time(10000).rotate(180).scale(2, 1)
+);
+
+scene.start();

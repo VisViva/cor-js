@@ -1,5 +1,6 @@
 import {
-    SceneManager
+    SceneManager,
+    Keyframe
 } from '../src/scene_manager';
 import {
     random_color
@@ -61,8 +62,19 @@ shape
 root
     .append(path, closed_path, shape);
 
-scene.start(() => {
-    path.rotate(0.1);
-    closed_path.rotate(0.1);
-    shape.rotate(0.1);
-});
+scene.timeline().add(
+    path,
+    new Keyframe().time(1000).rotate(180)
+);
+
+scene.timeline().add(
+    closed_path,
+    new Keyframe().time(2000).rotate(180)
+);
+
+scene.timeline().add(
+    shape,
+    new Keyframe().time(3000).rotate(180)
+);
+
+scene.start();

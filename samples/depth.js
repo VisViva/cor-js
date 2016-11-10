@@ -1,5 +1,6 @@
 import {
-    SceneManager
+    SceneManager,
+    Keyframe
 } from '../src/scene_manager';
 import {
     random_color
@@ -61,17 +62,15 @@ for (let i = -1; i < 2; ++i) {
         .stroke(random_color());
     rect
         .append(recta.append(patha));
+    scene.timeline().add(
+        recta,
+        new Keyframe().time(8000).rotate(180)
+    );
 }
 
-scene.start(() => {
-    root.children().iterate(
-        node => {
-            node.rotate(-0.005);
-            node.children().iterate(
-                node => {
-                    node.rotate(-0.05);
-                }
-            );
-        }
-    );
-});
+scene.timeline().add(
+    root,
+    new Keyframe().time(8000).rotate(180)
+);
+
+scene.start();

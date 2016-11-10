@@ -1,5 +1,6 @@
 import {
-    SceneManager
+    SceneManager,
+    Keyframe
 } from '../src/scene_manager';
 import {
     random_color
@@ -50,14 +51,13 @@ for (let i = -5; i < 6; ++i) {
 
 let stopped = false;
 
+scenea.timeline().add(
+    roota,
+    new Keyframe().time(10000).rotate(180)
+);
+
 const renderscenea = () => {
-    scenea.start(() => {
-        roota.rotate(0.5).children().iterate(
-            node => {
-                node.rotate(-5);
-            }
-        );
-    });
+    scenea.start();
 };
 
 renderscenea();
@@ -113,13 +113,12 @@ for (let i = -5; i < 6; ++i) {
     }
 }
 
-sceneb.start(() => {
-    rootb.rotate(0.5).children().iterate(
-        node => {
-            node.rotate(-5);
-        }
-    );
-});
+sceneb.timeline().add(
+    rootb,
+    new Keyframe().time(10000).rotate(180)
+);
+
+sceneb.start();
 
 const scenec = scene_manager.new('scenec', window.innerWidth / 3, window.innerHeight);
 const rootc = scenec.root();
@@ -159,12 +158,6 @@ for (let i = -5; i < 6; ++i) {
             .append(rectc.append(pathc));
     }
 }
-
-rootc.rotate(0.5).children().iterate(
-    node => {
-        node.rotate(-5);
-    }
-);
 
 scenec.render();
 

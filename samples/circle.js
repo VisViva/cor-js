@@ -1,5 +1,6 @@
 import {
-    SceneManager
+    SceneManager,
+    Keyframe
 } from '../src/scene_manager';
 import {
     random_color
@@ -36,6 +37,10 @@ circle
 root
     .append(circle);
 
-scene.start(() => {
-    circle.rotate(0.1).scale(1.01, 1.01);
-});
+scene.timeline().add(
+    circle,
+    new Keyframe().scale(1, 1),
+    new Keyframe().time(4000).scale(3, 3)
+);
+
+scene.start();

@@ -1,5 +1,6 @@
 import {
-    SceneManager
+    SceneManager,
+    Keyframe
 } from '../src/scene_manager';
 import {
     random_color
@@ -20,14 +21,14 @@ scene
     .fill('#CCCCCC');
 
 root
-    .scale(0.4, 0.4);
+    .scale(0.2, 0.2);
 
 window.addEventListener('resize', function(event) {
     scene.resize();
 });
 
-for (let i = -10; i < 11; ++i) {
-    for (let j = -10; j < 11; ++j) {
+for (let i = -15; i < 16; ++i) {
+    for (let j = -15; j < 16; ++j) {
         const rect = new Rect();
         const path = new Path();
         rect
@@ -47,13 +48,16 @@ for (let i = -10; i < 11; ++i) {
             .stroke(random_color());
         root
             .append(rect.append(path));
+        scene.timeline().add(
+            rect,
+            new Keyframe().time(4000).rotate(180)
+        );
     }
 }
 
-scene.start(() => {
-    root.rotate(0.005).children().iterate(
-        node => {
-            node.rotate(-0.15);
-        }
-    );
-});
+scene.timeline().add(
+    root,
+    new Keyframe().time(8000).rotate(180)
+);
+
+scene.start();
