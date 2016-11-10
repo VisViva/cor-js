@@ -1,5 +1,6 @@
 import {
-    SceneManager
+    SceneManager,
+    Keyframe
 } from '../src/scene_manager';
 import {
     random_color
@@ -33,7 +34,6 @@ path
     .cubicTo(150, 0, -150, 150, -100, -100)
     .linearTo(20, -90)
     .quadraticTo(50, 150, 200, -70)
-    .timed(true)
     .material()
     .width(1);
 
@@ -43,8 +43,8 @@ closed_path
     .linearTo(20, -90)
     .quadraticTo(50, 150, 200, -70)
     .closed(true)
-    .timed(true)
     .material()
+    .filled(false)
     .fill(random_color())
     .width(1);
 
@@ -55,18 +55,26 @@ shape
     .linearTo(20, -90)
     .quadraticTo(50, 150, 200, -70)
     .closed(true)
-    .filled(true)
-    .timed(true)
     .material()
     .fill(random_color())
     .width(1);
 
 root
-    .timed(true)
     .append(path, closed_path, shape);
 
-scene.start(() => {
-    path.rotate(0.1);
-    closed_path.rotate(0.1);
-    shape.rotate(0.1);
-});
+scene.timeline().add(
+    path,
+    new Keyframe().time(1000).rotate(180)
+);
+
+scene.timeline().add(
+    closed_path,
+    new Keyframe().time(2000).rotate(180)
+);
+
+scene.timeline().add(
+    shape,
+    new Keyframe().time(3000).rotate(180)
+);
+
+scene.start();

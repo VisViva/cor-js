@@ -12,6 +12,9 @@ import {
 import {
     Material
 } from './core/material';
+import {
+    Keyframe
+} from './core/keyframe';
 
 /**
  * Scene manager constructor
@@ -65,3 +68,4 @@ SceneManager.prototype.render = function() {
 
 exports.SceneManager = SceneManager;
 exports.Material = Material;
+exports.Keyframe = Keyframe;

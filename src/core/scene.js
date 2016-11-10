@@ -20,6 +20,9 @@ import {
     DepthBuffer
 } from "./depth_buffer";
 import {
+    Timeline
+} from "./timeline";
+import {
     Rect
 } from "../primitives/rect";
 import {
@@ -78,6 +81,12 @@ function Scene(name, width, height) {
     this._depthbuffer = new DepthBuffer();
 
     /**
+     * Timeline that contains all of the keyframes related to current scene
+     */
+
+    this._timeline = new Timeline();
+
+    /**
      * Root node of the scene
      */
 
@@ -130,16 +139,13 @@ Scene.prototype.resize = function(width, height) {
         this._canvas.width = this._canvas.offsetWidth;
         this._canvas.height = this._canvas.offsetHeight;
     }
-    const timed = this._root.timed();
     const scale = this._root.scale();
     const rotate = this._root.rotate();
     this._root
-        .timed(false)
         .reset()
-        .translate(this._canvas.width / 2, - this._canvas.height / 2)
+        .translate(this._canvas.width / 2, -this._canvas.height / 2)
         .scale(scale.x, scale.y)
-        .rotate(rotate)
-        .timed(timed);
+        .rotate(rotate);
     return this;
 };
 
@@ -149,6 +155,14 @@ Scene.prototype.resize = function(width, height) {
 
 Scene.prototype.timer = function() {
     return this._timer;
+};
+
+/**
+ * Get the scene's timeline
+ */
+
+Scene.prototype.timeline = function() {
+    return this._timeline;
 };
 
 /**
@@ -316,10 +330,6 @@ Scene.prototype.clear = function() {
 
 Scene.prototype.render = function() {
 
-    // Reset the timer
-
-    this._timer.reset();
-
     // Detect dirty nodes and cascade their transformations
 
     this.root().reachDirty().iterate(
@@ -349,7 +359,8 @@ Scene.prototype.loop = function(callback) {
     setTimeout(() => {
         if (this._request_animation_frame_id) {
             this._request_animation_frame_id = requestAnimationFrame(() => this.loop.bind(this)(callback));
-            callback();
+            this._timeline.seek(this._timer.delta());
+            callback && callback();
             this.render();
         }
     }, 1000 / this._fps);
@@ -361,8 +372,6 @@ Scene.prototype.loop = function(callback) {
 
 Scene.prototype.start = function(callback) {
     this.timer().reset();
-    callback();
-    this.render();
     this._request_animation_frame_id = requestAnimationFrame(() => this.loop.bind(this)(callback));
 };
 
@@ -372,7 +381,7 @@ Scene.prototype.start = function(callback) {
 
 Scene.prototype.stop = function() {
     this._request_animation_frame_id &&
-    window.cancelAnimationFrame(this._request_animation_frame_id);
+        window.cancelAnimationFrame(this._request_animation_frame_id);
     this._request_animation_frame_id = null;
 };
 

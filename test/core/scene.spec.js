@@ -49,13 +49,12 @@ describe('Scene tests', () => {
             expect(scene.root().parent()).to.be.equal(null);
             expect(scene.root().children().array().length).to.be.equal(0);
             expect(scene.root().translate().x).to.be.equal(scene._canvas.width >>> 1);
-            expect(scene.root().translate().y).to.be.equal(- scene._canvas.height / 2);
+            expect(scene.root().translate().y).to.be.equal(-scene._canvas.height / 2);
             expect(scene.root().rotate()).to.be.equal(0);
             expect(scene.root().scale().x).to.be.equal(1);
             expect(scene.root().scale().y).to.be.equal(1);
             expect(scene.root().active()).to.be.equal(true);
             expect(scene.root().dirty()).to.be.equal(true);
-            expect(scene.root().timed()).to.be.equal(false);
             expect(scene.material().stroke()).to.be.equal('#000000');
             expect(scene.material().width()).to.be.equal(1);
             expect(scene.material().fill()).to.be.equal('#000000');
@@ -168,14 +167,6 @@ describe('Scene tests', () => {
         beforeEach(function() {
             scene = new Scene('scene');
             Primitive = scene.factory().Primitive;
-        });
-
-        it('Resets the timer snapshot on render', (done) => {
-            setTimeout(() => {
-                expect(scene.render()).to.be.equal(scene);
-                expect(scene.timer().delta()).to.be.approximately(0, 100);
-                done();
-            }, 1000);
         });
 
         it('Calls the render function of each of the primitives present in the depth buffer upon render', () => {

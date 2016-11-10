@@ -94,13 +94,6 @@ exports.Node = function(_scene) {
          */
 
         this._dirty = false;
-
-        /**
-         * Indicates whether transformations should be applied after taking time
-         * delta into consideration
-         */
-
-        this._timed = false;
     };
 
     /**
@@ -139,22 +132,18 @@ exports.Node = function(_scene) {
      */
 
     Node.prototype.translate = function(x, y) {
-        if (typeof x !== 'undefined' && typeof y !== 'undefined') {
+        if (x !== undefined || y !== undefined) {
 
             /**
              * Compensate for canvas specific y-axis direction
              */
 
-            y = -y;
-
-            if (this._timed === true) {
-                const delta = _scene.timer().delta();
-                x *= delta;
-                y *= delta;
-            }
-            mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(x, y));
-            this._position.x += x;
-            this._position.y += y;
+            this._position.x = x || this._position.x;
+            this._position.y = y && -y || this._position.y;
+            this._matrix_own = mat3.create();
+            mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(this._position.x, this._position.y));
+            mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(this._rotation));
+            mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
             this._dirty = true;
             return this;
         } else {
@@ -166,22 +155,39 @@ exports.Node = function(_scene) {
     };
 
     /**
+     * Get or set the position of the node on the x axis
+     */
+
+    Node.prototype.translateX = function(x) {
+        return this.translate(x, undefined);
+    };
+
+    /**
+     * Get or set the position of the node on the y axis
+     */
+
+    Node.prototype.translateY = function(y) {
+        return this.translate(undefined, y);
+    };
+
+    /**
      * Get or set the rotation of the node
      */
 
     Node.prototype.rotate = function(rotation) {
-        if (typeof rotation !== 'undefined') {
-            if (this._timed === true) {
-                rotation *= _scene.timer().delta();
-            }
+        if (rotation !== undefined) {
+            this._rotation = trim_angle(rotation);
+            this._matrix_own = mat3.create();
+            mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(this._position.x, this._position.y));
             if (this._pivot.x !== 0 || this._pivot.y !== 0) {
                 mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(this._pivot.x, this._pivot.y));
-                mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(rotation));
+                mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(this._rotation));
+                mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
                 mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(-this._pivot.x, -this._pivot.y));
             } else {
-                mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(rotation));
+                mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(this._rotation));
+                mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
             }
-            this._rotation = trim_angle(this._rotation + rotation);
             this._dirty = true;
             return this;
         } else {
@@ -194,32 +200,19 @@ exports.Node = function(_scene) {
      */
 
     Node.prototype.scale = function(x, y) {
-        if (typeof x !== 'undefined' && typeof y !== 'undefined') {
-            if (this._timed === true) {
-                const delta = _scene.timer().delta();
-                this._scale.x += x * delta;
-                this._scale.y += y * delta;
-                this._matrix_own = mat3.create();
-                mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(this._position.x, this._position.y));
-                if (this._pivot.x !== 0 || this._pivot.y !== 0) {
-                    mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(this._pivot.x, this._pivot.y));
-                    mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(this._rotation));
-                    mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
-                    mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(-this._pivot.x, -this._pivot.y));
-                } else {
-                    mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(this._rotation));
-                    mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
-                }
+        if (x !== undefined || y !== undefined) {
+            this._scale.x = x || this._scale.x;
+            this._scale.y = y || this._scale.y;
+            this._matrix_own = mat3.create();
+            mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(this._position.x, this._position.y));
+            if (this._pivot.x !== 0 || this._pivot.y !== 0) {
+                mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(this._pivot.x, this._pivot.y));
+                mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(this._rotation));
+                mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
+                mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(-this._pivot.x, -this._pivot.y));
             } else {
-                this._scale.x *= x;
-                this._scale.y *= y;
-                if (this._pivot.x !== 0 || this._pivot.y !== 0) {
-                    mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(this._pivot.x, this._pivot.y));
-                    mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
-                    mat3.translate(this._matrix_own, this._matrix_own, vec2.fromValues(-this._pivot.x, -this._pivot.y));
-                } else {
-                    mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
-                }
+                mat3.rotate(this._matrix_own, this._matrix_own, deg_to_rad(this._rotation));
+                mat3.scale(this._matrix_own, this._matrix_own, vec2.fromValues(this._scale.x, this._scale.y));
             }
             this._dirty = true;
             return this;
@@ -229,6 +222,22 @@ exports.Node = function(_scene) {
                 y: this._scale.y
             };
         }
+    };
+
+    /**
+     * Get or set the scale of the node by the x axis
+     */
+
+    Node.prototype.scaleX = function(x) {
+        return this.scale(x, undefined);
+    };
+
+    /**
+     * Get or set the scale of the node by the y axis
+     */
+
+    Node.prototype.scaleY = function(y) {
+        return this.scale(undefined, y);
     };
 
     /**
@@ -264,9 +273,9 @@ exports.Node = function(_scene) {
             nodes[i]._dirty = true;
             this._children.push(nodes[i]);
             linked === true && // Proceed if node is linked to the root
-            nodes[i].active() && // Proceed if node is active
-            typeof nodes[i]._depth !== 'undefined' && // Proceed if the node has depth
-            _scene._depthbuffer.append(nodes[i]); // Append the current node to the depth buffer
+                nodes[i].active() && // Proceed if node is active
+                typeof nodes[i]._depth !== 'undefined' && // Proceed if the node has depth
+                _scene._depthbuffer.append(nodes[i]); // Append the current node to the depth buffer
         }
 
         return this;
@@ -342,20 +351,6 @@ exports.Node = function(_scene) {
             return this;
         } else {
             return this._dirty;
-        }
-    };
-
-    /**
-     * Get or set the flag which indicates if the time delta affects basics
-     * transformations of the node
-     */
-
-    Node.prototype.timed = function(value) {
-        if (typeof value !== 'undefined') {
-            this._timed = value;
-            return this;
-        } else {
-            return this._timed;
         }
     };
 

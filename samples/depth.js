@@ -1,5 +1,6 @@
 import {
-    SceneManager
+    SceneManager,
+    Keyframe
 } from '../src/scene_manager';
 import {
     random_color
@@ -20,8 +21,7 @@ scene
     .fill('#CCCCCC');
 
 root
-    .scale(1.5, 1.5)
-    .timed(true);
+    .scale(1.5, 1.5);
 
 window.addEventListener('resize', function(event) {
     scene.resize();
@@ -35,7 +35,6 @@ rect
     .width(600)
     .height(300)
     .depth(-2)
-    .timed(true)
     .material()
     .fill(random_color());
 
@@ -51,7 +50,6 @@ for (let i = -1; i < 2; ++i) {
         .height(160)
         .depth(i)
         .rotate(45)
-        .timed(true)
         .material()
         .fill(random_color());
     patha
@@ -59,23 +57,20 @@ for (let i = -1; i < 2; ++i) {
         .linearTo(-25, -25)
         .depth(i)
         .quadraticTo(-50, 50, -50, 50)
-        .timed(true)
         .material()
         .width(10)
         .stroke(random_color());
     rect
         .append(recta.append(patha));
+    scene.timeline().add(
+        recta,
+        new Keyframe().time(8000).rotate(180)
+    );
 }
 
-scene.start(() => {
-    root.children().iterate(
-        node => {
-            node.rotate(-0.005);
-            node.children().iterate(
-                node => {
-                    node.rotate(-0.05);
-                }
-            );
-        }
-    );
-});
+scene.timeline().add(
+    root,
+    new Keyframe().time(8000).rotate(180)
+);
+
+scene.start();

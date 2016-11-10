@@ -135,7 +135,7 @@ exports.Rect = function(_scene, Primitive) {
         const transformed3DVector = vec2.create();
 
         for (let i = 0; i < this._points.length; ++i) {
-            vec2.transformMat3(transformed3DVector, vec2.fromValues(this._points[i].x, - this._points[i].y), this._matrix_cascaded);
+            vec2.transformMat3(transformed3DVector, vec2.fromValues(this._points[i].x, -this._points[i].y), this._matrix_cascaded);
             xValues.push(transformed3DVector[0]);
             yValues.push(transformed3DVector[1]);
         }
@@ -161,30 +161,30 @@ exports.Rect = function(_scene, Primitive) {
         if (this._hidden === false) {
 
             /**
-            * Apply current primitive's material to the current context
-            */
+             * Apply current primitive's material to the current context
+             */
 
             this._material.style(context);
 
             /**
-            * Setup transformations and render
-            */
+             * Setup transformations and render
+             */
 
             context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
 
             /**
-            * Fill the rect
-            */
+             * Fill the rect
+             */
 
             this._material._fill.enabled &&
-            context.fillRect(this._points[0].x, - this._points[0].y, this.width(), this.height());
+                context.fillRect(this._points[0].x, -this._points[0].y, this.width(), this.height());
 
             /**
-            * Stroke the stroke
-            */
+             * Stroke the stroke
+             */
 
             this._material._stroke.enabled &&
-            context.strokeRect(this._points[0].x, - this._points[0].y, this.width(), this.height());
+                context.strokeRect(this._points[0].x, -this._points[0].y, this.width(), this.height());
         }
 
         /**

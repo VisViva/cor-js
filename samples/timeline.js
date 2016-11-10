@@ -27,11 +27,9 @@ scene
 scene.render();
 
 rect
-    .debug(true)
-    .at(250, 0)
-    .pivot(250, 0)
     .width(100)
     .height(100)
+    .debug(true)
     .material()
     .fill(random_color());
 
@@ -46,4 +44,6 @@ scene.timeline().add(
     new Keyframe().time(10000).rotate(180).scale(2, 1)
 );
 
-scene.start();
+scene.start(() => {
+
+});

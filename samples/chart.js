@@ -15,11 +15,10 @@ const scene_manager = new SceneManager();
     const Path = scene.factory().Path;
     const Rect = scene.factory().Rect;
 
-    let grid = new Node().timed(true);
-    let bars = new Node().timed(true);
+    let grid = new Node();
+    let bars = new Node();
 
     scene.fps(60).material().fill('#DDD');
-    root.timed(true);
     const gridMaterial = new Material().stroke('rgba(0, 0, 0, 0.1)').width(1);
     const barMaterial = new Material().stroke('rgba(0, 101, 190, 1)').fill('rgba(0, 101, 190, 0.69)');
 
@@ -39,12 +38,12 @@ const scene_manager = new SceneManager();
     function drawGrid() {
         for (let i = -5; i < 6; ++i) {
             const line = new Path();
-            line.depth(-100).at(- scene._canvas.width / 3, i * scene._canvas.height * 4 / 60).linearTo(scene._canvas.width / 3, - i * scene._canvas.height * 4 / 60).material(gridMaterial);
+            line.depth(-100).at(-scene._canvas.width / 3, i * scene._canvas.height * 4 / 60).linearTo(scene._canvas.width / 3, -i * scene._canvas.height * 4 / 60).material(gridMaterial);
             root.append(line);
         }
         for (let i = -5; i < 6; ++i) {
             const line = new Path();
-            line.depth(-100).at(i * scene._canvas.width * 4 / 60, - scene._canvas.height / 3).linearTo(i * scene._canvas.width * 4 / 60, - scene._canvas.height / 3).material(gridMaterial);
+            line.depth(-100).at(i * scene._canvas.width * 4 / 60, -scene._canvas.height / 3).linearTo(i * scene._canvas.width * 4 / 60, -scene._canvas.height / 3).material(gridMaterial);
             root.append(line);
         }
     }
@@ -53,7 +52,7 @@ const scene_manager = new SceneManager();
         for (let i = -2; i < 3; ++i) {
             const bar = new Rect();
             var height = scene._canvas.height / (Math.random() * 7 + 2);
-            bar.debug(true).depth(i).material(barMaterial).at(i * scene._canvas.width * 4 / 30, - scene._canvas.height / 3 + height / 2).width(scene._canvas.width / 30).height(height);
+            bar.debug(true).depth(i).material(barMaterial).at(i * scene._canvas.width * 4 / 30, -scene._canvas.height / 3 + height / 2).width(scene._canvas.width / 30).height(height);
             root.append(bar);
         }
     }
@@ -61,6 +60,5 @@ const scene_manager = new SceneManager();
     drawGrid();
     drawBars();
 
-    scene.start(() => {
-    });
+    scene.start(() => {});
 }();

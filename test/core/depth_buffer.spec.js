@@ -20,7 +20,7 @@ describe('Depth buffer tests', () => {
             depthbuffer = new DepthBuffer();
         });
 
-        it('Array of primitives constructs correctly', () => {
+        it('Constructs the array of primitives correctly', () => {
             expect(depthbuffer.primitives().length).to.be.equal(0);
         });
     });

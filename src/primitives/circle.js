@@ -67,7 +67,7 @@ exports.Circle = function(_scene, Primitive) {
          */
 
         const transformed3DVector = vec2.create();
-        vec2.transformMat3(transformed3DVector, vec2.fromValues(this._at.x, - this._at.y), this._matrix_cascaded);
+        vec2.transformMat3(transformed3DVector, vec2.fromValues(this._at.x, -this._at.y), this._matrix_cascaded);
         xValues.push(transformed3DVector[0] - this._radius * this._scale.x);
         xValues.push(transformed3DVector[0] + this._radius * this._scale.x);
         yValues.push(transformed3DVector[1] + this._radius * this._scale.y);
@@ -94,32 +94,32 @@ exports.Circle = function(_scene, Primitive) {
         if (this._hidden === false) {
 
             /**
-            * Apply current primitive's material to the current context
-            */
+             * Apply current primitive's material to the current context
+             */
 
             this._material.style(context);
 
             /**
-            * Setup transformations and render
-            */
+             * Setup transformations and render
+             */
 
             context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
             context.beginPath();
             context.arc(this._at.x, this._at.y, this._radius, 0, 2 * Math.PI, false);
 
             /**
-            * Fill the circle
-            */
+             * Fill the circle
+             */
 
             this._material._fill.enabled &&
-            context.fill();
+                context.fill();
 
             /**
-            * Stroke the circle
-            */
+             * Stroke the circle
+             */
 
             this._material._stroke.enabled &&
-            context.stroke();
+                context.stroke();
         }
 
         /**
