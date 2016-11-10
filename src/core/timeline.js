@@ -144,45 +144,98 @@ Timeline.prototype.seek = function(time) {
          * For each property track of the node
          */
 
-        const track_names = Object.keys(this._tracks[node_index]);
-        for (let i = 0; i < track_names.length; ++i) {
-
-            let property_value = track_names[i];
-            let time_start;
-            let time_end;
+        const track_keys = Object.keys(this._tracks[node_index]);
+        for (let i = 0; i < track_keys.length; ++i) {
 
             /**
              * Get the first two keyframes on the track to interpolate between,
              * removing earlier keyframes
              */
 
-            const property_values = Object.keys(this._tracks[node_index][property_value]);
-            for (let j = 0; j < property_values.length; ++j) {
-                let property_time = property_values[j];
-                if (property_time >= time) {
-                    if (property_time == time) {
-                        this._nodes[node_index][property_value](
-                            this._tracks[node_index][property_value][property_time].value
+            const track_key = track_keys[i];
+            let time_start;
+            let time_end;
+
+            /**
+             * Iterate over all track keys of the track corresponding to the
+             * selected node
+             */
+
+            const track_key_keyframes = Object.keys(this._tracks[node_index][track_key]);
+            for (let j = 0; j < track_key_keyframes.length; ++j) {
+
+                /**
+                 * Keyframe time
+                 */
+
+                const track_key_keyframe_time = track_key_keyframes[j];
+
+                /**
+                 * Check if the selected keyframe time is equal or higher than
+                 * the time we are at
+                 */
+
+                if (track_key_keyframe_time >= time) {
+
+                    /**
+                     * If current time in milliseconds is the exact time the
+                     * keframe is placed at
+                     */
+
+                    if (track_key_keyframe_time == time) {
+
+                        /*
+                         * Extract the value and apply it to the node without
+                         * any kind of interpolation function call to speed things up
+                         */
+
+                        this._nodes[node_index][track_key](
+                            this._tracks[node_index][track_key][track_key_keyframe_time].value
                         );
+
+                        /*
+                         * If this is not the first keyframe, delete all previous
+                         * ones as they are no longer needed and set the starting
+                         * time to undefined virgin state
+                         */
+
                         if (time_start !== undefined) {
-                            delete this._tracks[node_index][property_value][time_start];
+                            delete this._tracks[node_index][track_key][time_start];
                             time_start = undefined;
                         }
                     } else {
-                        time_end = property_time;
+
+                        /**
+                         * If current time in milliseconds is not the exact time
+                         * the keframe is placed at, save the keyframe time to
+                         * pass it to the interpolation function as ending time
+                         */
+
+                        time_end = track_key_keyframe_time;
                     }
+
+                    /**
+                     * Break the loop and proceed to the next track key
+                     */
+
                     break;
                 } else {
 
                     /**
                      * Delete previous keyframe if there is another keyframe
-                     * before the time to seek to
+                     * before the current time
                      */
 
                     if (time_start !== undefined) {
-                        delete this._tracks[node_index][property_value][time_start];
+                        delete this._tracks[node_index][track_key][time_start];
                     }
-                    time_start = property_time;
+
+                    /**
+                     * Save the keyframe time to pass it to the interpolation
+                     * function as starting time
+                     */
+
+                    time_start = track_key_keyframe_time;
                 }
             }
 
@@ -191,26 +244,38 @@ Timeline.prototype.seek = function(time) {
              */
 
             if (time_end) {
+
+                /**
+                 * Set starting time to the value of ending time if no keyframes
+                 * exists earlier on the timeline to reflect it
+                 */
+
                 if (time_start === undefined) {
                     time_start = time_end;
                 } else {
 
-                    this._nodes[node_index][property_value](
+                    /**
+                     * Dynamically compose easing function name and call it with
+                     * arguments composed of data retrieved above, applying the
+                     * result of computation to the node
+                     */
+
+                    this._nodes[node_index][track_key](
                         Easings[
-                            'in_' + this._tracks[node_index][property_value][time_start].ease_out +
-                            '_out_' + this._tracks[node_index][property_value][time_end].ease_in
+                            'in_' + this._tracks[node_index][track_key][time_start].ease_out +
+                            '_out_' + this._tracks[node_index][track_key][time_end].ease_in
                         ](
                             time - time_start,
-                            this._tracks[node_index][property_value][time_start].value,
-                            this._tracks[node_index][property_value][time_end].value - this._tracks[node_index][property_value][time_start].value,
+                            this._tracks[node_index][track_key][time_start].value,
+                            this._tracks[node_index][track_key][time_end].value - this._tracks[node_index][track_key][time_start].value,
                             time_end - time_start
                         )
                     );
                 }
             } else {
                 if (time_start !== undefined) {
-                    this._nodes[node_index][property_value](
-                        this._tracks[node_index][property_value][time_start].value
+                    this._nodes[node_index][track_key](
+                        this._tracks[node_index][track_key][time_start].value
                     );
                 }
             }

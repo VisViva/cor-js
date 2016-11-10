@@ -38,9 +38,15 @@ root
 
 scene.timeline().add(
     rect,
-    new Keyframe().scale(0, 0),
-    new Keyframe().time(1000).scale(0.2, 0.2, 'quad', 'linear').rotate(90, 'quad', 'linear'),
-    new Keyframe().time(4000).scale(0, 0, 'quad', 'linear')
+    new Keyframe()
+    .scale(0, 0),
+    new Keyframe()
+    .time(1000)
+    .scale(0.2, 0.2, 'quad', 'linear')
+    .rotate(90, 'quad', 'linear'),
+    new Keyframe()
+    .time(4000)
+    .scale(0, 0, 'quad', 'linear')
 );
 
 scene.start();
