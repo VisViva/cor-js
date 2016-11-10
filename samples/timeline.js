@@ -38,8 +38,8 @@ root
 
 scene.timeline().add(
     rect,
-    new Keyframe().translateX(-300),
-    new Keyframe().time(3000).translateX(300)
+    new Keyframe().translateX(-300).width(10),
+    new Keyframe().time(3000).translateX(300).rotate(1190).width(400)
 );
 
 scene.start();
