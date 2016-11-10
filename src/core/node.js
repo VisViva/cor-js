@@ -118,7 +118,7 @@ exports.Node = function(_scene) {
      */
 
     Node.prototype.pivot = function(x, y) {
-        if (typeof x !== 'undefined' && typeof y !== 'undefined') {
+        if (x !== undefined && y !== undefined) {
             this._pivot.x = x;
             this._pivot.y = y;
             return this;
@@ -274,7 +274,7 @@ exports.Node = function(_scene) {
             this._children.push(nodes[i]);
             linked === true && // Proceed if node is linked to the root
                 nodes[i].active() && // Proceed if node is active
-                typeof nodes[i]._depth !== 'undefined' && // Proceed if the node has depth
+                nodes[i]._depth !== undefined && // Proceed if the node has depth
                 _scene._depthbuffer.append(nodes[i]); // Append the current node to the depth buffer
         }
 
@@ -333,7 +333,7 @@ exports.Node = function(_scene) {
      */
 
     Node.prototype.active = function(active) {
-        if (typeof active !== 'undefined') {
+        if (active !== undefined) {
             this._active = active;
             return this;
         } else {
@@ -346,7 +346,7 @@ exports.Node = function(_scene) {
      */
 
     Node.prototype.dirty = function(value) {
-        if (typeof value !== 'undefined') {
+        if (value !== undefined) {
             this._dirty = value;
             return this;
         } else {

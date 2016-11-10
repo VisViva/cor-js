@@ -14,7 +14,7 @@ function Keyframe() {
  */
 
 Keyframe.prototype.time = function(time) {
-    if (typeof time !== 'undefined') {
+    if (time !== undefined) {
         this._time = time;
         return this;
     } else {
@@ -27,7 +27,7 @@ Keyframe.prototype.time = function(time) {
  */
 
 Keyframe.prototype.translate = function(x, y, ease_in, ease_out) {
-    if (typeof x !== 'undefined' && typeof y !== 'undefined') {
+    if (x !== undefined && y !== undefined) {
         this.translateX(x, ease_in, ease_out);
         this.translateY(y, ease_in, ease_out);
         return this;
@@ -44,7 +44,7 @@ Keyframe.prototype.translate = function(x, y, ease_in, ease_out) {
  */
 
 Keyframe.prototype.translateX = function(x, ease_in, ease_out) {
-    if (typeof x !== 'undefined') {
+    if (x !== undefined) {
         if (x === null) delete this._keys.translateX;
         else {
             this._keys.translateX = {
@@ -64,7 +64,7 @@ Keyframe.prototype.translateX = function(x, ease_in, ease_out) {
  */
 
 Keyframe.prototype.translateY = function(y, ease_in, ease_out) {
-    if (typeof y !== 'undefined') {
+    if (y !== undefined) {
         if (y === null) delete this._keys.translateY;
         else {
             this._keys.translateY = {
@@ -84,7 +84,7 @@ Keyframe.prototype.translateY = function(y, ease_in, ease_out) {
  */
 
 Keyframe.prototype.rotate = function(rotation, ease_in, ease_out) {
-    if (typeof rotation !== 'undefined') {
+    if (rotation !== undefined) {
         if (rotation === null) delete this._keys.rotate;
         else {
             this._keys.rotate = {
@@ -104,7 +104,7 @@ Keyframe.prototype.rotate = function(rotation, ease_in, ease_out) {
  */
 
 Keyframe.prototype.scale = function(x, y, ease_in, ease_out) {
-    if (typeof x !== 'undefined' && typeof y !== 'undefined') {
+    if (x !== undefined && y !== undefined) {
         this.scaleX(x, ease_in, ease_out);
         this.scaleY(y, ease_in, ease_out);
         return this;
@@ -121,7 +121,7 @@ Keyframe.prototype.scale = function(x, y, ease_in, ease_out) {
  */
 
 Keyframe.prototype.scaleX = function(x, ease_in, ease_out) {
-    if (typeof x !== 'undefined') {
+    if (x !== undefined) {
         if (x === null) delete this._keys.scaleX;
         else {
             this._keys.scaleX = {
@@ -141,7 +141,7 @@ Keyframe.prototype.scaleX = function(x, ease_in, ease_out) {
  */
 
 Keyframe.prototype.scaleY = function(y, ease_in, ease_out) {
-    if (typeof y !== 'undefined') {
+    if (y !== undefined) {
         if (y === null) delete this._keys.scaleY;
         else {
             this._keys.scaleY = {

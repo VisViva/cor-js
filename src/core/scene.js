@@ -130,7 +130,7 @@ Scene.prototype.resize = function(width, height) {
      * the available area
      */
 
-    if (typeof width !== 'undefined' && typeof height !== 'undefined') {
+    if (width !== undefined && height !== undefined) {
         this._canvas.width = width;
         this._canvas.height = height;
     } else {
@@ -170,7 +170,7 @@ Scene.prototype.timeline = function() {
  */
 
 Scene.prototype.fps = function(fps) {
-    if (typeof fps !== 'undefined') {
+    if (fps !== undefined) {
         this._fps = fps;
         return this;
     } else {
@@ -199,7 +199,7 @@ Scene.prototype.root = function() {
  */
 
 Scene.prototype.grid = function(value) {
-    if (typeof value !== 'undefined') {
+    if (value !== undefined) {
         this._grid = value;
         return this;
     } else {

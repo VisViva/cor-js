@@ -68,7 +68,7 @@ exports.Rect = function(_scene, Primitive) {
      */
 
     Rect.prototype.at = function(x, y) {
-        if (typeof x !== 'undefined' && typeof y !== 'undefined') {
+        if (x !== undefined && y !== undefined) {
             this._at.x = x;
             this._at.y = y;
             const half_width = this._width >>> 1;

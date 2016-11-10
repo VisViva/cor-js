@@ -64,7 +64,7 @@ exports.Path = function(_scene, Primitive) {
      */
 
     Path.prototype.closed = function(value) {
-        if (typeof value !== 'undefined') {
+        if (value !== undefined) {
             this._closed = value;
             return this;
         } else {
