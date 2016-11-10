@@ -195,11 +195,10 @@ Timeline.prototype.seek = function(time) {
                             'in_' + this._tracks[node_index][property_value][time_start].ease_out +
                             '_out_' + this._tracks[node_index][property_value][time_end].ease_in
                         ](
-                            time_start,
-                            time_end,
                             time,
                             this._tracks[node_index][property_value][time_start].value,
-                            this._tracks[node_index][property_value][time_end].value
+                            this._tracks[node_index][property_value][time_end].value - this._tracks[node_index][property_value][time_start].value,
+                            time_end -time_start
                         )
                     );
                 }

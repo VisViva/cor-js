@@ -29,7 +29,7 @@ scene.render();
 rect
     .width(100)
     .height(100)
-    .debug(true)
+    .debug(false)
     .material()
     .fill(random_color());
 
@@ -38,8 +38,9 @@ root
 
 scene.timeline().add(
     rect,
-    new Keyframe().translateX(-300).width(10),
-    new Keyframe().time(3000).translateX(300).rotate(1190).width(400)
+    new Keyframe().translateX(-300, 'linear', 'elastic'),
+    new Keyframe().time(1500).translateX(300, 'elastic', 'bounce').rotate(0, 'linear', 'linear'),
+    new Keyframe().time(2500).translateX(300, 'bounce', 'linear').rotate(180, 'elastic', 'linear')
 );
 
 scene.start();
