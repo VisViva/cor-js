@@ -7,6 +7,18 @@
  * d: duration
  */
 
+export function in_step_out_linear(t, b, c, d) {
+	return b;
+}
+
+export function in_linear_out_step(t, b, c, d) {
+	return c + b;
+}
+
+export function in_step_out_step(t, b, c, d) {
+	return b;
+}
+
 export function in_linear_out_linear(t, b, c, d) {
 	return t / d * c + b;
 }
