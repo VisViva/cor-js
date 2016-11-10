@@ -38,8 +38,10 @@ root
 
 scene.timeline().add(
     rect,
-    new Keyframe().translateX(-300).width(10),
-    new Keyframe().time(3000).translateX(300).rotate(1190).width(400)
+    new Keyframe().rotate(0, 'linear', 'linear').scale(1, 1).translateX(-200),
+    new Keyframe().time(1000).scale(1.1, 3.5, 'elastic', 'linear').rotate(90, 'bounce', 'linear').translateX(200, 'bounce', 'linear'),
+    new Keyframe().time(2000).scale(2, 2, 'elastic', 'linear').rotate(45, 'bounce', 'linear'),
+    new Keyframe().time(4000).scale(3, 3, 'elastic', 'linear').rotate(90, 'bounce', 'linear')
 );
 
 scene.start();
