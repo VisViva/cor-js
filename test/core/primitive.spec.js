@@ -45,9 +45,9 @@ describe('Primitive tests', () => {
             expect(primitive.depth()).to.be.equal(0);
             expect(primitive.debug()).to.be.equal(false);
             expect(primitive.hidden()).to.be.equal(false);
-            expect(primitive.material().stroke()).to.be.equal('#000000');
+            expect(primitive.material().stroke().join('')).to.be.equal('0001');
             expect(primitive.material().width()).to.be.equal(1);
-            expect(primitive.material().fill()).to.be.equal('#000000');
+            expect(primitive.material().fill().join('')).to.be.equal('0001');
         });
     });
 

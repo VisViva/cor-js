@@ -55,9 +55,9 @@ describe('Scene tests', () => {
             expect(scene.root().scale().y).to.be.equal(1);
             expect(scene.root().active()).to.be.equal(true);
             expect(scene.root().dirty()).to.be.equal(true);
-            expect(scene.material().stroke()).to.be.equal('#000000');
+            expect(scene.material().stroke().join('')).to.be.equal('0001');
             expect(scene.material().width()).to.be.equal(1);
-            expect(scene.material().fill()).to.be.equal('#000000');
+            expect(scene.material().fill().join('')).to.be.equal('0001');
             expect(matrix_to_array(scene.root().matrixOwn()).join('')).to.be.equal('100010' + (scene._canvas.width >>> 1) + '' + (scene._canvas.height >>> 1) + '1');
             expect(matrix_to_array(scene.root().matrixCascaded()).join('')).to.be.equal('100010001');
         });

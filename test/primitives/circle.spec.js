@@ -28,10 +28,10 @@ describe('Circle tests', () => {
             expect(circle.depth()).to.be.equal(0);
             expect(circle.debug()).to.be.equal(false);
             expect(circle.hidden()).to.be.equal(false);
-            expect(circle.material().stroke()).to.be.equal('#000000');
+            expect(circle.material().stroke().join('')).to.be.equal('0001');
             expect(circle.material().stroked()).to.be.equal(true);
             expect(circle.material().width()).to.be.equal(1);
-            expect(circle.material().fill()).to.be.equal('#000000');
+            expect(circle.material().fill().join('')).to.be.equal('0001');
             expect(circle.material().filled()).to.be.equal(true);
         });
 

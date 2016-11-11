@@ -1,5 +1,6 @@
 import {
     SceneManager,
+    Material,
     Keyframe,
     Easings
 } from '../src/scene_manager';
@@ -10,7 +11,6 @@ import {
 const scene_manager = new SceneManager();
 const scene = scene_manager.new('scene');
 const root = scene.root();
-const Path = scene.factory().Path;
 const Rect = scene.factory().Rect;
 
 scene
@@ -23,32 +23,54 @@ window.addEventListener('resize', function(event) {
 for (let i = -20; i < 21; ++i) {
     for (let j = -20; j < 21; ++j) {
         const rect = new Rect();
-        const path = new Path();
-
+        const material = new Material();
         const random = Math.random();
-        const ij = i * j;
         const irandom = i * random;
         const jrandom = j * random;
+        const ij = i * j;
 
-        rect
-            .debug(false)
-            .width(100)
-            .height(100)
-            .rotate(i * j)
-            .pivot(100 * i * random, 10 * j * random)
-            .depth(i * i * j * j)
-            .material()
-            .width(Math.abs(i) / 2)
-            .stroked(true)
-            .filled(true)
-            .stroke([0, 255, 0, 1])
-            .fill([0, 0, 0, 0.8]);
         root
             .append(rect);
 
+        scene.timeline().add(
+            material
+            .stroked(true)
+            .filled(true),
+            new Keyframe()
+            .width(Math.abs(i) / 2)
+            .fill([0, 0, 0, 0.8])
+            .stroke([0, 255, 0, 1]),
+            new Keyframe()
+            .time(100 * (Math.abs(ij)))
+            .width(i*i/5)
+            .fill([50, 0, 0, 0.7])
+            .stroke([255, 0, 0, 1]),
+            new Keyframe()
+            .time(150 * (Math.abs(ij)))
+            .width(j/5)
+            .fill([0, 0, 50*random, 0.2])
+            .stroke([0, 0, 255, 1]),
+            new Keyframe()
+            .time(200 * (Math.abs(ij)))
+            .width(random*i/20)
+            .fill([0, 0, 0, 0])
+            .stroke([255, 100, 255, 1]),
+            new Keyframe()
+            .time(250 * (Math.abs(ij)))
+            .width(4)
+            .fill([0, 0, 0, 0.3])
+            .stroke([255, 240, 140, 1]),
+        );
 
         scene.timeline().add(
-            rect,
+            rect
+            .debug(false)
+            .width(300)
+            .height(80)
+            .rotate(i * j)
+            .pivot(100 * i * random, 10 * j * random)
+            .depth(i * i * j * j)
+            .material(material),
             new Keyframe()
             .rotate(0)
             .scale(1, 1)
@@ -70,7 +92,7 @@ for (let i = -20; i < 21; ++i) {
             .time(250 * (Math.abs(ij)))
             .rotate(irandom, Easings.elastic, Easings.linear),
             new Keyframe()
-            .time(50000)
+            .time(30000)
             .translate(500 * irandom, 500 * jrandom, Easings.elastic, Easings.linear)
             .rotate(jrandom * 10, Easings.elastic, Easings.linear)
         );

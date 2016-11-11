@@ -16,10 +16,10 @@ describe('Material tests', () => {
         });
 
         it('Constructs correctly', () => {
-            expect(material.stroke()).to.be.equal('#000000');
+            expect(material.stroke().join('')).to.be.equal('0001');
             expect(material.stroked()).to.be.equal(true);
             expect(material.width()).to.be.equal(1);
-            expect(material.fill()).to.be.equal('#000000');
+            expect(material.fill().join('')).to.be.equal('0001');
             expect(material.filled()).to.be.equal(true);
         });
     });
@@ -32,8 +32,8 @@ describe('Material tests', () => {
         });
 
         it('Sets stroke color correctly', () => {
-            expect(material.stroke('#FFFFFF')).to.be.equal(material);
-            expect(material.stroke()).to.be.equal('#FFFFFF');
+            expect(material.stroke([255, 255, 255, 1])).to.be.equal(material);
+            expect(material.stroke().join('')).to.be.equal('2552552551');
         });
 
         it('Sets stroke width correctly', () => {
@@ -50,8 +50,8 @@ describe('Material tests', () => {
         });
 
         it('Sets fill color correctly', () => {
-            expect(material.fill('#FFFFFF')).to.be.equal(material);
-            expect(material.fill()).to.be.equal('#FFFFFF');
+            expect(material.fill([255, 255, 255, 1])).to.be.equal(material);
+            expect(material.fill().join('')).to.be.equal('2552552551');
         });
 
         it('Sets the filled flag correclty', () => {

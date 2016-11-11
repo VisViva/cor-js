@@ -1,5 +1,9 @@
 'use strict';
 
+import {
+    decompose_color
+} from '../utils/helper';
+
 /**
  * Material constructor
  */
@@ -37,7 +41,7 @@ Material.prototype.reset = function() {
 
     this._stroke = {
         enabled: true,
-        color: '#000000',
+        color: 'rgba(0,0,0,1)',
         width: 1
     };
 
@@ -47,7 +51,7 @@ Material.prototype.reset = function() {
 
     this._fill = {
         enabled: true,
-        color: '#000000',
+        color: 'rgba(0,0,0,1)',
     };
 
     return this;
@@ -72,12 +76,17 @@ Material.prototype.style = function(context) {
  * Get or set the stroke color
  */
 
-Material.prototype.stroke = function(color) {
-    if (color) {
-        this._stroke.color = color;
+Material.prototype.stroke = function(channels) {
+    if (channels) {
+        switch (channels.length) {
+            case 1: this._stroke.color = 'rgba(' + channels[0] + ',0,0,0)'; break;
+            case 2: this._stroke.color = 'rgba(' + channels[0] + ',' + channels[1] + ',0,0)'; break;
+            case 3: this._stroke.color = 'rgba(' + channels[0] + ',' + channels[1] + ',' + channels[2] + ',0)'; break;
+            case 4: this._stroke.color = 'rgba(' + channels[0] + ',' + channels[1] + ',' + channels[2] + ',' + channels[3] + ')'; break;
+        }
         return this;
     } else {
-        return this._stroke.color;
+        return decompose_color(this._stroke.color);
     }
 };
 
@@ -111,12 +120,17 @@ Material.prototype.width = function(width) {
  * Get or set the fill color
  */
 
-Material.prototype.fill = function(color) {
-    if (color) {
-        this._fill.color = color;
+Material.prototype.fill = function(channels) {
+    if (channels) {
+        switch (channels.length) {
+            case 1: this._fill.color = 'rgba(' + channels[0] + ',0,0,0)'; break;
+            case 2: this._fill.color = 'rgba(' + channels[0] + ',' + channels[1] + ',0,0)'; break;
+            case 3: this._fill.color = 'rgba(' + channels[0] + ',' + channels[1] + ',' + channels[2] + ',0)'; break;
+            case 4: this._fill.color = 'rgba(' + channels[0] + ',' + channels[1] + ',' + channels[2] + ',' + channels[3] + ')'; break;
+        }
         return this;
     } else {
-        return this._fill.color;
+        return decompose_color(this._fill.color);
     }
 };
 

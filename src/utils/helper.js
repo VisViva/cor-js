@@ -50,3 +50,27 @@ export function random_color() {
     }
     return color;
 }
+
+/**
+ * Get base prototype
+ */
+
+export function get_base_name(object) {
+    object = object.__proto__.constructor;
+    while(object.prototype.__proto__.constructor.name !== 'Object') {
+        object = object.prototype.__proto__.constructor;
+    }
+    return object.name;
+}
+
+/**
+ * Decompose color string into components
+ */
+
+export function decompose_color(color) {
+    color = color.substring(color.indexOf('(') + 1, color.lastIndexOf(')')).split(/,\s*/);
+    for (let i = 0; i < color.length; ++i) {
+        color[i] = +color[i];
+    }
+    return color;
+}

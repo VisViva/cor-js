@@ -25,8 +25,8 @@ describe('Timeline tests', () => {
         });
 
         it('Constructs correctly', () => {
-            expect(timeline._nodes.length).to.be.equal(0);
-            expect(timeline._tracks.length).to.be.equal(0);
+            expect(timeline._objects).to.be.exist;
+            expect(timeline._tracks).to.be.exist;
         });
     });
 
@@ -41,10 +41,10 @@ describe('Timeline tests', () => {
             let node = new Node();
             let keyframe_a = new Keyframe().time(20).translateX(21);
             expect(timeline.add(node, keyframe_a)).to.be.equal(timeline);
-            expect(timeline._tracks.length).to.be.equal(1);
-            expect(timeline._tracks[0].translateX.length).to.be.equal(21);
-            expect(timeline._tracks[0].translateX[0].value).to.be.equal(0);
-            expect(timeline._tracks[0].translateX[20].value).to.be.equal(21);
+            expect(timeline._tracks.Node.length).to.be.equal(1);
+            expect(timeline._tracks.Node[0].translateX.length).to.be.equal(21);
+            expect(timeline._tracks.Node[0].translateX[0].value).to.be.equal(0);
+            expect(timeline._tracks.Node[0].translateX[20].value).to.be.equal(21);
         });
 
         it('Adds multiple keyframes in mixed order correctly', () => {
@@ -53,16 +53,16 @@ describe('Timeline tests', () => {
             let keyframe_b = new Keyframe().time(5000).translateX(5001);
             let keyframe_c = new Keyframe().time(300).translateX(301);
             expect(timeline.add(node, keyframe_a, keyframe_b, keyframe_c)).to.be.equal(timeline);
-            expect(timeline._tracks.length).to.be.equal(1);
-            expect(timeline._tracks[0].translateX.length).to.be.equal(5001);
-            expect(timeline._tracks[0].translateX[0].value).to.be.equal(0);
-            expect(timeline._tracks[0].translateX[20].value).to.be.equal(21);
-            expect(timeline._tracks[0].translateX[5000].value).to.be.equal(5001);
-            expect(timeline._tracks[0].translateX[300].value).to.be.equal(301);
+            expect(timeline._tracks.Node.length).to.be.equal(1);
+            expect(timeline._tracks.Node[0].translateX.length).to.be.equal(5001);
+            expect(timeline._tracks.Node[0].translateX[0].value).to.be.equal(0);
+            expect(timeline._tracks.Node[0].translateX[20].value).to.be.equal(21);
+            expect(timeline._tracks.Node[0].translateX[5000].value).to.be.equal(5001);
+            expect(timeline._tracks.Node[0].translateX[300].value).to.be.equal(301);
             let result = '';
-            for (var property in timeline._tracks[0].translateX) {
-                if (timeline._tracks[0].translateX.hasOwnProperty(property)) {
-                    result += timeline._tracks[0].translateX[property].value;
+            for (var property in timeline._tracks.Node[0].translateX) {
+                if (timeline._tracks.Node[0].translateX.hasOwnProperty(property)) {
+                    result += timeline._tracks.Node[0].translateX[property].value;
                 }
             }
             expect(result).to.be.equal('0213015001');
@@ -80,10 +80,10 @@ describe('Timeline tests', () => {
             let node = new Node();
             let keyframe = new Keyframe().time(20).translateX(21);
             expect(timeline.add(node, keyframe)).to.be.equal(timeline);
-            expect(timeline._tracks[0].translateX[20].value).to.be.equal(21);
+            expect(timeline._tracks.Node[0].translateX[20].value).to.be.equal(21);
             expect(timeline.remove(node, keyframe)).to.be.equal(timeline);
-            expect(timeline._tracks.length).to.be.equal(1);
-            expect(timeline._tracks[0].translateX).not.to.exist;
+            expect(timeline._tracks.Node.length).to.be.equal(1);
+            expect(timeline._tracks.Node[0].translateX).not.to.exist;
         });
 
         it('Removes multiple keyframes in mixed order correctly', () => {
@@ -93,14 +93,14 @@ describe('Timeline tests', () => {
             let keyframe_c = new Keyframe().time(300).translateX(301);
             expect(timeline.add(node, keyframe_a, keyframe_b, keyframe_c)).to.be.equal(timeline);
             expect(timeline.remove(node, keyframe_b, keyframe_a)).to.be.equal(timeline);
-            expect(timeline._tracks.length).to.be.equal(1);
-            expect(timeline._tracks[0].translateX.length).to.be.equal(5001);
-            expect(timeline._tracks[0].translateX[0].value).to.be.equal(0);
-            expect(timeline._tracks[0].translateX[20]).not.to.exist;
-            expect(timeline._tracks[0].translateX[300].value).to.be.equal(301);
-            expect(timeline._tracks[0].translateX[5000]).not.to.exist;
+            expect(timeline._tracks.Node.length).to.be.equal(1);
+            expect(timeline._tracks.Node[0].translateX.length).to.be.equal(5001);
+            expect(timeline._tracks.Node[0].translateX[0].value).to.be.equal(0);
+            expect(timeline._tracks.Node[0].translateX[20]).not.to.exist;
+            expect(timeline._tracks.Node[0].translateX[300].value).to.be.equal(301);
+            expect(timeline._tracks.Node[0].translateX[5000]).not.to.exist;
             expect(timeline.remove(node, keyframe_c, keyframe_a)).to.be.equal(timeline);
-            expect(timeline._tracks[0].translateX).not.to.exist;
+            expect(timeline._tracks.Node[0].translateX).not.to.exist;
         });
 
         it('Removes multiple keyframes from multiple tracks in mixed order correctly', () => {
@@ -110,12 +110,12 @@ describe('Timeline tests', () => {
             let keyframe_c = new Keyframe().time(300).translateY(301);
             expect(timeline.add(node, keyframe_a, keyframe_b, keyframe_c)).to.be.equal(timeline);
             expect(timeline.remove(node, keyframe_b, keyframe_a)).to.be.equal(timeline);
-            expect(timeline._tracks.length).to.be.equal(1);
-            expect(timeline._tracks[0].translateX).not.to.exist;
-            expect(timeline._tracks[0].translateY[0].value).to.be.equal(0);
-            expect(timeline._tracks[0].translateY[300].value).to.be.equal(301);
+            expect(timeline._tracks.Node.length).to.be.equal(1);
+            expect(timeline._tracks.Node[0].translateX).not.to.exist;
+            expect(timeline._tracks.Node[0].translateY[0].value).to.be.equal(0);
+            expect(timeline._tracks.Node[0].translateY[300].value).to.be.equal(301);
             expect(timeline.remove(node, keyframe_c, keyframe_a)).to.be.equal(timeline);
-            expect(timeline._tracks[0].translateY).not.to.exist;
+            expect(timeline._tracks.Node[0].translateY).not.to.exist;
         });
     });
 
@@ -130,7 +130,7 @@ describe('Timeline tests', () => {
             let node = new Node();
             let keyframe = new Keyframe().time(20).translate(140, 150).rotate(50).scale(2.0, 4.0);
             expect(timeline.add(node, keyframe)).to.be.equal(timeline);
-            expect(timeline._tracks[0].translateX[20].value).to.be.equal(140);
+            expect(timeline._tracks.Node[0].translateX[20].value).to.be.equal(140);
             expect(timeline.seek(20)).to.be.equal(timeline);
             expect(node.translate().x).to.be.equal(140);
             expect(node.translate().y).to.be.equal(150);
@@ -143,7 +143,7 @@ describe('Timeline tests', () => {
             let node = new Node();
             let keyframe = new Keyframe().time(20).translate(140, 150).rotate(50).scale(2.0, 4.0);
             expect(timeline.add(node, keyframe)).to.be.equal(timeline);
-            expect(timeline._tracks[0].translateX[20].value).to.be.equal(140);
+            expect(timeline._tracks.Node[0].translateX[20].value).to.be.equal(140);
             expect(timeline.seek(10)).to.be.equal(timeline);
             expect(node.translate().x).to.be.equal(70);
             expect(node.translate().y).to.be.equal(75);
