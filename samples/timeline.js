@@ -1,6 +1,7 @@
 import {
     SceneManager,
-    Keyframe
+    Keyframe,
+    Easings
 } from '../src/scene_manager';
 import {
     random_color
@@ -42,11 +43,11 @@ scene.timeline().add(
     .scale(0, 0),
     new Keyframe()
     .time(1000)
-    .scale(0.2, 0.2, 'quad', 'linear')
-    .rotate(90, 'quad', 'linear'),
+    .scale(0.2, 0.2, Easings.quad, Easings.linear)
+    .rotate(90, Easings.quad, Easings.linear),
     new Keyframe()
     .time(4000)
-    .scale(0, 0, 'quad', 'linear')
+    .scale(0, 0, Easings.quad, Easings.linear)
 );
 
 scene.start();

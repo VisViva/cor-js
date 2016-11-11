@@ -1,6 +1,7 @@
 import {
     SceneManager,
-    Keyframe
+    Keyframe,
+    Easings
 } from '../src/scene_manager';
 import {
     random_color
@@ -54,24 +55,24 @@ for (let i = -20; i < 21; ++i) {
             .translate(100 * random, 100 * jrandom),
             new Keyframe()
             .time(100 * (Math.abs(ij)))
-            .scale(random * 2, random * 2, 'elastic', 'linear')
-            .rotate(5 * i, 'elastic', 'linear'),
+            .scale(random * 2, random * 2, Easings.elastic, Easings.linear)
+            .rotate(5 * i, Easings.elastic, Easings.linear),
             new Keyframe()
             .time(150 * (Math.abs(ij)))
-            .scale(random * 3, random * 3, 'elastic', 'linear')
-            .rotate(jrandom * 10, 'elastic', 'linear'),
+            .scale(random * 3, random * 3, Easings.elastic, Easings.linear)
+            .rotate(jrandom * 10, Easings.elastic, Easings.linear),
             new Keyframe()
             .time(200 * (Math.abs(ij)))
-            .scale(random * 4, random * 4, 'elastic', 'linear')
-            .rotate(irandom * 15, 'elastic', 'linear')
-            .translate(200 * i, 200 * j, 'elastic', 'linear'),
+            .scale(random * 4, random * 4, Easings.elastic, Easings.linear)
+            .rotate(irandom * 15, Easings.elastic, Easings.linear)
+            .translate(200 * i, 200 * j, Easings.elastic, Easings.linear),
             new Keyframe()
             .time(250 * (Math.abs(ij)))
-            .rotate(irandom, 'elastic', 'linear'),
+            .rotate(irandom, Easings.elastic, Easings.linear),
             new Keyframe()
             .time(50000)
-            .translate(500 * irandom, 500 * jrandom, 'elastic', 'linear')
-            .rotate(jrandom * 10, 'elastic', 'linear')
+            .translate(500 * irandom, 500 * jrandom, Easings.elastic, Easings.linear)
+            .rotate(jrandom * 10, Easings.elastic, Easings.linear)
         );
     }
 }
@@ -82,11 +83,11 @@ scene.timeline().add(
     .scale(0, 0),
     new Keyframe()
     .time(25000)
-    .scale(0.2, 0.2, 'quad', 'quad')
-    .rotate(90, 'quad', 'quad'),
+    .scale(0.2, 0.2, Easings.quad, Easings.quad)
+    .rotate(90, Easings.quad, Easings.quad),
     new Keyframe()
     .time(50000)
-    .scale(0, 0, 'quad', 'quad')
+    .scale(0, 0, Easings.quad, Easings.quad)
 );
 
 scene.start();

@@ -1,6 +1,9 @@
 'use strict';
 
-import * as Easings from '../utils/easings';
+import * as EasingsFunctions from '../utils/easings';
+import {
+    Easings
+} from '../utils/enums';
 
 /**
  * Timeline constructor
@@ -57,8 +60,8 @@ Timeline.prototype.add = function(node, ...keyframes) {
                 track[property] = track[property] || [];
                 track[property][0] = track[property][0] || {
                     value: 0,
-                    ease_in: 'linear',
-                    ease_out: 'linear'
+                    ease_in: Easings.linear,
+                    ease_out: Easings.linear
                 };
                 track[property][keyframes[i]._time] = {
                     ease_in: keyframes[i]._keys[property].ease_in,
@@ -261,9 +264,9 @@ Timeline.prototype.seek = function(time) {
                      */
 
                     this._nodes[node_index][track_key](
-                        Easings[
-                            'in_' + this._tracks[node_index][track_key][time_start].ease_out +
-                            '_out_' + this._tracks[node_index][track_key][time_end].ease_in
+                        EasingsFunctions[
+                            'in_' + Easings[this._tracks[node_index][track_key][time_start].ease_out] +
+                            '_out_' + Easings[this._tracks[node_index][track_key][time_end].ease_in]
                         ](
                             time - time_start,
                             this._tracks[node_index][track_key][time_start].value,

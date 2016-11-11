@@ -1,5 +1,9 @@
 'use strict';
 
+import {
+    Easings
+} from '../utils/enums';
+
 /**
  * Keyframe constructor
  */
@@ -130,8 +134,8 @@ Keyframe.prototype.set = function(key, value, ease_in, ease_out) {
       else {
           this._keys[key] = {
               value: value,
-              ease_in: ease_in || this._keys[key] && this._keys[key].ease_in || 'linear',
-              ease_out: ease_out || this._keys[key] && this._keys[key].ease_out || 'linear'
+              ease_in: ease_in || this._keys[key] && this._keys[key].ease_in || Easings.linear,
+              ease_out: ease_out || this._keys[key] && this._keys[key].ease_out || Easings.linear
           };
       }
       return this;

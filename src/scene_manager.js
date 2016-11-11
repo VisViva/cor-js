@@ -15,6 +15,9 @@ import {
 import {
     Keyframe
 } from './core/keyframe';
+import {
+    Easings
+} from './utils/enums';
 
 /**
  * Scene manager constructor
@@ -69,3 +72,4 @@ SceneManager.prototype.render = function() {
 exports.SceneManager = SceneManager;
 exports.Material = Material;
 exports.Keyframe = Keyframe;
+exports.Easings = Easings;
