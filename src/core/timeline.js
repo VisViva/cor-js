@@ -297,7 +297,6 @@ Timeline.prototype.seek = function(time) {
                          * result of computation to the node
                          */
 
-                        let computed_value;
                         switch (this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].type) {
 
                             /**
@@ -305,7 +304,7 @@ Timeline.prototype.seek = function(time) {
                              */
 
                             case Values.numeric: {
-                                computed_value = EasingsFunctions[
+                                this._objects[objects_keys[objects_keys_index]][node_index][track_key](EasingsFunctions[
                                     'in_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].ease_out] +
                                     '_out_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].ease_in]
                                 ](
@@ -313,7 +312,8 @@ Timeline.prototype.seek = function(time) {
                                     this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].value,
                                     this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].value - this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].value,
                                     time_end - time_start
-                                );
+                                ));
+                                
                                 break;
                             }
 
@@ -322,14 +322,12 @@ Timeline.prototype.seek = function(time) {
                              */
 
                             case Values.color: {
-                                const color_start = this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].value;
-                                const color_end = this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].value;
-                                const color_start_decomposed = decompose_color(color_start);
-                                const color_end_decomposed = decompose_color(color_end);
-                                let color_computed_decomposed = [];
+                                const color_start_decomposed = this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].value;
+                                const color_end_decomposed = this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].value;
+                                let computed_value = [];
 
                                 for (let channel_index = 0; channel_index < 4; ++channel_index) {
-                                    color_computed_decomposed.push(
+                                    computed_value.push(
                                         EasingsFunctions[
                                             'in_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].ease_out] +
                                             '_out_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].ease_in]
@@ -340,24 +338,15 @@ Timeline.prototype.seek = function(time) {
                                             time_end - time_start
                                         )
                                     );
+                                    if (channel_index < 3) {
+                                        computed_value[channel_index] = Math.floor(computed_value[channel_index]);
+                                    }
                                 }
-
-
-                                for (let color_computed_decomposed_index = 0; color_computed_decomposed_index < 3; ++color_computed_decomposed_index) {
-                                    color_computed_decomposed[color_computed_decomposed_index] = Math.floor(color_computed_decomposed[color_computed_decomposed_index]);
-                                }
-
-                                computed_value = 'rgba(' +
-                                    color_computed_decomposed[0] + ',' +
-                                    color_computed_decomposed[1] + ',' +
-                                    color_computed_decomposed[2] + ',' +
-                                    color_computed_decomposed[3] + ')';
+                                this._objects[objects_keys[objects_keys_index]][node_index][track_key](computed_value);
 
                                 break;
                             }
                         }
-
-                        this._objects[objects_keys[objects_keys_index]][node_index][track_key](computed_value);
                     }
                 } else {
                     if (time_start !== undefined) {
