@@ -41,7 +41,7 @@ Material.prototype.reset = function() {
 
     this._stroke = {
         enabled: true,
-        color: '#000000',
+        color: 'rgba(0,0,0,1)',
         width: 1
     };
 
@@ -51,7 +51,7 @@ Material.prototype.reset = function() {
 
     this._fill = {
         enabled: true,
-        color: '#000000',
+        color: 'rgba(0,0,0,1)',
     };
 
     return this;
