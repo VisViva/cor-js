@@ -59,7 +59,7 @@ for (let i = -20; i < 21; ++i) {
             .time(250 * (Math.abs(ij)))
             .width(4)
             .fill([0, 0, 0, 0.3])
-            .stroke([255, 240, 140, 1]),
+            .stroke([255, 240, 140, 1])
         );
 
         scene.timeline().add(
