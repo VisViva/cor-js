@@ -1,8 +1,8 @@
 'use strict';
 
 import {
-    Easings,
-    Values
+    Values,
+    Easings
 } from '../utils/enums';
 
 /**
@@ -175,7 +175,7 @@ Keyframe.prototype.stroke = function(value, ease_in, ease_out) {
  */
 
 Keyframe.prototype.fill = function(value, ease_in, ease_out) {
-    return this.set('stroke', Values.color, value, ease_in, ease_out);
+    return this.set('fill', Values.color, value, ease_in, ease_out);
 };
 
 exports.Keyframe = Keyframe;

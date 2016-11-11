@@ -25,5 +25,5 @@ Easings[Easings["elastic"] = 9] = "elastic";
 Easings[Easings["back"] = 10] = "back";
 Easings[Easings["bounce"] = 11] = "bounce";
 
-exports.Values = Easings;
+exports.Values = Values;
 exports.Easings = Easings;

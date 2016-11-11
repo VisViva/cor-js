@@ -49,10 +49,10 @@ scene.timeline().add(
 
 scene.timeline().add(
     material,
-    new Keyframe().width(0),
-    new Keyframe().time(1000).width(50, Easings.bounce, Easings.linear),
+    new Keyframe().width(50).fill('rgba(0,0,0,1)', Easings.bounce, Easings.linear),
+    new Keyframe().time(1000).width(0.001, Easings.bounce, Easings.linear),
     new Keyframe().time(3000).width(30, Easings.elastic, Easings.linear),
-    new Keyframe().time(4000).width(5, Easings.bounce, Easings.linear)
+    new Keyframe().time(4000).width(0.001, Easings.bounce, Easings.linear).fill('rgba(0,255,0,1)', Easings.bounce, Easings.linear)
 );
 
 scene.start();
