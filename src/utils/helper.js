@@ -70,7 +70,7 @@ export function get_base_name(object) {
 export function decompose_color(color) {
     color = color.substring(color.indexOf('(') + 1, color.lastIndexOf(')')).split(/,\s*/);
     for (let i = 0; i < color.length; ++i) {
-        color[i] = color[i] | 1;
+        color[i] = +color[i];
     }
     return color;
 }

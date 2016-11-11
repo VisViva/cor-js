@@ -343,7 +343,7 @@ Timeline.prototype.seek = function(time) {
                                 }
 
 
-                                for (let color_computed_decomposed_index = 0; color_computed_decomposed_index < color_computed_decomposed.length; ++color_computed_decomposed_index) {
+                                for (let color_computed_decomposed_index = 0; color_computed_decomposed_index < 3; ++color_computed_decomposed_index) {
                                     color_computed_decomposed[color_computed_decomposed_index] = Math.floor(color_computed_decomposed[color_computed_decomposed_index]);
                                 }
 
