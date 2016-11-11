@@ -82,11 +82,11 @@ scene.timeline().add(
     new Keyframe()
     .scale(0, 0),
     new Keyframe()
-    .time(25000)
+    .time(45000)
     .scale(0.2, 0.2, Easings.quad, Easings.quad)
     .rotate(90, Easings.quad, Easings.quad),
     new Keyframe()
-    .time(50000)
+    .time(150000)
     .scale(0, 0, Easings.quad, Easings.quad)
 );
 

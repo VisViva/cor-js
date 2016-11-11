@@ -4,14 +4,29 @@ import * as EasingsFunctions from '../utils/easings';
 import {
     Easings
 } from '../utils/enums';
+import {
+    get_base_name
+} from '../utils/helper';
 
 /**
  * Timeline constructor
  */
 
 function Timeline() {
+
+    /**
+     * Two arrays to emulate mapping of nodes to tracks
+     */
+
     this._nodes = [];
-    this._tracks = [];
+    this._node_tracks = [];
+
+    /**
+     * Two arrays to emulate mapping of materials to tracks
+     */
+
+    this._materials = [];
+    this._material_tracks = [];
 };
 
 /**
@@ -27,6 +42,10 @@ Timeline.prototype.add = function(node, ...keyframes) {
     let track;
 
     /**
+     * Check the type of given object
+     */
+
+    /**
      * Acquire correct track reference, bound to the given node
      */
 
@@ -34,10 +53,10 @@ Timeline.prototype.add = function(node, ...keyframes) {
     if (index === -1) {
         this._nodes.push(node);
         track = {};
-        this._tracks.push(track);
-        index = this._tracks.length - 1;
+        this._node_tracks.push(track);
+        index = this._node_tracks.length - 1;
     } else {
-        track = this._tracks[index];
+        track = this._node_tracks[index];
     }
 
     /**
@@ -94,7 +113,7 @@ Timeline.prototype.remove = function(node, ...keyframes) {
 
     let index = this._nodes.indexOf(node);
     if (index === -1) return this;
-    track = this._tracks[index];
+    track = this._node_tracks[index];
 
     /**
      * Remove given keyframes from the track
@@ -147,7 +166,7 @@ Timeline.prototype.seek = function(time) {
          * For each property track of the node
          */
 
-        const track_keys = Object.keys(this._tracks[node_index]);
+        const track_keys = Object.keys(this._node_tracks[node_index]);
         for (let i = 0; i < track_keys.length; ++i) {
 
             /**
@@ -164,7 +183,7 @@ Timeline.prototype.seek = function(time) {
              * selected node
              */
 
-            const track_key_keyframes = Object.keys(this._tracks[node_index][track_key]);
+            const track_key_keyframes = Object.keys(this._node_tracks[node_index][track_key]);
             for (let j = 0; j < track_key_keyframes.length; ++j) {
 
                 /**
@@ -193,7 +212,7 @@ Timeline.prototype.seek = function(time) {
                          */
 
                         this._nodes[node_index][track_key](
-                            this._tracks[node_index][track_key][track_key_keyframe_time].value
+                            this._node_tracks[node_index][track_key][track_key_keyframe_time].value
                         );
 
                         /*
@@ -203,7 +222,7 @@ Timeline.prototype.seek = function(time) {
                          */
 
                         if (time_start !== undefined) {
-                            delete this._tracks[node_index][track_key][time_start];
+                            delete this._node_tracks[node_index][track_key][time_start];
                             time_start = undefined;
                         }
                     } else {
@@ -230,7 +249,7 @@ Timeline.prototype.seek = function(time) {
                      */
 
                     if (time_start !== undefined) {
-                        delete this._tracks[node_index][track_key][time_start];
+                        delete this._node_tracks[node_index][track_key][time_start];
                     }
 
                     /**
@@ -265,12 +284,12 @@ Timeline.prototype.seek = function(time) {
 
                     this._nodes[node_index][track_key](
                         EasingsFunctions[
-                            'in_' + Easings[this._tracks[node_index][track_key][time_start].ease_out] +
-                            '_out_' + Easings[this._tracks[node_index][track_key][time_end].ease_in]
+                            'in_' + Easings[this._node_tracks[node_index][track_key][time_start].ease_out] +
+                            '_out_' + Easings[this._node_tracks[node_index][track_key][time_end].ease_in]
                         ](
                             time - time_start,
-                            this._tracks[node_index][track_key][time_start].value,
-                            this._tracks[node_index][track_key][time_end].value - this._tracks[node_index][track_key][time_start].value,
+                            this._node_tracks[node_index][track_key][time_start].value,
+                            this._node_tracks[node_index][track_key][time_end].value - this._node_tracks[node_index][track_key][time_start].value,
                             time_end - time_start
                         )
                     );
@@ -278,7 +297,7 @@ Timeline.prototype.seek = function(time) {
             } else {
                 if (time_start !== undefined) {
                     this._nodes[node_index][track_key](
-                        this._tracks[node_index][track_key][time_start].value
+                        this._node_tracks[node_index][track_key][time_start].value
                     );
                 }
             }
