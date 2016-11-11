@@ -1,7 +1,8 @@
 'use strict';
 
 import {
-    Easings
+    Easings,
+    Values
 } from '../utils/enums';
 
 /**
@@ -27,13 +28,38 @@ Keyframe.prototype.time = function(time) {
 };
 
 /**
+ * Set a keyframe
+ */
+
+Keyframe.prototype.set = function(key, type, value, ease_in, ease_out) {
+  if (value !== undefined) {
+      if (value === null) delete this._keys[key];
+      else {
+          this._keys[key] = {
+              type: type,
+              value: value,
+              ease_in: ease_in || this._keys[key] && this._keys[key].ease_in || Easings.linear,
+              ease_out: ease_out || this._keys[key] && this._keys[key].ease_out || Easings.linear
+          };
+      }
+      return this;
+  } else {
+      return this._keys[key];
+  }
+};
+
+/*****************************************************************************
+ * Node keyframes                                                            *
+ ****************************************************************************/
+
+/**
  * Get or set translation keys
  */
 
 Keyframe.prototype.translate = function(x, y, ease_in, ease_out) {
     if (x !== undefined && y !== undefined) {
-        this.set('translateX', x, ease_in, ease_out);
-        this.set('translateY', y, ease_in, ease_out);
+        this.set('translateX', Values.numeric, x, ease_in, ease_out);
+        this.set('translateY', Values.numeric, y, ease_in, ease_out);
         return this;
     } else {
         return {
@@ -48,7 +74,7 @@ Keyframe.prototype.translate = function(x, y, ease_in, ease_out) {
  */
 
 Keyframe.prototype.translateX = function(value, ease_in, ease_out) {
-    return this.set('translateX', value, ease_in, ease_out);
+    return this.set('translateX', Values.numeric, value, ease_in, ease_out);
 };
 
 /**
@@ -56,7 +82,7 @@ Keyframe.prototype.translateX = function(value, ease_in, ease_out) {
  */
 
 Keyframe.prototype.translateY = function(value, ease_in, ease_out) {
-    return this.set('translateY', value, ease_in, ease_out);
+    return this.set('translateY', Values.numeric, value, ease_in, ease_out);
 };
 
 /**
@@ -64,7 +90,7 @@ Keyframe.prototype.translateY = function(value, ease_in, ease_out) {
  */
 
 Keyframe.prototype.rotate = function(value, ease_in, ease_out) {
-    return this.set('rotate', value, ease_in, ease_out);
+    return this.set('rotate', Values.numeric, value, ease_in, ease_out);
 };
 
 /**
@@ -73,8 +99,8 @@ Keyframe.prototype.rotate = function(value, ease_in, ease_out) {
 
 Keyframe.prototype.scale = function(x, y, ease_in, ease_out) {
     if (x !== undefined && y !== undefined) {
-        this.set('scaleX', x, ease_in, ease_out);
-        this.set('scaleY', y, ease_in, ease_out);
+        this.set('scaleX', Values.numeric, x, ease_in, ease_out);
+        this.set('scaleY', Values.numeric, y, ease_in, ease_out);
         return this;
     } else {
         return {
@@ -89,7 +115,7 @@ Keyframe.prototype.scale = function(x, y, ease_in, ease_out) {
  */
 
 Keyframe.prototype.scaleX = function(value, ease_in, ease_out) {
-    return this.set('scaleX', value, ease_in, ease_out);
+    return this.set('scaleX', Values.numeric, value, ease_in, ease_out);
 };
 
 /**
@@ -97,15 +123,19 @@ Keyframe.prototype.scaleX = function(value, ease_in, ease_out) {
  */
 
 Keyframe.prototype.scaleY = function(value, ease_in, ease_out) {
-    return this.set('scaleY', value, ease_in, ease_out);
+    return this.set('scaleY', Values.numeric, value, ease_in, ease_out);
 };
+
+/*****************************************************************************
+ * Rect keyframes                                                            *
+ ****************************************************************************/
 
 /**
  * Get or set the width key
  */
 
 Keyframe.prototype.width = function(value, ease_in, ease_out) {
-    return this.set('width', value, ease_in, ease_out);
+    return this.set('width', Values.numeric, value, ease_in, ease_out);
 };
 
 /**
@@ -113,35 +143,39 @@ Keyframe.prototype.width = function(value, ease_in, ease_out) {
  */
 
 Keyframe.prototype.height = function(value, ease_in, ease_out) {
-    return this.set('height', value, ease_in, ease_out);
+    return this.set('height', Values.numeric, value, ease_in, ease_out);
 };
 
+/*****************************************************************************
+ * Circle keyframes                                                          *
+ ****************************************************************************/
+
 /**
- * Get or set the width key
+ * Get or set the radius key
  */
 
 Keyframe.prototype.radius = function(value, ease_in, ease_out) {
-    return this.set('radius', value, ease_in, ease_out);
+    return this.set('radius', Values.numeric, value, ease_in, ease_out);
+};
+
+/*****************************************************************************
+ * Material keyframes                                                        *
+ ****************************************************************************/
+
+/**
+ * Get or set the stroke color key
+ */
+
+Keyframe.prototype.stroke = function(value, ease_in, ease_out) {
+    return this.set('stroke', Values.color, value, ease_in, ease_out);
 };
 
 /**
- * Get or set a key
+ * Get or set the fill color  key
  */
 
-Keyframe.prototype.set = function(key, value, ease_in, ease_out) {
-  if (value !== undefined) {
-      if (value === null) delete this._keys[key];
-      else {
-          this._keys[key] = {
-              value: value,
-              ease_in: ease_in || this._keys[key] && this._keys[key].ease_in || Easings.linear,
-              ease_out: ease_out || this._keys[key] && this._keys[key].ease_out || Easings.linear
-          };
-      }
-      return this;
-  } else {
-      return this._keys[key];
-  }
+Keyframe.prototype.fill = function(value, ease_in, ease_out) {
+    return this.set('stroke', Values.color, value, ease_in, ease_out);
 };
 
 exports.Keyframe = Keyframe;
