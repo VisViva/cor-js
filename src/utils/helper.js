@@ -74,3 +74,27 @@ export function decompose_color(color) {
     }
     return color;
 }
+
+/**
+ * Decompose a text string into an array of unicode character codes
+ */
+
+export function decompose_text(text) {
+    const characters = [];
+    for (let i = 0; i < text.length; ++i) {
+        characters.push(text.charCodeAt(i));
+    }
+    return characters;
+}
+
+/**
+ * Compose an array of unicode character codes into a text string
+ */
+
+export function compose_text(characters) {
+    let text = '';
+    for (let i = 0; i < characters.length; ++i) {
+        text += String.fromCharCode(characters[i]);
+    }
+    return text;
+}
