@@ -401,11 +401,15 @@ exports.Node = function(_scene) {
      */
 
     Node.prototype.bboxCascaded = function() {
-        const bboxes = [];
-        for (let i = 0; i < this._children.length; ++i) {
-            bboxes.push(this._children[i].bboxCascaded());
+        const bbox = this.bboxOwn();
+        if (this._children.length > 0) {
+            const bboxes = [];
+            for (let i = 0; i < this._children.length; ++i) {
+                bboxes.push(this._children[i].bboxCascaded());
+            }
+            bbox.merge(...bboxes);
         }
-        return this.bboxOwn().merge(...bboxes);
+        return bbox;
     };
 
     return Node;

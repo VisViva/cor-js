@@ -77,17 +77,6 @@ exports.Text = function(_scene, Primitive) {
     Text.prototype.bboxOwn = function() {
 
         /**
-         * Update point array to reflect the latest context state
-         */
-
-        const half_width = _scene._context.measureText(this._text).width >>> 1;
-        this._points[0].x = this._points[2].x = this._at.x - half_width;
-        this._points[1].x = this._points[3].x = this._at.x + half_width;
-        const half_height = Math.max(this._material.line() >>> 1, this._material.size() >>> 1);
-        this._points[0].y = this._points[1].y = this._at.y - half_height;
-        this._points[2].y = this._points[3].y = this._at.y + half_height;
-
-        /**
          * Transformed points
          */
 
@@ -131,6 +120,17 @@ exports.Text = function(_scene, Primitive) {
              */
 
             this._material.use(context);
+
+            /**
+             * Update point array to reflect the latest context state
+             */
+
+            const half_width = _scene._context.measureText(this._text).width / 2;
+            this._points[0].x = this._points[2].x = this._at.x - half_width;
+            this._points[1].x = this._points[3].x = this._at.x + half_width;
+            const half_height = Math.max(this._material.line(), this._material.size()) >>> 1;
+            this._points[0].y = this._points[1].y = this._at.y - half_height;
+            this._points[2].y = this._points[3].y = this._at.y + half_height;
 
             /**
              * Setup transformations and render
