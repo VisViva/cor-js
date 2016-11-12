@@ -117,63 +117,63 @@ describe('text tests', () => {
         it('Gets untouched bounding box cortextly', () => {
             text = new Text().text('test').cascade();
             bbox = text.bboxCascaded();
-            expect(bbox.x()).to.be.equal(-9);
+            expect(bbox.x()).to.be.approximately(-9.5, 0.5);
             expect(bbox.y()).to.be.equal(24);
-            expect(bbox.width()).to.be.equal(18);
+            expect(bbox.width()).to.be.approximately(19.1, 0.1);
             expect(bbox.height()).to.be.equal(48);
         });
 
         it('Gets bounding box of a textangle with an offset cortextly', () => {
             text = new Text().at(10, 10).text('test').cascade();
             bbox = text.bboxCascaded();
-            expect(bbox.x()).to.be.equal(1);
+            expect(bbox.x()).to.be.approximately(0.4, 0.1);
             expect(bbox.y()).to.be.equal(14);
-            expect(bbox.width()).to.be.equal(18);
+            expect(bbox.width()).to.be.approximately(19.1, 0.1);
             expect(bbox.height()).to.be.equal(48);
         });
 
         it('Gets translated primitives bounding box cortextly', () => {
             text = new Text().translate(50, 50).text('test').cascade();
             bbox = text.bboxCascaded();
-            expect(bbox.x()).to.be.equal(41);
+            expect(bbox.x()).to.be.approximately(40.4, 0.1);
             expect(bbox.y()).to.be.equal(-26);
-            expect(bbox.width()).to.be.equal(18);
+            expect(bbox.width()).to.be.approximately(19.1, 0.1);
             expect(bbox.height()).to.be.equal(48);
         });
 
         it('Gets translated primitives bounding box with an offset cortextly', () => {
             text = new Text().at(10, 10).translate(50, 50).text('test').cascade();
             bbox = text.bboxCascaded();
-            expect(bbox.x()).to.be.equal(51);
+            expect(bbox.x()).to.be.approximately(50.4, 0.1);
             expect(bbox.y()).to.be.equal(-36);
-            expect(bbox.width()).to.be.equal(18);
+            expect(bbox.width()).to.be.approximately(19.1, 0.1);
             expect(bbox.height()).to.be.equal(48);
         });
 
         it('Gets rotated primitives bounding box cortextly', () => {
             text = new Text().rotate(45).text('test').cascade();
             bbox = text.bboxCascaded();
-            expect(bbox.x()).to.be.approximately(-23.3, 0.1);
-            expect(bbox.y()).to.be.approximately(23.3, 0.1);
-            expect(bbox.width()).to.be.approximately(46.6, 0.1);
-            expect(bbox.height()).to.be.approximately(46.6, 0.1);
+            expect(bbox.x()).to.be.approximately(-23.7, 0.1);
+            expect(bbox.y()).to.be.approximately(23.7, 0.1);
+            expect(bbox.width()).to.be.approximately(47.4, 0.1);
+            expect(bbox.height()).to.be.approximately(47.4, 0.1);
         });
 
         it('Gets rotated primitives bounding box with an offset cortextly', () => {
             text = new Text().at(10, 10).rotate(45).text('test').cascade();
             bbox = text.bboxCascaded();
-            expect(bbox.x()).to.be.approximately(-9.1, 0.1);
-            expect(bbox.y()).to.be.approximately(23.3, 0.1);
-            expect(bbox.width()).to.be.approximately(46.6, 0.1);
-            expect(bbox.height()).to.be.approximately(46.6, 0.1);
+            expect(bbox.x()).to.be.approximately(-9.6, 0.1);
+            expect(bbox.y()).to.be.approximately(23.7, 0.1);
+            expect(bbox.width()).to.be.approximately(47.4, 0.1);
+            expect(bbox.height()).to.be.approximately(47.4, 0.1);
         });
 
         it('Gets scaled primitives bounding box cortextly', () => {
             text = new Text().scale(2, 2).text('test').cascade();
             bbox = text.bboxCascaded();
-            expect(bbox.x()).to.be.equal(-18);
+            expect(bbox.x()).to.be.approximately(-19.1, 0.1);
             expect(bbox.y()).to.be.equal(48);
-            expect(bbox.width()).to.be.equal(36);
+            expect(bbox.width()).to.be.approximately(38.3, 0.1);
             expect(bbox.height()).to.be.equal(96);
         });
 
@@ -181,9 +181,9 @@ describe('text tests', () => {
             text = new Text();
             text.at(10, 10).scale(3, 3).text('test').cascade();
             bbox = text.bboxCascaded();
-            expect(bbox.x()).to.be.equal(3);
+            expect(bbox.x()).to.be.approximately(1.2, 0.1);
             expect(bbox.y()).to.be.equal(42);
-            expect(bbox.width()).to.be.equal(54);
+            expect(bbox.width()).to.be.approximately(57.4, 0.1);
             expect(bbox.height()).to.be.equal(144);
         });
 
@@ -191,30 +191,30 @@ describe('text tests', () => {
             text = new Text().translate(10, 10).rotate(270).text('test').cascade();
             bbox = text.bboxCascaded();
             expect(bbox.x()).to.be.approximately(-14.0, 0.1);
-            expect(bbox.y()).to.be.approximately(-0.9, 0.1);
+            expect(bbox.y()).to.be.approximately(-0.4, 0.1);
             expect(bbox.width()).to.be.approximately(48.0, 0.1);
-            expect(bbox.height()).to.be.approximately(18.0, 0.1);
+            expect(bbox.height()).to.be.approximately(19.1, 0.1);
             text.translate(10, 10).rotate(45).cascade();
             bbox = text.bboxCascaded();
-            expect(text.bboxCascaded().x()).to.be.approximately(-13.3, 0.1);
-            expect(text.bboxCascaded().y()).to.be.approximately(13.3, 0.1);
-            expect(text.bboxCascaded().width()).to.be.approximately(46.6, 0.1);
-            expect(text.bboxCascaded().height()).to.be.approximately(46.6, 0.1);
+            expect(text.bboxCascaded().x()).to.be.approximately(-13.7, 0.1);
+            expect(text.bboxCascaded().y()).to.be.approximately(13.7, 0.1);
+            expect(text.bboxCascaded().width()).to.be.approximately(47.4, 0.1);
+            expect(text.bboxCascaded().height()).to.be.approximately(47.4, 0.1);
         });
 
         it('Gets scaled, rotated and translated primitives bounding box with an offset cortextly', () => {
             text = new Text().at(10, 10).translate(10, 10).rotate(270).text('test').cascade();
             bbox = text.bboxCascaded();
-            expect(bbox.x()).to.be.approximately(-23.9, 0.1);
-            expect(bbox.y()).to.be.approximately(-10.9, 0.1);
+            expect(bbox.x()).to.be.approximately(-24.0, 0.1);
+            expect(bbox.y()).to.be.approximately(-10.4, 0.1);
             expect(bbox.width()).to.be.approximately(48.0, 0.1);
-            expect(bbox.height()).to.be.approximately(18.0, 0.1);
+            expect(bbox.height()).to.be.approximately(19.1, 0.1);
             text.translate(10, 10).rotate(45).cascade();
             bbox = text.bboxCascaded();
-            expect(text.bboxCascaded().x()).to.be.approximately(0.8, 0.1);
-            expect(text.bboxCascaded().y()).to.be.approximately(13.3, 0.1);
-            expect(text.bboxCascaded().width()).to.be.approximately(46.6, 0.1);
-            expect(text.bboxCascaded().height()).to.be.approximately(46.6, 0.1);
+            expect(text.bboxCascaded().x()).to.be.approximately(0.3, 0.1);
+            expect(text.bboxCascaded().y()).to.be.approximately(13.7, 0.1);
+            expect(text.bboxCascaded().width()).to.be.approximately(47.4, 0.1);
+            expect(text.bboxCascaded().height()).to.be.approximately(47.4, 0.1);
         });
     });
 });
