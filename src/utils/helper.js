@@ -98,3 +98,11 @@ export function compose_text(characters) {
     }
     return text;
 }
+
+/**
+ * Get a random unicode character
+ */
+
+export function get_random_character() {
+    return String.fromCharCode(0x30A0 + Math.random() * (0x30FF-0x30A0+1));
+}
