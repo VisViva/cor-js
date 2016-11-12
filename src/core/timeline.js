@@ -7,7 +7,9 @@ import {
 } from '../utils/enums';
 import {
     get_base_name,
-    decompose_color
+    decompose_color,
+    decompose_text,
+    compose_text
 } from '../utils/helper';
 
 /**
@@ -347,6 +349,36 @@ Timeline.prototype.seek = function(time) {
                                     this._objects[objects_keys[objects_keys_index]][node_index][track_key](computed_value);
 
                                     break;
+                                }
+
+                            /**
+                             * In case the value is of text type
+                             */
+
+                            case Values.text:
+                                {
+                                  const text_start_decomposed = decompose_text(this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].value);
+                                  const text_end_decomposed = decompose_text(this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].value);
+                                  const maximum_text_length = Math.max(text_start_decomposed.length, text_end_decomposed.length);
+                                  let computed_characters = [];
+
+                                  for (let character_index = 0; character_index < maximum_text_length; ++character_index) {
+                                      computed_characters.push(
+                                          EasingsFunctions[
+                                              'in_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].ease_out] +
+                                              '_out_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].ease_in]
+                                          ](
+                                              time - time_start,
+                                              text_start_decomposed[character_index],
+                                              text_end_decomposed[character_index] - text_start_decomposed[character_index],
+                                              time_end - time_start
+                                          )
+                                      );
+                                      computed_characters[character_index] = Math.floor(computed_characters[character_index]);
+                                  }
+                                  this._objects[objects_keys[objects_keys_index]][node_index][track_key](compose_text(computed_characters));
+
+                                  break;
                                 }
 
                             /**

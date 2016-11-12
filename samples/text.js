@@ -33,15 +33,20 @@ scene
 
 text
     .debug(true)
-    .text('Hello, canvas!')
-    .material(material);
+    .material(material).text('adsasdsdasd');
 
 root
     .append(text);
 
 scene.timeline().add(
+    text,
+    new Keyframe().text('adsasdsdasd'),
+    new Keyframe().time(2000).text('Привет!')
+);
+
+scene.timeline().add(
     material,
-    new Keyframe().size(48).style('italic'),
+    new Keyframe().time(0).size(48).style('italic'),
     new Keyframe().time(5000).style('normal'),
     new Keyframe().time(10000).style('italic').size(200)
 );

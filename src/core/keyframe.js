@@ -159,6 +159,18 @@ Keyframe.prototype.radius = function(value, ease_in, ease_out) {
 };
 
 /*****************************************************************************
+ * Text keyframes                                                            *
+ ****************************************************************************/
+
+/**
+ * Get or set the text
+ */
+
+Keyframe.prototype.text = function(value, ease_in, ease_out) {
+    return this.set('text', Values.text, value, ease_in, ease_out);
+};
+
+/*****************************************************************************
  * Material keyframes                                                        *
  ****************************************************************************/
 
