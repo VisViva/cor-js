@@ -66,7 +66,7 @@ exports.Text = function(_scene, Primitive) {
             this._text = text;
             return this;
         } else {
-            return this._height;
+            return this._text;
         }
     };
 
