@@ -54,6 +54,8 @@ Material.prototype.reset = function() {
         color: 'rgba(0,0,0,1)',
     };
 
+    this._font = '48px sans-serif';
+
     return this;
 };
 
@@ -63,11 +65,20 @@ Material.prototype.reset = function() {
 
 Material.prototype.style = function(context) {
     if (this._stroke.enabled === true) {
-        context.strokeStyle = this._stroke.color;
+        if (context.strokeStyle !== this._stroke.color) {
+            context.strokeStyle = this._stroke.color;
+        }
     }
-    context.lineWidth = this._stroke.width;
+    if (context.lineWidth !== this._stroke.width) {
+        context.lineWidth = this._stroke.width;
+    }
     if (this._fill.enabled === true) {
-        context.fillStyle = this._fill.color;
+        if (context.fillStyle !== this._fill.color) {
+            context.fillStyle = this._fill.color;
+        }
+    }
+    if (context.font !== this._font) {
+        context.font = this._font;
     }
     return this;
 };
@@ -79,10 +90,18 @@ Material.prototype.style = function(context) {
 Material.prototype.stroke = function(channels) {
     if (channels) {
         switch (channels.length) {
-            case 1: this._stroke.color = 'rgba(' + channels[0] + ',0,0,0)'; break;
-            case 2: this._stroke.color = 'rgba(' + channels[0] + ',' + channels[1] + ',0,0)'; break;
-            case 3: this._stroke.color = 'rgba(' + channels[0] + ',' + channels[1] + ',' + channels[2] + ',0)'; break;
-            case 4: this._stroke.color = 'rgba(' + channels[0] + ',' + channels[1] + ',' + channels[2] + ',' + channels[3] + ')'; break;
+            case 1:
+                this._stroke.color = 'rgba(' + channels[0] + ',0,0,0)';
+                break;
+            case 2:
+                this._stroke.color = 'rgba(' + channels[0] + ',' + channels[1] + ',0,0)';
+                break;
+            case 3:
+                this._stroke.color = 'rgba(' + channels[0] + ',' + channels[1] + ',' + channels[2] + ',0)';
+                break;
+            case 4:
+                this._stroke.color = 'rgba(' + channels[0] + ',' + channels[1] + ',' + channels[2] + ',' + channels[3] + ')';
+                break;
         }
         return this;
     } else {
@@ -123,10 +142,18 @@ Material.prototype.width = function(width) {
 Material.prototype.fill = function(channels) {
     if (channels) {
         switch (channels.length) {
-            case 1: this._fill.color = 'rgba(' + channels[0] + ',0,0,0)'; break;
-            case 2: this._fill.color = 'rgba(' + channels[0] + ',' + channels[1] + ',0,0)'; break;
-            case 3: this._fill.color = 'rgba(' + channels[0] + ',' + channels[1] + ',' + channels[2] + ',0)'; break;
-            case 4: this._fill.color = 'rgba(' + channels[0] + ',' + channels[1] + ',' + channels[2] + ',' + channels[3] + ')'; break;
+            case 1:
+                this._fill.color = 'rgba(' + channels[0] + ',0,0,0)';
+                break;
+            case 2:
+                this._fill.color = 'rgba(' + channels[0] + ',' + channels[1] + ',0,0)';
+                break;
+            case 3:
+                this._fill.color = 'rgba(' + channels[0] + ',' + channels[1] + ',' + channels[2] + ',0)';
+                break;
+            case 4:
+                this._fill.color = 'rgba(' + channels[0] + ',' + channels[1] + ',' + channels[2] + ',' + channels[3] + ')';
+                break;
         }
         return this;
     } else {

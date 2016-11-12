@@ -43,12 +43,12 @@ export function glmatrix_to_canvas_matrix(matrix) {
  */
 
 export function random_color() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
+    return [
+        Math.floor(Math.random() * 256),
+        Math.floor(Math.random() * 256),
+        Math.floor(Math.random() * 256),
+        Math.random(),
+    ];
 }
 
 /**
@@ -57,7 +57,7 @@ export function random_color() {
 
 export function get_base_name(object) {
     object = object.__proto__.constructor;
-    while(object.prototype.__proto__.constructor.name !== 'Object') {
+    while (object.prototype.__proto__.constructor.name !== 'Object') {
         object = object.prototype.__proto__.constructor;
     }
     return object.name;
