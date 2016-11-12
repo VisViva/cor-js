@@ -10,90 +10,61 @@ import {
 } from '../src/utils/helper';
 
 const scene_manager = new SceneManager();
-const scene = scene_manager.new('scene');
-const root = scene.root();
+const scene = scene_manager.new('scene').fps(60);
 const Text = scene.factory().Text;
 const Rect = scene.factory().Rect;
+const root = scene.root().translate(scene._canvas.width / 2, scene._canvas.height / 2);
 
-scene
-    .fps(60);
+const COLUMN_COUNT_HALF = 10;
+const HORIZONTAL_SPACING = scene._canvas.width / COLUMN_COUNT_HALF - scene._canvas.width / 100;
+const VERTICAL_SPACING = 50;
 
 window.addEventListener('resize', function(event) {
     scene.resize();
+    root.translate(scene._canvas.width / 2, scene._canvas.height / 2);
 });
 
-for (let i = -10; i < 11; ++i) {
-    for (let j = -10; j < 11; ++j) {
-        const rect = new Rect();
+for (let row_index = -COLUMN_COUNT_HALF; row_index < COLUMN_COUNT_HALF + 1; ++row_index) {
+    for (let column_index = 1; column_index < 50; ++column_index) {
         const text = new Text();
-
         const random = Math.random();
-        const ij = i * j;
-        const irandom = i * random;
-        const jrandom = j * random;
+        const text_keyframes = [];
+        const material_keyframes = [];
+
+        const material = new Material()
+            .filled(true)
+            .stroked(true)
+            .size(20);
 
         text
-            .debug(false)
-            .rotate(i * j)
-            .pivot(100 * i * random, 10 * j * random)
-            .depth(i * i * j * j)
-            .material()
-            .width(Math.abs(i) / 2)
-            .stroked(true)
-            .filled(true)
-            .stroke([0, 255, 0, 1])
-            .fill([0, 0, 0, 0.8]);
+            .translate(row_index * HORIZONTAL_SPACING, - column_index * VERTICAL_SPACING * random * 100)
+            .material(material);
+
         root
             .append(text);
 
+        for (let keyframe_index = 0; keyframe_index < 15 + Math.random() * 30; ++keyframe_index) {
+            text_keyframes.push(
+                new Keyframe()
+                .time(keyframe_index * 1000)
+                .text(get_random_character())
+            );
 
-        scene.timeline().add(
-            text,
+            material_keyframes.push(
+              new Keyframe()
+                  .stroke([0, 255, 0, Math.random()])
+                  .fill([0, 0, 0, Math.random()])
+            );
+        }
+
+        text_keyframes.push(
             new Keyframe()
-            .text(get_random_character())
-            .rotate(0)
-            .scale(1, 1)
-            .translate(100 * random, 100 * jrandom),
-            new Keyframe()
-            .time(100 * (Math.abs(ij)))
-            .text(get_random_character())
-            .scale(random * 2, random * 2, Easings.elastic, Easings.linear)
-            .rotate(5 * i, Easings.elastic, Easings.linear),
-            new Keyframe()
-            .time(150 * (Math.abs(ij)))
-            .text(get_random_character())
-            .scale(random * 3, random * 3, Easings.elastic, Easings.linear)
-            .rotate(jrandom * 10, Easings.elastic, Easings.linear),
-            new Keyframe()
-            .time(200 * (Math.abs(ij)))
-            .text(get_random_character())
-            .scale(random * 4, random * 4, Easings.elastic, Easings.linear)
-            .rotate(irandom * 15, Easings.elastic, Easings.linear)
-            .translate(200 * i, 200 * j, Easings.elastic, Easings.linear),
-            new Keyframe()
-            .time(250 * (Math.abs(ij)))
-            .text(get_random_character())
-            .rotate(irandom, Easings.elastic, Easings.linear),
-            new Keyframe()
-            .time(50000)
-            .text(get_random_character())
-            .translate(500 * irandom, 500 * jrandom, Easings.elastic, Easings.linear)
-            .rotate(jrandom * 10, Easings.elastic, Easings.linear)
+            .time(20000)
+            .translateY(- column_index * VERTICAL_SPACING * random * 10 - 1000)
         );
+
+        scene.timeline().add(text, ...text_keyframes).add(material, ...material_keyframes);
     }
 }
-
-scene.timeline().add(
-    root,
-    new Keyframe()
-    .scale(0.05, 0.05),
-    new Keyframe()
-    .time(15000)
-    .scale(0.2, 0.2, Easings.quad, Easings.quad)
-    .rotate(90, Easings.quad, Easings.quad),
-    new Keyframe()
-    .time(150000)
-    .scale(0, 0, Easings.quad, Easings.quad)
-);
 
 scene.start();
