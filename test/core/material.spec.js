@@ -32,7 +32,7 @@ describe('Material tests', () => {
             expect(material.variant()).to.be.equal('normal');
             expect(material.weight()).to.be.equal('normal');
             expect(material.family()).to.be.equal('sans-serif');
-            expect(material.font()).to.be.equal('48px/48px normal normal normal sans-serif');
+            expect(material.font()).to.be.equal('normal normal normal 48px/48px sans-serif');
         });
     });
 
@@ -94,27 +94,27 @@ describe('Material tests', () => {
 
         it('Sets size correctly', () => {
             expect(material.size(90)).to.be.equal(material);
-            expect(material.font()).to.be.equal('90px/48px normal normal normal sans-serif');
+            expect(material.font()).to.be.equal('normal normal normal 90px/48px sans-serif');
         });
 
         it('Sets line height correctly', () => {
             expect(material.line(90)).to.be.equal(material);
-            expect(material.font()).to.be.equal('48px/90px normal normal normal sans-serif');
+            expect(material.font()).to.be.equal('normal normal normal 48px/90px sans-serif');
         });
 
         it('Sets style correctly', () => {
             expect(material.style('italic')).to.be.equal(material);
-            expect(material.font()).to.be.equal('48px/48px italic normal normal sans-serif');
+            expect(material.font()).to.be.equal('italic normal normal 48px/48px sans-serif');
         });
 
         it('Sets variant correctly', () => {
             expect(material.variant('small-caps')).to.be.equal(material);
-            expect(material.font()).to.be.equal('48px/48px normal small-caps normal sans-serif');
+            expect(material.font()).to.be.equal('normal small-caps normal 48px/48px sans-serif');
         });
 
         it('Sets weight correctly', () => {
             expect(material.weight('bold')).to.be.equal(material);
-            expect(material.font()).to.be.equal('48px/48px normal normal bold sans-serif');
+            expect(material.font()).to.be.equal('normal normal bold 48px/48px sans-serif');
         });
     });
 });

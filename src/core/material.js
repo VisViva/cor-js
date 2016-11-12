@@ -65,6 +65,9 @@ Material.prototype.reset = function() {
      */
 
     this._font = {
+        style: 'normal',
+        variant: 'normal',
+        weight: 'normal',
         size: {
             value: 48,
             units: 'px'
@@ -73,11 +76,8 @@ Material.prototype.reset = function() {
             value: 48,
             units: 'px'
         },
-        style: 'normal',
-        variant: 'normal',
-        weight: 'normal',
         family: 'sans-serif',
-        concatenated: '48px/48px normal normal normal sans-serif'
+        concatenated: 'normal normal normal 48px/48px sans-serif'
     };
 
     return this;
@@ -336,13 +336,13 @@ Material.prototype.font = function(font) {
         this._font.concatenated = font;
         const regex = /^\s*(?=(?:(?:[-a-z]+\s*){0,2}(italic|oblique))?)(?=(?:(?:[-a-z]+\s*){0,2}(small-caps))?)(?=(?:(?:[-a-z]+\s*){0,2}(bold(?:er)?|lighter|[1-9]00))?)(?:(?:normal|\1|\2|\3)\s*){0,3}((?:xx?-)?(?:small|large)|medium|smaller|larger|[.\d]+(?:\%|in|[cem]m|ex|p[ctx]))(?:\s*\/\s*(normal|[.\d]+(?:\%|in|[cem]m|ex|p[ctx])))?\s*([-,\"\sa-z]+?)\s*$/i;
         const tokens = regex.exec(font);
+        this._font.style = tokens[1] || 'normal';
+        this._font.variant = tokens[2] || 'normal';
+        this._font.weight = tokens[3] || 'normal';
         this._font.size.value = tokens[4].match(/\d+/g)[0];
         this._font.size.units = tokens[4].match(/[a-z]+/g)[0];
         this._font.line.value = tokens[5].match(/\d+/g)[0];
         this._font.line.units = tokens[5].match(/[a-z]+/g)[0];
-        this._font.style = tokens[1] || 'normal';
-        this._font.variant = tokens[2] || 'normal';
-        this._font.weight = tokens[3] || 'normal';
         this._font.family = tokens[6];
         return this;
     } else {
@@ -355,13 +355,14 @@ Material.prototype.font = function(font) {
  */
 
 Material.prototype._concatenate_font = function() {
-    this._font.concatenated = this._font.size.value +
-        this._font.size.units + '/' +
-        this._font.line.value +
-        this._font.line.units + ' ' +
+    this._font.concatenated =
         this._font.style + ' ' +
         this._font.variant + ' ' +
         this._font.weight + ' ' +
+        this._font.size.value +
+        this._font.size.units + '/' +
+        this._font.line.value +
+        this._font.line.units + ' ' +
         this._font.family;
 };
 

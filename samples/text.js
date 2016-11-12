@@ -20,8 +20,8 @@ window.addEventListener('resize', function(event) {
 });
 
 material
-    .fill(random_color())
-    .stroke(random_color());
+    .fill([255, 255, 255, 1])
+    .stroke([0, 0, 0, 1]);
 
 scene
     .grid(true)
@@ -41,8 +41,9 @@ root
 
 scene.timeline().add(
     material,
-    new Keyframe().size(6),
-    new Keyframe().time(5000).size(48, Easings.elastic, Easings.linear)
+    new Keyframe().size(48).style('italic'),
+    new Keyframe().time(5000).style('normal'),
+    new Keyframe().time(10000).style('italic').size(200)
 );
 
 scene.start();

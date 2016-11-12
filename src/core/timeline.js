@@ -318,9 +318,9 @@ Timeline.prototype.seek = function(time) {
                                     break;
                                 }
 
-                                /**
-                                 * In case the value is of color type
-                                 */
+                            /**
+                             * In case the value is of color type
+                             */
 
                             case Values.color:
                                 {
@@ -345,6 +345,19 @@ Timeline.prototype.seek = function(time) {
                                         }
                                     }
                                     this._objects[objects_keys[objects_keys_index]][node_index][track_key](computed_value);
+
+                                    break;
+                                }
+
+                            /**
+                             * In case the value is of complex type
+                             */
+
+                            case Values.complex:
+                                {
+                                    this._objects[objects_keys[objects_keys_index]][node_index][track_key](
+                                      this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].value
+                                    );
 
                                     break;
                                 }
