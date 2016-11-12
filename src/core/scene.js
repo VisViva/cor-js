@@ -284,7 +284,7 @@ Scene.prototype.clear = function() {
      * Apply current primitive's material to the current context
      */
 
-    this._material.style(context);
+    this._material.use(context);
 
     // Clear the context
 

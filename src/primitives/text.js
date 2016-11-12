@@ -83,7 +83,7 @@ exports.Text = function(_scene, Primitive) {
         const half_width = _scene._context.measureText(this._text).width >>> 1;
         this._points[0].x = this._points[2].x = this._at.x - half_width;
         this._points[1].x = this._points[3].x = this._at.x + half_width;
-        const half_height = +this._material._font.split('px')[0] >>> 1;
+        const half_height = this._material.line() >>> 1;
         this._points[0].y = this._points[1].y = this._at.y - half_height;
         this._points[2].y = this._points[3].y = this._at.y + half_height;
 
@@ -130,7 +130,7 @@ exports.Text = function(_scene, Primitive) {
              * Apply current primitive's material to the current context
              */
 
-            this._material.style(context);
+            this._material.use(context);
 
             /**
              * Setup transformations and render

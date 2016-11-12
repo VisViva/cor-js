@@ -24,15 +24,14 @@ scene
     .width(1)
     .fill([200, 200, 200, 1]);
 
-scene.render();
-
 text
     .debug(true)
     .at(250, 0)
     .pivot(250, 0)
     .text('Hello, canvas!')
     .material()
-    .fill(random_color());
+    .fill(random_color())
+    .stroke(random_color());
 
 root
     .append(text);
