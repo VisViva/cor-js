@@ -128,12 +128,14 @@ exports.Circle = function(_scene, Primitive) {
 
         if (this._debug === true) {
             let bbox = this.bboxCascaded();
+            context.save();
             context.setTransform(1, 0, 0, 1, 0, 0);
             context.beginPath();
             context.lineWidth = 2;
             context.rect(bbox.x(), bbox.y() - bbox.height(), bbox.width(), bbox.height());
             context.strokeStyle = '#EE0000';
             context.stroke();
+            context.restore();
         }
     };
 

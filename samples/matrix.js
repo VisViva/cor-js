@@ -86,7 +86,7 @@ for (let i = -10; i < 11; ++i) {
 scene.timeline().add(
     root,
     new Keyframe()
-    .scale(0, 0),
+    .scale(0.05, 0.05),
     new Keyframe()
     .time(15000)
     .scale(0.2, 0.2, Easings.quad, Easings.quad)
