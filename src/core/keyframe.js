@@ -178,4 +178,76 @@ Keyframe.prototype.fill = function(value, ease_in, ease_out) {
     return this.set('fill', Values.color, value, ease_in, ease_out);
 };
 
+/**
+ * Get or set the font size key
+ */
+
+Keyframe.prototype.size = function(value, ease_in, ease_out) {
+    return this.set('size', Values.numeric, value, ease_in, ease_out);
+};
+
+/**
+ * Get or set the font size units key
+ */
+
+Keyframe.prototype.sizeUnits = function(value, ease_in, ease_out) {
+    return this.set('sizeUnits', Values.complex, value, ease_in, ease_out);
+};
+
+/**
+ * Get or set the line height key
+ */
+
+Keyframe.prototype.line = function(value, ease_in, ease_out) {
+    return this.set('line', Values.numeric, value, ease_in, ease_out);
+};
+
+/**
+ * Get or set the line height units key
+ */
+
+Keyframe.prototype.lineUnits = function(value, ease_in, ease_out) {
+    return this.set('lineUnits', Values.complex, value, ease_in, ease_out);
+};
+
+/**
+ * Get or set the font style key
+ */
+
+Keyframe.prototype.style = function(value, ease_in, ease_out) {
+    return this.set('style', Values.complex, value, ease_in, ease_out);
+};
+
+/**
+ * Get or set the font variant  key
+ */
+
+Keyframe.prototype.variant = function(value, ease_in, ease_out) {
+    return this.set('variant', Values.complex, value, ease_in, ease_out);
+};
+
+/**
+ * Get or set the font weight key
+ */
+
+Keyframe.prototype.weight = function(value, ease_in, ease_out) {
+    return this.set('weight', Values.complex, value, ease_in, ease_out);
+};
+
+/**
+ * Get or set the font family key
+ */
+
+Keyframe.prototype.family = function(value, ease_in, ease_out) {
+    return this.set('family', Values.complex, value, ease_in, ease_out);
+};
+
+/**
+ * Get or set the font key
+ */
+
+Keyframe.prototype.font = function(value, ease_in, ease_out) {
+    return this.set('font', Values.complex, value, ease_in, ease_out);
+};
+
 exports.Keyframe = Keyframe;

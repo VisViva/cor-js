@@ -1,6 +1,8 @@
 import {
     SceneManager,
-    Keyframe
+    Material,
+    Keyframe,
+    Easings
 } from '../src/scene_manager';
 import {
     random_color
@@ -11,10 +13,15 @@ const scene = scene_manager.new('scene');
 const root = scene.root();
 const Text = scene.factory().Text;
 const text = new Text();
+const material = new Material();
 
 window.addEventListener('resize', function(event) {
     scene.resize();
 });
+
+material
+    .fill(random_color())
+    .stroke(random_color());
 
 scene
     .grid(true)
@@ -26,22 +33,16 @@ scene
 
 text
     .debug(true)
-    .at(250, 0)
-    .pivot(250, 0)
     .text('Hello, canvas!')
-    .material()
-    .fill(random_color())
-    .stroke(random_color());
+    .material(material);
 
 root
     .append(text);
 
 scene.timeline().add(
-    text,
-    new Keyframe().translate(-200, -200).scale(1, 1),
-    new Keyframe().time(4000).scale(1, 1),
-    new Keyframe().time(8000).translate(200, 200),
-    new Keyframe().time(10000).rotate(180).scale(2, 1)
+    material,
+    new Keyframe().size(6),
+    new Keyframe().time(5000).size(48, Easings.elastic, Easings.linear)
 );
 
 scene.start();

@@ -88,22 +88,39 @@ Material.prototype.reset = function() {
  */
 
 Material.prototype.use = function(context) {
+
+    /**
+     * Apply strokes
+     */
+
     if (this._stroke.enabled === true) {
         if (context.strokeStyle !== this._stroke.color) {
             context.strokeStyle = this._stroke.color;
         }
     }
+
     if (context.lineWidth !== this._stroke.width) {
         context.lineWidth = this._stroke.width;
     }
+
+    /**
+     * Apply fills
+     */
+
     if (this._fill.enabled === true) {
         if (context.fillStyle !== this._fill.color) {
             context.fillStyle = this._fill.color;
         }
     }
+
+    /**
+     * Apply fonts
+     */
+
     if (context.font !== this._font.concatenated) {
         context.font = this._font.concatenated;
     }
+
     return this;
 };
 
