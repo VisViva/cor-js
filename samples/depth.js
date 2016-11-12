@@ -16,9 +16,9 @@ scene
     .grid(true)
     .fps(60)
     .material()
-    .stroke('#000000')
+    .stroke([0, 0, 0, 1])
     .width(1)
-    .fill('#CCCCCC');
+    .fill([200, 200, 200, 1]);
 
 root
     .scale(1.5, 1.5);

@@ -16,9 +16,9 @@ scenea
     .grid(true)
     .fps(60)
     .material()
-    .stroke('#000000')
+    .stroke([0, 0, 0, 1])
     .width(1)
-    .fill('#CCCCCC');
+    .fill([200, 200, 200, 1]);
 
 scenea.render();
 
@@ -82,9 +82,9 @@ sceneb
     .grid(true)
     .fps(1)
     .material()
-    .stroke('#000000')
+    .stroke([0, 0, 0, 1])
     .width(1)
-    .fill('#333333');
+    .fill([200, 200, 200, 1]);
 
 rootb
     .scale(0.1, 0.1);
@@ -128,9 +128,9 @@ const RectC = scenec.factory().Rect;
 scenec
     .grid(true)
     .material()
-    .stroke('#000000')
+    .stroke([0, 0, 0, 1])
     .width(1)
-    .fill('#888888');
+    .fill([200, 200, 200, 1]);
 
 rootc
     .scale(0.1, 0.1);

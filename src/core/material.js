@@ -339,13 +339,13 @@ Material.prototype.font = function(font) {
 
 Material.prototype._concatenate_font = function() {
     this._font.concatenated = this._font.size.value +
-    this._font.size.units + '/' +
-    this._font.line.value +
-    this._font.line.units + ' ' +
-    this._font.style + ' ' +
-    this._font.variant + ' ' +
-    this._font.weight + ' ' +
-    this._font.family;
+        this._font.size.units + '/' +
+        this._font.line.value +
+        this._font.line.units + ' ' +
+        this._font.style + ' ' +
+        this._font.variant + ' ' +
+        this._font.weight + ' ' +
+        this._font.family;
 };
 
 exports.Material = Material;

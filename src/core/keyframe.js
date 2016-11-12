@@ -32,20 +32,20 @@ Keyframe.prototype.time = function(time) {
  */
 
 Keyframe.prototype.set = function(key, type, value, ease_in, ease_out) {
-  if (value !== undefined) {
-      if (value === null) delete this._keys[key];
-      else {
-          this._keys[key] = {
-              type: type,
-              value: value,
-              ease_in: ease_in || this._keys[key] && this._keys[key].ease_in || Easings.linear,
-              ease_out: ease_out || this._keys[key] && this._keys[key].ease_out || Easings.linear
-          };
-      }
-      return this;
-  } else {
-      return this._keys[key];
-  }
+    if (value !== undefined) {
+        if (value === null) delete this._keys[key];
+        else {
+            this._keys[key] = {
+                type: type,
+                value: value,
+                ease_in: ease_in || this._keys[key] && this._keys[key].ease_in || Easings.linear,
+                ease_out: ease_out || this._keys[key] && this._keys[key].ease_out || Easings.linear
+            };
+        }
+        return this;
+    } else {
+        return this._keys[key];
+    }
 };
 
 /*****************************************************************************
