@@ -23,9 +23,9 @@ scene
     .grid(true)
     .fps(60)
     .material()
-    .stroke('#000000')
+    .stroke([0, 0, 0, 1])
     .width(1)
-    .fill('#CCCCCC');
+    .fill([200, 200, 200, 1]);
 
 material
     .fill(random_color());
@@ -49,10 +49,10 @@ scene.timeline().add(
 
 scene.timeline().add(
     material,
-    new Keyframe().width(50).fill('rgba(0,0,0,1)', Easings.bounce, Easings.linear),
+    new Keyframe().width(50).fill([0, 0, 0, 1], Easings.bounce, Easings.linear),
     new Keyframe().time(1000).width(0.001, Easings.bounce, Easings.linear),
     new Keyframe().time(3000).width(30, Easings.elastic, Easings.linear),
-    new Keyframe().time(4000).width(0.001, Easings.bounce, Easings.linear).fill('rgba(0,255,0,1)', Easings.bounce, Easings.linear)
+    new Keyframe().time(4000).width(0.001, Easings.bounce, Easings.linear).fill([0, 255, 0, 1], Easings.bounce, Easings.linear)
 );
 
 scene.start();

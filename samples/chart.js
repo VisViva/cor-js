@@ -18,9 +18,9 @@ const scene_manager = new SceneManager();
     let grid = new Node();
     let bars = new Node();
 
-    scene.fps(60).material().fill('#DDD');
-    const gridMaterial = new Material().stroke('rgba(0, 0, 0, 0.1)').width(1);
-    const barMaterial = new Material().stroke('rgba(0, 101, 190, 1)').fill('rgba(0, 101, 190, 0.69)');
+    scene.fps(60).material().fill([200, 200, 200, 1]);
+    const gridMaterial = new Material().stroke([0, 0, 0, 0.1]).width(1);
+    const barMaterial = new Material().stroke([0, 101, 190, 1]).fill([0, 101, 190, 0.69]);
 
     window.addEventListener('resize', function(event) {
         scene.resize();

@@ -43,12 +43,12 @@ export function glmatrix_to_canvas_matrix(matrix) {
  */
 
 export function random_color() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
+    return [
+        Math.floor(Math.random() * 256),
+        Math.floor(Math.random() * 256),
+        Math.floor(Math.random() * 256),
+        Math.random(),
+    ];
 }
 
 /**
@@ -57,7 +57,7 @@ export function random_color() {
 
 export function get_base_name(object) {
     object = object.__proto__.constructor;
-    while(object.prototype.__proto__.constructor.name !== 'Object') {
+    while (object.prototype.__proto__.constructor.name !== 'Object') {
         object = object.prototype.__proto__.constructor;
     }
     return object.name;
@@ -73,4 +73,28 @@ export function decompose_color(color) {
         color[i] = +color[i];
     }
     return color;
+}
+
+/**
+ * Decompose a text string into an array of unicode character codes
+ */
+
+export function decompose_text(text) {
+    const characters = [];
+    for (let i = 0; i < text.length; ++i) {
+        characters.push(text.charCodeAt(i));
+    }
+    return characters;
+}
+
+/**
+ * Compose an array of unicode character codes into a text string
+ */
+
+export function compose_text(characters) {
+    let text = '';
+    for (let i = 0; i < characters.length; ++i) {
+        text += String.fromCharCode(characters[i]);
+    }
+    return text;
 }

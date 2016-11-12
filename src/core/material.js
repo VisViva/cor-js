@@ -23,6 +23,12 @@ function Material() {
     this._fill;
 
     /**
+     * Font parameters
+     */
+
+    this._font;
+
+    /**
      * Reset the material
      */
 
@@ -54,6 +60,26 @@ Material.prototype.reset = function() {
         color: 'rgba(0,0,0,1)',
     };
 
+    /**
+     * Reset the font parameters
+     */
+
+    this._font = {
+        style: 'normal',
+        variant: 'normal',
+        weight: 'normal',
+        size: {
+            value: 48,
+            units: 'px'
+        },
+        line: {
+            value: 48,
+            units: 'px'
+        },
+        family: 'sans-serif',
+        concatenated: 'normal normal normal 48px/48px sans-serif'
+    };
+
     return this;
 };
 
@@ -61,14 +87,40 @@ Material.prototype.reset = function() {
  * Apply current material to the supplied context
  */
 
-Material.prototype.style = function(context) {
+Material.prototype.use = function(context) {
+
+    /**
+     * Apply strokes
+     */
+
     if (this._stroke.enabled === true) {
-        context.strokeStyle = this._stroke.color;
+        if (context.strokeStyle !== this._stroke.color) {
+            context.strokeStyle = this._stroke.color;
+        }
     }
-    context.lineWidth = this._stroke.width;
+
+    if (context.lineWidth !== this._stroke.width) {
+        context.lineWidth = this._stroke.width;
+    }
+
+    /**
+     * Apply fills
+     */
+
     if (this._fill.enabled === true) {
-        context.fillStyle = this._fill.color;
+        if (context.fillStyle !== this._fill.color) {
+            context.fillStyle = this._fill.color;
+        }
     }
+
+    /**
+     * Apply fonts
+     */
+
+    if (context.font !== this._font.concatenated) {
+        context.font = this._font.concatenated;
+    }
+
     return this;
 };
 
@@ -79,10 +131,18 @@ Material.prototype.style = function(context) {
 Material.prototype.stroke = function(channels) {
     if (channels) {
         switch (channels.length) {
-            case 1: this._stroke.color = 'rgba(' + channels[0] + ',0,0,0)'; break;
-            case 2: this._stroke.color = 'rgba(' + channels[0] + ',' + channels[1] + ',0,0)'; break;
-            case 3: this._stroke.color = 'rgba(' + channels[0] + ',' + channels[1] + ',' + channels[2] + ',0)'; break;
-            case 4: this._stroke.color = 'rgba(' + channels[0] + ',' + channels[1] + ',' + channels[2] + ',' + channels[3] + ')'; break;
+            case 1:
+                this._stroke.color = 'rgba(' + channels[0] + ',0,0,0)';
+                break;
+            case 2:
+                this._stroke.color = 'rgba(' + channels[0] + ',' + channels[1] + ',0,0)';
+                break;
+            case 3:
+                this._stroke.color = 'rgba(' + channels[0] + ',' + channels[1] + ',' + channels[2] + ',0)';
+                break;
+            case 4:
+                this._stroke.color = 'rgba(' + channels[0] + ',' + channels[1] + ',' + channels[2] + ',' + channels[3] + ')';
+                break;
         }
         return this;
     } else {
@@ -123,10 +183,18 @@ Material.prototype.width = function(width) {
 Material.prototype.fill = function(channels) {
     if (channels) {
         switch (channels.length) {
-            case 1: this._fill.color = 'rgba(' + channels[0] + ',0,0,0)'; break;
-            case 2: this._fill.color = 'rgba(' + channels[0] + ',' + channels[1] + ',0,0)'; break;
-            case 3: this._fill.color = 'rgba(' + channels[0] + ',' + channels[1] + ',' + channels[2] + ',0)'; break;
-            case 4: this._fill.color = 'rgba(' + channels[0] + ',' + channels[1] + ',' + channels[2] + ',' + channels[3] + ')'; break;
+            case 1:
+                this._fill.color = 'rgba(' + channels[0] + ',0,0,0)';
+                break;
+            case 2:
+                this._fill.color = 'rgba(' + channels[0] + ',' + channels[1] + ',0,0)';
+                break;
+            case 3:
+                this._fill.color = 'rgba(' + channels[0] + ',' + channels[1] + ',' + channels[2] + ',0)';
+                break;
+            case 4:
+                this._fill.color = 'rgba(' + channels[0] + ',' + channels[1] + ',' + channels[2] + ',' + channels[3] + ')';
+                break;
         }
         return this;
     } else {
@@ -145,6 +213,157 @@ Material.prototype.filled = function(value) {
     } else {
         return this._fill.enabled;
     }
+};
+
+/**
+ * Get or set the font size
+ */
+
+Material.prototype.size = function(size) {
+    if (size !== undefined) {
+        this._font.size.value = size;
+        this._concatenate_font();
+        return this;
+    } else {
+        return this._font.size.value;
+    }
+};
+
+/**
+ * Get or set the font units
+ */
+
+Material.prototype.sizeUnits = function(units) {
+    if (units !== undefined) {
+        this._font.size.units = units;
+        this._concatenate_font();
+        return this;
+    } else {
+        return this._font.size.units;
+    }
+};
+
+/**
+ * Get or set the font line size
+ */
+
+Material.prototype.line = function(line) {
+    if (line !== undefined) {
+        this._font.line.value = line;
+        this._concatenate_font();
+        return this;
+    } else {
+        return this._font.line.value;
+    }
+};
+
+/**
+ * Get or set the font line units
+ */
+
+Material.prototype.lineUnits = function(units) {
+    if (units !== undefined) {
+        this._font.line.units = units;
+        this._concatenate_font();
+        return this;
+    } else {
+        return this._font.line.units;
+    }
+};
+
+/**
+ * Get or set the font style
+ */
+
+Material.prototype.style = function(style) {
+    if (style !== undefined) {
+        this._font.style = style;
+        this._concatenate_font();
+        return this;
+    } else {
+        return this._font.style;
+    }
+};
+
+/**
+ * Get or set the font variant
+ */
+
+Material.prototype.variant = function(variant) {
+    if (variant !== undefined) {
+        this._font.variant = variant;
+        this._concatenate_font();
+        return this;
+    } else {
+        return this._font.variant;
+    }
+};
+
+/**
+ * Get or set the font weight
+ */
+
+Material.prototype.weight = function(weight) {
+    if (weight !== undefined) {
+        this._font.weight = weight;
+        this._concatenate_font();
+        return this;
+    } else {
+        return this._font.weight;
+    }
+};
+
+/**
+ * Get or set the font weight
+ */
+
+Material.prototype.family = function(family) {
+    if (family !== undefined) {
+        this._font.family = family;
+        this._concatenate_font();
+        return this;
+    } else {
+        return this._font.family;
+    }
+};
+
+/**
+ * Get or set the font
+ */
+
+Material.prototype.font = function(font) {
+    if (font !== undefined) {
+        this._font.concatenated = font;
+        const regex = /^\s*(?=(?:(?:[-a-z]+\s*){0,2}(italic|oblique))?)(?=(?:(?:[-a-z]+\s*){0,2}(small-caps))?)(?=(?:(?:[-a-z]+\s*){0,2}(bold(?:er)?|lighter|[1-9]00))?)(?:(?:normal|\1|\2|\3)\s*){0,3}((?:xx?-)?(?:small|large)|medium|smaller|larger|[.\d]+(?:\%|in|[cem]m|ex|p[ctx]))(?:\s*\/\s*(normal|[.\d]+(?:\%|in|[cem]m|ex|p[ctx])))?\s*([-,\"\sa-z]+?)\s*$/i;
+        const tokens = regex.exec(font);
+        this._font.style = tokens[1] || 'normal';
+        this._font.variant = tokens[2] || 'normal';
+        this._font.weight = tokens[3] || 'normal';
+        this._font.size.value = tokens[4].match(/\d+/g)[0];
+        this._font.size.units = tokens[4].match(/[a-z]+/g)[0];
+        this._font.line.value = tokens[5].match(/\d+/g)[0];
+        this._font.line.units = tokens[5].match(/[a-z]+/g)[0];
+        this._font.family = tokens[6];
+        return this;
+    } else {
+        return this._font.concatenated;
+    }
+};
+
+/**
+ * Concatenate font parts into font string
+ */
+
+Material.prototype._concatenate_font = function() {
+    this._font.concatenated =
+        this._font.style + ' ' +
+        this._font.variant + ' ' +
+        this._font.weight + ' ' +
+        this._font.size.value +
+        this._font.size.units + '/' +
+        this._font.line.value +
+        this._font.line.units + ' ' +
+        this._font.family;
 };
 
 exports.Material = Material;

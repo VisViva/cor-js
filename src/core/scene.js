@@ -31,6 +31,9 @@ import {
 import {
     Path
 } from "../primitives/path";
+import {
+    Text
+} from "../primitives/text";
 
 /**
  * Scene constructor
@@ -255,6 +258,7 @@ Scene.prototype.factory = function() {
         const _Rect = Rect(scene, _Primitive);
         const _Circle = Circle(scene, _Primitive);
         const _Path = Path(scene, _Primitive);
+        const _Text = Text(scene, _Primitive);
 
         return {
             Node: _Node,
@@ -262,6 +266,7 @@ Scene.prototype.factory = function() {
             Rect: _Rect,
             Circle: _Circle,
             Path: _Path,
+            Text: _Text
         };
     }(this);
 
@@ -279,7 +284,7 @@ Scene.prototype.clear = function() {
      * Apply current primitive's material to the current context
      */
 
-    this._material.style(context);
+    this._material.use(context);
 
     // Clear the context
 

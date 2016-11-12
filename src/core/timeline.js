@@ -7,7 +7,9 @@ import {
 } from '../utils/enums';
 import {
     get_base_name,
-    decompose_color
+    decompose_color,
+    decompose_text,
+    compose_text
 } from '../utils/helper';
 
 /**
@@ -303,49 +305,94 @@ Timeline.prototype.seek = function(time) {
                              * In case the value is of numeric type
                              */
 
-                            case Values.numeric: {
-                                this._objects[objects_keys[objects_keys_index]][node_index][track_key](EasingsFunctions[
-                                    'in_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].ease_out] +
-                                    '_out_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].ease_in]
-                                ](
-                                    time - time_start,
-                                    this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].value,
-                                    this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].value - this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].value,
-                                    time_end - time_start
-                                ));
-                                
-                                break;
-                            }
+                            case Values.numeric:
+                                {
+                                    this._objects[objects_keys[objects_keys_index]][node_index][track_key](EasingsFunctions[
+                                        'in_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].ease_out] +
+                                        '_out_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].ease_in]
+                                    ](
+                                        time - time_start,
+                                        this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].value,
+                                        this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].value - this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].value,
+                                        time_end - time_start
+                                    ));
+
+                                    break;
+                                }
 
                             /**
                              * In case the value is of color type
                              */
 
-                            case Values.color: {
-                                const color_start_decomposed = this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].value;
-                                const color_end_decomposed = this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].value;
-                                let computed_value = [];
+                            case Values.color:
+                                {
+                                    const color_start_decomposed = this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].value;
+                                    const color_end_decomposed = this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].value;
+                                    let computed_value = [];
 
-                                for (let channel_index = 0; channel_index < 4; ++channel_index) {
-                                    computed_value.push(
-                                        EasingsFunctions[
-                                            'in_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].ease_out] +
-                                            '_out_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].ease_in]
-                                        ](
-                                            time - time_start,
-                                            color_start_decomposed[channel_index],
-                                            color_end_decomposed[channel_index] - color_start_decomposed[channel_index],
-                                            time_end - time_start
-                                        )
-                                    );
-                                    if (channel_index < 3) {
-                                        computed_value[channel_index] = Math.floor(computed_value[channel_index]);
+                                    for (let channel_index = 0; channel_index < 4; ++channel_index) {
+                                        computed_value.push(
+                                            EasingsFunctions[
+                                                'in_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].ease_out] +
+                                                '_out_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].ease_in]
+                                            ](
+                                                time - time_start,
+                                                color_start_decomposed[channel_index],
+                                                color_end_decomposed[channel_index] - color_start_decomposed[channel_index],
+                                                time_end - time_start
+                                            )
+                                        );
+                                        if (channel_index < 3) {
+                                            computed_value[channel_index] = Math.floor(computed_value[channel_index]);
+                                        }
                                     }
-                                }
-                                this._objects[objects_keys[objects_keys_index]][node_index][track_key](computed_value);
+                                    this._objects[objects_keys[objects_keys_index]][node_index][track_key](computed_value);
 
-                                break;
-                            }
+                                    break;
+                                }
+
+                            /**
+                             * In case the value is of text type
+                             */
+
+                            case Values.text:
+                                {
+                                  const text_start_decomposed = decompose_text(this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].value);
+                                  const text_end_decomposed = decompose_text(this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].value);
+                                  const maximum_text_length = Math.max(text_start_decomposed.length, text_end_decomposed.length);
+                                  let computed_characters = [];
+
+                                  for (let character_index = 0; character_index < maximum_text_length; ++character_index) {
+                                      computed_characters.push(
+                                          EasingsFunctions[
+                                              'in_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].ease_out] +
+                                              '_out_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].ease_in]
+                                          ](
+                                              time - time_start,
+                                              text_start_decomposed[character_index],
+                                              text_end_decomposed[character_index] - text_start_decomposed[character_index],
+                                              time_end - time_start
+                                          )
+                                      );
+                                      computed_characters[character_index] = Math.floor(computed_characters[character_index]);
+                                  }
+                                  this._objects[objects_keys[objects_keys_index]][node_index][track_key](compose_text(computed_characters));
+
+                                  break;
+                                }
+
+                            /**
+                             * In case the value is of complex type
+                             */
+
+                            case Values.complex:
+                                {
+                                    this._objects[objects_keys[objects_keys_index]][node_index][track_key](
+                                      this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].value
+                                    );
+
+                                    break;
+                                }
                         }
                     }
                 } else {

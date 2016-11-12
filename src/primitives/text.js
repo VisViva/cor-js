@@ -14,19 +14,19 @@ import {
     glmatrix_to_canvas_matrix
 } from "../utils/helper";
 
-exports.Rect = function(_scene, Primitive) {
+exports.Text = function(_scene, Primitive) {
 
     /**
      * Extends the Primitive prototype
      */
 
-    inherit(Rect, Primitive);
+    inherit(Text, Primitive);
 
     /**
      * Rect constructor
      */
 
-    function Rect() {
+    function Text() {
         Primitive.call(this);
 
         /**
@@ -51,67 +51,22 @@ exports.Rect = function(_scene, Primitive) {
         };
 
         /**
-         * Width of the rectangle
+         * Text
          */
 
-        this._width = 0;
-
-        /**
-         * Height of the rectangle
-         */
-
-        this._height = 0;
+        this._text = '';
     };
 
     /**
-     * Get or set the upper left point of the rect
+     * Get or set text
      */
 
-    Rect.prototype.at = function(x, y) {
-        if (x !== undefined && y !== undefined) {
-            this._at.x = x;
-            this._at.y = y;
-            const half_width = this._width >>> 1;
-            this._points[0].x = this._points[2].x = this._at.x - half_width;
-            this._points[1].x = this._points[3].x = this._at.x + half_width;
-            const half_height = this._height >>> 1;
-            this._points[0].y = this._points[1].y = this._at.y + half_height;
-            this._points[2].y = this._points[3].y = this._at.y - half_height;
+    Text.prototype.text = function(text) {
+        if (text) {
+            this._text = text;
             return this;
         } else {
-            return this._at;
-        }
-    };
-
-    /**
-     * Get or set width of the rect and return it
-     */
-
-    Rect.prototype.width = function(width) {
-        if (width) {
-            this._width = width;
-            const half_width = width >>> 1;
-            this._points[0].x = this._points[2].x = this._at.x - half_width;
-            this._points[1].x = this._points[3].x = this._at.x + half_width;
-            return this;
-        } else {
-            return this._width;
-        }
-    };
-
-    /**
-     * Get or set height of the rect and return it
-     */
-
-    Rect.prototype.height = function(height) {
-        if (height) {
-            this._height = height;
-            const half_height = height >>> 1;
-            this._points[0].y = this._points[1].y = this._at.y + half_height;
-            this._points[2].y = this._points[3].y = this._at.y - half_height;
-            return this;
-        } else {
-            return this._height;
+            return this._text;
         }
     };
 
@@ -119,7 +74,18 @@ exports.Rect = function(_scene, Primitive) {
      * Get the bounding box of the current node only
      */
 
-    Rect.prototype.bboxOwn = function() {
+    Text.prototype.bboxOwn = function() {
+
+        /**
+         * Update point array to reflect the latest context state
+         */
+
+        const half_width = _scene._context.measureText(this._text).width >>> 1;
+        this._points[0].x = this._points[2].x = this._at.x - half_width;
+        this._points[1].x = this._points[3].x = this._at.x + half_width;
+        const half_height = Math.max(this._material.line() >>> 1, this._material.size() >>> 1);
+        this._points[0].y = this._points[1].y = this._at.y - half_height;
+        this._points[2].y = this._points[3].y = this._at.y + half_height;
 
         /**
          * Transformed points
@@ -151,7 +117,7 @@ exports.Rect = function(_scene, Primitive) {
      * Render the current rect
      */
 
-    Rect.prototype.render = function() {
+    Text.prototype.render = function() {
         let context = _scene.context();
 
         /**
@@ -177,14 +143,14 @@ exports.Rect = function(_scene, Primitive) {
              */
 
             this._material._fill.enabled &&
-                context.fillRect(this._points[0].x, -this._points[0].y, this.width(), this.height());
+                context.fillText(this._text, this._points[0].x, -this._points[0].y);
 
             /**
              * Stroke the stroke
              */
 
             this._material._stroke.enabled &&
-                context.strokeRect(this._points[0].x, -this._points[0].y, this.width(), this.height());
+                context.strokeText(this._text, this._points[0].x, -this._points[0].y);
         }
 
         /**
@@ -202,5 +168,5 @@ exports.Rect = function(_scene, Primitive) {
         }
     };
 
-    return Rect;
+    return Text;
 };
