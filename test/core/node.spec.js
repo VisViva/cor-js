@@ -203,6 +203,13 @@ describe('Node tests', () => {
             expect(nodeC.linked(nodeB)).to.be.equal(true);
             expect(nodeC.linked(nodeC)).to.be.equal(true);
         });
+
+        it('Unlinks children correctly', () => {
+            expect(nodeA.append(nodeB, nodeC)).to.be.equal(nodeA);
+            expect(nodeA.children().array().length).to.be.equal(2);
+            expect(nodeA.filicide()).to.be.equal(nodeA);
+            expect(nodeA.children().array().length).to.be.equal(0);
+        });
     });
 
     describe('Reaching dirty nodes', () => {
