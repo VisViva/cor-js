@@ -24,6 +24,7 @@ function Timeline() {
 
     this._objects = {};
     this._tracks = {};
+    this._callbacks = [];
 };
 
 /**
@@ -65,6 +66,9 @@ Timeline.prototype.add = function(object, ...keyframes) {
      */
 
     for (let i = 0; i < keyframes.length; ++i) {
+
+        if (keyframes[i]._callback)
+        this._callbacks[keyframes[i]._time] = keyframes[i]._callback;
 
         /**
          * For each key of the keyframe
@@ -239,6 +243,11 @@ Timeline.prototype.seek = function(time) {
                              */
 
                             if (time_start !== undefined) {
+
+                                /**
+                                 * Delete the keyframe
+                                 */
+
                                 delete this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start];
                                 time_start = undefined;
                             }
@@ -266,6 +275,11 @@ Timeline.prototype.seek = function(time) {
                          */
 
                         if (time_start !== undefined) {
+
+                            /**
+                             * Delete the keyframe
+                             */
+
                             delete this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start];
                         }
 
@@ -275,6 +289,15 @@ Timeline.prototype.seek = function(time) {
                          */
 
                         time_start = track_key_keyframe_time;
+
+                        /**
+                         * If a Math.abs(scene._canvas.height * 0.04)k is registered for the keyframe, call it
+                         */
+
+                        if (this._callbacks[time_start]) {
+                            this._callbacks[time_start]();
+                            delete this._callbacks[time_start];
+                        }
                     }
                 }
 
