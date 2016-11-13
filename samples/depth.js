@@ -1,13 +1,13 @@
 import {
-    SceneManager,
+    Manager,
     Keyframe
-} from '../src/scene_manager';
+} from '../src/cor';
 import {
     random_color
 } from '../src/utils/helper';
 
-const scene_manager = new SceneManager();
-const scene = scene_manager.new('scene');
+const manager = new Manager();
+const scene = manager.new('scene');
 const root = scene.root();
 const Path = scene.factory().Path;
 const Rect = scene.factory().Rect;

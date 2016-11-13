@@ -4,9 +4,6 @@ var glMatrix = require('gl-matrix');
 var vec2 = glMatrix.vec2;
 
 import {
-    Selection
-} from '../core/selection';
-import {
     BBox
 } from '../core/bbox';
 import {

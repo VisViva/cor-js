@@ -25,7 +25,7 @@ describe('Primitive tests', () => {
 
         it('Executes parent constructor correctly', () => {
             expect(primitive.parent()).to.be.equal(null);
-            expect(primitive.children().array().length).to.be.equal(0);
+            expect(primitive.children().length).to.be.equal(0);
             expect(primitive.pivot().x).to.be.equal(0);
             expect(primitive.pivot().y).to.be.equal(0);
             expect(primitive.translate().x).to.be.equal(0);

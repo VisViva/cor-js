@@ -1,15 +1,15 @@
 import {
-    SceneManager,
+    Manager,
     Material
-} from '../src/scene_manager';
+} from '../src/cor';
 import {
     random_color
 } from '../src/utils/helper';
 
-const scene_manager = new SceneManager();
+const manager = new Manager();
 
 ! function chart() {
-    const scene = scene_manager.new('scene');
+    const scene = manager.new('scene');
     const root = scene.root();
     const Node = scene.factory().Node;
     const Path = scene.factory().Path;

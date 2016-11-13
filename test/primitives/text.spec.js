@@ -87,19 +87,19 @@ describe('text tests', () => {
         it('Appends children one by one', () => {
             expect(text.append(nodeB)).to.be.equal(text);
             expect(nodeB.append(nodeC)).to.be.equal(nodeB);
-            expect(text.children().first()).to.be.equal(nodeB);
-            expect(text.children().last()).to.be.equal(nodeB);
-            expect(text.children().array().length).to.be.equal(1);
-            expect(nodeB.children().first()).to.be.equal(nodeC);
-            expect(nodeB.children().last()).to.be.equal(nodeC);
-            expect(nodeB.children().array().length).to.be.equal(1);
+            expect(text.children()[0]).to.be.equal(nodeB);
+            expect(text.children()[text.children().length - 1]).to.be.equal(nodeB);
+            expect(text.children().length).to.be.equal(1);
+            expect(nodeB.children()[0]).to.be.equal(nodeC);
+            expect(nodeB.children()[nodeB.children().length - 1]).to.be.equal(nodeC);
+            expect(nodeB.children().length).to.be.equal(1);
         });
 
         it('Appends multiple children', () => {
             expect(text.append(nodeB, nodeC)).to.be.equal(text);
-            expect(text.children().first()).to.be.equal(nodeB);
-            expect(text.children().last()).to.be.equal(nodeC);
-            expect(text.children().array().length).to.be.equal(2);
+            expect(text.children()[0]).to.be.equal(nodeB);
+            expect(text.children()[text.children().length - 1]).to.be.equal(nodeC);
+            expect(text.children().length).to.be.equal(2);
         });
 
         it('Sets parent node cortextly', () => {

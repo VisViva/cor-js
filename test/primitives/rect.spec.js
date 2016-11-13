@@ -93,19 +93,19 @@ describe('Rect tests', () => {
         it('Appends children one by one', () => {
             expect(rect.append(nodeB)).to.be.equal(rect);
             expect(nodeB.append(nodeC)).to.be.equal(nodeB);
-            expect(rect.children().first()).to.be.equal(nodeB);
-            expect(rect.children().last()).to.be.equal(nodeB);
-            expect(rect.children().array().length).to.be.equal(1);
-            expect(nodeB.children().first()).to.be.equal(nodeC);
-            expect(nodeB.children().last()).to.be.equal(nodeC);
-            expect(nodeB.children().array().length).to.be.equal(1);
+            expect(rect.children()[0]).to.be.equal(nodeB);
+            expect(rect.children()[rect.children().length - 1]).to.be.equal(nodeB);
+            expect(rect.children().length).to.be.equal(1);
+            expect(nodeB.children()[0]).to.be.equal(nodeC);
+            expect(nodeB.children()[nodeB.children().length - 1]).to.be.equal(nodeC);
+            expect(nodeB.children().length).to.be.equal(1);
         });
 
         it('Appends multiple children', () => {
             expect(rect.append(nodeB, nodeC)).to.be.equal(rect);
-            expect(rect.children().first()).to.be.equal(nodeB);
-            expect(rect.children().last()).to.be.equal(nodeC);
-            expect(rect.children().array().length).to.be.equal(2);
+            expect(rect.children()[0]).to.be.equal(nodeB);
+            expect(rect.children()[rect.children().length - 1]).to.be.equal(nodeC);
+            expect(rect.children().length).to.be.equal(2);
         });
 
         it('Sets parent node correctly', () => {

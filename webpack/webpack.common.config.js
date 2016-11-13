@@ -4,9 +4,9 @@ module.exports = {
     context: root + "/src",
     output: {
         path: root + "/dist",
-        filename: "core.js",
+        filename: "cor.js",
         libraryTarget: "var",
-        library: "core"
+        library: "Cor"
     },
     module: {
         loaders: [{

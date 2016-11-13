@@ -5,9 +5,6 @@ const vec2 = glMatrix.vec2;
 const mat3 = glMatrix.mat3;
 
 import {
-    Selection
-} from '../core/selection';
-import {
     BBox
 } from '../core/bbox';
 import {
@@ -303,7 +300,7 @@ exports.Node = function(_scene) {
         for (let i = 0; i < this._children.length; ++i) {
             children.push(this._children[i]);
         }
-        return new Selection(...children);
+        return children;
     };
 
     /**
@@ -369,14 +366,14 @@ exports.Node = function(_scene) {
 
     Node.prototype.reachDirty = function() {
         if (this._dirty === true) {
-            return new Selection(this);
+            return [this];
         } else {
-            let dirtyNodes = new Selection();
+            const dirty = [];
             for (let i = 0; i < this._children.length; ++i) {
-                let dirtyChildNodes = this._children[i].reachDirty().array();
-                dirtyChildNodes.length > 0 && dirtyNodes.add(...dirtyChildNodes);
+                const dirtyChildren = this._children[i].reachDirty();
+                dirtyChildren.length > 0 && dirty.push(...dirtyChildren);
             }
-            return dirtyNodes;
+            return dirty;
         }
     };
 

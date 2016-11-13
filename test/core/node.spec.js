@@ -29,7 +29,7 @@ describe('Node tests', () => {
 
         it('Constructs correctly', () => {
             expect(node.parent()).to.be.equal(null);
-            expect(node.children().array().length).to.be.equal(0);
+            expect(node.children().length).to.be.equal(0);
             expect(node.pivot().x).to.be.equal(0);
             expect(node.pivot().y).to.be.equal(0);
             expect(node.translate().x).to.be.equal(0);
@@ -154,19 +154,19 @@ describe('Node tests', () => {
         it('Appends children one by one', () => {
             expect(nodeA.append(nodeB)).to.be.equal(nodeA);
             expect(nodeB.append(nodeC)).to.be.equal(nodeB);
-            expect(nodeA.children().first()).to.be.equal(nodeB);
-            expect(nodeA.children().last()).to.be.equal(nodeB);
-            expect(nodeA.children().array().length).to.be.equal(1);
-            expect(nodeB.children().first()).to.be.equal(nodeC);
-            expect(nodeB.children().last()).to.be.equal(nodeC);
-            expect(nodeB.children().array().length).to.be.equal(1);
+            expect(nodeA.children()[0]).to.be.equal(nodeB);
+            expect(nodeA.children()[nodeA.children().length - 1]).to.be.equal(nodeB);
+            expect(nodeA.children().length).to.be.equal(1);
+            expect(nodeB.children()[0]).to.be.equal(nodeC);
+            expect(nodeB.children()[nodeB.children().length - 1]).to.be.equal(nodeC);
+            expect(nodeB.children().length).to.be.equal(1);
         });
 
         it('Appends multiple children', () => {
             expect(nodeA.append(nodeB, nodeC)).to.be.equal(nodeA);
-            expect(nodeA.children().first()).to.be.equal(nodeB);
-            expect(nodeA.children().last()).to.be.equal(nodeC);
-            expect(nodeA.children().array().length).to.be.equal(2);
+            expect(nodeA.children()[0]).to.be.equal(nodeB);
+            expect(nodeA.children()[nodeA.children().length - 1]).to.be.equal(nodeC);
+            expect(nodeA.children().length).to.be.equal(2);
         });
 
         it('Sets parent node correctly', () => {
@@ -206,9 +206,9 @@ describe('Node tests', () => {
 
         it('Unlinks children correctly', () => {
             expect(nodeA.append(nodeB, nodeC)).to.be.equal(nodeA);
-            expect(nodeA.children().array().length).to.be.equal(2);
+            expect(nodeA.children().length).to.be.equal(2);
             expect(nodeA.filicide()).to.be.equal(nodeA);
-            expect(nodeA.children().array().length).to.be.equal(0);
+            expect(nodeA.children().length).to.be.equal(0);
         });
     });
 
@@ -234,9 +234,9 @@ describe('Node tests', () => {
             expect(nodeB.dirty()).to.be.equal(true);
             expect(nodeC.dirty()).to.be.equal(true);
             let dirtyNodesSelection = nodeA.reachDirty();
-            expect(dirtyNodesSelection.array().length).to.be.equal(1);
-            expect(dirtyNodesSelection.first().translate().x).to.be.equal(10);
-            expect(dirtyNodesSelection.first().translate().y).to.be.equal(20);
+            expect(dirtyNodesSelection.length).to.be.equal(1);
+            expect(dirtyNodesSelection[0].translate().x).to.be.equal(10);
+            expect(dirtyNodesSelection[0].translate().y).to.be.equal(20);
         });
 
         it('Reaches only the closest dirty node when the nodes are chained', () => {
@@ -250,9 +250,9 @@ describe('Node tests', () => {
             expect(nodeB.dirty()).to.be.equal(true);
             expect(nodeC.dirty()).to.be.equal(true);
             let dirtyNodesSelection = nodeA.reachDirty();
-            expect(dirtyNodesSelection.array().length).to.be.equal(1);
-            expect(dirtyNodesSelection.first().translate().x).to.be.equal(10);
-            expect(dirtyNodesSelection.first().translate().y).to.be.equal(20);
+            expect(dirtyNodesSelection.length).to.be.equal(1);
+            expect(dirtyNodesSelection[0].translate().x).to.be.equal(10);
+            expect(dirtyNodesSelection[0].translate().y).to.be.equal(20);
         });
 
         it('Reaches all of closest dirty node when they are siblings', () => {
@@ -266,11 +266,11 @@ describe('Node tests', () => {
             expect(nodeB.dirty()).to.be.equal(true);
             expect(nodeC.dirty()).to.be.equal(true);
             let dirtyNodesSelection = nodeA.reachDirty();
-            expect(dirtyNodesSelection.array().length).to.be.equal(2);
-            expect(dirtyNodesSelection.first().translate().x).to.be.equal(10);
-            expect(dirtyNodesSelection.first().translate().y).to.be.equal(20);
-            expect(dirtyNodesSelection.last().translate().x).to.be.equal(30);
-            expect(dirtyNodesSelection.last().translate().y).to.be.equal(40);
+            expect(dirtyNodesSelection.length).to.be.equal(2);
+            expect(dirtyNodesSelection[0].translate().x).to.be.equal(10);
+            expect(dirtyNodesSelection[0].translate().y).to.be.equal(20);
+            expect(dirtyNodesSelection[dirtyNodesSelection.length - 1].translate().x).to.be.equal(30);
+            expect(dirtyNodesSelection[dirtyNodesSelection.length - 1].translate().y).to.be.equal(40);
         });
     });
 

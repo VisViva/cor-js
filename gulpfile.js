@@ -10,7 +10,7 @@ var inject = require('gulp-inject-string');
  */
 
 gulp.task('uglify', function() {
-    return gulp.src('./dist/core.js')
+    return gulp.src('./dist/cor.js')
         .pipe(rename(function(path) {
             path.basename += ".min";
         }))

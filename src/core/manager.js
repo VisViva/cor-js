@@ -2,28 +2,13 @@
 
 import {
     Scene
-} from './core/scene';
-import {
-    Selection
-} from './core/selection';
-import {
-    BBox
-} from './core/bbox';
-import {
-    Material
-} from './core/material';
-import {
-    Keyframe
-} from './core/keyframe';
-import {
-    Easings
-} from './utils/enums';
+} from './scene';
 
 /**
  * Scene manager constructor
  */
 
-function SceneManager(...elements) {
+function Manager(...elements) {
     this._scenes = [];
 };
 
@@ -31,7 +16,7 @@ function SceneManager(...elements) {
  * Create new scene
  */
 
-SceneManager.prototype.new = function(name, width, height) {
+Manager.prototype.new = function(name, width, height) {
 
     /**
      * Check if a scene with the supplied name already exists
@@ -54,7 +39,7 @@ SceneManager.prototype.new = function(name, width, height) {
  * List available scenes
  */
 
-SceneManager.prototype.scenes = function() {
+Manager.prototype.scenes = function() {
     return this._scenes.slice();
 };
 
@@ -62,14 +47,11 @@ SceneManager.prototype.scenes = function() {
  * Render available scenes
  */
 
-SceneManager.prototype.render = function() {
+Manager.prototype.render = function() {
     for (let i = 0; i < this._scenes.length; ++i) {
         this._scenes[i].render();
     }
     return this;
 };
 
-exports.SceneManager = SceneManager;
-exports.Material = Material;
-exports.Keyframe = Keyframe;
-exports.Easings = Easings;
+exports.Manager = Manager;

@@ -29,6 +29,12 @@ function Material() {
     this._font;
 
     /**
+     * Text parameters
+     */
+
+    this._text;
+
+    /**
      * Reset the material
      */
 
@@ -80,6 +86,15 @@ Material.prototype.reset = function() {
         concatenated: 'normal normal normal 48px/48px sans-serif'
     };
 
+    /**
+     * Reset the text parameters
+     */
+
+    this._text = {
+        align: 'center',
+        baseline: 'middle'
+    };
+
     return this;
 };
 
@@ -119,6 +134,18 @@ Material.prototype.use = function(context) {
 
     if (context.font !== this._font.concatenated) {
         context.font = this._font.concatenated;
+    }
+
+    /**
+     * Apply text
+     */
+
+    if (context.textAlign !== this._text.align) {
+        context.textAlign = this._text.align;
+    }
+
+    if (context.textBaseline !== this._text.baseline) {
+        context.textBaseline = this._text.baseline;
     }
 
     return this;
@@ -347,6 +374,32 @@ Material.prototype.font = function(font) {
         return this;
     } else {
         return this._font.concatenated;
+    }
+};
+
+/**
+ * Get or set the text align
+ */
+
+Material.prototype.align = function(align) {
+    if (align !== undefined) {
+        this._text._align = align;
+        return this;
+    } else {
+        return this._text._align;
+    }
+};
+
+/**
+ * Get or set the text baseline
+ */
+
+Material.prototype.baseline = function(baseline) {
+    if (baseline !== undefined) {
+        this._text._baseline = baseline;
+        return this;
+    } else {
+        return this._text._baseline;
     }
 };
 

@@ -117,4 +117,22 @@ describe('Material tests', () => {
             expect(material.font()).to.be.equal('normal normal bold 48px/48px sans-serif');
         });
     });
+
+    describe('Text setting behavior', () => {
+        let material;
+
+        beforeEach(function() {
+            material = new Material();
+        });
+
+        it('Sets text align correctly', () => {
+            expect(material.align('left')).to.be.equal(material);
+            expect(material.align()).to.be.equal('left');
+        });
+
+        it('Sets text baseline correctly', () => {
+            expect(material.baseline('bottom')).to.be.equal(material);
+            expect(material.baseline()).to.be.equal('bottom');
+        });
+    });
 });

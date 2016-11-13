@@ -4,9 +4,6 @@ var glMatrix = require('gl-matrix');
 var vec2 = glMatrix.vec2;
 
 import {
-    Selection
-} from '../core/selection';
-import {
     BBox
 } from '../core/bbox';
 import {
@@ -101,7 +98,7 @@ exports.Text = function(_scene, Primitive) {
         const transformed3DVector = vec2.create();
 
         for (let i = 0; i < this._points.length; ++i) {
-            vec2.transformMat3(transformed3DVector, vec2.fromValues(this._points[i].x, - this._points[i].y), this._matrix_cascaded);
+            vec2.transformMat3(transformed3DVector, vec2.fromValues(this._points[i].x, -this._points[i].y), this._matrix_cascaded);
             xValues.push(transformed3DVector[0]);
             yValues.push(transformed3DVector[1]);
         }
@@ -133,17 +130,6 @@ exports.Text = function(_scene, Primitive) {
             this._material.use(context);
 
             /**
-             * Update point array to reflect the latest context state
-             */
-
-            const half_width = _scene._context.measureText(this._text).width >>> 1;
-            this._points[0].x = this._points[2].x = this._at.x - half_width;
-            this._points[1].x = this._points[3].x = this._at.x + half_width;
-            const half_height = Math.max(this._material.line(), this._material.size()) >>> 1;
-            this._points[0].y = this._points[1].y = this._at.y - half_height;
-            this._points[2].y = this._points[3].y = this._at.y + half_height;
-
-            /**
              * Setup transformations and render
              */
 
@@ -154,14 +140,14 @@ exports.Text = function(_scene, Primitive) {
              */
 
             this._material._fill.enabled &&
-                context.fillText(this._text, this._points[0].x, -this._points[0].y);
+                context.fillText(this._text, this._at.x, -this._at.y);
 
             /**
              * Stroke the stroke
              */
 
             this._material._stroke.enabled &&
-                context.strokeText(this._text, this._points[0].x, -this._points[0].y);
+                context.strokeText(this._text, this._at.x, -this._at.y);
         }
 
         /**

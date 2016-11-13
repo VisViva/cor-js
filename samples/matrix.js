@@ -1,16 +1,16 @@
 import {
-    SceneManager,
+    Manager,
     Material,
     Keyframe,
     Easings
-} from '../src/scene_manager';
+} from '../src/cor';
 import {
     random_color,
-    get_random_character
+    random_character
 } from '../src/utils/helper';
 
-const scene_manager = new SceneManager();
-const scene = scene_manager.new('scene');
+const manager = new Manager();
+const scene = manager.new('scene');
 const root = scene.root();
 const Text = scene.factory().Text;
 const Rect = scene.factory().Rect;
@@ -50,33 +50,33 @@ for (let i = -10; i < 11; ++i) {
         scene.timeline().add(
             text,
             new Keyframe()
-            .text(get_random_character())
+            .text(random_character())
             .rotate(0)
             .scale(1, 1)
             .translate(100 * random, 100 * jrandom),
             new Keyframe()
             .time(100 * (Math.abs(ij)))
-            .text(get_random_character())
+            .text(random_character())
             .scale(random * 2, random * 2, Easings.elastic, Easings.linear)
             .rotate(5 * i, Easings.elastic, Easings.linear),
             new Keyframe()
             .time(150 * (Math.abs(ij)))
-            .text(get_random_character())
+            .text(random_character())
             .scale(random * 3, random * 3, Easings.elastic, Easings.linear)
             .rotate(jrandom * 10, Easings.elastic, Easings.linear),
             new Keyframe()
             .time(200 * (Math.abs(ij)))
-            .text(get_random_character())
+            .text(random_character())
             .scale(random * 4, random * 4, Easings.elastic, Easings.linear)
             .rotate(irandom * 15, Easings.elastic, Easings.linear)
             .translate(200 * i, 200 * j, Easings.elastic, Easings.linear),
             new Keyframe()
             .time(250 * (Math.abs(ij)))
-            .text(get_random_character())
+            .text(random_character())
             .rotate(irandom, Easings.elastic, Easings.linear),
             new Keyframe()
             .time(50000)
-            .text(get_random_character())
+            .text(random_character())
             .translate(500 * irandom, 500 * jrandom, Easings.elastic, Easings.linear)
             .rotate(jrandom * 10, Easings.elastic, Easings.linear)
         );

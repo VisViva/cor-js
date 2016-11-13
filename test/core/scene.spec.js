@@ -47,7 +47,7 @@ describe('Scene tests', () => {
         it('Constructs the root node correctly', () => {
             expect(scene.root()).to.exist;
             expect(scene.root().parent()).to.be.equal(null);
-            expect(scene.root().children().array().length).to.be.equal(0);
+            expect(scene.root().children().length).to.be.equal(0);
             expect(scene.root().translate().x).to.be.equal(scene._canvas.width >>> 1);
             expect(scene.root().translate().y).to.be.equal(-scene._canvas.height / 2);
             expect(scene.root().rotate()).to.be.equal(0);

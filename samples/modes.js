@@ -1,13 +1,13 @@
 import {
-    SceneManager,
+    Manager,
     Keyframe
-} from '../src/scene_manager';
+} from '../src/cor';
 import {
     random_color
 } from '../src/utils/helper';
 
-const scene_manager = new SceneManager();
-const scenea = scene_manager.new('scene', window.innerWidth / 3, window.innerHeight);
+const manager = new Manager();
+const scenea = manager.new('scene', window.innerWidth / 3, window.innerHeight);
 const roota = scenea.root();
 const PathA = scenea.factory().Path;
 const RectA = scenea.factory().Rect;
@@ -73,7 +73,7 @@ setInterval(() => {
 }, 2000);
 
 
-const sceneb = scene_manager.new('sceneb', window.innerWidth / 3, window.innerHeight);
+const sceneb = manager.new('sceneb', window.innerWidth / 3, window.innerHeight);
 const rootb = sceneb.root();
 const PathB = sceneb.factory().Path;
 const RectB = sceneb.factory().Rect;
@@ -120,7 +120,7 @@ sceneb.timeline().add(
 
 sceneb.start();
 
-const scenec = scene_manager.new('scenec', window.innerWidth / 3, window.innerHeight);
+const scenec = manager.new('scenec', window.innerWidth / 3, window.innerHeight);
 const rootc = scenec.root();
 const PathC = scenec.factory().Path;
 const RectC = scenec.factory().Rect;

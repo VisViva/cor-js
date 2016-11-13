@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const webpack_shell_plugin = require('webpack-shell-plugin');
 const common = require('./webpack.common.config.js');
 
-common.entry = "./scene_manager.js";
+common.entry = "./cor.js";
 
 common.preLoaders = [{
     test: /\.js$/,

@@ -337,11 +337,10 @@ Scene.prototype.render = function() {
 
     // Detect dirty nodes and cascade their transformations
 
-    this.root().reachDirty().iterate(
-        element => {
-            element.cascade();
-        }
-    );
+    const dirty = this.root().reachDirty();
+    for (let i = 0; i < dirty.length; ++i) {
+        dirty[i].cascade();
+    }
 
     // Clear the context
 

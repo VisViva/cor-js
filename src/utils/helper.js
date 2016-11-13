@@ -55,7 +55,7 @@ export function random_color() {
  * Get base prototype
  */
 
-export function get_base_name(object) {
+export function base_name(object) {
     object = object.__proto__.constructor;
     while (object.prototype.__proto__.constructor.name !== 'Object') {
         object = object.prototype.__proto__.constructor;
@@ -103,6 +103,6 @@ export function compose_text(characters) {
  * Get a random unicode character
  */
 
-export function get_random_character() {
+export function random_character() {
     return String.fromCharCode(0x30A0 + Math.random() * (0x30FF-0x30A0+1));
 }

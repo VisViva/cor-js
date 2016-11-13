@@ -14,7 +14,7 @@ function DepthBuffer() {
  */
 
 DepthBuffer.prototype.append = function(primitive) {
-    let children = primitive.children().array();
+    let children = primitive.children();
     for (let i = 0; i < children.length; ++i) {
         this.append(children[i]);
     }
