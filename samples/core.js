@@ -49,33 +49,33 @@ for (let row_index = -COLUMN_COUNT_HALF; row_index < COLUMN_COUNT_HALF + 1; ++ro
             text_keyframes.push(new Keyframe().time(5000).translateY(- scene._canvas.height / 2 + column_index * VERTICAL_SPACING - scene._canvas.height * 0.893, Easings.cubic, Easings.linear));
             if ((row_index === -2) && (column_index === ROW_COUNT / 2)) {
                 material_keyframes.push(new Keyframe().time(6000).fill([255, 255, 0, 0.8]));
-                text_keyframes.push(new Keyframe().time(6700).text('C'));
+                text_keyframes.push(new Keyframe().time(6700).text('C').notify(() => console.log('C')));
                 material_keyframes.push(new Keyframe().time(7500).fill([0, 255, 0, 1]));
                 material_keyframes.push(new Keyframe().time(15000).fill([0, 0, 0, 0]));
             }
             if ((row_index === -1) && (column_index === ROW_COUNT / 2)) {
                 material_keyframes.push(new Keyframe().time(6000).fill([255, 255, 0, 0.8]));
-                text_keyframes.push(new Keyframe().time(6900).text('O'));
+                text_keyframes.push(new Keyframe().time(6900).text('O').notify(() => console.log('o')));
                 material_keyframes.push(new Keyframe().time(7500).fill([0, 255, 0, 1]));
                 material_keyframes.push(new Keyframe().time(15000).fill([0, 0, 0, 0]));
             }
             if ((row_index === 0) && (column_index === ROW_COUNT / 2)) {
                 material_keyframes.push(new Keyframe().time(6000).fill([255, 255, 0, 0.8]));
-                text_keyframes.push(new Keyframe().time(7100).text('R'));
+                text_keyframes.push(new Keyframe().time(7100).text('R').notify(() => console.log('r')));
                 material_keyframes.push(new Keyframe().time(7500).fill([0, 255, 0, 1]));
                 material_keyframes.push(new Keyframe().time(15000).fill([0, 0, 0, 0]));
             }
             if ((row_index === 1) && (column_index === ROW_COUNT / 2)) {
                 text.scale(0.7, 0.7).at(HORIZONTAL_SPACING/5, -VERTICAL_SPACING/8);
                 material_keyframes.push(new Keyframe().time(6000).fill([255, 255, 0, 0.8]));
-                text_keyframes.push(new Keyframe().time(7300).text('j'));
+                text_keyframes.push(new Keyframe().time(7300).text('j').notify(() => console.log('j')));
                 material_keyframes.push(new Keyframe().time(7500).fill([0, 255, 0, 1]));
                 material_keyframes.push(new Keyframe().time(15000).fill([0, 0, 0, 0]));
             }
             if ((row_index === 2) && (column_index === ROW_COUNT / 2)) {
                 text.scale(0.7, 0.7).at(HORIZONTAL_SPACING/5, -VERTICAL_SPACING/8);
                 material_keyframes.push(new Keyframe().time(6000).fill([255, 255, 0, 0.8]));
-                text_keyframes.push(new Keyframe().time(7000).text('s'));
+                text_keyframes.push(new Keyframe().time(7500).text('s').notify(() => console.log('s')));
                 material_keyframes.push(new Keyframe().time(7500).fill([0, 255, 0, 1]));
                 material_keyframes.push(new Keyframe().time(15000).fill([0, 0, 0, 0]));
             }
@@ -94,14 +94,14 @@ scene.timeline().add(
 );
 scene.timeline().add(
     material,
-    new Keyframe().stroke([255, 255, 0, 0]),
+    new Keyframe().stroke([255, 255, 0, 0]).notify(() => console.log('---> Start 1')),
     new Keyframe().time(4000).stroke([255, 255, 0, 0]).width(0.001, Easings.linear, Easings.cubic),
-    new Keyframe().time(7000).stroke([0, 255, 0, 1]).width(2, Easings.cubic, Easings.cubic),
-    new Keyframe().time(15000).stroke([0, 0, 0, 0])
+    new Keyframe().time(7000).stroke([0, 255, 0, 1]).width(2, Easings.cubic, Easings.cubic).notify(() => console.log('---> Fade out')),
+    new Keyframe().time(15000).stroke([0, 0, 0, 0]).notify(() => console.log('---> End'))
 );
 scene.timeline().add(
     root,
-    new Keyframe().scale(0, 0),
+    new Keyframe().scale(0, 0).notify(() => console.log('---> Start 2')),
     new Keyframe().time(1000).scale(1, 1, Easings.quad, Easings.quad),
     new Keyframe().time(6500).scale(2, 2, Easings.quad, Easings.quad)
 );

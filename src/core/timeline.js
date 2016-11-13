@@ -67,8 +67,10 @@ Timeline.prototype.add = function(object, ...keyframes) {
 
     for (let i = 0; i < keyframes.length; ++i) {
 
-        if (keyframes[i]._callback)
-        this._callbacks[keyframes[i]._time] = keyframes[i]._callback;
+        if (keyframes[i]._callback) {
+            this._callbacks[keyframes[i]._time] = this._callbacks[keyframes[i]._time] || [];
+            this._callbacks[keyframes[i]._time].push(keyframes[i]._callback);
+        }
 
         /**
          * For each key of the keyframe
@@ -245,6 +247,17 @@ Timeline.prototype.seek = function(time) {
                             if (time_start !== undefined) {
 
                                 /**
+                                 * If there are callbacks registered for the keyframe, call them
+                                 */
+
+                                if (this._callbacks[time_start]) {
+                                    for (let callback_index = 0; callback_index < this._callbacks[time_start].length; ++callback_index) {
+                                        this._callbacks[time_start][callback_index]();
+                                    }
+                                    delete this._callbacks[time_start];
+                                }
+
+                                /**
                                  * Delete the keyframe
                                  */
 
@@ -291,11 +304,13 @@ Timeline.prototype.seek = function(time) {
                         time_start = track_key_keyframe_time;
 
                         /**
-                         * If a Math.abs(scene._canvas.height * 0.04)k is registered for the keyframe, call it
+                         * If there are callbacks registered for the keyframe, call them
                          */
 
                         if (this._callbacks[time_start]) {
-                            this._callbacks[time_start]();
+                            for (let callback_index = 0; callback_index < this._callbacks[time_start].length; ++callback_index) {
+                                this._callbacks[time_start][callback_index]();
+                            }
                             delete this._callbacks[time_start];
                         }
                     }
