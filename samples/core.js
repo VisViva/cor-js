@@ -14,7 +14,7 @@ const scene = scene_manager.new('scene').fps(60);
 const Text = scene.factory().Text;
 const Rect = scene.factory().Rect;
 const root = scene.root().pivot(0, scene._canvas.height).translate(scene._canvas.width / 2, scene._canvas.height / 2);
-const COLUMN_COUNT_HALF = 25;
+const COLUMN_COUNT_HALF = 40;
 const ROW_COUNT = 20;
 const HORIZONTAL_SPACING = scene._canvas.width / COLUMN_COUNT_HALF - scene._canvas.width / 100;
 const VERTICAL_SPACING = Math.abs(scene._canvas.height * 0.04);
@@ -24,14 +24,16 @@ window.addEventListener('resize', function(event) {
     root.translate(scene._canvas.width / 2, scene._canvas.height / 2);
 });
 
+const string = 'CORJS';
+
 for (let row_index = -COLUMN_COUNT_HALF; row_index < COLUMN_COUNT_HALF + 1; ++row_index) {
     for (let column_index = 1; column_index < ROW_COUNT; ++column_index) {
         const text = new Text();
         const random = Math.random();
         const text_keyframes = [];
         const material_keyframes = [];
-        const material = new Material().filled(true).stroked(true).size(20).line(20).width(0.1);
-        text.scale(0.5 + random * 0.5, 0.5 + random * 0.5).material(material);
+        const material = new Material().filled(true).stroked(true).size(20).line(20).width(0.1).family('monospace');
+        text.scale(0.3 + random * 0.7, 0.3 + random * 0.7).material(material);
         root.append(text);
         for (let keyframe_index = 0; keyframe_index < 5 + Math.random() * 2; ++keyframe_index) {
             text_keyframes.push(new Keyframe().time(keyframe_index * 1000).text(get_random_character()));
@@ -44,40 +46,16 @@ for (let row_index = -COLUMN_COUNT_HALF; row_index < COLUMN_COUNT_HALF + 1; ++ro
             text_keyframes.push(new Keyframe().time(15000).translateY(- scene._canvas.height / 2 - column_index * random * 20 * VERTICAL_SPACING - 1000));
         } else {
             text.scale(1, 1);
-            material_keyframes.push(new Keyframe().time(6000).fill([255, 255, 0, 0]).stroke([255, 255, 0, 0]));
             text_keyframes.push(new Keyframe().translateX(row_index * HORIZONTAL_SPACING).translateY(- scene._canvas.height / 2 + column_index * VERTICAL_SPACING + random * 500));
             text_keyframes.push(new Keyframe().time(5000).translateY(- scene._canvas.height / 2 + column_index * VERTICAL_SPACING - scene._canvas.height * 0.893, Easings.cubic, Easings.linear));
-            if ((row_index === -2) && (column_index === ROW_COUNT / 2)) {
-                material_keyframes.push(new Keyframe().time(6000).fill([255, 255, 0, 0.8]));
-                text_keyframes.push(new Keyframe().time(6700).text('C').notify(() => console.log('C')));
-                material_keyframes.push(new Keyframe().time(7500).fill([0, 255, 0, 1]));
-                material_keyframes.push(new Keyframe().time(15000).fill([0, 0, 0, 0]));
-            }
-            if ((row_index === -1) && (column_index === ROW_COUNT / 2)) {
-                material_keyframes.push(new Keyframe().time(6000).fill([255, 255, 0, 0.8]));
-                text_keyframes.push(new Keyframe().time(6900).text('O').notify(() => console.log('o')));
-                material_keyframes.push(new Keyframe().time(7500).fill([0, 255, 0, 1]));
-                material_keyframes.push(new Keyframe().time(15000).fill([0, 0, 0, 0]));
-            }
-            if ((row_index === 0) && (column_index === ROW_COUNT / 2)) {
-                material_keyframes.push(new Keyframe().time(6000).fill([255, 255, 0, 0.8]));
-                text_keyframes.push(new Keyframe().time(7100).text('R').notify(() => console.log('r')));
-                material_keyframes.push(new Keyframe().time(7500).fill([0, 255, 0, 1]));
-                material_keyframes.push(new Keyframe().time(15000).fill([0, 0, 0, 0]));
-            }
-            if ((row_index === 1) && (column_index === ROW_COUNT / 2)) {
-                text.scale(0.7, 0.7).at(HORIZONTAL_SPACING/5, -VERTICAL_SPACING/8);
-                material_keyframes.push(new Keyframe().time(6000).fill([255, 255, 0, 0.8]));
-                text_keyframes.push(new Keyframe().time(7300).text('j').notify(() => console.log('j')));
-                material_keyframes.push(new Keyframe().time(7500).fill([0, 255, 0, 1]));
-                material_keyframes.push(new Keyframe().time(15000).fill([0, 0, 0, 0]));
-            }
-            if ((row_index === 2) && (column_index === ROW_COUNT / 2)) {
-                text.scale(0.7, 0.7).at(HORIZONTAL_SPACING/5, -VERTICAL_SPACING/8);
-                material_keyframes.push(new Keyframe().time(6000).fill([255, 255, 0, 0.8]));
-                text_keyframes.push(new Keyframe().time(7500).text('s').notify(() => console.log('s')));
-                material_keyframes.push(new Keyframe().time(7500).fill([0, 255, 0, 1]));
-                material_keyframes.push(new Keyframe().time(15000).fill([0, 0, 0, 0]));
+            material_keyframes.push(new Keyframe().time(6000).fill([255, 255, 0, 0.5]).stroke([255, 255, 0, 0]));
+            material_keyframes.push(new Keyframe().time(7500).fill([255, 255, 255, 1]));
+            material_keyframes.push(new Keyframe().time(15000).fill([0, 0, 0, 0]));
+            for (var k = -2; k < 3; ++k) {
+                if ((row_index === k) && (column_index === ROW_COUNT / 2)) {
+                    text_keyframes.push(new Keyframe().time(6500 + (k + 3) * 500).text(string[k + 2]));
+                    if (k > 0) text.scale(0.5, 0.5).at(0, -VERTICAL_SPACING * 0.1);
+                }
             }
         }
         scene.timeline().add(text, ...text_keyframes).add(material, ...material_keyframes);
@@ -91,19 +69,16 @@ scene.timeline().add(
     new Keyframe()
     .time(6500)
     .scale(1, 1, Easings.quad, Easings.quad)
-);
-scene.timeline().add(
+).add(
     material,
-    new Keyframe().stroke([255, 255, 0, 0]).notify(() => console.log('---> Start 1')),
+    new Keyframe().stroke([255, 255, 0, 0]),
     new Keyframe().time(4000).stroke([255, 255, 0, 0]).width(0.001, Easings.linear, Easings.cubic),
-    new Keyframe().time(7000).stroke([0, 255, 0, 1]).width(2, Easings.cubic, Easings.cubic).notify(() => console.log('---> Fade out')),
-    new Keyframe().time(15000).stroke([0, 0, 0, 0]).notify(() => console.log('---> End'))
-);
-scene.timeline().add(
+    new Keyframe().time(7000).stroke([255, 255, 255, 1]).width(2, Easings.cubic, Easings.cubic),
+    new Keyframe().time(15000).stroke([0, 0, 0, 0])
+).add(
     root,
-    new Keyframe().scale(0, 0).notify(() => console.log('---> Start 2')),
-    new Keyframe().time(1000).scale(1, 1, Easings.quad, Easings.quad),
-    new Keyframe().time(6500).scale(2, 2, Easings.quad, Easings.quad)
+    new Keyframe().scale(0.5, 0.5),
+    new Keyframe().time(9000).scale(1.7, 1.7, Easings.quad, Easings.quad)
 );
 
 scene.start();
