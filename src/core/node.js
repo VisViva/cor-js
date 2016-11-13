@@ -307,6 +307,15 @@ exports.Node = function(_scene) {
     };
 
     /**
+     * Unlink child nodes
+     */
+
+    Node.prototype.filicide = function() {
+        this._children = [];
+        return this;
+    };
+
+    /**
      * Check if the current nodes children contain the given node
      */
 

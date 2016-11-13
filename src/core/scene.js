@@ -390,4 +390,15 @@ Scene.prototype.stop = function() {
     this._request_animation_frame_id = null;
 };
 
+/**
+ * Empty the scene
+ */
+
+Scene.prototype.empty = function() {
+    this.stop();
+    this._timeline.empty();
+    this._depthbuffer.empty();
+    this._root.detachChildren();
+};
+
 exports.Scene = Scene;

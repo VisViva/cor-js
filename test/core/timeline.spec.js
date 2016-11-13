@@ -27,6 +27,7 @@ describe('Timeline tests', () => {
         it('Constructs correctly', () => {
             expect(timeline._objects).to.be.exist;
             expect(timeline._tracks).to.be.exist;
+            expect(timeline._callbacks.length).to.be.equal(0);
         });
     });
 
@@ -150,6 +151,27 @@ describe('Timeline tests', () => {
             expect(node.rotate()).to.be.equal(25);
             expect(node.scale().x).to.be.equal(1.0);
             expect(node.scale().y).to.be.equal(2.0);
+        });
+    });
+
+    describe('Emptying behavior', () => {
+        let timeline;
+
+        beforeEach(function() {
+            timeline = new Timeline();
+        });
+
+        it('Clears itself correctly', () => {
+            let node = new Node();
+            let keyframe = new Keyframe().time(20).translate(140, 150).rotate(50).scale(2.0, 4.0).notify(() => 'notify');
+            expect(timeline.add(node, keyframe)).to.be.equal(timeline);
+            expect(timeline._tracks.Node.length).to.be.equal(1);
+            expect(timeline._objects.Node.length).to.be.equal(1);
+            expect(timeline._callbacks.length).to.be.equal(21);
+            expect(timeline.empty()).to.be.equal(timeline);
+            expect(timeline._tracks.Node).to.not.exist;
+            expect(timeline._objects.Node).to.not.exist;
+            expect(timeline._callbacks.length).to.be.equal(0);
         });
     });
 });

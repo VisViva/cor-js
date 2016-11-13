@@ -56,5 +56,13 @@ describe('Depth buffer tests', () => {
             expect(depthbuffer.primitives()[2].depth()).to.be.equal(10);
             expect(depthbuffer.primitives()[3].depth()).to.be.equal(20);
         });
+
+        it('Clears itself correctly', () => {
+            expect(primitiveA.append(primitiveB)).to.be.equal(primitiveA);
+            expect(depthbuffer.append(primitiveA)).to.be.equal(depthbuffer);
+            expect(depthbuffer.primitives().length).to.be.equal(2);
+            expect(depthbuffer.empty()).to.be.equal(depthbuffer);
+            expect(depthbuffer.primitives().length).to.be.equal(0);
+        });
     });
 });

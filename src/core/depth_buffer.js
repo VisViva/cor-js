@@ -33,7 +33,7 @@ DepthBuffer.prototype.append = function(primitive) {
  * Empty the depth buffer
  */
 
-DepthBuffer.prototype.clear = function() {
+DepthBuffer.prototype.empty = function() {
     this._primitives.length = 0;
     return this;
 };

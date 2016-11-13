@@ -447,4 +447,15 @@ Timeline.prototype.seek = function(time) {
     return this;
 };
 
+/**
+ * Empty the timeline
+ */
+
+Timeline.prototype.empty = function() {
+    this._tracks = {};
+    this._objects = {};
+    this._callbacks = [];
+    return this;
+};
+
 exports.Timeline = Timeline;
