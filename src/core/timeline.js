@@ -24,6 +24,7 @@ function Timeline() {
 
     this._objects = {};
     this._tracks = {};
+    this._callbacks = [];
 };
 
 /**
@@ -65,6 +66,11 @@ Timeline.prototype.add = function(object, ...keyframes) {
      */
 
     for (let i = 0; i < keyframes.length; ++i) {
+
+        if (keyframes[i]._callback) {
+            this._callbacks[keyframes[i]._time] = this._callbacks[keyframes[i]._time] || [];
+            this._callbacks[keyframes[i]._time].push(keyframes[i]._callback);
+        }
 
         /**
          * For each key of the keyframe
@@ -239,6 +245,22 @@ Timeline.prototype.seek = function(time) {
                              */
 
                             if (time_start !== undefined) {
+
+                                /**
+                                 * If there are callbacks registered for the keyframe, call them
+                                 */
+
+                                if (this._callbacks[time_start]) {
+                                    for (let callback_index = 0; callback_index < this._callbacks[time_start].length; ++callback_index) {
+                                        this._callbacks[time_start][callback_index]();
+                                    }
+                                    delete this._callbacks[time_start];
+                                }
+
+                                /**
+                                 * Delete the keyframe
+                                 */
+
                                 delete this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start];
                                 time_start = undefined;
                             }
@@ -266,6 +288,11 @@ Timeline.prototype.seek = function(time) {
                          */
 
                         if (time_start !== undefined) {
+
+                            /**
+                             * Delete the keyframe
+                             */
+
                             delete this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start];
                         }
 
@@ -275,6 +302,17 @@ Timeline.prototype.seek = function(time) {
                          */
 
                         time_start = track_key_keyframe_time;
+
+                        /**
+                         * If there are callbacks registered for the keyframe, call them
+                         */
+
+                        if (this._callbacks[time_start]) {
+                            for (let callback_index = 0; callback_index < this._callbacks[time_start].length; ++callback_index) {
+                                this._callbacks[time_start][callback_index]();
+                            }
+                            delete this._callbacks[time_start];
+                        }
                     }
                 }
 

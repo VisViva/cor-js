@@ -28,6 +28,17 @@ Keyframe.prototype.time = function(time) {
 };
 
 /**
+ * Set a keyframe callback
+ */
+
+Keyframe.prototype.notify = function(callback) {
+    if (callback !== undefined) {
+        this._callback = callback;
+    }
+    return this;
+};
+
+/**
  * Set a keyframe
  */
 
