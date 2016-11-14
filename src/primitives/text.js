@@ -52,6 +52,11 @@ exports.Text = function(_scene, Primitive) {
          */
 
         this._text = '';
+
+        this._tcanvas = document.createElement('canvas');
+        this._tcontext = this._tcanvas.getContext('2d');
+        this._tcanvas.width = _scene._canvas.width;
+        this._tcanvas.height = _scene._canvas.height;
     };
 
     /**
@@ -127,27 +132,21 @@ exports.Text = function(_scene, Primitive) {
              * Apply current primitive's material to the current context
              */
 
-            this._material.use(context);
-
-            /**
-             * Setup transformations and render
-             */
-
+            this._tcontext.save();
+            this._tcontext.clearRect(0, 0, this._tcanvas.width, this._tcanvas.height);
+            this._material.use(this._tcontext);
             context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
-
-            /**
-             * Fill the rect
-             */
-
-            this._material._fill.enabled &&
-                context.fillText(this._text, this._at.x, -this._at.y);
-
-            /**
-             * Stroke the stroke
-             */
-
-            this._material._stroke.enabled &&
-                context.strokeText(this._text, this._at.x, -this._at.y);
+            this._tcontext.font = 'normal normal normal 96px/96px sans-serif';
+            const twidth = this._tcontext.measureText(this._text).width >>> 1;
+            const theight = Math.max(this._material.line() * 2, this._material.size() * 2) >>> 1;
+            this._tcontext.translate(twidth, theight);
+            this._material._fill.enabled && this._tcontext.fillText(this._text, 0, 0);
+            this._material._stroke.enabled && this._tcontext.strokeText(this._text, 0, 0);
+            this._tcontext.restore();
+            this._tcontext.save();
+            context.scale(0.5, 0.5);
+            context.drawImage(this._tcanvas, this._at.x - twidth, - this._at.y - theight);
+            this._tcontext.restore();
         }
 
         /**

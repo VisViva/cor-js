@@ -38,17 +38,25 @@ text
 root
     .append(text);
 
-scene.timeline().add(
-    text,
-    new Keyframe().text('adsasdsdasd'),
-    new Keyframe().time(2000).text('Привет!')
-);
+// scene.timeline().add(
+//     text,
+//     new Keyframe().text('adsasdsdasd'),
+//     new Keyframe().time(2000).text('Привет!')
+// );
+//
+// scene.timeline().add(
+//     material,
+//     new Keyframe().time(0).size(48).style('italic'),
+//     new Keyframe().time(5000).style('normal'),
+//     new Keyframe().time(10000).style('italic').size(200)
+// );
+
 
 scene.timeline().add(
-    material,
-    new Keyframe().time(0).size(48).style('italic'),
-    new Keyframe().time(5000).style('normal'),
-    new Keyframe().time(10000).style('italic').size(200)
+    text,
+    new Keyframe().time(0).scale(1, 1),
+    new Keyframe().time(1000).scale(2, 2, Easings.cubic, Easings.cubic)
 );
+
 
 scene.start();
