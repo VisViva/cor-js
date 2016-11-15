@@ -5,6 +5,7 @@ import {
     Easings
 } from '../utils/enums';
 
+
 /**
  * Keyframe constructor
  */
@@ -59,10 +60,6 @@ Keyframe.prototype.set = function(key, type, value, ease_in, ease_out) {
     }
 };
 
-/*****************************************************************************
- * Node keyframes                                                            *
- ****************************************************************************/
-
 /**
  * Get or set translation keys
  */
@@ -78,30 +75,6 @@ Keyframe.prototype.translate = function(x, y, ease_in, ease_out) {
             translateY: this._keys.translateY
         };
     }
-};
-
-/**
- * Get or set the translation key on the x axis
- */
-
-Keyframe.prototype.translateX = function(value, ease_in, ease_out) {
-    return this.set('translateX', Values.numeric, value, ease_in, ease_out);
-};
-
-/**
- * Get or set the translation key on the y axis
- */
-
-Keyframe.prototype.translateY = function(value, ease_in, ease_out) {
-    return this.set('translateY', Values.numeric, value, ease_in, ease_out);
-};
-
-/**
- * Get or set rotation key
- */
-
-Keyframe.prototype.rotate = function(value, ease_in, ease_out) {
-    return this.set('rotate', Values.numeric, value, ease_in, ease_out);
 };
 
 /**
@@ -122,155 +95,72 @@ Keyframe.prototype.scale = function(x, y, ease_in, ease_out) {
 };
 
 /**
- * Get or set the scale key on the x axis
+ * Keyframe setters
  */
 
-Keyframe.prototype.scaleX = function(value, ease_in, ease_out) {
-    return this.set('scaleX', Values.numeric, value, ease_in, ease_out);
-};
+const _setters = [
+
+    /**
+     * Node keyframes
+     */
+
+    { method: 'translateX', type: Values.numeric },
+    { method: 'translateY', type: Values.numeric },
+    { method: 'rotate', type: Values.numeric },
+    { method: 'scaleX', type: Values.numeric },
+    { method: 'scaleY', type: Values.numeric },
+
+    /**
+     * Primitive keyframes
+     */
+
+    { method: 'at', type: Values.numeric },
+    { method: 'depth', type: Values.numeric },
+
+    /**
+     * Rect keyframes
+     */
+
+    { method: 'width', type: Values.numeric },
+    { method: 'height', type: Values.numeric },
+
+    /**
+     * Circle keyframes
+     */
+
+    { method: 'radius', type: Values.numeric },
+
+    /**
+     * Text keyframes
+     */
+
+    { method: 'text', type: Values.text },
+    { method: 'size', type: Values.numeric },
+    { method: 'sizeUnits', type: Values.complex },
+    { method: 'line', type: Values.numeric },
+    { method: 'lineUnits', type: Values.complex },
+    { method: 'style', type: Values.complex },
+    { method: 'variant', type: Values.complex },
+    { method: 'weight', type: Values.complex },
+    { method: 'family', type: Values.complex },
+    { method: 'font', type: Values.complex },
+
+    /**
+     * Material keyframes
+     */
+
+    { method: 'stroke', type: Values.color },
+    { method: 'fill', type: Values.color }
+];
 
 /**
- * Get or set the scale key on the y axis
+ * Create methods dynamically
  */
 
-Keyframe.prototype.scaleY = function(value, ease_in, ease_out) {
-    return this.set('scaleY', Values.numeric, value, ease_in, ease_out);
-};
-
-/*****************************************************************************
- * Rect keyframes                                                            *
- ****************************************************************************/
-
-/**
- * Get or set the width key
- */
-
-Keyframe.prototype.width = function(value, ease_in, ease_out) {
-    return this.set('width', Values.numeric, value, ease_in, ease_out);
-};
-
-/**
- * Get or set the width key
- */
-
-Keyframe.prototype.height = function(value, ease_in, ease_out) {
-    return this.set('height', Values.numeric, value, ease_in, ease_out);
-};
-
-/*****************************************************************************
- * Circle keyframes                                                          *
- ****************************************************************************/
-
-/**
- * Get or set the radius key
- */
-
-Keyframe.prototype.radius = function(value, ease_in, ease_out) {
-    return this.set('radius', Values.numeric, value, ease_in, ease_out);
-};
-
-/*****************************************************************************
- * Text keyframes                                                            *
- ****************************************************************************/
-
-/**
- * Get or set the text
- */
-
-Keyframe.prototype.text = function(value, ease_in, ease_out) {
-    return this.set('text', Values.text, value, ease_in, ease_out);
-};
-
-/*****************************************************************************
- * Material keyframes                                                        *
- ****************************************************************************/
-
-/**
- * Get or set the stroke color key
- */
-
-Keyframe.prototype.stroke = function(value, ease_in, ease_out) {
-    return this.set('stroke', Values.color, value, ease_in, ease_out);
-};
-
-/**
- * Get or set the fill color  key
- */
-
-Keyframe.prototype.fill = function(value, ease_in, ease_out) {
-    return this.set('fill', Values.color, value, ease_in, ease_out);
-};
-
-/**
- * Get or set the font size key
- */
-
-Keyframe.prototype.size = function(value, ease_in, ease_out) {
-    return this.set('size', Values.numeric, value, ease_in, ease_out);
-};
-
-/**
- * Get or set the font size units key
- */
-
-Keyframe.prototype.sizeUnits = function(value, ease_in, ease_out) {
-    return this.set('sizeUnits', Values.complex, value, ease_in, ease_out);
-};
-
-/**
- * Get or set the line height key
- */
-
-Keyframe.prototype.line = function(value, ease_in, ease_out) {
-    return this.set('line', Values.numeric, value, ease_in, ease_out);
-};
-
-/**
- * Get or set the line height units key
- */
-
-Keyframe.prototype.lineUnits = function(value, ease_in, ease_out) {
-    return this.set('lineUnits', Values.complex, value, ease_in, ease_out);
-};
-
-/**
- * Get or set the font style key
- */
-
-Keyframe.prototype.style = function(value, ease_in, ease_out) {
-    return this.set('style', Values.complex, value, ease_in, ease_out);
-};
-
-/**
- * Get or set the font variant  key
- */
-
-Keyframe.prototype.variant = function(value, ease_in, ease_out) {
-    return this.set('variant', Values.complex, value, ease_in, ease_out);
-};
-
-/**
- * Get or set the font weight key
- */
-
-Keyframe.prototype.weight = function(value, ease_in, ease_out) {
-    return this.set('weight', Values.complex, value, ease_in, ease_out);
-};
-
-/**
- * Get or set the font family key
- */
-
-Keyframe.prototype.family = function(value, ease_in, ease_out) {
-    return this.set('family', Values.complex, value, ease_in, ease_out);
-};
-
-/**
- * Get or set the font key
- */
-
-Keyframe.prototype.font = function(value, ease_in, ease_out) {
-    return this.set('font', Values.complex, value, ease_in, ease_out);
-};
+for (let i = 0; i < _setters.length; ++i) {
+    Keyframe.prototype[_setters[i].method] = function (value, ease_in, ease_out) {
+        return this.set(_setters[i].method, _setters[i].type, value, ease_in, ease_out);
+    };
+}
 
 exports.Keyframe = Keyframe;
