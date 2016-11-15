@@ -37,9 +37,7 @@ for (let i = -20; i < 21; ++i) {
             .stroked(true)
             .filled(true),
             new Keyframe()
-            .width(Math.abs(i) / 2)
-            .fill([0, 0, 0, 0.8])
-            .stroke([0, 255, 0, 1]),
+            .width(Math.abs(i) / 2),
             new Keyframe()
             .time(100 * (Math.abs(ij)))
             .width(i*i/5)

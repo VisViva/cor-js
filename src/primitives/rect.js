@@ -148,7 +148,7 @@ exports.Rect = function(_scene, Primitive) {
      * Get the bounding box of the current node only
      */
 
-    Rect.prototype.bboxOwn = function() {
+    Rect.prototype._bbox = function() {
 
         /**
          * Transformed points
@@ -218,7 +218,7 @@ exports.Rect = function(_scene, Primitive) {
          */
 
         if (this._debug === true) {
-            let bbox = this.bboxCascaded();
+            let bbox = this.bbox();
             _scene._context.save();
             _scene._context.setTransform(1, 0, 0, 1, 0, 0);
             _scene._context.beginPath();

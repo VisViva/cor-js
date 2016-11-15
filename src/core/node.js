@@ -418,7 +418,7 @@ exports.Node = function(_scene) {
      * Get the bounding box of the current node only
      */
 
-    Node.prototype.bboxOwn = function() {
+    Node.prototype._bbox = function() {
         return new BBox();
     };
 
@@ -426,12 +426,12 @@ exports.Node = function(_scene) {
      * Initiate recursive merge of all the child bboxes
      */
 
-    Node.prototype.bboxCascaded = function() {
-        const bbox = this.bboxOwn();
+    Node.prototype.bbox = function() {
+        const bbox = this._bbox();
         if (this._children.length > 0) {
             const bboxes = [];
             for (let i = 0; i < this._children.length; ++i) {
-                bboxes.push(this._children[i].bboxCascaded());
+                bboxes.push(this._children[i].bbox());
             }
             bbox.merge(...bboxes);
         }

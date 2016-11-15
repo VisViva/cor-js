@@ -334,26 +334,26 @@ describe('Node tests', () => {
         });
 
         it('Calculates its own bounding box correctly', () => {
-            expect(nodeA.bboxOwn().x()).to.be.equal(0);
-            expect(nodeA.bboxOwn().y()).to.be.equal(0);
-            expect(nodeA.bboxOwn().width()).to.be.equal(0);
-            expect(nodeA.bboxOwn().height()).to.be.equal(0);
+            expect(nodeA._bbox().x()).to.be.equal(0);
+            expect(nodeA._bbox().y()).to.be.equal(0);
+            expect(nodeA._bbox().width()).to.be.equal(0);
+            expect(nodeA._bbox().height()).to.be.equal(0);
         });
 
         it('Calculates the cascaded bound box correctly', () => {
-            expect(nodeA.bboxCascaded().x()).to.be.equal(0);
-            expect(nodeA.bboxCascaded().y()).to.be.equal(0);
-            expect(nodeA.bboxCascaded().width()).to.be.equal(0);
-            expect(nodeA.bboxCascaded().height()).to.be.equal(0);
+            expect(nodeA.bbox().x()).to.be.equal(0);
+            expect(nodeA.bbox().y()).to.be.equal(0);
+            expect(nodeA.bbox().width()).to.be.equal(0);
+            expect(nodeA.bbox().height()).to.be.equal(0);
         });
 
         it('Calculates the cascaded bound box correctly when there are several children present', () => {
             expect(nodeA.append(nodeB)).to.be.equal(nodeA);
             expect(nodeB.append(nodeC)).to.be.equal(nodeB);
-            expect(nodeA.bboxCascaded().x()).to.be.equal(0);
-            expect(nodeA.bboxCascaded().y()).to.be.equal(0);
-            expect(nodeA.bboxCascaded().width()).to.be.equal(0);
-            expect(nodeA.bboxCascaded().height()).to.be.equal(0);
+            expect(nodeA.bbox().x()).to.be.equal(0);
+            expect(nodeA.bbox().y()).to.be.equal(0);
+            expect(nodeA.bbox().width()).to.be.equal(0);
+            expect(nodeA.bbox().height()).to.be.equal(0);
         });
     });
 });
