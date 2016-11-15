@@ -116,12 +116,32 @@ exports.Node = function(_scene) {
 
     Node.prototype.pivot = function(x, y) {
         if (x !== undefined && y !== undefined) {
-            this._pivot.x = x;
-            this._pivot.y = y;
+            this._pivot.x = (x !== undefined) && x || this._pivot.x;
+            this._pivot.y = (y !== undefined) && -y || this._pivot.y;
+            this._dirty = true;
             return this;
         } else {
-            return this._pivot;
+            return {
+                x: this._pivot.x,
+                y: - this._pivot.y
+            };
         }
+    };
+
+    /**
+     * Get or set the pivot point of the node on the x axis
+     */
+
+    Node.prototype.pivotX = function(x) {
+        return this.pivot(x, undefined);
+    };
+
+    /**
+     * Get or set the pivot point of the node on the y axis
+     */
+
+    Node.prototype.pivotY = function(y) {
+        return this.pivot(undefined, y);
     };
 
     /**

@@ -61,6 +61,40 @@ Keyframe.prototype.set = function(key, type, value, ease_in, ease_out) {
 };
 
 /**
+ * Get or set at keys
+ */
+
+Keyframe.prototype.translate = function(x, y, ease_in, ease_out) {
+    if (x !== undefined && y !== undefined) {
+        this.set('atX', Values.numeric, x, ease_in, ease_out);
+        this.set('atY', Values.numeric, y, ease_in, ease_out);
+        return this;
+    } else {
+        return {
+            atX: this._keys.atX,
+            atY: this._keys.atY
+        };
+    }
+};
+
+/**
+ * Get or set pivot keys
+ */
+
+Keyframe.prototype.pivot = function(x, y, ease_in, ease_out) {
+    if (x !== undefined && y !== undefined) {
+        this.set('pivotX', Values.numeric, x, ease_in, ease_out);
+        this.set('pivotY', Values.numeric, y, ease_in, ease_out);
+        return this;
+    } else {
+        return {
+            pivotX: this._keys.pivotX,
+            pivotY: this._keys.pivotY
+        };
+    }
+};
+
+/**
  * Get or set translation keys
  */
 
@@ -104,6 +138,8 @@ const _setters = [
      * Node keyframes
      */
 
+    { method: 'pivotX', type: Values.numeric },
+    { method: 'pivotY', type: Values.numeric },
     { method: 'translateX', type: Values.numeric },
     { method: 'translateY', type: Values.numeric },
     { method: 'rotate', type: Values.numeric },
@@ -114,7 +150,8 @@ const _setters = [
      * Primitive keyframes
      */
 
-    { method: 'at', type: Values.numeric },
+    { method: 'atX', type: Values.numeric },
+    { method: 'atY', type: Values.numeric },
     { method: 'depth', type: Values.numeric },
 
     /**
@@ -154,7 +191,7 @@ const _setters = [
 ];
 
 /**
- * Create methods dynamically
+ * Create keyframe setter methods dynamically
  */
 
 for (let i = 0; i < _setters.length; ++i) {

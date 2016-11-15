@@ -61,13 +61,38 @@ exports.Primitive = function (_scene, Node) {
      */
 
     Primitive.prototype.at = function (x, y) {
-        if (x !== undefined && y !== undefined) {
-            this._at.x = x;
-            this._at.y = y;
+        if (x !== undefined || y !== undefined) {
+
+            /**
+             * Compensate for canvas specific y-axis direction
+             */
+
+            this._at.x = (x !== undefined) && x || this._at.x;
+            this._at.y = (y !== undefined) && -y || this._at.y;
+            this._dirty = true;
             return this;
         } else {
-            return this._at;
+            return {
+                x: this._at.x,
+                y: -this._at.y
+            };
         }
+    };
+
+    /**
+     * Get or set the primitives starting point on the x axis
+     */
+
+    Primitive.prototype.atX = function (x) {
+        return this.at(x, undefined);
+    };
+
+    /**
+     * Get or set the primitives starting point on the y axis
+     */
+
+    Primitive.prototype.atY = function (x) {
+        return this.at(undefined, y);
     };
 
     /**
@@ -89,6 +114,7 @@ exports.Primitive = function (_scene, Node) {
 
     Primitive.prototype.depth = function (depth) {
         if (depth !== undefined) {
+            depth = ~~depth;
             _scene._depthbuffer.relocate(this, depth);
             this._depth = depth;
             return this;

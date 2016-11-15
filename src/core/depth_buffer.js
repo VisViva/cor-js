@@ -62,10 +62,16 @@ DepthBuffer.prototype.relocate = function (primitive, depth) {
              */
 
             for (let i = primitive_index + 1; i < this._primitives.length; ++i) {
-                if (depth <= this._primitives[i]._depth || i === this._primitives.length - 1) {
-                    this._primitives.splice(primitive_index, 1);
+                if (depth <= this._primitives[i]._depth) {
                     this._primitives.splice(i, 0, primitive);
+                    this._primitives.splice(primitive_index, 1);
                     break;
+                } else {
+                    if (i === this._primitives.length - 1) {
+                        this._primitives.splice(i + 1, 0, primitive);
+                        this._primitives.splice(primitive_index, 1);
+                        break;
+                    }
                 }
             }
         }
