@@ -93,7 +93,7 @@ exports.Circle = function(_scene, Primitive) {
              * Apply current primitive's material to the current context
              */
 
-            this._material.use(context);
+            this._material.use(_scene._context);
 
             /**
              * Setup transformations and render
