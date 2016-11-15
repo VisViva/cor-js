@@ -340,15 +340,14 @@ exports.Path = function(_scene, Primitive) {
                          */
 
                         if (this._debug === true) {
-                            const context = _scene.context();
-                            context.lineWidth = 1;
-                            context.strokeStyle = "#EE0000";
-                            context.setTransform(1, 0, 0, 1, 0, 0);
-                            context.beginPath();
-                            context.arc(point_start[0], point_start[1], 3, 0, 2 * Math.PI, false);
-                            context.moveTo(point_end[0], point_end[1]);
-                            context.arc(point_end[0], point_end[1], 3, 0, 2 * Math.PI, false);
-                            context.stroke();
+                            _scene._context.lineWidth = 1;
+                            _scene._context.strokeStyle = "#EE0000";
+                            _scene._context.setTransform(1, 0, 0, 1, 0, 0);
+                            _scene._context.beginPath();
+                            _scene._context.arc(point_start[0], point_start[1], 3, 0, 2 * Math.PI, false);
+                            _scene._context.moveTo(point_end[0], point_end[1]);
+                            _scene._context.arc(point_end[0], point_end[1], 3, 0, 2 * Math.PI, false);
+                            _scene._context.stroke();
 
                             /**
                              * Curve points
@@ -357,37 +356,37 @@ exports.Path = function(_scene, Primitive) {
                             for (let i = 0; i < 1; i += 0.1) {
                                 let x = get_cubic_function_for(point_start[0], point_control_a[0], point_control_b[0], point_end[0], i);
                                 let y = get_cubic_function_for(point_start[1], point_control_a[1], point_control_b[1], point_end[1], i);
-                                context.beginPath();
-                                context.arc(x, y, 3, 0, 2 * Math.PI, false);
-                                context.stroke();
+                                _scene._context.beginPath();
+                                _scene._context.arc(x, y, 3, 0, 2 * Math.PI, false);
+                                _scene._context.stroke();
                             }
 
                             /**
                              * Control points
                              */
 
-                            context.beginPath();
-                            context.strokeStyle = "#0000EE";
-                            context.moveTo(point_start[0], point_start[1]);
-                            context.lineTo(point_control_a[0], point_control_a[1]);
-                            context.lineTo(point_control_b[0], point_control_b[1]);
-                            context.lineTo(point_end[0], point_end[1]);
-                            context.stroke();
-                            context.lineWidth = 2;
-                            context.beginPath();
-                            context.arc(point_control_a[0], point_control_a[1], 4, 0, 2 * Math.PI, false);
-                            context.moveTo(point_control_b[0], point_control_b[1]);
-                            context.arc(point_control_b[0], point_control_b[1], 4, 0, 2 * Math.PI, false);
-                            context.stroke();
+                            _scene._context.beginPath();
+                            _scene._context.strokeStyle = "#0000EE";
+                            _scene._context.moveTo(point_start[0], point_start[1]);
+                            _scene._context.lineTo(point_control_a[0], point_control_a[1]);
+                            _scene._context.lineTo(point_control_b[0], point_control_b[1]);
+                            _scene._context.lineTo(point_end[0], point_end[1]);
+                            _scene._context.stroke();
+                            _scene._context.lineWidth = 2;
+                            _scene._context.beginPath();
+                            _scene._context.arc(point_control_a[0], point_control_a[1], 4, 0, 2 * Math.PI, false);
+                            _scene._context.moveTo(point_control_b[0], point_control_b[1]);
+                            _scene._context.arc(point_control_b[0], point_control_b[1], 4, 0, 2 * Math.PI, false);
+                            _scene._context.stroke();
 
                             /**
                              * Extremas
                              */
 
                             for (let i = 0; i < extremas.length; ++i) {
-                                context.beginPath();
-                                context.arc(extremas[i][0], extremas[i][1], 4, 0, 2 * Math.PI, false);
-                                context.stroke();
+                                _scene._context.beginPath();
+                                _scene._context.arc(extremas[i][0], extremas[i][1], 4, 0, 2 * Math.PI, false);
+                                _scene._context.stroke();
                             }
                         }
 
@@ -408,7 +407,6 @@ exports.Path = function(_scene, Primitive) {
      */
 
     Path.prototype.render = function() {
-        const context = _scene.context();
 
         /**
          * Render only if primitive is not hidden
@@ -426,19 +424,19 @@ exports.Path = function(_scene, Primitive) {
              * Setup transformations and render
              */
 
-            context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
-            context.beginPath();
-            context.moveTo(this._at.x, this._at.y);
+            _scene._context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
+            _scene._context.beginPath();
+            _scene._context.moveTo(this._at.x, this._at.y);
             for (let i = 0; i < this._segments.length; ++i) {
                 switch (this._segments[i].length) {
                     case 2:
-                        context.lineTo(...this._segments[i]);
+                        _scene._context.lineTo(...this._segments[i]);
                         break;
                     case 4:
-                        context.quadraticCurveTo(...this._segments[i]);
+                        _scene._context.quadraticCurveTo(...this._segments[i]);
                         break;
                     case 6:
-                        context.bezierCurveTo(...this._segments[i]);
+                        _scene._context.bezierCurveTo(...this._segments[i]);
                         break;
                     default:
                 }
@@ -449,20 +447,20 @@ exports.Path = function(_scene, Primitive) {
              */
 
             if (this._closed) {
-                context.closePath();
+                _scene._context.closePath();
 
                 /**
                  * Fill the shape
                  */
 
-                this._material._fill.enabled && context.fill();
+                this._material._fill.enabled && _scene._context.fill();
             }
 
             /**
              * Stroke the path
              */
 
-            this._material._stroke.enabled && context.stroke();
+            this._material._stroke.enabled && _scene._context.stroke();
         }
 
         /**
@@ -471,14 +469,14 @@ exports.Path = function(_scene, Primitive) {
 
         if (this._debug === true) {
             let bbox = this.bboxCascaded();
-            context.save();
-            context.setTransform(1, 0, 0, 1, 0, 0);
-            context.beginPath();
-            context.lineWidth = 2;
-            context.rect(bbox.x(), bbox.y() - bbox.height(), bbox.width(), bbox.height());
-            context.strokeStyle = '#EE0000';
-            context.stroke();
-            context.restore();
+            _scene._context.save();
+            _scene._context.setTransform(1, 0, 0, 1, 0, 0);
+            _scene._context.beginPath();
+            _scene._context.lineWidth = 2;
+            _scene._context.rect(bbox.x(), bbox.y() - bbox.height(), bbox.width(), bbox.height());
+            _scene._context.strokeStyle = '#EE0000';
+            _scene._context.stroke();
+            _scene._context.restore();
         }
     };
 

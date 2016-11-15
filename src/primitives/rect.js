@@ -149,7 +149,6 @@ exports.Rect = function(_scene, Primitive) {
      */
 
     Rect.prototype.render = function() {
-        let context = _scene.context();
 
         /**
          * Render only if primitive is not hidden
@@ -161,27 +160,25 @@ exports.Rect = function(_scene, Primitive) {
              * Apply current primitive's material to the current context
              */
 
-            this._material.use(context);
+            this._material.use(_scene._context);
 
             /**
              * Setup transformations and render
              */
 
-            context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
+            _scene._context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
 
             /**
              * Fill the rect
              */
 
-            this._material._fill.enabled &&
-                context.fillRect(this._points[0].x, -this._points[0].y, this.width(), this.height());
+            this._material._fill.enabled && _scene._context.fillRect(this._points[0].x, -this._points[0].y, this.width(), this.height());
 
             /**
              * Stroke the stroke
              */
 
-            this._material._stroke.enabled &&
-                context.strokeRect(this._points[0].x, -this._points[0].y, this.width(), this.height());
+            this._material._stroke.enabled && _scene._context.strokeRect(this._points[0].x, -this._points[0].y, this.width(), this.height());
         }
 
         /**
@@ -190,14 +187,14 @@ exports.Rect = function(_scene, Primitive) {
 
         if (this._debug === true) {
             let bbox = this.bboxCascaded();
-            context.save();
-            context.setTransform(1, 0, 0, 1, 0, 0);
-            context.beginPath();
-            context.lineWidth = 2;
-            context.rect(bbox.x(), bbox.y() - bbox.height(), bbox.width(), bbox.height());
-            context.strokeStyle = '#EE0000';
-            context.stroke();
-            context.restore();
+            _scene._context.save();
+            _scene._context.setTransform(1, 0, 0, 1, 0, 0);
+            _scene._context.beginPath();
+            _scene._context.lineWidth = 2;
+            _scene._context.rect(bbox.x(), bbox.y() - bbox.height(), bbox.width(), bbox.height());
+            _scene._context.strokeStyle = '#EE0000';
+            _scene._context.stroke();
+            _scene._context.restore();
         }
     };
 

@@ -20,7 +20,7 @@ exports.Circle = function(_scene, Primitive) {
     inherit(Circle, Primitive);
 
     /**
-     * Rect constructor
+     * Circle constructor
      */
 
     function Circle() {
@@ -82,7 +82,6 @@ exports.Circle = function(_scene, Primitive) {
      */
 
     Circle.prototype.render = function() {
-        let context = _scene.context();
 
         /**
          * Render only if primitive is not hidden
@@ -100,23 +99,21 @@ exports.Circle = function(_scene, Primitive) {
              * Setup transformations and render
              */
 
-            context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
-            context.beginPath();
-            context.arc(this._at.x, this._at.y, this._radius, 0, 2 * Math.PI, false);
+            _scene._context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
+            _scene._context.beginPath();
+            _scene._context.arc(this._at.x, this._at.y, this._radius, 0, 2 * Math.PI, false);
 
             /**
              * Fill the circle
              */
 
-            this._material._fill.enabled &&
-                context.fill();
+            this._material._fill.enabled && _scene._context.fill();
 
             /**
              * Stroke the circle
              */
 
-            this._material._stroke.enabled &&
-                context.stroke();
+            this._material._stroke.enabled && _scene._context.stroke();
         }
 
         /**
@@ -125,14 +122,14 @@ exports.Circle = function(_scene, Primitive) {
 
         if (this._debug === true) {
             let bbox = this.bboxCascaded();
-            context.save();
-            context.setTransform(1, 0, 0, 1, 0, 0);
-            context.beginPath();
-            context.lineWidth = 2;
-            context.rect(bbox.x(), bbox.y() - bbox.height(), bbox.width(), bbox.height());
-            context.strokeStyle = '#EE0000';
-            context.stroke();
-            context.restore();
+            _scene._context.save();
+            _scene._context.setTransform(1, 0, 0, 1, 0, 0);
+            _scene._context.beginPath();
+            _scene._context.lineWidth = 2;
+            _scene._context.rect(bbox.x(), bbox.y() - bbox.height(), bbox.width(), bbox.height());
+            _scene._context.strokeStyle = '#EE0000';
+            _scene._context.stroke();
+            _scene._context.restore();
         }
     };
 

@@ -20,7 +20,7 @@ exports.Text = function(_scene, Primitive) {
     inherit(Text, Primitive);
 
     /**
-     * Rect constructor
+     * Text constructor
      */
 
     function Text() {
@@ -114,16 +114,16 @@ exports.Text = function(_scene, Primitive) {
      */
 
     Text.prototype.rasterized = function(rasterized, width, height) {
-        if (rasterized !== undefined && width !== undefined && height !== undefined) {
+        if (rasterized !== undefined) {
             this._rasterized = rasterized;
             if (this._rasterized) {
-                this._tcanvas = document.createElement('canvas');
-                this._tcontext = this._tcanvas.getContext('2d');
-                this._tcanvas.width = width;
-                this._tcanvas.height = height;
+                this._text_canvas = document.createElement('canvas');
+                this._text_context = this._text_canvas.getContext('2d');
+                this._text_canvas.width = (width !== undefined) ? width : 1000;
+                this._text_canvas.height = (height !== undefined) ? height : 1000;
             } else {
-                this._tcanvas && delete this._tcanvas;
-                this._tcontext && delete this._tcontext;
+                this._text_canvas && delete this._text_canvas;
+                this._text_context && delete this._text_context;
             }
             return this;
         } else {
@@ -318,7 +318,7 @@ exports.Text = function(_scene, Primitive) {
          * Select correct context for text measuring
          */
 
-        const context = (this._rasterized === true) ? this._tcontext : _scene._context;
+        const context = (this._rasterized === true) ? this._text_context : _scene._context;
 
         /**
          * Update point array to reflect the latest context state
@@ -375,48 +375,48 @@ exports.Text = function(_scene, Primitive) {
                  * Apply font
                  */
 
-                if (this._tcontext.font !== this._font.concatenated) {
-                    this._tcontext.font = this._font.concatenated;
+                if (this._text_context.font !== this._font.concatenated) {
+                    this._text_context.font = this._font.concatenated;
                 }
 
-                if (this._tcontext.textAlign !== this._font.align) {
-                    this._tcontext.textAlign = this._font.align;
+                if (this._text_context.textAlign !== this._font.align) {
+                    this._text_context.textAlign = this._font.align;
                 }
 
-                if (this._tcontext.textBaseline !== this._font.baseline) {
-                    this._tcontext.textBaseline = this._font.baseline;
+                if (this._text_context.textBaseline !== this._font.baseline) {
+                    this._text_context.textBaseline = this._font.baseline;
                 }
 
                 /**
                  * Clear text specific context
                  */
 
-                this._tcontext.clearRect(0, 0, this._tcanvas.width, this._tcanvas.height);
+                this._text_context.clearRect(0, 0, this._text_canvas.width, this._text_canvas.height);
 
                 /**
                  * Set font to the text specific contex
                  */
 
-                this._material.use(this._tcontext);
-                this._tcontext.font = this._font.concatenated;
+                this._material.use(this._text_context);
+                this._text_context.font = this._font.concatenated;
 
                 /**
                  * Render text to the separate context
                  */
 
-                const twidth = this._tcontext.measureText(this._text).width;
+                const twidth = this._text_context.measureText(this._text).width;
                 const theight = Math.max(this._font.line.value, this._font.size.value);
-                this._tcontext.save();
-                this._tcontext.translate(twidth, theight);
-                this._material._fill.enabled && this._tcontext.fillText(this._text, 0, 0);
-                this._material._stroke.enabled && this._tcontext.strokeText(this._text, 0, 0);
-                this._tcontext.restore();
+                this._text_context.save();
+                this._text_context.translate(twidth, theight);
+                this._material._fill.enabled && this._text_context.fillText(this._text, 0, 0);
+                this._material._stroke.enabled && this._text_context.strokeText(this._text, 0, 0);
+                this._text_context.restore();
 
                 /**
                  * Render text
                  */
 
-                this._tcontext.save();
+                this._text_context.save();
 
                 /**
                  * Set transformations to the scene's context
@@ -429,8 +429,8 @@ exports.Text = function(_scene, Primitive) {
                  * scene's context
                  */
 
-                _scene._context.drawImage(this._tcanvas, this._at.x - twidth, - this._at.y - theight);
-                this._tcontext.restore();
+                _scene._context.drawImage(this._text_canvas, this._at.x - twidth, - this._at.y - theight);
+                this._text_context.restore();
             } else {
 
                 this._material.use(_scene._context);
@@ -458,18 +458,16 @@ exports.Text = function(_scene, Primitive) {
                 _scene._context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
 
                 /**
-                 * Fill the rect
+                 * Fill the text
                  */
 
-                this._material._fill.enabled &&
-                    _scene._context.fillText(this._text, this._at.x, -this._at.y);
+                this._material._fill.enabled && _scene._context.fillText(this._text, this._at.x, -this._at.y);
 
                 /**
-                 * Stroke the stroke
+                 * Stroke the text
                  */
 
-                this._material._stroke.enabled &&
-                    _scene._context.strokeText(this._text, this._at.x, -this._at.y);
+                this._material._stroke.enabled && _scene._context.strokeText(this._text, this._at.x, -this._at.y);
             }
         }
 

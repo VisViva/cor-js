@@ -5,7 +5,7 @@ const scene = manager.new('scene').fps(60);
 const Text = scene.factory().Text;
 const Rect = scene.factory().Rect;
 const root = scene.root().pivot(0, scene._canvas.height).translate(scene._canvas.width / 2, scene._canvas.height / 2);
-const COLUMN_COUNT_HALF = 20;
+const COLUMN_COUNT_HALF = 30;
 const ROW_COUNT = 20;
 const HORIZONTAL_SPACING = scene._canvas.width / COLUMN_COUNT_HALF - scene._canvas.width / 100;
 const VERTICAL_SPACING = Math.abs(scene._canvas.height * 0.04);
@@ -23,10 +23,10 @@ for (let row_index = -COLUMN_COUNT_HALF; row_index < COLUMN_COUNT_HALF + 1; ++ro
         const material = new Material().filled(true).stroked(true).width(0.1);
         text.scale(0.3 + random * 0.7, 0.3 + random * 0.7).material(material);
         root.append(text);
-        for (let keyframe_index = 0; keyframe_index < 5 + Math.random() * 2; ++keyframe_index) {
+        for (let keyframe_index = 0; keyframe_index < 5 + random * 2; ++keyframe_index) {
             text_keyframes.push(new Keyframe().time(keyframe_index * 1000).text(random_character()));
             material_keyframes.push(new Keyframe().fill([255, 255, 0, 0]).stroke([0, 0, 0, 0]));
-            material_keyframes.push(new Keyframe().time(3000).fill([0, 255, 0, Math.random()]).stroke([255, 255, 255, random]));
+            material_keyframes.push(new Keyframe().time(3000).fill([0, 255, 0,random]).stroke([255, 255, 255, random]));
         }
         if (row_index < -2 || row_index > 2 || column_index < ROW_COUNT / 2 || column_index > ROW_COUNT / 2) {
             material_keyframes.push(new Keyframe().time(10000).fill([0, 0, 0, 0]).stroke([255, 255, 0, 0]));
