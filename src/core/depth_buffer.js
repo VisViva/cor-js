@@ -13,7 +13,7 @@ function DepthBuffer() {
  * a sorted fashion
  */
 
-DepthBuffer.prototype.append = function(primitive) {
+DepthBuffer.prototype.append = function (primitive) {
     let children = primitive.children();
     for (let i = 0; i < children.length; ++i) {
         this.append(children[i]);
@@ -30,10 +30,53 @@ DepthBuffer.prototype.append = function(primitive) {
 };
 
 /**
+ * Relocate an element to a new position according to the supplied depth
+ */
+
+DepthBuffer.prototype.relocate = function (primitive, depth) {
+    const primitive_index = this._primitives.indexOf(primitive);
+    if (primitive._depth !== depth && primitive_index !== -1) {
+        if (primitive._depth > depth) {
+
+            /**
+             * Iterate in negative direction over the depth buffer
+             */
+
+            for (let i = primitive_index; i > -1; --i) {
+                if (depth > this._primitives[i]._depth) {
+                    this._primitives.splice(primitive_index, 1);
+                    this._primitives.splice(i + 1, 0, primitive);
+                    break;
+                } else {
+                    if (i === 0) {
+                        this._primitives.splice(primitive_index, 1);
+                        this._primitives.splice(0, 0, primitive);
+                        break;
+                    }
+                }
+            }
+        } else {
+
+            /**
+             * Iterate in positive direction over the depth buffer
+             */
+
+            for (let i = primitive_index + 1; i < this._primitives.length; ++i) {
+                if (depth <= this._primitives[i]._depth || i === this._primitives.length - 1) {
+                    this._primitives.splice(primitive_index, 1);
+                    this._primitives.splice(i, 0, primitive);
+                    break;
+                }
+            }
+        }
+    }
+};
+
+/**
  * Empty the depth buffer
  */
 
-DepthBuffer.prototype.empty = function() {
+DepthBuffer.prototype.empty = function () {
     this._primitives.length = 0;
     return this;
 };
@@ -42,7 +85,7 @@ DepthBuffer.prototype.empty = function() {
  * List all the primitives currently in the depth buffer
  */
 
-DepthBuffer.prototype.primitives = function() {
+DepthBuffer.prototype.primitives = function () {
     return this._primitives;
 };
 
