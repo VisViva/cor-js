@@ -53,10 +53,46 @@ exports.Text = function(_scene, Primitive) {
 
         this._text = '';
 
+        /**
+         * The font parameters
+         */
+
+        this._font;
+
+        /**
+         * Reset the font parameters
+         */
+
+        this.reset();
+
         this._tcanvas = document.createElement('canvas');
         this._tcontext = this._tcanvas.getContext('2d');
-        this._tcanvas.width = _scene._canvas.width;
-        this._tcanvas.height = _scene._canvas.height;
+        this._tcanvas.width = 1000;
+        this._tcanvas.height = 200;
+    };
+
+    /**
+     * Reset the font parameters
+     */
+
+    Text.prototype.reset = function() {
+        this._font = {
+            style: 'normal',
+            variant: 'normal',
+            weight: 'normal',
+            size: {
+                value: 48,
+                units: 'px'
+            },
+            line: {
+                value: 48,
+                units: 'px'
+            },
+            family: 'sans-serif',
+            concatenated: 'normal normal normal 48px/48px sans-serif',
+            align: 'center',
+            baseline: 'middle'
+        };
     };
 
     /**
@@ -85,7 +121,7 @@ exports.Text = function(_scene, Primitive) {
         const half_width = _scene._context.measureText(this._text).width >>> 1;
         this._points[0].x = this._points[2].x = this._at.x - half_width;
         this._points[1].x = this._points[3].x = this._at.x + half_width;
-        const half_height = Math.max(this._material.line(), this._material.size()) >>> 1;
+        const half_height = Math.max(this._font.line.value, this._font.size.value) >>> 1;
         this._points[0].y = this._points[1].y = this._at.y - half_height;
         this._points[2].y = this._points[3].y = this._at.y + half_height;
 
@@ -116,6 +152,183 @@ exports.Text = function(_scene, Primitive) {
     };
 
     /**
+     * Get or set the font size
+     */
+
+    Text.prototype.size = function(size) {
+        if (size !== undefined) {
+            this._font.size.value = size;
+            this._concatenate_font();
+            return this;
+        } else {
+            return this._font.size.value;
+        }
+    };
+
+    /**
+     * Get or set the font units
+     */
+
+    Text.prototype.sizeUnits = function(units) {
+        if (units !== undefined) {
+            this._font.size.units = units;
+            this._concatenate_font();
+            return this;
+        } else {
+            return this._font.size.units;
+        }
+    };
+
+    /**
+     * Get or set the font line size
+     */
+
+    Text.prototype.line = function(line) {
+        if (line !== undefined) {
+            this._font.line.value = line;
+            this._concatenate_font();
+            return this;
+        } else {
+            return this._font.line.value;
+        }
+    };
+
+    /**
+     * Get or set the font line units
+     */
+
+    Text.prototype.lineUnits = function(units) {
+        if (units !== undefined) {
+            this._font.line.units = units;
+            this._concatenate_font();
+            return this;
+        } else {
+            return this._font.line.units;
+        }
+    };
+
+    /**
+     * Get or set the font style
+     */
+
+    Text.prototype.style = function(style) {
+        if (style !== undefined) {
+            this._font.style = style;
+            this._concatenate_font();
+            return this;
+        } else {
+            return this._font.style;
+        }
+    };
+
+    /**
+     * Get or set the font variant
+     */
+
+    Text.prototype.variant = function(variant) {
+        if (variant !== undefined) {
+            this._font.variant = variant;
+            this._concatenate_font();
+            return this;
+        } else {
+            return this._font.variant;
+        }
+    };
+
+    /**
+     * Get or set the font weight
+     */
+
+    Text.prototype.weight = function(weight) {
+        if (weight !== undefined) {
+            this._font.weight = weight;
+            this._concatenate_font();
+            return this;
+        } else {
+            return this._font.weight;
+        }
+    };
+
+    /**
+     * Get or set the font weight
+     */
+
+    Text.prototype.family = function(family) {
+        if (family !== undefined) {
+            this._font.family = family;
+            this._concatenate_font();
+            return this;
+        } else {
+            return this._font.family;
+        }
+    };
+
+    /**
+     * Get or set the font
+     */
+
+    Text.prototype.font = function(font) {
+        if (font !== undefined) {
+            this._font.concatenated = font;
+            const regex = /^\s*(?=(?:(?:[-a-z]+\s*){0,2}(italic|oblique))?)(?=(?:(?:[-a-z]+\s*){0,2}(small-caps))?)(?=(?:(?:[-a-z]+\s*){0,2}(bold(?:er)?|lighter|[1-9]00))?)(?:(?:normal|\1|\2|\3)\s*){0,3}((?:xx?-)?(?:small|large)|medium|smaller|larger|[.\d]+(?:\%|in|[cem]m|ex|p[ctx]))(?:\s*\/\s*(normal|[.\d]+(?:\%|in|[cem]m|ex|p[ctx])))?\s*([-,\"\sa-z]+?)\s*$/i;
+            const tokens = regex.exec(font);
+            this._font.style = tokens[1] || 'normal';
+            this._font.variant = tokens[2] || 'normal';
+            this._font.weight = tokens[3] || 'normal';
+            this._font.size.value = tokens[4].match(/\d+/g)[0];
+            this._font.size.units = tokens[4].match(/[a-z]+/g)[0];
+            this._font.line.value = tokens[5].match(/\d+/g)[0];
+            this._font.line.units = tokens[5].match(/[a-z]+/g)[0];
+            this._font.family = tokens[6];
+            return this;
+        } else {
+            return this._font.concatenated;
+        }
+    };
+
+    /**
+     * Get or set the text align
+     */
+
+    Text.prototype.align = function(align) {
+        if (align !== undefined) {
+            this._font._align = align;
+            return this;
+        } else {
+            return this._font._align;
+        }
+    };
+
+    /**
+     * Get or set the text baseline
+     */
+
+    Text.prototype.baseline = function(baseline) {
+        if (baseline !== undefined) {
+            this._font._baseline = baseline;
+            return this;
+        } else {
+            return this._font._baseline;
+        }
+    };
+
+    /**
+     * Concatenate font parts into font string
+     */
+
+    Text.prototype._concatenate_font = function() {
+        this._font.concatenated =
+            this._font.style + ' ' +
+            this._font.variant + ' ' +
+            this._font.weight + ' ' +
+            this._font.size.value +
+            this._font.size.units + '/' +
+            this._font.line.value +
+            this._font.line.units + ' ' +
+            this._font.family;
+    };
+
+    /**
      * Render the current rect
      */
 
@@ -129,23 +342,64 @@ exports.Text = function(_scene, Primitive) {
         if (this._hidden === false) {
 
             /**
-             * Apply current primitive's material to the current context
+             * Apply font
              */
 
-            this._tcontext.save();
+            if (context.font !== this._font.concatenated) {
+                context.font = this._font.concatenated;
+            }
+
+            if (context.textAlign !== this._font.align) {
+                context.textAlign = this._font.align;
+            }
+
+            if (context.textBaseline !== this._font.baseline) {
+                context.textBaseline = this._font.baseline;
+            }
+
+            /**
+             * Clear text specific context
+             */
+
             this._tcontext.clearRect(0, 0, this._tcanvas.width, this._tcanvas.height);
+
+            /**
+             * Set font to the text specific contex
+             */
+
             this._material.use(this._tcontext);
-            context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
-            this._tcontext.font = 'normal normal normal 96px/96px sans-serif';
-            const twidth = this._tcontext.measureText(this._text).width >>> 1;
-            const theight = Math.max(this._material.line() * 2, this._material.size() * 2) >>> 1;
-            this._tcontext.translate(twidth, theight);
+            this._tcontext.font = this._font.concatenated;
+
+            /**
+             * Render text to the separate context
+             */
+
+            const twidth = this._tcontext.measureText(this._text).width;
+            const theight = Math.max(this._font.line.value, this._font.size.value);
+            this._tcontext.save();
+            this._tcontext.translate(0, theight);
             this._material._fill.enabled && this._tcontext.fillText(this._text, 0, 0);
             this._material._stroke.enabled && this._tcontext.strokeText(this._text, 0, 0);
             this._tcontext.restore();
+
+            /**
+             * Render text
+             */
+
             this._tcontext.save();
-            context.scale(0.5, 0.5);
-            context.drawImage(this._tcanvas, this._at.x - twidth, - this._at.y - theight);
+
+            /**
+             * Set transformations to the scene's context
+             */
+
+            context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
+
+            /**
+             * Render the text, pre-rendered on the separate context to the
+             * scene's context
+             */
+
+            context.drawImage(this._tcanvas, this._at.x - twidth / 2, - this._at.y - theight / 2);
             this._tcontext.restore();
         }
 

@@ -33,7 +33,8 @@ scene
 
 text
     .debug(true)
-    .material(material).text('adsasdsdasd');
+    .text('adsasdsdasd')
+    .material(material);
 
 root
     .append(text);
@@ -51,11 +52,10 @@ root
 //     new Keyframe().time(10000).style('italic').size(200)
 // );
 
-
 scene.timeline().add(
     text,
     new Keyframe().time(0).scale(1, 1),
-    new Keyframe().time(1000).scale(2, 2, Easings.cubic, Easings.cubic)
+    new Keyframe().time(10000).scale(2, 2, Easings.cubic, Easings.cubic)
 );
 
 
