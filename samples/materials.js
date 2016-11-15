@@ -35,7 +35,7 @@ for (let i = -20; i < 21; ++i) {
             .width(100)
             .height(100)
             .rotate(i * j)
-            .pivot(100 * i * random, 10 * j * random)
+            .pivot(100 * i * random, -10 * j * random)
             .depth(i * i * j * j)
             .material()
             .width(Math.abs(i) / 2)

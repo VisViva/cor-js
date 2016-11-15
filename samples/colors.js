@@ -68,7 +68,7 @@ for (let i = -20; i < 21; ++i) {
             .width(300)
             .height(80)
             .rotate(i * j)
-            .pivot(100 * i * random, 10 * j * random)
+            .pivot(100 * i * random, -10 * j * random)
             .depth(i * i * j * j)
             .material(material),
             new Keyframe()

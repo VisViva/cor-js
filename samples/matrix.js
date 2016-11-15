@@ -35,7 +35,7 @@ for (let i = -10; i < 11; ++i) {
         text
             .debug(false)
             .rotate(i * j)
-            .pivot(100 * i * random, 10 * j * random)
+            .pivot(100 * i * random, -10 * j * random)
             .depth(i * i * j * j)
             .material()
             .width(Math.abs(i) / 2)
