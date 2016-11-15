@@ -5,7 +5,7 @@ const scene = manager.new('scene').fps(60);
 const Text = scene.factory().Text;
 const Rect = scene.factory().Rect;
 const root = scene.root().pivot(0, scene._canvas.height).translate(scene._canvas.width / 2, scene._canvas.height / 2);
-const COLUMN_COUNT_HALF = 40;
+const COLUMN_COUNT_HALF = 20;
 const ROW_COUNT = 20;
 const HORIZONTAL_SPACING = scene._canvas.width / COLUMN_COUNT_HALF - scene._canvas.width / 100;
 const VERTICAL_SPACING = Math.abs(scene._canvas.height * 0.04);
@@ -16,11 +16,11 @@ window.addEventListener('resize', function(event) {
 const string = 'CORJS';
 for (let row_index = -COLUMN_COUNT_HALF; row_index < COLUMN_COUNT_HALF + 1; ++row_index) {
     for (let column_index = 1; column_index < ROW_COUNT; ++column_index) {
-        const text = new Text();
+        const text = new Text().size(20).line(20).family('monospace');
         const random = Math.random();
         const text_keyframes = [];
         const material_keyframes = [];
-        const material = new Material().filled(true).stroked(true).size(20).line(20).width(0.1).family('monospace');
+        const material = new Material().filled(true).stroked(true).width(0.1);
         text.scale(0.3 + random * 0.7, 0.3 + random * 0.7).material(material);
         root.append(text);
         for (let keyframe_index = 0; keyframe_index < 5 + Math.random() * 2; ++keyframe_index) {
