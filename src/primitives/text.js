@@ -23,7 +23,7 @@ exports.Text = function(_scene, Primitive) {
      * Rect constructor
      */
 
-    function Text(rasterized) {
+    function Text() {
         Primitive.call(this);
 
         /**
@@ -63,13 +63,7 @@ exports.Text = function(_scene, Primitive) {
          * Rasterized text mode
          */
 
-        this._rasterized = (rasterized === undefined) ? false : true;
-        if (this._rasterized) {
-            this._tcanvas = document.createElement('canvas');
-            this._tcontext = this._tcanvas.getContext('2d');
-            this._tcanvas.width = 1000;
-            this._tcanvas.height = 200;
-        }
+        this._rasterized = false;
 
         /**
          * Reset the font parameters
@@ -119,56 +113,22 @@ exports.Text = function(_scene, Primitive) {
      * Get or set rasterized text mode
      */
 
-    Text.prototype.rasterized = function(rasterized) {
-        if (rasterized !== undefined) {
+    Text.prototype.rasterized = function(rasterized, width, height) {
+        if (rasterized !== undefined && width !== undefined && height !== undefined) {
             this._rasterized = rasterized;
+            if (this._rasterized) {
+                this._tcanvas = document.createElement('canvas');
+                this._tcontext = this._tcanvas.getContext('2d');
+                this._tcanvas.width = width;
+                this._tcanvas.height = height;
+            } else {
+                this._tcanvas && delete this._tcanvas;
+                this._tcontext && delete this._tcontext;
+            }
             return this;
         } else {
             return this._rasterized;
         }
-    };
-
-    /**
-     * Get the bounding box of the current node only
-     */
-
-    Text.prototype.bboxOwn = function() {
-
-        /**
-         * Update point array to reflect the latest context state
-         */
-
-        const half_width = _scene._context.measureText(this._text).width >>> 1;
-        this._points[0].x = this._points[2].x = this._at.x - half_width;
-        this._points[1].x = this._points[3].x = this._at.x + half_width;
-        const half_height = Math.max(this._font.line.value, this._font.size.value) >>> 1;
-        this._points[0].y = this._points[1].y = this._at.y - half_height;
-        this._points[2].y = this._points[3].y = this._at.y + half_height;
-
-        /**
-         * Transformed points
-         */
-
-        const xValues = [];
-        const yValues = [];
-
-        /**
-         * Transformations
-         */
-
-        const transformed3DVector = vec2.create();
-
-        for (let i = 0; i < this._points.length; ++i) {
-            vec2.transformMat3(transformed3DVector, vec2.fromValues(this._points[i].x, -this._points[i].y), this._matrix_cascaded);
-            xValues.push(transformed3DVector[0]);
-            yValues.push(transformed3DVector[1]);
-        }
-
-        /**
-         * Returning the newly created bouding box
-         */
-
-        return BBox.prototype.from(xValues, yValues);
     };
 
     /**
@@ -349,11 +309,60 @@ exports.Text = function(_scene, Primitive) {
     };
 
     /**
+     * Get the bounding box of the current node only
+     */
+
+    Text.prototype.bboxOwn = function() {
+
+        /**
+         * Select correct context for text measuring
+         */
+
+        const context = (this._rasterized === true) ? this._tcontext : _scene._context;
+
+        /**
+         * Update point array to reflect the latest context state
+         */
+
+        const half_width = context.measureText(this._text).width >>> 1;
+        this._points[0].x = this._points[2].x = this._at.x - half_width;
+        this._points[1].x = this._points[3].x = this._at.x + half_width;
+        const half_height = Math.max(this._font.line.value, this._font.size.value) >>> 1;
+        this._points[0].y = this._points[1].y = this._at.y - half_height;
+        this._points[2].y = this._points[3].y = this._at.y + half_height;
+
+        /**
+         * Transformed points
+         */
+
+        const xValues = [];
+        const yValues = [];
+
+        /**
+         * Transformations
+         */
+
+        const transformed3DVector = vec2.create();
+
+        for (let i = 0; i < this._points.length; ++i) {
+            vec2.transformMat3(transformed3DVector, vec2.fromValues(this._points[i].x, -this._points[i].y), this._matrix_cascaded);
+            xValues.push(transformed3DVector[0]);
+            yValues.push(transformed3DVector[1]);
+        }
+
+        /**
+         * Returning the newly created bouding box
+         */
+
+        return BBox.prototype.from(xValues, yValues);
+    };
+
+    /**
      * Render the current rect
      */
 
     Text.prototype.render = function() {
-        let context = _scene.context();
+        let context = _scene._context;
 
         /**
          * Render only if primitive is not hidden
@@ -366,18 +375,15 @@ exports.Text = function(_scene, Primitive) {
                  * Apply font
                  */
 
-                if (context.font !== this._font.concatenated) {
-                    context.font = this._font.concatenated;
+                if (this._tcontext.font !== this._font.concatenated) {
                     this._tcontext.font = this._font.concatenated;
                 }
 
-                if (context.textAlign !== this._font.align) {
-                    context.textAlign = this._font.align;
+                if (this._tcontext.textAlign !== this._font.align) {
                     this._tcontext.textAlign = this._font.align;
                 }
 
-                if (context.textBaseline !== this._font.baseline) {
-                    context.textBaseline = this._font.baseline;
+                if (this._tcontext.textBaseline !== this._font.baseline) {
                     this._tcontext.textBaseline = this._font.baseline;
                 }
 
@@ -416,54 +422,54 @@ exports.Text = function(_scene, Primitive) {
                  * Set transformations to the scene's context
                  */
 
-                context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
+                _scene._context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
 
                 /**
                  * Render the text, pre-rendered on the separate context to the
                  * scene's context
                  */
 
-                context.drawImage(this._tcanvas, this._at.x - twidth, - this._at.y - theight);
+                _scene._context.drawImage(this._tcanvas, this._at.x - twidth, - this._at.y - theight);
                 this._tcontext.restore();
             } else {
 
-                this._material.use(context);
+                this._material.use(_scene._context);
 
                 /**
                  * Apply font
                  */
 
-                if (context.font !== this._font.concatenated) {
-                    context.font = this._font.concatenated;
+                if (_scene._context.font !== this._font.concatenated) {
+                    _scene._context.font = this._font.concatenated;
                 }
 
-                if (context.textAlign !== this._font.align) {
-                    context.textAlign = this._font.align;
+                if (_scene._context.textAlign !== this._font.align) {
+                    _scene._context.textAlign = this._font.align;
                 }
 
-                if (context.textBaseline !== this._font.baseline) {
-                    context.textBaseline = this._font.baseline;
+                if (_scene._context.textBaseline !== this._font.baseline) {
+                    _scene._context.textBaseline = this._font.baseline;
                 }
 
                 /**
                  * Set transformations to the scene's context
                  */
 
-                context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
+                _scene._context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
 
                 /**
                  * Fill the rect
                  */
 
                 this._material._fill.enabled &&
-                    context.fillText(this._text, this._at.x, -this._at.y);
+                    _scene._context.fillText(this._text, this._at.x, -this._at.y);
 
                 /**
                  * Stroke the stroke
                  */
 
                 this._material._stroke.enabled &&
-                    context.strokeText(this._text, this._at.x, -this._at.y);
+                    _scene._context.strokeText(this._text, this._at.x, -this._at.y);
             }
         }
 
@@ -473,14 +479,14 @@ exports.Text = function(_scene, Primitive) {
 
         if (this._debug === true) {
             let bbox = this.bboxCascaded();
-            context.save();
-            context.setTransform(1, 0, 0, 1, 0, 0);
-            context.beginPath();
-            context.lineWidth = 2;
-            context.rect(bbox.x(), bbox.y() - bbox.height(), bbox.width(), bbox.height());
-            context.strokeStyle = '#EE0000';
-            context.stroke();
-            context.restore();
+            _scene._context.save();
+            _scene._context.setTransform(1, 0, 0, 1, 0, 0);
+            _scene._context.beginPath();
+            _scene._context.lineWidth = 2;
+            _scene._context.rect(bbox.x(), bbox.y() - bbox.height(), bbox.width(), bbox.height());
+            _scene._context.strokeStyle = '#EE0000';
+            _scene._context.stroke();
+            _scene._context.restore();
         }
     };
 

@@ -32,8 +32,10 @@ scene
     .fill([200, 200, 200, 1]);
 
 text
-    .debug(true)
     .text('adsasdsdasd')
+    .size(96)
+    .line(96)
+    .rasterized(true, 900, 140)
     .material(material);
 
 root
@@ -41,9 +43,9 @@ root
 
 scene.timeline().add(
     text,
-    new Keyframe().style('italic').scale(1, 1),
+    new Keyframe().style('italic').scale(0.5, 0.5),
     new Keyframe().time(2000).style('normal'),
-    new Keyframe().time(4000).style('italic').scale(1.7, 1.7, Easings.cubic, Easings.cubic)
+    new Keyframe().time(4000).style('italic').scale(1.2, 1.2, Easings.cubic, Easings.cubic)
 );
 
 scene.start();

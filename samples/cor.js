@@ -33,7 +33,7 @@ for (let row_index = -COLUMN_COUNT_HALF; row_index < COLUMN_COUNT_HALF + 1; ++ro
             text_keyframes.push(new Keyframe().translate(row_index * HORIZONTAL_SPACING, - scene._canvas.height / 4 + column_index * VERTICAL_SPACING));
             text_keyframes.push(new Keyframe().time(15000).translateY(- scene._canvas.height / 2 - column_index * random * 20 * VERTICAL_SPACING - 1000));
         } else {
-            text.scale(1, 1);
+            text.size(40).line(40).scale(0.5, 0.5).rasterized(true, 400, 400);
             text_keyframes.push(new Keyframe().translateX(row_index * HORIZONTAL_SPACING).translateY(- scene._canvas.height / 2 + column_index * VERTICAL_SPACING + random * 500));
             text_keyframes.push(new Keyframe().time(5000).translateY(- scene._canvas.height / 2 + column_index * VERTICAL_SPACING - scene._canvas.height * 0.8964, Easings.cubic, Easings.linear));
             material_keyframes.push(new Keyframe().time(6000).fill([255, 255, 0, 0.5]).stroke([255, 255, 0, 0]));
@@ -43,7 +43,7 @@ for (let row_index = -COLUMN_COUNT_HALF; row_index < COLUMN_COUNT_HALF + 1; ++ro
             for (var k = -2; k < 3; ++k) {
                 if ((row_index === k) && (column_index === ROW_COUNT / 2)) {
                     text_keyframes.push(new Keyframe().time(6500 + (k + 3) * 500).text(string[k + 2]));
-                    if (k > 0) text.scale(0.5, 0.5);
+                    if (k > 0) text.scale(0.25, 0.25);
                 }
             }
         }
@@ -55,5 +55,5 @@ const rect = new Rect().translateY(- scene._canvas.height + scene._canvas.height
 root.append(rect);
 scene.timeline().add(rect, new Keyframe().time(6500).scale(1.1, 1.1, Easings.quad, Easings.quad))
 .add(material, new Keyframe().stroke([255, 255, 0, 0]), new Keyframe().time(4000).stroke([255, 255, 0, 0]).width(0.001, Easings.linear, Easings.cubic), new Keyframe().time(7000).stroke([255, 255, 255, 1]).width(2, Easings.cubic, Easings.cubic), new Keyframe().time(10500).stroke([255, 255, 255, 1]), new Keyframe().time(15000).stroke([0, 0, 0, 0]))
-.add(root, new Keyframe().scale(0.5, 0.5), new Keyframe().time(8000).scale(1.7, 1.7, Easings.quad, Easings.quad));
+.add(root, new Keyframe().scale(0.5, 0.5), new Keyframe().time(15000).scale(2.7, 2.7, Easings.quad, Easings.quad));
 scene.start();
