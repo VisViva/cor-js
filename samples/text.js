@@ -12,7 +12,7 @@ const manager = new Manager();
 const scene = manager.new('scene');
 const root = scene.root();
 const Text = scene.factory().Text;
-const text = new Text();
+const text = new Text(true);
 const material = new Material();
 
 window.addEventListener('resize', function(event) {
@@ -32,23 +32,20 @@ scene
     .fill([200, 200, 200, 1]);
 
 text
-    .debug(true)
-    .material(material).text('adsasdsdasd');
+    .text('adsasdsdasd')
+    .size(96)
+    .line(96)
+    .rasterized(true, 900, 140)
+    .material(material);
 
 root
     .append(text);
 
 scene.timeline().add(
     text,
-    new Keyframe().text('adsasdsdasd'),
-    new Keyframe().time(2000).text('Привет!')
-);
-
-scene.timeline().add(
-    material,
-    new Keyframe().time(0).size(48).style('italic'),
-    new Keyframe().time(5000).style('normal'),
-    new Keyframe().time(10000).style('italic').size(200)
+    new Keyframe().style('italic').scale(0.5, 0.5),
+    new Keyframe().time(2000).style('normal'),
+    new Keyframe().time(4000).style('italic').scale(1.2, 1.2, Easings.cubic, Easings.cubic)
 );
 
 scene.start();
