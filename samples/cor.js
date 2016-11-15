@@ -9,10 +9,24 @@ const COLUMN_COUNT_HALF = 30;
 const ROW_COUNT = 20;
 const HORIZONTAL_SPACING = scene._canvas.width / COLUMN_COUNT_HALF - scene._canvas.width / 100;
 const VERTICAL_SPACING = Math.abs(scene._canvas.height * 0.04);
+
 window.addEventListener('resize', function(event) {
     scene.resize();
     root.translate(scene._canvas.width / 2, scene._canvas.height / 2);
 });
+
+let paused = false;
+
+document.addEventListener("click", function(){
+    if (paused) {
+      paused = false;
+      scene.resume();
+    } else {
+      paused = true;
+      scene.pause();
+    }
+});
+
 const string = 'CORJS';
 for (let row_index = -COLUMN_COUNT_HALF; row_index < COLUMN_COUNT_HALF + 1; ++row_index) {
     for (let column_index = 1; column_index < ROW_COUNT; ++column_index) {
