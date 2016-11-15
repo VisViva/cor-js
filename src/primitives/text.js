@@ -23,7 +23,7 @@ exports.Text = function(_scene, Primitive) {
      * Rect constructor
      */
 
-    function Text() {
+    function Text(rasterized) {
         Primitive.call(this);
 
         /**
@@ -60,15 +60,22 @@ exports.Text = function(_scene, Primitive) {
         this._font;
 
         /**
+         * Rasterized text mode
+         */
+
+        this._rasterized = (rasterized === undefined) ? false : true;
+        if (this._rasterized) {
+            this._tcanvas = document.createElement('canvas');
+            this._tcontext = this._tcanvas.getContext('2d');
+            this._tcanvas.width = 1000;
+            this._tcanvas.height = 200;
+        }
+
+        /**
          * Reset the font parameters
          */
 
         this.reset();
-
-        this._tcanvas = document.createElement('canvas');
-        this._tcontext = this._tcanvas.getContext('2d');
-        this._tcanvas.width = 1000;
-        this._tcanvas.height = 200;
     };
 
     /**
@@ -105,6 +112,19 @@ exports.Text = function(_scene, Primitive) {
             return this;
         } else {
             return this._text;
+        }
+    };
+
+    /**
+     * Get or set rasterized text mode
+     */
+
+    Text.prototype.rasterized = function(rasterized) {
+        if (rasterized !== undefined) {
+            this._rasterized = rasterized;
+            return this;
+        } else {
+            return this._rasterized;
         }
     };
 
@@ -340,67 +360,111 @@ exports.Text = function(_scene, Primitive) {
          */
 
         if (this._hidden === false) {
+            if (this._rasterized) {
 
-            /**
-             * Apply font
-             */
+                /**
+                 * Apply font
+                 */
 
-            if (context.font !== this._font.concatenated) {
-                context.font = this._font.concatenated;
+                if (context.font !== this._font.concatenated) {
+                    context.font = this._font.concatenated;
+                    this._tcontext.font = this._font.concatenated;
+                }
+
+                if (context.textAlign !== this._font.align) {
+                    context.textAlign = this._font.align;
+                    this._tcontext.textAlign = this._font.align;
+                }
+
+                if (context.textBaseline !== this._font.baseline) {
+                    context.textBaseline = this._font.baseline;
+                    this._tcontext.textBaseline = this._font.baseline;
+                }
+
+                /**
+                 * Clear text specific context
+                 */
+
+                this._tcontext.clearRect(0, 0, this._tcanvas.width, this._tcanvas.height);
+
+                /**
+                 * Set font to the text specific contex
+                 */
+
+                this._material.use(this._tcontext);
+                this._tcontext.font = this._font.concatenated;
+
+                /**
+                 * Render text to the separate context
+                 */
+
+                const twidth = this._tcontext.measureText(this._text).width;
+                const theight = Math.max(this._font.line.value, this._font.size.value);
+                this._tcontext.save();
+                this._tcontext.translate(twidth, theight);
+                this._material._fill.enabled && this._tcontext.fillText(this._text, 0, 0);
+                this._material._stroke.enabled && this._tcontext.strokeText(this._text, 0, 0);
+                this._tcontext.restore();
+
+                /**
+                 * Render text
+                 */
+
+                this._tcontext.save();
+
+                /**
+                 * Set transformations to the scene's context
+                 */
+
+                context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
+
+                /**
+                 * Render the text, pre-rendered on the separate context to the
+                 * scene's context
+                 */
+
+                context.drawImage(this._tcanvas, this._at.x - twidth, - this._at.y - theight);
+                this._tcontext.restore();
+            } else {
+
+                this._material.use(context);
+
+                /**
+                 * Apply font
+                 */
+
+                if (context.font !== this._font.concatenated) {
+                    context.font = this._font.concatenated;
+                }
+
+                if (context.textAlign !== this._font.align) {
+                    context.textAlign = this._font.align;
+                }
+
+                if (context.textBaseline !== this._font.baseline) {
+                    context.textBaseline = this._font.baseline;
+                }
+
+                /**
+                 * Set transformations to the scene's context
+                 */
+
+                context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
+
+                /**
+                 * Fill the rect
+                 */
+
+                this._material._fill.enabled &&
+                    context.fillText(this._text, this._at.x, -this._at.y);
+
+                /**
+                 * Stroke the stroke
+                 */
+
+                this._material._stroke.enabled &&
+                    context.strokeText(this._text, this._at.x, -this._at.y);
             }
-
-            if (context.textAlign !== this._font.align) {
-                context.textAlign = this._font.align;
-            }
-
-            if (context.textBaseline !== this._font.baseline) {
-                context.textBaseline = this._font.baseline;
-            }
-
-            /**
-             * Clear text specific context
-             */
-
-            this._tcontext.clearRect(0, 0, this._tcanvas.width, this._tcanvas.height);
-
-            /**
-             * Set font to the text specific contex
-             */
-
-            this._material.use(this._tcontext);
-            this._tcontext.font = this._font.concatenated;
-
-            /**
-             * Render text to the separate context
-             */
-
-            const twidth = this._tcontext.measureText(this._text).width;
-            const theight = Math.max(this._font.line.value, this._font.size.value);
-            this._tcontext.save();
-            this._tcontext.translate(0, theight);
-            this._material._fill.enabled && this._tcontext.fillText(this._text, 0, 0);
-            this._material._stroke.enabled && this._tcontext.strokeText(this._text, 0, 0);
-            this._tcontext.restore();
-
-            /**
-             * Render text
-             */
-
-            this._tcontext.save();
-
-            /**
-             * Set transformations to the scene's context
-             */
-
-            context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
-
-            /**
-             * Render the text, pre-rendered on the separate context to the
-             * scene's context
-             */
-
-            context.drawImage(this._tcanvas, this._at.x - twidth / 2, - this._at.y - theight / 2);
-            this._tcontext.restore();
         }
 
         /**
