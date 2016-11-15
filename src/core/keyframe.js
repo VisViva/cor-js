@@ -95,6 +95,23 @@ Keyframe.prototype.pivot = function(x, y, ease_in, ease_out) {
 };
 
 /**
+ * Get or set at keys
+ */
+
+Keyframe.prototype.at = function(x, y, ease_in, ease_out) {
+    if (x !== undefined && y !== undefined) {
+        this.set('atX', Values.numeric, x, ease_in, ease_out);
+        this.set('atY', Values.numeric, y, ease_in, ease_out);
+        return this;
+    } else {
+        return {
+            pivotX: this._keys.atX,
+            pivotY: this._keys.atY
+        };
+    }
+};
+
+/**
  * Get or set translation keys
  */
 

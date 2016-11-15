@@ -115,7 +115,7 @@ exports.Node = function(_scene) {
      */
 
     Node.prototype.pivot = function(x, y) {
-        if (x !== undefined && y !== undefined) {
+        if (x !== undefined || y !== undefined) {
             this._pivot.x = (x !== undefined) && x || this._pivot.x;
             this._pivot.y = (y !== undefined) && -y || this._pivot.y;
             this._dirty = true;

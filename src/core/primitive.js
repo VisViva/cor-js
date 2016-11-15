@@ -91,7 +91,7 @@ exports.Primitive = function (_scene, Node) {
      * Get or set the primitives starting point on the y axis
      */
 
-    Primitive.prototype.atY = function (x) {
+    Primitive.prototype.atY = function (y) {
         return this.at(undefined, y);
     };
 
