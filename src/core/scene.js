@@ -119,6 +119,12 @@ function Scene(name, width, height) {
      */
 
     this.resize(width, height);
+
+    /**
+     * User defined callback
+     */
+
+    this._user_logic;
 };
 
 /**
@@ -359,12 +365,12 @@ Scene.prototype.render = function() {
  * Rendering loop
  */
 
-Scene.prototype.loop = function(callback) {
+Scene.prototype.loop = function() {
     setTimeout(() => {
         if (this._request_animation_frame_id) {
-            this._request_animation_frame_id = requestAnimationFrame(() => this.loop.bind(this)(callback));
+            this._request_animation_frame_id = requestAnimationFrame(() => this.loop.bind(this)());
             this._timeline.seek(this._timer.delta());
-            callback && callback();
+            this._user_logic && this._user_logic();
             this.render();
         }
     }, 1000 / this._fps);
@@ -376,14 +382,25 @@ Scene.prototype.loop = function(callback) {
 
 Scene.prototype.start = function(callback) {
     this.timer().reset();
-    this._request_animation_frame_id = requestAnimationFrame(() => this.loop.bind(this)(callback));
+    this._user_logic = callback;
+    this._request_animation_frame_id = requestAnimationFrame(() => this.loop.bind(this)());
 };
 
 /**
- * Start rendering
+ * Resume rendering
  */
 
-Scene.prototype.stop = function() {
+Scene.prototype.resume = function() {
+    this.timer().resume();
+    this._request_animation_frame_id = requestAnimationFrame(() => this.loop.bind(this)());
+};
+
+/**
+ * Pause rendering
+ */
+
+Scene.prototype.pause = function() {
+    this.timer().pause();
     this._request_animation_frame_id &&
         window.cancelAnimationFrame(this._request_animation_frame_id);
     this._request_animation_frame_id = null;
