@@ -34,43 +34,39 @@ rect
     .translate(0, 0)
     .width(600)
     .height(300)
-    .depth(-2)
+    .depth(-3)
     .material()
-    .fill(random_color());
+    .fill([Math.floor(Math.random() * 256), Math.floor(Math.random() * 256), Math.floor(Math.random() * 256), 1]);
 
 root
     .append(rect);
 
-for (let i = -1; i < 2; ++i) {
+let rect_temp;
+
+for (let i = -2; i < 3; ++i) {
     const recta = new Rect();
-    const patha = new Path();
+
+    if (i === 0) rect_temp = recta;
+
     recta
         .translate(150 * i, 0)
-        .width(160)
-        .height(160)
+        .width(200)
+        .height(200)
         .depth(i)
         .rotate(45)
         .material()
-        .fill(random_color());
-    patha
-        .cubicTo(50 * i, 50, -15, 15, 50, -50)
-        .linearTo(-25, -25)
-        .depth(i)
-        .quadraticTo(-50, 50, -50, 50)
-        .material()
-        .width(10)
-        .stroke(random_color());
+        .fill([Math.floor(Math.random() * 256), Math.floor(Math.random() * 256), Math.floor(Math.random() * 256), 1]);
+
     rect
-        .append(recta.append(patha));
+        .append(recta);
+
     scene.timeline().add(
         recta,
-        new Keyframe().time(8000).rotate(180)
+        new Keyframe().time(64000).rotate(1440)
     );
 }
 
-scene.timeline().add(
-    root,
-    new Keyframe().time(8000).rotate(180)
-);
+rect_temp.width(500).height(500).material().fill([255, 255, 255, 1]);
+rect_temp.depth(-10);
 
 scene.start();
