@@ -11,7 +11,9 @@ import {
 } from '../../src/core/depth_buffer';
 
 describe('Depth buffer tests', () => {
-    const Primitive = new Scene().factory().Primitive;
+    const scene = new Scene();
+    const depthbuffer = scene.depthbuffer();
+    const Primitive = scene.factory().Primitive;
 
     describe('Constructor behavior', () => {
         let depthbuffer;
@@ -26,15 +28,15 @@ describe('Depth buffer tests', () => {
     });
 
     describe('Buffer altering behavior', () => {
-        let depthbuffer;
-        let primitiveA, primitiveB, primitiveC, primitiveD;
+        let primitiveA, primitiveB, primitiveC, primitiveD, primitiveE;
 
         beforeEach(function() {
-            depthbuffer = new DepthBuffer();
-            primitiveA = new Primitive();
-            primitiveB = new Primitive();
-            primitiveC = new Primitive();
-            primitiveD = new Primitive();
+            depthbuffer.empty();
+            primitiveA = new Primitive().depth(-2);
+            primitiveB = new Primitive().depth(-1);
+            primitiveC = new Primitive().depth(0);
+            primitiveD = new Primitive().depth(1);
+            primitiveE = new Primitive().depth(2);
         });
 
         it('Appends a node with all of its child nodes', () => {
@@ -63,6 +65,36 @@ describe('Depth buffer tests', () => {
             expect(depthbuffer.primitives().length).to.be.equal(2);
             expect(depthbuffer.empty()).to.be.equal(depthbuffer);
             expect(depthbuffer.primitives().length).to.be.equal(0);
+        });
+
+        it('Raises the depth to the maximum dynamically correctly', () => {
+            expect(depthbuffer.append(primitiveA)).to.be.equal(depthbuffer);
+            expect(depthbuffer.append(primitiveB)).to.be.equal(depthbuffer);
+            expect(depthbuffer.append(primitiveC)).to.be.equal(depthbuffer);
+            expect(depthbuffer.append(primitiveD)).to.be.equal(depthbuffer);
+            expect(depthbuffer.append(primitiveE)).to.be.equal(depthbuffer);
+            expect(primitiveA.depth(5)).to.be.equal(primitiveA);
+            expect(depthbuffer._primitives[4]._depth).to.be.equal(5);
+        });
+
+        it('Lowers the depth to the mininum dynamically correctly', () => {
+            expect(depthbuffer.append(primitiveA)).to.be.equal(depthbuffer);
+            expect(depthbuffer.append(primitiveB)).to.be.equal(depthbuffer);
+            expect(depthbuffer.append(primitiveC)).to.be.equal(depthbuffer);
+            expect(depthbuffer.append(primitiveD)).to.be.equal(depthbuffer);
+            expect(depthbuffer.append(primitiveE)).to.be.equal(depthbuffer);
+            expect(primitiveA.depth(-5)).to.be.equal(primitiveA);
+            expect(depthbuffer._primitives[0]._depth).to.be.equal(-5);
+        });
+
+        it('Resets the depth to itself dynamically correctly', () => {
+            expect(depthbuffer.append(primitiveA)).to.be.equal(depthbuffer);
+            expect(depthbuffer.append(primitiveB)).to.be.equal(depthbuffer);
+            expect(depthbuffer.append(primitiveC)).to.be.equal(depthbuffer);
+            expect(depthbuffer.append(primitiveD)).to.be.equal(depthbuffer);
+            expect(depthbuffer.append(primitiveE)).to.be.equal(depthbuffer);
+            expect(primitiveA.depth(-2)).to.be.equal(primitiveA);
+            expect(depthbuffer._primitives[0]._depth).to.be.equal(-2);
         });
     });
 });
