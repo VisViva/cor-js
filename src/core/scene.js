@@ -380,9 +380,9 @@ Scene.prototype.loop = function() {
  * Start rendering
  */
 
-Scene.prototype.start = function(callback) {
+Scene.prototype.start = function(user_logic) {
     this.timer().reset();
-    this._user_logic = callback;
+    this._user_logic = user_logic;
     this._request_animation_frame_id = requestAnimationFrame(() => this.loop.bind(this)());
 };
 

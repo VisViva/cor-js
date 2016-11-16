@@ -312,7 +312,7 @@ exports.Text = function(_scene, Primitive) {
      * Get the bounding box of the current node only
      */
 
-    Text.prototype.bboxOwn = function() {
+    Text.prototype._bbox = function() {
 
         /**
          * Select correct context for text measuring
@@ -345,7 +345,7 @@ exports.Text = function(_scene, Primitive) {
         const transformed3DVector = vec2.create();
 
         for (let i = 0; i < this._points.length; ++i) {
-            vec2.transformMat3(transformed3DVector, vec2.fromValues(this._points[i].x, -this._points[i].y), this._matrix_cascaded);
+            vec2.transformMat3(transformed3DVector, vec2.fromValues(this._points[i].x, this._points[i].y), this._matrix_cascaded);
             xValues.push(transformed3DVector[0]);
             yValues.push(transformed3DVector[1]);
         }
@@ -429,7 +429,7 @@ exports.Text = function(_scene, Primitive) {
                  * scene's context
                  */
 
-                _scene._context.drawImage(this._text_canvas, this._at.x - twidth, - this._at.y - theight);
+                _scene._context.drawImage(this._text_canvas, this._at.x - twidth, this._at.y - theight);
                 this._text_context.restore();
             } else {
 
@@ -461,13 +461,13 @@ exports.Text = function(_scene, Primitive) {
                  * Fill the text
                  */
 
-                this._material._fill.enabled && _scene._context.fillText(this._text, this._at.x, -this._at.y);
+                this._material._fill.enabled && _scene._context.fillText(this._text, this._at.x, this._at.y);
 
                 /**
                  * Stroke the text
                  */
 
-                this._material._stroke.enabled && _scene._context.strokeText(this._text, this._at.x, -this._at.y);
+                this._material._stroke.enabled && _scene._context.strokeText(this._text, this._at.x, this._at.y);
             }
         }
 
@@ -476,7 +476,7 @@ exports.Text = function(_scene, Primitive) {
          */
 
         if (this._debug === true) {
-            let bbox = this.bboxCascaded();
+            let bbox = this.bbox();
             _scene._context.save();
             _scene._context.setTransform(1, 0, 0, 1, 0, 0);
             _scene._context.beginPath();

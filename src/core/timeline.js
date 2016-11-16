@@ -84,12 +84,39 @@ Timeline.prototype.add = function(object, ...keyframes) {
                  */
 
                 track[property] = track[property] || [];
-                track[property][0] = track[property][0] || {
-                    type: Values.numeric,
-                    value: 0,
-                    ease_in: Easings.linear,
-                    ease_out: Easings.linear
-                };
+
+                /**
+                 * Setting initial value to starting frame
+                 */
+
+                if (!track[property][0]) {
+                    let value;
+                    switch (keyframes[i]._keys[property].type) {
+                        case Values.numeric:
+                            value = 0;
+                            break;
+                        case Values.color:
+                            value = [0, 0, 0, 1];
+                            break;
+                        case Values.text:
+                            value = '';
+                            break;
+                        default:
+                            value = {};
+                            break;
+                    }
+                    track[property][0] = {
+                        type: keyframes[i]._keys[property].type,
+                        value: value,
+                        ease_in: Easings.linear,
+                        ease_out: Easings.linear
+                    };
+                }
+
+                /**
+                 * Appending keyframe
+                 */
+
                 track[property][keyframes[i]._time] = {
                     type: keyframes[i]._keys[property].type,
                     value: keyframes[i]._keys[property].value,

@@ -13,7 +13,7 @@ function DepthBuffer() {
  * a sorted fashion
  */
 
-DepthBuffer.prototype.append = function (primitive) {
+DepthBuffer.prototype.append = function(primitive) {
     let children = primitive.children();
     for (let i = 0; i < children.length; ++i) {
         this.append(children[i]);
@@ -33,7 +33,7 @@ DepthBuffer.prototype.append = function (primitive) {
  * Relocate an element to a new position according to the supplied depth
  */
 
-DepthBuffer.prototype.relocate = function (primitive, depth) {
+DepthBuffer.prototype.relocate = function(primitive, depth) {
     const primitive_index = this._primitives.indexOf(primitive);
     if (primitive._depth !== depth && primitive_index !== -1) {
         if (primitive._depth > depth) {
@@ -47,12 +47,10 @@ DepthBuffer.prototype.relocate = function (primitive, depth) {
                     this._primitives.splice(primitive_index, 1);
                     this._primitives.splice(i + 1, 0, primitive);
                     break;
-                } else {
-                    if (i === 0) {
-                        this._primitives.splice(primitive_index, 1);
-                        this._primitives.splice(0, 0, primitive);
-                        break;
-                    }
+                } else if (i === 0) {
+                    this._primitives.splice(primitive_index, 1);
+                    this._primitives.splice(0, 0, primitive);
+                    break;
                 }
             }
         } else {
@@ -62,9 +60,13 @@ DepthBuffer.prototype.relocate = function (primitive, depth) {
              */
 
             for (let i = primitive_index + 1; i < this._primitives.length; ++i) {
-                if (depth <= this._primitives[i]._depth || i === this._primitives.length - 1) {
-                    this._primitives.splice(primitive_index, 1);
+                if (depth <= this._primitives[i]._depth) {
                     this._primitives.splice(i, 0, primitive);
+                    this._primitives.splice(primitive_index, 1);
+                    break;
+                } else if (i === this._primitives.length - 1) {
+                    this._primitives.splice(i + 1, 0, primitive);
+                    this._primitives.splice(primitive_index, 1);
                     break;
                 }
             }
@@ -76,7 +78,7 @@ DepthBuffer.prototype.relocate = function (primitive, depth) {
  * Empty the depth buffer
  */
 
-DepthBuffer.prototype.empty = function () {
+DepthBuffer.prototype.empty = function() {
     this._primitives.length = 0;
     return this;
 };
@@ -85,7 +87,7 @@ DepthBuffer.prototype.empty = function () {
  * List all the primitives currently in the depth buffer
  */
 
-DepthBuffer.prototype.primitives = function () {
+DepthBuffer.prototype.primitives = function() {
     return this._primitives;
 };
 

@@ -115,13 +115,33 @@ exports.Node = function(_scene) {
      */
 
     Node.prototype.pivot = function(x, y) {
-        if (x !== undefined && y !== undefined) {
-            this._pivot.x = x;
-            this._pivot.y = y;
+        if (x !== undefined || y !== undefined) {
+            this._pivot.x = (x !== undefined) && x || this._pivot.x;
+            this._pivot.y = (y !== undefined) && -y || this._pivot.y;
+            this._dirty = true;
             return this;
         } else {
-            return this._pivot;
+            return {
+                x: this._pivot.x,
+                y: -this._pivot.y
+            };
         }
+    };
+
+    /**
+     * Get or set the pivot point of the node on the x axis
+     */
+
+    Node.prototype.pivotX = function(x) {
+        return this.pivot(x, undefined);
+    };
+
+    /**
+     * Get or set the pivot point of the node on the y axis
+     */
+
+    Node.prototype.pivotY = function(y) {
+        return this.pivot(undefined, y);
     };
 
     /**
@@ -398,7 +418,7 @@ exports.Node = function(_scene) {
      * Get the bounding box of the current node only
      */
 
-    Node.prototype.bboxOwn = function() {
+    Node.prototype._bbox = function() {
         return new BBox();
     };
 
@@ -406,12 +426,12 @@ exports.Node = function(_scene) {
      * Initiate recursive merge of all the child bboxes
      */
 
-    Node.prototype.bboxCascaded = function() {
-        const bbox = this.bboxOwn();
+    Node.prototype.bbox = function() {
+        const bbox = this._bbox();
         if (this._children.length > 0) {
             const bboxes = [];
             for (let i = 0; i < this._children.length; ++i) {
-                bboxes.push(this._children[i].bboxCascaded());
+                bboxes.push(this._children[i].bbox());
             }
             bbox.merge(...bboxes);
         }

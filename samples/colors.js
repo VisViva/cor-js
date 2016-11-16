@@ -37,22 +37,20 @@ for (let i = -20; i < 21; ++i) {
             .stroked(true)
             .filled(true),
             new Keyframe()
-            .width(Math.abs(i) / 2)
-            .fill([0, 0, 0, 0.8])
-            .stroke([0, 255, 0, 1]),
+            .width(Math.abs(i) / 2),
             new Keyframe()
             .time(100 * (Math.abs(ij)))
-            .width(i*i/5)
+            .width(i * i / 5)
             .fill([50, 0, 0, 0.7])
             .stroke([255, 0, 0, 1]),
             new Keyframe()
             .time(150 * (Math.abs(ij)))
-            .width(j/5)
-            .fill([0, 0, 50*random, 0.2])
+            .width(j / 5)
+            .fill([0, 0, 50 * random, 0.2])
             .stroke([0, 0, 255, 1]),
             new Keyframe()
             .time(200 * (Math.abs(ij)))
-            .width(random*i/20)
+            .width(random * i / 20)
             .fill([0, 0, 0, 0])
             .stroke([255, 100, 255, 1]),
             new Keyframe()
@@ -68,7 +66,7 @@ for (let i = -20; i < 21; ++i) {
             .width(300)
             .height(80)
             .rotate(i * j)
-            .pivot(100 * i * random, 10 * j * random)
+            .pivot(100 * i * random, -10 * j * random)
             .depth(i * i * j * j)
             .material(material),
             new Keyframe()

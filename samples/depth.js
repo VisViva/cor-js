@@ -66,7 +66,13 @@ for (let i = -2; i < 3; ++i) {
     );
 }
 
+scene.timeline().add(
+    rect_temp,
+    new Keyframe().pivot(0, 500).at(0, 0).depth(-10),
+    new Keyframe().time(1000).depth(10),
+    new Keyframe().time(2000).depth(-10).at(0, 0).pivot(500, 0)
+);
+
 rect_temp.width(500).height(500).material().fill([255, 255, 255, 1]);
-rect_temp.depth(-10);
 
 scene.start();

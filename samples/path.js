@@ -31,17 +31,17 @@ scene.render();
 path
     .debug(true)
     .translate(-400, 0)
-    .cubicTo(150, 0, -150, 150, -100, -100)
-    .linearTo(20, -90)
-    .quadraticTo(50, 150, 200, -70)
+    .cubic(150, 0, -150, 150, -100, -100)
+    .linear(20, -90)
+    .quadratic(50, 150, 200, -70)
     .material()
     .width(1);
 
 closed_path
     .debug(true)
-    .cubicTo(150, 0, -150, 150, -100, -100)
-    .linearTo(20, -90)
-    .quadraticTo(50, 150, 200, -70)
+    .cubic(150, 0, -150, 150, -100, -100)
+    .linear(20, -90)
+    .quadratic(50, 150, 200, -70)
     .closed(true)
     .material()
     .filled(false)
@@ -51,9 +51,9 @@ closed_path
 shape
     .debug(true)
     .translate(400, 0)
-    .cubicTo(150, 0, -150, 150, -100, -100)
-    .linearTo(20, -90)
-    .quadraticTo(50, 150, 200, -70)
+    .cubic(150, 0, -150, 150, -100, -100)
+    .linear(20, -90)
+    .quadratic(50, 150, 200, -70)
     .closed(true)
     .material()
     .fill(random_color())

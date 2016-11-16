@@ -39,9 +39,9 @@ for (let i = -5; i < 6; ++i) {
             .fill(random_color());
         patha
             .debug(true)
-            .cubicTo(50 * i, -50, -15, -15, 50, 50 * j)
-            .linearTo(-25, 25)
-            .quadraticTo(-50, -50, -50, -50)
+            .cubic(50 * i, -50, -15, -15, 50, 50 * j)
+            .linear(-25, 25)
+            .quadratic(-50, -50, -50, -50)
             .material()
             .stroke(random_color());
         roota
@@ -103,9 +103,9 @@ for (let i = -5; i < 6; ++i) {
             .fill(random_color());
         pathb
             .debug(true)
-            .cubicTo(50 * i, -50, -15, -15, 50, 50 * j)
-            .linearTo(-25, 25)
-            .quadraticTo(-50, -50, -50, -50)
+            .cubic(50 * i, -50, -15, -15, 50, 50 * j)
+            .linear(-25, 25)
+            .quadratic(-50, -50, -50, -50)
             .material()
             .stroke(random_color());
         rootb
@@ -149,9 +149,9 @@ for (let i = -5; i < 6; ++i) {
             .fill(random_color());
         pathc
             .debug(true)
-            .cubicTo(50 * i, -50, -15, -15, 50, 50 * j)
-            .linearTo(-25, 25)
-            .quadraticTo(-50, -50, -50, -50)
+            .cubic(50 * i, -50, -15, -15, 50, 50 * j)
+            .linear(-25, 25)
+            .quadratic(-50, -50, -50, -50)
             .material()
             .stroke(random_color());
         rootc

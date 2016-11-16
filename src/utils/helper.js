@@ -104,5 +104,5 @@ export function compose_text(characters) {
  */
 
 export function random_character() {
-    return String.fromCharCode(0x30A0 + Math.random() * (0x30FF-0x30A0+1));
+    return String.fromCharCode(0x30A0 + Math.random() * (0x30FF - 0x30A0 + 1));
 }

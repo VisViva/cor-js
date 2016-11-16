@@ -73,7 +73,7 @@ exports.Path = function(_scene, Primitive) {
      * Add linear segment
      */
 
-    Path.prototype.linearTo = function(...points) {
+    Path.prototype.linear = function(...points) {
         if (points.length === 2) {
 
             /**
@@ -91,7 +91,7 @@ exports.Path = function(_scene, Primitive) {
      * Add quadratic segment
      */
 
-    Path.prototype.quadraticTo = function(...points) {
+    Path.prototype.quadratic = function(...points) {
         if (points.length === 4) {
 
             /**
@@ -110,7 +110,7 @@ exports.Path = function(_scene, Primitive) {
      * Add cubic segment
      */
 
-    Path.prototype.cubicTo = function(...points) {
+    Path.prototype.cubic = function(...points) {
         if (points.length === 6) {
 
             /**
@@ -138,7 +138,7 @@ exports.Path = function(_scene, Primitive) {
      * Get the bounding box of the current node only
      */
 
-    Path.prototype.bboxOwn = function() {
+    Path.prototype._bbox = function() {
 
         /**
          * Transformed points
@@ -468,7 +468,7 @@ exports.Path = function(_scene, Primitive) {
          */
 
         if (this._debug === true) {
-            let bbox = this.bboxCascaded();
+            let bbox = this.bbox();
             _scene._context.save();
             _scene._context.setTransform(1, 0, 0, 1, 0, 0);
             _scene._context.beginPath();
