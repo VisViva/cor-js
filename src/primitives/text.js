@@ -345,7 +345,7 @@ exports.Text = function(_scene, Primitive) {
         const transformed3DVector = vec2.create();
 
         for (let i = 0; i < this._points.length; ++i) {
-            vec2.transformMat3(transformed3DVector, vec2.fromValues(this._points[i].x, -this._points[i].y), this._matrix_cascaded);
+            vec2.transformMat3(transformed3DVector, vec2.fromValues(this._points[i].x, this._points[i].y), this._matrix_cascaded);
             xValues.push(transformed3DVector[0]);
             yValues.push(transformed3DVector[1]);
         }
@@ -429,7 +429,7 @@ exports.Text = function(_scene, Primitive) {
                  * scene's context
                  */
 
-                _scene._context.drawImage(this._text_canvas, this._at.x - twidth, - this._at.y - theight);
+                _scene._context.drawImage(this._text_canvas, this._at.x - twidth, this._at.y - theight);
                 this._text_context.restore();
             } else {
 
@@ -461,13 +461,13 @@ exports.Text = function(_scene, Primitive) {
                  * Fill the text
                  */
 
-                this._material._fill.enabled && _scene._context.fillText(this._text, this._at.x, -this._at.y);
+                this._material._fill.enabled && _scene._context.fillText(this._text, this._at.x, this._at.y);
 
                 /**
                  * Stroke the text
                  */
 
-                this._material._stroke.enabled && _scene._context.strokeText(this._text, this._at.x, -this._at.y);
+                this._material._stroke.enabled && _scene._context.strokeText(this._text, this._at.x, this._at.y);
             }
         }
 
