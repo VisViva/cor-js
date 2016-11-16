@@ -40,17 +40,17 @@ for (let i = -20; i < 21; ++i) {
             .width(Math.abs(i) / 2),
             new Keyframe()
             .time(100 * (Math.abs(ij)))
-            .width(i*i/5)
+            .width(i * i / 5)
             .fill([50, 0, 0, 0.7])
             .stroke([255, 0, 0, 1]),
             new Keyframe()
             .time(150 * (Math.abs(ij)))
-            .width(j/5)
-            .fill([0, 0, 50*random, 0.2])
+            .width(j / 5)
+            .fill([0, 0, 50 * random, 0.2])
             .stroke([0, 0, 255, 1]),
             new Keyframe()
             .time(200 * (Math.abs(ij)))
-            .width(random*i/20)
+            .width(random * i / 20)
             .fill([0, 0, 0, 0])
             .stroke([255, 100, 255, 1]),
             new Keyframe()

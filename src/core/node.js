@@ -123,7 +123,7 @@ exports.Node = function(_scene) {
         } else {
             return {
                 x: this._pivot.x,
-                y: - this._pivot.y
+                y: -this._pivot.y
             };
         }
     };

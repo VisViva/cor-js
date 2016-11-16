@@ -52,7 +52,7 @@ const manager = new Manager();
         for (let i = -2; i < 3; ++i) {
             const bar = new Rect();
             var height = scene._canvas.height / (Math.random() * 7 + 2);
-            bar.debug(true).depth(i).material(barMaterial).at(i * scene._canvas.width * 4 / 30, - scene._canvas.height / 3 + height / 2).width(scene._canvas.width / 30).height(height);
+            bar.debug(true).depth(i).material(barMaterial).at(i * scene._canvas.width * 4 / 30, -scene._canvas.height / 3 + height / 2).width(scene._canvas.width / 30).height(height);
             root.append(bar);
         }
     }

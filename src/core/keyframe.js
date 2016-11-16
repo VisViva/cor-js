@@ -155,56 +155,112 @@ const _setters = [
      * Node keyframes
      */
 
-    { method: 'pivotX', type: Values.numeric },
-    { method: 'pivotY', type: Values.numeric },
-    { method: 'translateX', type: Values.numeric },
-    { method: 'translateY', type: Values.numeric },
-    { method: 'rotate', type: Values.numeric },
-    { method: 'scaleX', type: Values.numeric },
-    { method: 'scaleY', type: Values.numeric },
+    {
+        method: 'pivotX',
+        type: Values.numeric
+    }, {
+        method: 'pivotY',
+        type: Values.numeric
+    }, {
+        method: 'translateX',
+        type: Values.numeric
+    }, {
+        method: 'translateY',
+        type: Values.numeric
+    }, {
+        method: 'rotate',
+        type: Values.numeric
+    }, {
+        method: 'scaleX',
+        type: Values.numeric
+    }, {
+        method: 'scaleY',
+        type: Values.numeric
+    },
 
     /**
      * Primitive keyframes
      */
 
-    { method: 'atX', type: Values.numeric },
-    { method: 'atY', type: Values.numeric },
-    { method: 'depth', type: Values.numeric },
+    {
+        method: 'atX',
+        type: Values.numeric
+    }, {
+        method: 'atY',
+        type: Values.numeric
+    }, {
+        method: 'depth',
+        type: Values.numeric
+    },
 
     /**
      * Rect keyframes
      */
 
-    { method: 'width', type: Values.numeric },
-    { method: 'height', type: Values.numeric },
+    {
+        method: 'width',
+        type: Values.numeric
+    }, {
+        method: 'height',
+        type: Values.numeric
+    },
 
     /**
      * Circle keyframes
      */
 
-    { method: 'radius', type: Values.numeric },
+    {
+        method: 'radius',
+        type: Values.numeric
+    },
 
     /**
      * Text keyframes
      */
 
-    { method: 'text', type: Values.text },
-    { method: 'size', type: Values.numeric },
-    { method: 'sizeUnits', type: Values.complex },
-    { method: 'line', type: Values.numeric },
-    { method: 'lineUnits', type: Values.complex },
-    { method: 'style', type: Values.complex },
-    { method: 'variant', type: Values.complex },
-    { method: 'weight', type: Values.complex },
-    { method: 'family', type: Values.complex },
-    { method: 'font', type: Values.complex },
+    {
+        method: 'text',
+        type: Values.text
+    }, {
+        method: 'size',
+        type: Values.numeric
+    }, {
+        method: 'sizeUnits',
+        type: Values.complex
+    }, {
+        method: 'line',
+        type: Values.numeric
+    }, {
+        method: 'lineUnits',
+        type: Values.complex
+    }, {
+        method: 'style',
+        type: Values.complex
+    }, {
+        method: 'variant',
+        type: Values.complex
+    }, {
+        method: 'weight',
+        type: Values.complex
+    }, {
+        method: 'family',
+        type: Values.complex
+    }, {
+        method: 'font',
+        type: Values.complex
+    },
 
     /**
      * Material keyframes
      */
 
-    { method: 'stroke', type: Values.color },
-    { method: 'fill', type: Values.color }
+    {
+        method: 'stroke',
+        type: Values.color
+    }, {
+        method: 'fill',
+        type: Values.color
+    }
 ];
 
 /**
@@ -212,7 +268,7 @@ const _setters = [
  */
 
 for (let i = 0; i < _setters.length; ++i) {
-    Keyframe.prototype[_setters[i].method] = function (value, ease_in, ease_out) {
+    Keyframe.prototype[_setters[i].method] = function(value, ease_in, ease_out) {
         return this.set(_setters[i].method, _setters[i].type, value, ease_in, ease_out);
     };
 }

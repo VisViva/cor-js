@@ -7,7 +7,7 @@ import {
     Material
 } from '../core/material';
 
-exports.Primitive = function (_scene, Node) {
+exports.Primitive = function(_scene, Node) {
 
     /**
      * Extends the Node prototype
@@ -60,7 +60,7 @@ exports.Primitive = function (_scene, Node) {
      * Get or set the primitives starting point
      */
 
-    Primitive.prototype.at = function (x, y) {
+    Primitive.prototype.at = function(x, y) {
         if (x !== undefined || y !== undefined) {
 
             /**
@@ -83,7 +83,7 @@ exports.Primitive = function (_scene, Node) {
      * Get or set the primitives starting point on the x axis
      */
 
-    Primitive.prototype.atX = function (x) {
+    Primitive.prototype.atX = function(x) {
         return this.at(x, undefined);
     };
 
@@ -91,7 +91,7 @@ exports.Primitive = function (_scene, Node) {
      * Get or set the primitives starting point on the y axis
      */
 
-    Primitive.prototype.atY = function (y) {
+    Primitive.prototype.atY = function(y) {
         return this.at(undefined, y);
     };
 
@@ -99,7 +99,7 @@ exports.Primitive = function (_scene, Node) {
      * Get or set the current nodes debugger state
      */
 
-    Primitive.prototype.debug = function (debug) {
+    Primitive.prototype.debug = function(debug) {
         if (debug !== undefined) {
             this._debug = debug;
             return this;
@@ -112,7 +112,7 @@ exports.Primitive = function (_scene, Node) {
      * Define depth of the primitive and return it
      */
 
-    Primitive.prototype.depth = function (depth) {
+    Primitive.prototype.depth = function(depth) {
         if (depth !== undefined) {
             depth = ~~depth;
             _scene._depthbuffer.relocate(this, depth);
@@ -127,7 +127,7 @@ exports.Primitive = function (_scene, Node) {
      * Get or set visibility of the current primitive
      */
 
-    Primitive.prototype.hidden = function (hidden) {
+    Primitive.prototype.hidden = function(hidden) {
         if (hidden !== undefined) {
             this._hidden = hidden;
             return this;
@@ -140,7 +140,7 @@ exports.Primitive = function (_scene, Node) {
      * Get or set the material of the current primitive
      */
 
-    Primitive.prototype.material = function (material) {
+    Primitive.prototype.material = function(material) {
         if (material) {
             this._material = material;
             return this;
@@ -153,7 +153,7 @@ exports.Primitive = function (_scene, Node) {
      * Render the primitive
      */
 
-    Primitive.prototype.render = function () {};
+    Primitive.prototype.render = function() {};
 
     return Primitive;
 };
