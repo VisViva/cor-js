@@ -159,8 +159,8 @@ describe('Rect tests', () => {
         it('Gets rotated primitives bounding box correctly', () => {
             rect = new Rect().rotate(45).width(10).height(10).cascade();
             bbox = rect.bbox();
-            expect(bbox.x()).to.be.approximately(-7, 0.1);
-            expect(bbox.y()).to.be.approximately(7, 0.1);
+            expect(bbox.x()).to.be.approximately(-7.0, 0.1);
+            expect(bbox.y()).to.be.approximately(7.0, 0.1);
             expect(bbox.width()).to.be.approximately(14.1, 0.1);
             expect(bbox.height()).to.be.approximately(14.1, 0.1);
         });
@@ -168,8 +168,8 @@ describe('Rect tests', () => {
         it('Gets rotated primitives bounding box with an offset correctly', () => {
             rect = new Rect().at(10, 10).rotate(45).width(10).height(10).cascade();
             bbox = rect.bbox();
-            expect(bbox.x()).to.be.approximately(7, 0.1);
-            expect(bbox.y()).to.be.approximately(7, 0.1);
+            expect(bbox.x()).to.be.approximately(7.0, 0.1);
+            expect(bbox.y()).to.be.approximately(7.0, 0.1);
             expect(bbox.width()).to.be.approximately(14.1, 0.1);
             expect(bbox.height()).to.be.approximately(14.1, 0.1);
         });

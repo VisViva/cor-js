@@ -122,7 +122,7 @@ describe('Circle tests', () => {
             circle = new Circle().at(10, 10).radius(100).cascade();
             bbox = circle.bbox();
             expect(bbox.x()).to.be.equal(-90);
-            expect(bbox.y()).to.be.equal(110);
+            expect(bbox.y()).to.be.equal(90);
             expect(bbox.width()).to.be.equal(200);
             expect(bbox.height()).to.be.equal(200);
         });
@@ -140,7 +140,7 @@ describe('Circle tests', () => {
             circle = new Circle().at(10, 10).translate(50, 50).radius(100).cascade();
             bbox = circle.bbox();
             expect(bbox.x()).to.be.equal(-40);
-            expect(bbox.y()).to.be.equal(60);
+            expect(bbox.y()).to.be.equal(40);
             expect(bbox.width()).to.be.equal(200);
             expect(bbox.height()).to.be.equal(200);
         });
@@ -157,8 +157,8 @@ describe('Circle tests', () => {
         it('Gets rotated primitives bounding box with an offset correctly', () => {
             circle = new Circle().at(10, 10).rotate(45).radius(100).cascade();
             bbox = circle.bbox();
-            expect(bbox.x()).to.be.approximately(-100, 0.1);
-            expect(bbox.y()).to.be.approximately(114.1, 0.1);
+            expect(bbox.x()).to.be.approximately(-85.8, 0.1);
+            expect(bbox.y()).to.be.approximately(100.0, 0.1);
             expect(bbox.width()).to.be.approximately(200, 0.1);
             expect(bbox.height()).to.be.approximately(200, 0.1);
         });
@@ -177,7 +177,7 @@ describe('Circle tests', () => {
             circle.at(10, 10).scale(3, 3).radius(100).cascade();
             bbox = circle.bbox();
             expect(bbox.x()).to.be.equal(-270);
-            expect(bbox.y()).to.be.equal(330);
+            expect(bbox.y()).to.be.equal(270);
             expect(bbox.width()).to.be.equal(600);
             expect(bbox.height()).to.be.equal(600);
         });
@@ -200,14 +200,14 @@ describe('Circle tests', () => {
         it('Gets scaled, rotated and translated primitives bounding box with an offset correctly', () => {
             circle = new Circle().at(10, 10).translate(10, 10).rotate(270).radius(100).cascade();
             bbox = circle.bbox();
-            expect(bbox.x()).to.be.approximately(-79.9, 0.1);
+            expect(bbox.x()).to.be.approximately(-99.9, 0.1);
             expect(bbox.y()).to.be.approximately(80.0, 0.1);
             expect(bbox.width()).to.be.approximately(200.0, 0.1);
             expect(bbox.height()).to.be.approximately(200.0, 0.1);
             circle.translate(10, 10).rotate(45).cascade();
             bbox = circle.bbox();
-            expect(circle.bbox().x()).to.be.approximately(-90.0, 0.1);
-            expect(circle.bbox().y()).to.be.approximately(104.1, 0.1);
+            expect(circle.bbox().x()).to.be.approximately(-75.8, 0.1);
+            expect(circle.bbox().y()).to.be.approximately(90.0, 0.1);
             expect(circle.bbox().width()).to.be.approximately(200, 0.1);
             expect(circle.bbox().height()).to.be.approximately(200, 0.1);
         });
