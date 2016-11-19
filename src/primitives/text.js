@@ -11,7 +11,7 @@ import {
     glmatrix_to_canvas_matrix
 } from "../utils/helper";
 
-exports.Text = function(_scene, Primitive) {
+exports.Text = function (_scene, Primitive) {
 
     /**
      * Extends the Primitive prototype
@@ -66,6 +66,24 @@ exports.Text = function(_scene, Primitive) {
         this._rasterized = false;
 
         /**
+         * Rasterized text mode
+         */
+
+        this._cached = false;
+
+        /**
+         * Rasterized text width
+         */
+
+        this._text_width = 0;
+
+        /**
+         * Rasterized text height
+         */
+
+        this._text_height = 0;
+
+        /**
          * Reset the font parameters
          */
 
@@ -76,7 +94,7 @@ exports.Text = function(_scene, Primitive) {
      * Reset the font parameters
      */
 
-    Text.prototype.reset = function() {
+    Text.prototype.reset = function () {
         this._font = {
             style: 'normal',
             variant: 'normal',
@@ -100,7 +118,7 @@ exports.Text = function(_scene, Primitive) {
      * Get or set text
      */
 
-    Text.prototype.text = function(text) {
+    Text.prototype.text = function (text) {
         if (text) {
             this._text = text;
             return this;
@@ -113,7 +131,7 @@ exports.Text = function(_scene, Primitive) {
      * Get or set rasterized text mode
      */
 
-    Text.prototype.rasterized = function(rasterized, width, height) {
+    Text.prototype.rasterized = function (rasterized, width, height) {
         if (rasterized !== undefined) {
             this._rasterized = rasterized;
             if (this._rasterized) {
@@ -132,10 +150,26 @@ exports.Text = function(_scene, Primitive) {
     };
 
     /**
+     * Get or set static mode
+     */
+
+    Text.prototype.cached = function (cached) {
+        if (cached !== undefined) {
+            this._cached = cached;
+            if (this._cached) {
+                this._prerender();
+            }
+            return this;
+        } else {
+            return this._rasterized;
+        }
+    };
+
+    /**
      * Get or set the font size
      */
 
-    Text.prototype.size = function(size) {
+    Text.prototype.size = function (size) {
         if (size !== undefined) {
             this._font.size.value = size;
             this._concatenate_font();
@@ -149,7 +183,7 @@ exports.Text = function(_scene, Primitive) {
      * Get or set the font units
      */
 
-    Text.prototype.sizeUnits = function(units) {
+    Text.prototype.sizeUnits = function (units) {
         if (units !== undefined) {
             this._font.size.units = units;
             this._concatenate_font();
@@ -163,7 +197,7 @@ exports.Text = function(_scene, Primitive) {
      * Get or set the font line size
      */
 
-    Text.prototype.line = function(line) {
+    Text.prototype.line = function (line) {
         if (line !== undefined) {
             this._font.line.value = line;
             this._concatenate_font();
@@ -177,7 +211,7 @@ exports.Text = function(_scene, Primitive) {
      * Get or set the font line units
      */
 
-    Text.prototype.lineUnits = function(units) {
+    Text.prototype.lineUnits = function (units) {
         if (units !== undefined) {
             this._font.line.units = units;
             this._concatenate_font();
@@ -191,7 +225,7 @@ exports.Text = function(_scene, Primitive) {
      * Get or set the font style
      */
 
-    Text.prototype.style = function(style) {
+    Text.prototype.style = function (style) {
         if (style !== undefined) {
             this._font.style = style;
             this._concatenate_font();
@@ -205,7 +239,7 @@ exports.Text = function(_scene, Primitive) {
      * Get or set the font variant
      */
 
-    Text.prototype.variant = function(variant) {
+    Text.prototype.variant = function (variant) {
         if (variant !== undefined) {
             this._font.variant = variant;
             this._concatenate_font();
@@ -219,7 +253,7 @@ exports.Text = function(_scene, Primitive) {
      * Get or set the font weight
      */
 
-    Text.prototype.weight = function(weight) {
+    Text.prototype.weight = function (weight) {
         if (weight !== undefined) {
             this._font.weight = weight;
             this._concatenate_font();
@@ -233,7 +267,7 @@ exports.Text = function(_scene, Primitive) {
      * Get or set the font weight
      */
 
-    Text.prototype.family = function(family) {
+    Text.prototype.family = function (family) {
         if (family !== undefined) {
             this._font.family = family;
             this._concatenate_font();
@@ -247,7 +281,7 @@ exports.Text = function(_scene, Primitive) {
      * Get or set the font
      */
 
-    Text.prototype.font = function(font) {
+    Text.prototype.font = function (font) {
         if (font !== undefined) {
             this._font.concatenated = font;
             const regex = /^\s*(?=(?:(?:[-a-z]+\s*){0,2}(italic|oblique))?)(?=(?:(?:[-a-z]+\s*){0,2}(small-caps))?)(?=(?:(?:[-a-z]+\s*){0,2}(bold(?:er)?|lighter|[1-9]00))?)(?:(?:normal|\1|\2|\3)\s*){0,3}((?:xx?-)?(?:small|large)|medium|smaller|larger|[.\d]+(?:\%|in|[cem]m|ex|p[ctx]))(?:\s*\/\s*(normal|[.\d]+(?:\%|in|[cem]m|ex|p[ctx])))?\s*([-,\"\sa-z]+?)\s*$/i;
@@ -270,7 +304,7 @@ exports.Text = function(_scene, Primitive) {
      * Get or set the text align
      */
 
-    Text.prototype.align = function(align) {
+    Text.prototype.align = function (align) {
         if (align !== undefined) {
             this._font._align = align;
             return this;
@@ -283,7 +317,7 @@ exports.Text = function(_scene, Primitive) {
      * Get or set the text baseline
      */
 
-    Text.prototype.baseline = function(baseline) {
+    Text.prototype.baseline = function (baseline) {
         if (baseline !== undefined) {
             this._font._baseline = baseline;
             return this;
@@ -296,7 +330,7 @@ exports.Text = function(_scene, Primitive) {
      * Concatenate font parts into font string
      */
 
-    Text.prototype._concatenate_font = function() {
+    Text.prototype._concatenate_font = function () {
         this._font.concatenated =
             this._font.style + ' ' +
             this._font.variant + ' ' +
@@ -312,7 +346,7 @@ exports.Text = function(_scene, Primitive) {
      * Get the bounding box of the current node only
      */
 
-    Text.prototype._bbox = function() {
+    Text.prototype._bbox = function () {
 
         /**
          * Select correct context for text measuring
@@ -358,10 +392,58 @@ exports.Text = function(_scene, Primitive) {
     };
 
     /**
+     * Prerender text onto a separate canvas
+     */
+
+    Text.prototype._prerender = function () {
+      
+        /**
+         * Apply font
+         */
+
+        if (this._text_context.font !== this._font.concatenated) {
+            this._text_context.font = this._font.concatenated;
+        }
+
+        if (this._text_context.textAlign !== this._font.align) {
+            this._text_context.textAlign = this._font.align;
+        }
+
+        if (this._text_context.textBaseline !== this._font.baseline) {
+            this._text_context.textBaseline = this._font.baseline;
+        }
+
+        /**
+         * Clear text specific context
+         */
+
+        this._text_context.clearRect(0, 0, this._text_canvas.width, this._text_canvas.height);
+
+        /**
+         * Set font to the text specific contex
+         */
+
+        this._material.use(this._text_context);
+        this._text_context.font = this._font.concatenated;
+
+        /**
+         * Render text to the separate context
+         */
+
+        this._text_width = this._text_context.measureText(this._text).width;
+        this._text_height = Math.max(this._font.line.value, this._font.size.value);
+        this._text_context.save();
+        this._text_context.translate(this._text_width, this._text_height);
+        this._material._fill.enabled && this._text_context.fillText(this._text, 0, 0);
+        this._material._stroke.enabled && this._text_context.strokeText(this._text, 0, 0);
+        this._text_context.restore();
+    };
+
+    /**
      * Render the current rect
      */
 
-    Text.prototype.render = function() {
+    Text.prototype.render = function () {
         let context = _scene._context;
 
         /**
@@ -372,51 +454,10 @@ exports.Text = function(_scene, Primitive) {
             if (this._rasterized) {
 
                 /**
-                 * Apply font
+                 * Prerender text only if it is not static
                  */
 
-                if (this._text_context.font !== this._font.concatenated) {
-                    this._text_context.font = this._font.concatenated;
-                }
-
-                if (this._text_context.textAlign !== this._font.align) {
-                    this._text_context.textAlign = this._font.align;
-                }
-
-                if (this._text_context.textBaseline !== this._font.baseline) {
-                    this._text_context.textBaseline = this._font.baseline;
-                }
-
-                /**
-                 * Clear text specific context
-                 */
-
-                this._text_context.clearRect(0, 0, this._text_canvas.width, this._text_canvas.height);
-
-                /**
-                 * Set font to the text specific contex
-                 */
-
-                this._material.use(this._text_context);
-                this._text_context.font = this._font.concatenated;
-
-                /**
-                 * Render text to the separate context
-                 */
-
-                const text_width = this._text_context.measureText(this._text).width;
-                const text_height = Math.max(this._font.line.value, this._font.size.value);
-                this._text_context.save();
-                this._text_context.translate(text_width, text_height);
-                this._material._fill.enabled && this._text_context.fillText(this._text, 0, 0);
-                this._material._stroke.enabled && this._text_context.strokeText(this._text, 0, 0);
-                this._text_context.restore();
-
-                /**
-                 * Render text
-                 */
-
-                this._text_context.save();
+                !this._cached && this._prerender();
 
                 /**
                  * Set transformations to the scene's context
@@ -429,9 +470,12 @@ exports.Text = function(_scene, Primitive) {
                  * scene's context
                  */
 
-                _scene._context.drawImage(this._text_canvas, this._at.x - text_width, this._at.y - text_height);
-                this._text_context.restore();
+                _scene._context.drawImage(this._text_canvas, this._at.x - this._text_width, this._at.y - this._text_height);
             } else {
+
+                /**
+                 * Apply material
+                 */
 
                 this._material.use(_scene._context);
 

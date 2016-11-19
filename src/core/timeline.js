@@ -447,7 +447,7 @@ Timeline.prototype.seek = function (time) {
                                         );
                                     }
                                     if (channel_index < 3) {
-                                        computed_value[channel_index] = Math.floor(computed_value[channel_index]);
+                                        computed_value[channel_index] = ~~(computed_value[channel_index]);
                                     }
                                 }
                                 this._objects[objects_keys[objects_keys_index]][node_index][track_key](computed_value);
@@ -478,7 +478,7 @@ Timeline.prototype.seek = function (time) {
                                             time_end - time_start
                                         )
                                     );
-                                    computed_characters[character_index] = Math.floor(computed_characters[character_index]);
+                                    computed_characters[character_index] = ~~(computed_characters[character_index]);
                                 }
                                 this._objects[objects_keys[objects_keys_index]][node_index][track_key](compose_text(computed_characters));
 

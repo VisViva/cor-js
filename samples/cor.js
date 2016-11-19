@@ -55,7 +55,7 @@ for (let row_index = -COLUMN_COUNT_HALF; row_index < COLUMN_COUNT_HALF + 1; ++ro
             text_keyframes.push(new Keyframe().translate(row_index * HORIZONTAL_SPACING, -scene._canvas.height / 4 + column_index * VERTICAL_SPACING));
             text_keyframes.push(new Keyframe().time(15000).translateY(-scene._canvas.height / 2 - column_index * random * 20 * VERTICAL_SPACING - 1000));
         } else {
-            text.size(40).line(40).scale(0.5, 0.5).rasterized(true, 400, 400);
+            text.size(40).line(40).scale(0.5, 0.5).rasterized(true, 100, 100);
             text_keyframes.push(new Keyframe().translateX(row_index * HORIZONTAL_SPACING).translateY(-scene._canvas.height / 2 + column_index * VERTICAL_SPACING + random * 500));
             text_keyframes.push(new Keyframe().time(5000).translateY(-scene._canvas.height / 2 + column_index * VERTICAL_SPACING - scene._canvas.height * 0.8964, Easings.cubic, Easings.linear));
             material_keyframes.push(new Keyframe().time(6000).fill([255, 255, 0, 0.5]).stroke([255, 255, 0, 0]));
