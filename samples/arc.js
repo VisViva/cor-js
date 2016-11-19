@@ -1,6 +1,7 @@
 import {
     Manager,
-    Keyframe
+    Keyframe,
+    Easings
 } from '../src/cor';
 import {
     random_color
@@ -28,9 +29,7 @@ scene.render();
 
 arc
     .debug(true)
-    .at(200, 0)
-    .pivot(200, 0)
-    .radius(100)
+    .radius(200)
     .material()
     .fill(random_color());
 
@@ -39,8 +38,8 @@ root
 
 scene.timeline().add(
     arc,
-    new Keyframe().scale(1, 1),
-    new Keyframe().time(4000).scale(3, 3)
+    new Keyframe().end(0),
+    new Keyframe().time(4000).end(235, Easings.bounce, Easings.linear)
 );
 
 scene.start();

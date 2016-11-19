@@ -224,6 +224,21 @@ const _setters = [
     },
 
     /**
+     * Arc keyframes
+     */
+
+    {
+        method: 'start',
+        type: Values.numeric
+    }, {
+        method: 'end',
+        type: Values.numeric
+    }, {
+        method: 'inverted',
+        type: Values.complex
+    },
+
+    /**
      * Text keyframes
      */
 

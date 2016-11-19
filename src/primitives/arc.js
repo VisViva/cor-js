@@ -10,6 +10,9 @@ import {
     inherit,
     glmatrix_to_canvas_matrix
 } from "../utils/helper";
+import {
+    deg_to_rad
+} from "../utils/math";
 
 exports.Arc = function(_scene, Primitive) {
 
@@ -31,10 +34,28 @@ exports.Arc = function(_scene, Primitive) {
          */
 
         this._radius = 0;
+
+        /**
+         * Opening angle of the arc in radians
+         */
+
+        this._start = 0;
+
+        /**
+         * Closing angle of the arc in radians
+         */
+
+        this._end = 0;
+
+        /**
+         * Inverted flag
+         */
+
+        this._inverted = false;
     };
 
     /**
-     * Get or set radius of the arc and return it
+     * Get or set the radius of the arc and return it
      */
 
     Arc.prototype.radius = function(radius) {
@@ -43,6 +64,45 @@ exports.Arc = function(_scene, Primitive) {
             return this;
         } else {
             return this._radius;
+        }
+    };
+
+    /**
+     * Get or set the opening angle of the arc and return it
+     */
+
+    Arc.prototype.start = function(value) {
+        if (value !== undefined) {
+            this._start = deg_to_rad(value);
+            return this;
+        } else {
+            return this._start;
+        }
+    };
+
+    /**
+     * Get or set the closing angle of the arc and return it
+     */
+
+    Arc.prototype.end = function(value) {
+        if (value !== undefined) {
+            this._end =  deg_to_rad(value);
+            return this;
+        } else {
+            return this._end;
+        }
+    };
+
+    /**
+     * Get or set radius of the arc and return it
+     */
+
+    Arc.prototype.inverted = function(value) {
+        if (value !== undefined) {
+            this._inverted = value;
+            return this;
+        } else {
+            return this._inverted;
         }
     };
 
@@ -103,7 +163,7 @@ exports.Arc = function(_scene, Primitive) {
 
             _scene._context.setTransform(...glmatrix_to_canvas_matrix(this._matrix_cascaded));
             _scene._context.beginPath();
-            _scene._context.arc(this._at.x, this._at.y, this._radius, 0, 2 * Math.PI, false);
+            _scene._context.arc(this._at.x, this._at.y, this._radius, this._start, this._end, this._inverted);
 
             /**
              * Fill the arc
