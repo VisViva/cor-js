@@ -194,6 +194,15 @@ const _setters = [
     },
 
     /**
+     * Path keyframes
+     */
+
+    {
+        method: 'segments',
+        type: Values.path
+    },
+
+    /**
      * Rect keyframes
      */
 

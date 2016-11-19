@@ -31,7 +31,7 @@ function Timeline() {
  * Add keyframes
  */
 
-Timeline.prototype.add = function(object, ...keyframes) {
+Timeline.prototype.add = function (object, ...keyframes) {
 
     /**
      * Get the type of given object
@@ -92,18 +92,18 @@ Timeline.prototype.add = function(object, ...keyframes) {
                 if (!track[property][0]) {
                     let value;
                     switch (keyframes[i]._keys[property].type) {
-                        case Values.numeric:
-                            value = 0;
-                            break;
-                        case Values.color:
-                            value = [0, 0, 0, 1];
-                            break;
-                        case Values.text:
-                            value = '';
-                            break;
-                        default:
-                            value = {};
-                            break;
+                    case Values.numeric:
+                        value = 0;
+                        break;
+                    case Values.color:
+                        value = [0, 0, 0, 1];
+                        break;
+                    case Values.text:
+                        value = '';
+                        break;
+                    default:
+                        value = {};
+                        break;
                     }
                     track[property][0] = {
                         type: keyframes[i]._keys[property].type,
@@ -134,7 +134,7 @@ Timeline.prototype.add = function(object, ...keyframes) {
  * Remove keyframes
  */
 
-Timeline.prototype.remove = function(object, ...keyframes) {
+Timeline.prototype.remove = function (object, ...keyframes) {
 
     /**
      * Get the type of given object
@@ -197,7 +197,7 @@ Timeline.prototype.remove = function(object, ...keyframes) {
  * Seek to the given time or current time if nothing is supplied
  */
 
-Timeline.prototype.seek = function(time) {
+Timeline.prototype.seek = function (time) {
 
     /**
      * For each object type
@@ -370,94 +370,133 @@ Timeline.prototype.seek = function(time) {
                              * In case the value is of numeric type
                              */
 
-                            case Values.numeric:
-                                {
-                                    this._objects[objects_keys[objects_keys_index]][node_index][track_key](EasingsFunctions[
-                                        'in_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].ease_out] +
-                                        '_out_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].ease_in]
+                        case Values.numeric:
+                            {
+                                this._objects[objects_keys[objects_keys_index]][node_index][track_key](EasingsFunctions[
+                                    'in_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].ease_out] +
+                                    '_out_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].ease_in]
                                     ](
-                                        time - time_start,
-                                        this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].value,
-                                        this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].value - this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].value,
-                                        time_end - time_start
-                                    ));
+                                    time - time_start,
+                                    this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].value,
+                                    this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].value - this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].value,
+                                    time_end - time_start
+                                ));
 
-                                    break;
+                                break;
+                            }
+
+                            /**
+                             * In case the value is of array type
+                             */
+
+                        case Values.path:
+                            {
+                                const start_array = this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].value;
+                                const end_array = this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].value;
+                                let computed_value = [];
+                                for (let segment_index = 0; segment_index < start_array.length; ++segment_index) {
+                                    let computed_segment_value = [];
+                                    for (let index = 0; index < start_array[segment_index].length; ++index) {
+                                        if (start_array[segment_index][index] === end_array[segment_index][index]) {
+                                            computed_segment_value.push(start_array[segment_index][index]);
+                                        } else {
+                                            computed_segment_value.push(
+                                                EasingsFunctions[
+                                                    'in_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].ease_out] +
+                                                    '_out_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].ease_in]
+                                                    ](
+                                                    time - time_start,
+                                                    start_array[segment_index][index],
+                                                    end_array[segment_index][index] - start_array[segment_index][index],
+                                                    time_end - time_start
+                                                )
+                                            );
+                                        }
+                                    }
+                                    computed_value.push(computed_segment_value);
                                 }
+                                this._objects[objects_keys[objects_keys_index]][node_index][track_key](computed_value);
 
-                                /**
-                                 * In case the value is of color type
-                                 */
+                                break;
+                            }
 
-                            case Values.color:
-                                {
-                                    const color_start_decomposed = this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].value;
-                                    const color_end_decomposed = this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].value;
-                                    let computed_value = [];
+                            /**
+                             * In case the value is of color type
+                             */
 
-                                    for (let channel_index = 0; channel_index < 4; ++channel_index) {
+                        case Values.color:
+                            {
+                                const color_start_decomposed = this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].value;
+                                const color_end_decomposed = this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].value;
+                                let computed_value = [];
+
+                                for (let channel_index = 0; channel_index < 4; ++channel_index) {
+                                    if (color_start_decomposed[channel_index] === color_end_decomposed[channel_index]) {
+                                        computed_value.push(color_end_decomposed[channel_index]);
+                                    } else {
                                         computed_value.push(
                                             EasingsFunctions[
                                                 'in_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].ease_out] +
                                                 '_out_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].ease_in]
-                                            ](
+                                                ](
                                                 time - time_start,
                                                 color_start_decomposed[channel_index],
                                                 color_end_decomposed[channel_index] - color_start_decomposed[channel_index],
                                                 time_end - time_start
                                             )
                                         );
-                                        if (channel_index < 3) {
-                                            computed_value[channel_index] = Math.floor(computed_value[channel_index]);
-                                        }
                                     }
-                                    this._objects[objects_keys[objects_keys_index]][node_index][track_key](computed_value);
-
-                                    break;
+                                    if (channel_index < 3) {
+                                        computed_value[channel_index] = Math.floor(computed_value[channel_index]);
+                                    }
                                 }
+                                this._objects[objects_keys[objects_keys_index]][node_index][track_key](computed_value);
 
-                                /**
-                                 * In case the value is of text type
-                                 */
+                                break;
+                            }
 
-                            case Values.text:
-                                {
-                                    const text_start_decomposed = decompose_text(this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].value);
-                                    const text_end_decomposed = decompose_text(this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].value);
-                                    const maximum_text_length = Math.max(text_start_decomposed.length, text_end_decomposed.length);
-                                    let computed_characters = [];
+                            /**
+                             * In case the value is of text type
+                             */
 
-                                    for (let character_index = 0; character_index < maximum_text_length; ++character_index) {
-                                        computed_characters.push(
-                                            EasingsFunctions[
-                                                'in_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].ease_out] +
-                                                '_out_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].ease_in]
+                        case Values.text:
+                            {
+                                const text_start_decomposed = decompose_text(this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].value);
+                                const text_end_decomposed = decompose_text(this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].value);
+                                const maximum_text_length = Math.max(text_start_decomposed.length, text_end_decomposed.length);
+                                let computed_characters = [];
+
+                                for (let character_index = 0; character_index < maximum_text_length; ++character_index) {
+                                    computed_characters.push(
+                                        EasingsFunctions[
+                                            'in_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].ease_out] +
+                                            '_out_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].ease_in]
                                             ](
-                                                time - time_start,
-                                                text_start_decomposed[character_index],
-                                                text_end_decomposed[character_index] - text_start_decomposed[character_index],
-                                                time_end - time_start
-                                            )
-                                        );
-                                        computed_characters[character_index] = Math.floor(computed_characters[character_index]);
-                                    }
-                                    this._objects[objects_keys[objects_keys_index]][node_index][track_key](compose_text(computed_characters));
-
-                                    break;
-                                }
-
-                                /**
-                                 * In case the value is of complex type
-                                 */
-
-                            case Values.complex:
-                                {
-                                    this._objects[objects_keys[objects_keys_index]][node_index][track_key](
-                                        this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].value
+                                            time - time_start,
+                                            text_start_decomposed[character_index],
+                                            text_end_decomposed[character_index] - text_start_decomposed[character_index],
+                                            time_end - time_start
+                                        )
                                     );
-
-                                    break;
+                                    computed_characters[character_index] = Math.floor(computed_characters[character_index]);
                                 }
+                                this._objects[objects_keys[objects_keys_index]][node_index][track_key](compose_text(computed_characters));
+
+                                break;
+                            }
+
+                            /**
+                             * In case the value is of complex type
+                             */
+
+                        case Values.complex:
+                            {
+                                this._objects[objects_keys[objects_keys_index]][node_index][track_key](
+                                    this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].value
+                                );
+
+                                break;
+                            }
                         }
                     }
                 } else {
@@ -478,7 +517,7 @@ Timeline.prototype.seek = function(time) {
  * Empty the timeline
  */
 
-Timeline.prototype.empty = function() {
+Timeline.prototype.empty = function () {
     this._tracks = {};
     this._objects = {};
     this._callbacks = [];

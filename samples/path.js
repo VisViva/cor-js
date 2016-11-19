@@ -1,6 +1,7 @@
 import {
     Manager,
-    Keyframe
+    Keyframe,
+    Easings
 } from '../src/cor';
 import {
     random_color
@@ -51,9 +52,6 @@ closed_path
 shape
     .debug(true)
     .translate(400, 0)
-    .cubic(150, 0, -150, 150, -100, -100)
-    .linear(20, -90)
-    .quadratic(50, 150, 200, -70)
     .closed(true)
     .material()
     .fill(random_color())
@@ -74,7 +72,8 @@ scene.timeline().add(
 
 scene.timeline().add(
     shape,
-    new Keyframe().time(3000).rotate(180)
+    new Keyframe().segments([[150, 0, -150, -150, -100, 100], [20, 90], [50, -150, 200, 70]]),
+    new Keyframe().time(3000).segments([[-150, 0, -100, 150, 100, 150], [-90, -20], [-50, 150, -200, -70]], Easings.elastic, Easings.linear)
 );
 
 scene.start();
