@@ -29,6 +29,9 @@ import {
     Circle
 } from "../primitives/circle";
 import {
+    Arc
+} from "../primitives/arc";
+import {
     Path
 } from "../primitives/path";
 import {
@@ -263,6 +266,7 @@ Scene.prototype.factory = function() {
         const _Primitive = Primitive(scene, _Node);
         const _Rect = Rect(scene, _Primitive);
         const _Circle = Circle(scene, _Primitive);
+        const _Arc = Arc(scene, _Primitive);
         const _Path = Path(scene, _Primitive);
         const _Text = Text(scene, _Primitive);
 
@@ -271,6 +275,7 @@ Scene.prototype.factory = function() {
             Primitive: _Primitive,
             Rect: _Rect,
             Circle: _Circle,
+            Arc: _Arc,
             Path: _Path,
             Text: _Text
         };
