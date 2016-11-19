@@ -397,17 +397,21 @@ Timeline.prototype.seek = function (time) {
                                 for (let segment_index = 0; segment_index < start_array.length; ++segment_index) {
                                     let computed_segment_value = [];
                                     for (let index = 0; index < start_array[segment_index].length; ++index) {
-                                        computed_segment_value.push(
-                                            EasingsFunctions[
-                                                'in_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].ease_out] +
-                                                '_out_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].ease_in]
-                                                ](
-                                                time - time_start,
-                                                start_array[segment_index][index],
-                                                end_array[segment_index][index] - start_array[segment_index][index],
-                                                time_end - time_start
-                                            )
-                                        );
+                                        if (start_array[segment_index][index] === end_array[segment_index][index]) {
+                                            computed_segment_value.push(start_array[segment_index][index]);
+                                        } else {
+                                            computed_segment_value.push(
+                                                EasingsFunctions[
+                                                    'in_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].ease_out] +
+                                                    '_out_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].ease_in]
+                                                    ](
+                                                    time - time_start,
+                                                    start_array[segment_index][index],
+                                                    end_array[segment_index][index] - start_array[segment_index][index],
+                                                    time_end - time_start
+                                                )
+                                            );
+                                        }
                                     }
                                     computed_value.push(computed_segment_value);
                                 }
@@ -427,17 +431,21 @@ Timeline.prototype.seek = function (time) {
                                 let computed_value = [];
 
                                 for (let channel_index = 0; channel_index < 4; ++channel_index) {
-                                    computed_value.push(
-                                        EasingsFunctions[
-                                            'in_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].ease_out] +
-                                            '_out_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].ease_in]
-                                            ](
-                                            time - time_start,
-                                            color_start_decomposed[channel_index],
-                                            color_end_decomposed[channel_index] - color_start_decomposed[channel_index],
-                                            time_end - time_start
-                                        )
-                                    );
+                                    if (color_start_decomposed[channel_index] === color_end_decomposed[channel_index]) {
+                                        computed_value.push(color_end_decomposed[channel_index]);
+                                    } else {
+                                        computed_value.push(
+                                            EasingsFunctions[
+                                                'in_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_start].ease_out] +
+                                                '_out_' + Easings[this._tracks[objects_keys[objects_keys_index]][node_index][track_key][time_end].ease_in]
+                                                ](
+                                                time - time_start,
+                                                color_start_decomposed[channel_index],
+                                                color_end_decomposed[channel_index] - color_start_decomposed[channel_index],
+                                                time_end - time_start
+                                            )
+                                        );
+                                    }
                                     if (channel_index < 3) {
                                         computed_value[channel_index] = Math.floor(computed_value[channel_index]);
                                     }
