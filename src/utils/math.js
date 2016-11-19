@@ -19,7 +19,7 @@ export function deg_to_rad(degrees) {
 export function rad_to_deg(radians) {
     let negative = radians < 0;
     if (negative) {
-        return (Math.floor((radians * (180 / Math.PI))) % 360);
+        return (~~((radians * (180 / Math.PI))) % 360);
     }
     return trim_float(Math.ceil((radians * (180 / Math.PI))) % 360);
 }

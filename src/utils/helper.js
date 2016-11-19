@@ -44,9 +44,9 @@ export function glmatrix_to_canvas_matrix(matrix) {
 
 export function random_color() {
     return [
-        Math.floor(Math.random() * 256),
-        Math.floor(Math.random() * 256),
-        Math.floor(Math.random() * 256),
+        ~~(Math.random() * 256),
+        ~~(Math.random() * 256),
+        ~~(Math.random() * 256),
         Math.random(),
     ];
 }

@@ -36,7 +36,7 @@ rect
     .height(300)
     .depth(-3)
     .material()
-    .fill([Math.floor(Math.random() * 256), Math.floor(Math.random() * 256), Math.floor(Math.random() * 256), 1]);
+    .fill([~~(Math.random() * 256), ~~(Math.random() * 256), ~~(Math.random() * 256), 1]);
 
 root
     .append(rect);
@@ -55,7 +55,7 @@ for (let i = -2; i < 3; ++i) {
         .depth(i)
         .rotate(45)
         .material()
-        .fill([Math.floor(Math.random() * 256), Math.floor(Math.random() * 256), Math.floor(Math.random() * 256), 1]);
+        .fill([~~(Math.random() * 256), ~~(Math.random() * 256), ~~(Math.random() * 256), 1]);
 
     rect
         .append(recta);
