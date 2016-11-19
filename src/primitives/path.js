@@ -57,6 +57,19 @@ exports.Path = function(_scene, Primitive) {
     };
 
     /**
+     * Get or set the segments
+     */
+
+    Path.prototype.segments = function(value) {
+        if (value !== undefined) {
+            this._segments = value;
+            return this;
+        } else {
+            return this._segments.slice();
+        }
+    };
+
+    /**
      * Set the closed flag
      */
 
@@ -124,14 +137,6 @@ exports.Path = function(_scene, Primitive) {
             this._segments.push(points);
         }
         return this;
-    };
-
-    /**
-     * Get the segments of the path
-     */
-
-    Path.prototype.segments = function() {
-        return this._segments.slice();
     };
 
     /**

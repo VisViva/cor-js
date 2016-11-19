@@ -404,10 +404,10 @@ exports.Text = function(_scene, Primitive) {
                  * Render text to the separate context
                  */
 
-                const twidth = this._text_context.measureText(this._text).width;
-                const theight = Math.max(this._font.line.value, this._font.size.value);
+                const text_width = this._text_context.measureText(this._text).width;
+                const text_height = Math.max(this._font.line.value, this._font.size.value);
                 this._text_context.save();
-                this._text_context.translate(twidth, theight);
+                this._text_context.translate(text_width, text_height);
                 this._material._fill.enabled && this._text_context.fillText(this._text, 0, 0);
                 this._material._stroke.enabled && this._text_context.strokeText(this._text, 0, 0);
                 this._text_context.restore();
@@ -429,7 +429,7 @@ exports.Text = function(_scene, Primitive) {
                  * scene's context
                  */
 
-                _scene._context.drawImage(this._text_canvas, this._at.x - twidth, this._at.y - theight);
+                _scene._context.drawImage(this._text_canvas, this._at.x - text_width, this._at.y - text_height);
                 this._text_context.restore();
             } else {
 

@@ -4,6 +4,7 @@
 
 const Values = {};
 Values[Values["numeric"] = 0] = "numeric";
+Values[Values["array"] = 1] = "array";
 Values[Values["color"] = 1] = "color";
 Values[Values["text"] = 2] = "text";
 Values[Values["complex"] = 3] = "complex";
