@@ -1,6 +1,15 @@
 'use strict';
 
 /**
+ * Constants
+ */
+
+export const PI = Math.PI;
+export const TWO_PI = Math.PI * 2;
+export const HALF_PI = Math.PI / 2;
+export const ONE_AND_HALF_PI = Math.PI * 3 / 2;
+
+/**
  * Convert degrees to radians
  */
 
@@ -121,3 +130,14 @@ export function get_cubic_function_extremas_for(point_start, point_control_a, po
     t2 >= 0 && t2 <= 1 && extremas.push(t2);
     return extremas;
 };
+
+/**
+ * Get point of the arc
+ */
+
+export function get_arc_point(cx, cy, radiusx, radiusy, angle) {
+    return {
+        x: cx + radiusx * Math.cos(angle),
+        y: cy + radiusy * Math.sin(angle)
+    };
+}

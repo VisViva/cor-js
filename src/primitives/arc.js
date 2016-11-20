@@ -11,7 +11,13 @@ import {
     glmatrix_to_canvas_matrix
 } from "../utils/helper";
 import {
-    deg_to_rad
+    PI,
+    TWO_PI,
+    HALF_PI,
+    ONE_AND_HALF_PI,
+    deg_to_rad,
+    rad_to_deg,
+    get_arc_point
 } from "../utils/math";
 
 exports.Arc = function(_scene, Primitive) {
@@ -125,12 +131,42 @@ exports.Arc = function(_scene, Primitive) {
 
         const transformed3DVector = vec2.create();
         vec2.transformMat3(transformed3DVector, vec2.fromValues(this._at.x, this._at.y), this._matrix_cascaded);
+        const angle = Math.atan2(this._matrix_cascaded[1], this._matrix_cascaded[0]);
         const scalex = vec2.length(vec2.fromValues(this._matrix_cascaded[0], this._matrix_cascaded[1]));
         const scaley = vec2.length(vec2.fromValues(this._matrix_cascaded[3], this._matrix_cascaded[4]));
-        xValues.push(transformed3DVector[0] - this._radius * scalex);
-        xValues.push(transformed3DVector[0] + this._radius * scalex);
-        yValues.push(transformed3DVector[1] + this._radius * scaley);
-        yValues.push(transformed3DVector[1] - this._radius * scaley);
+        const radiusx = this._radius * scalex;
+        const radiusy = this._radius * scaley;
+        const start = this._start + angle;
+        const end = this._end + angle;
+
+        /**
+         * Gathering extremas
+         */
+
+        const extremas = [];
+        xValues.push(transformed3DVector[0]);
+        yValues.push(transformed3DVector[1]);
+        extremas.push(get_arc_point(transformed3DVector[0], transformed3DVector[1], radiusx, radiusy, start));
+        extremas.push(get_arc_point(transformed3DVector[0], transformed3DVector[1], radiusx, radiusy, end));
+        0 >= start &&
+        0 <= end &&
+        extremas.push(get_arc_point(transformed3DVector[0], transformed3DVector[1], radiusx, radiusy, 0));
+        HALF_PI >= start &&
+        HALF_PI <= end &&
+        extremas.push(get_arc_point(transformed3DVector[0], transformed3DVector[1], radiusx, radiusy, HALF_PI));
+        PI >= start &&
+        PI <= end &&
+        extremas.push(get_arc_point(transformed3DVector[0], transformed3DVector[1], radiusx, radiusy, PI));
+        ONE_AND_HALF_PI >= start &&
+        ONE_AND_HALF_PI <= end &&
+        extremas.push(get_arc_point(transformed3DVector[0], transformed3DVector[1], radiusx, radiusy, ONE_AND_HALF_PI));
+        TWO_PI >= start &&
+        TWO_PI <= end &&
+        extremas.push(get_arc_point(transformed3DVector[0], transformed3DVector[1], radiusx, radiusy, TWO_PI));
+        for (var i = 0; i < extremas.length; ++i) {
+            xValues.push(extremas[i].x);
+            yValues.push(extremas[i].y);
+        }
 
         /**
          * Returning the newly created bouding box
