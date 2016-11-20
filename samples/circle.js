@@ -35,12 +35,12 @@ circle
     .fill(random_color());
 
 root
-    .append(circle);
+    .append(circle).scale(1, 2);
 
 scene.timeline().add(
     circle,
-    new Keyframe().scale(1, 1),
-    new Keyframe().time(4000).scale(3, 3)
+    new Keyframe().scale(2, 1).rotate(0),
+    new Keyframe().time(4000).scale(2, 1).rotate(180)
 );
 
 scene.start();

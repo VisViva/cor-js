@@ -10,8 +10,11 @@ import {
     inherit,
     glmatrix_to_canvas_matrix
 } from "../utils/helper";
+import {
+    HALF_PI
+} from "../utils/math";
 
-exports.Circle = function(_scene, Primitive) {
+exports.Circle = function (_scene, Primitive) {
 
     /**
      * Extends the Primitive prototype
@@ -37,7 +40,7 @@ exports.Circle = function(_scene, Primitive) {
      * Get or set radius of the circle and return it
      */
 
-    Circle.prototype.radius = function(radius) {
+    Circle.prototype.radius = function (radius) {
         if (radius !== undefined) {
             this._radius = radius;
             return this;
@@ -50,14 +53,7 @@ exports.Circle = function(_scene, Primitive) {
      * Get the bounding box of the current node only
      */
 
-    Circle.prototype._bbox = function() {
-
-        /**
-         * Transformed points
-         */
-
-        const xValues = [];
-        const yValues = [];
+    Circle.prototype._bbox = function () {
 
         /**
          * Transformations
@@ -65,25 +61,44 @@ exports.Circle = function(_scene, Primitive) {
 
         const transformed3DVector = vec2.create();
         vec2.transformMat3(transformed3DVector, vec2.fromValues(this._at.x, this._at.y), this._matrix_cascaded);
-        const scalex = vec2.length(vec2.fromValues(this._matrix_cascaded[0], this._matrix_cascaded[1]));
-        const scaley = vec2.length(vec2.fromValues(this._matrix_cascaded[3], this._matrix_cascaded[4]));
-        xValues.push(transformed3DVector[0] - this._radius * scalex);
-        xValues.push(transformed3DVector[0] + this._radius * scalex);
-        yValues.push(transformed3DVector[1] + this._radius * scaley);
-        yValues.push(transformed3DVector[1] - this._radius * scaley);
+        const angle = Math.atan2(this._matrix_cascaded[1], this._matrix_cascaded[0]);
+        const scale_x = vec2.length(vec2.fromValues(this._matrix_cascaded[0], this._matrix_cascaded[1]));
+        const scale_y = vec2.length(vec2.fromValues(this._matrix_cascaded[3], this._matrix_cascaded[4]));
+
+        const radius_x_vector = vec2.create();
+        vec2.transformMat3(radius_x_vector, vec2.fromValues(radius_x, 0), this._matrix_cascaded);
+        const radius_x_vector_length = vec2.length(radius_x_vector);
+
+        const radius_y_vector = vec2.create();
+        vec2.transformMat3(radius_y_vector, vec2.fromValues(0, radius_y), this._matrix_cascaded);
+        const radius_y_vector_length = vec2.length(radius_y_vector);
+
+        const radius_x = this._radius * scale_x;
+        const radius_y = this._radius * scale_y;
+
+        /**
+         * Gathering extremas
+         */
+
+        const ux = radius_x * Math.cos(angle);
+        const uy = radius_x * Math.sin(angle);
+        const vx = radius_y * Math.cos(angle + HALF_PI);
+        const vy = radius_y * Math.sin(angle + HALF_PI);
+        const bbox_halfwidth = Math.sqrt(ux * ux + vx * vx);
+        const bbox_halfheight = Math.sqrt(uy * uy + vy * vy);
 
         /**
          * Returning the newly created bouding box
          */
 
-        return BBox.prototype.from(xValues, yValues);
+        return BBox.prototype.from([transformed3DVector[0] - bbox_halfwidth, transformed3DVector[0] + bbox_halfwidth], [transformed3DVector[1] - bbox_halfheight, transformed3DVector[1] + bbox_halfheight]);
     };
 
     /**
      * Render the current circle
      */
 
-    Circle.prototype.render = function() {
+    Circle.prototype.render = function () {
 
         /**
          * Render only if primitive is not hidden
