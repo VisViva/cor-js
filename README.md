@@ -1,17 +1,32 @@
-Javascript / HTML5 / Canvas scene manager
+CORjs
+(Canvas Object Renderer)
 
+Features:
+
+- Scene manager
+- Node tree
+- Bounding box calculation
+- Material system
+- Depth buffer
+- Timeline
+- CPU tick independent animation system
+- Complex splines
+
+![](https://github.com/VisViva/cor-js/blob/master/gallery/6.png)
+![](https://github.com/VisViva/cor-js/blob/master/gallery/5.png)
+![](https://github.com/VisViva/cor-js/blob/master/gallery/4.png)
+![](https://github.com/VisViva/cor-js/blob/master/gallery/3.png)
+![](https://github.com/VisViva/cor-js/blob/master/gallery/2.png)
+![](https://github.com/VisViva/cor-js/blob/master/gallery/1.png)
+
+- To run a demo on localhost:8080:
 
 $ npm install
-
-- Installs necessary dependencies
-
 $ npm start
 
-- Starts the HMR development server on 8080
+- To run specific demo samples on localhost:8080:
 
-$ npm run build
-
-- Generates bundles
+npm run start:*sample_name*
 
 - Generates test reports
 
