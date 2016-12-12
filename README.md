@@ -9,8 +9,11 @@ Features:
 - Material system
 - Depth buffer
 - Timeline
-- CPU tick independent animation system
-- Complex splines
+- Keyframes
+- Easing functions
+- Time dependent transformations
+- Controllable fps
+- Animation-ready complex splines
 
 ![](https://github.com/VisViva/cor-js/blob/master/gallery/6.png)
 ![](https://github.com/VisViva/cor-js/blob/master/gallery/5.png)
