@@ -5,9 +5,9 @@
 const Values = {};
 Values[Values["numeric"] = 0] = "numeric";
 Values[Values["array"] = 1] = "array";
-Values[Values["color"] = 1] = "color";
-Values[Values["text"] = 2] = "text";
-Values[Values["complex"] = 3] = "complex";
+Values[Values["color"] = 2] = "color";
+Values[Values["text"] = 3] = "text";
+Values[Values["complex"] = 4] = "complex";
 
 /**
  * Easing types
